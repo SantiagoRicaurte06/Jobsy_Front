@@ -1,0 +1,53 @@
+// ============================================================
+//  Jobsy — estilos globales
+// ============================================================
+@use './styles/variables' as v;
+@use './styles/mixins' as m;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-base;
+  color: v.$color-text;
+  background: v.$color-bg;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 v.$space-3;
+  font-weight: v.$font-weight-bold;
+  line-height: 1.25;
+}
+
+p { margin: 0 0 v.$space-3; }
+
+a {
+  color: v.$color-primary-light;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+img { max-width: 100%; display: block; }
+
+button { font-family: inherit; }
+
+// ---- Utilidades minimas ----
+.container { @include m.container; }
+.card      { @include m.card; }
+.btn-primary   { @include m.btn-primary; }
+.btn-secondary { @include m.btn-secondary; }
+.btn-outline   { @include m.btn-outline; }
