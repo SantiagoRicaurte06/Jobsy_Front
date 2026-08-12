@@ -126,6 +126,7 @@ export const routes: Routes = [
       { path: 'productos', loadComponent: () => import('./pages/admin/products/products').then((m) => m.AdminProductsPage), title: 'Productos | Jobsy Admin' },
       { path: 'categorias', loadComponent: () => import('./pages/admin/categories/categories').then((m) => m.AdminCategoriesPage), title: 'Categorias | Jobsy Admin' },
       { path: 'inventario', loadComponent: () => import('./pages/admin/inventory/inventory').then((m) => m.AdminInventoryPage), title: 'Inventario | Jobsy Admin' },
+      { path: 'reportes', loadComponent: () => import('./pages/admin/reports/reports').then((m) => m.AdminReportsPage), title: 'Reportes | Jobsy Admin' },
     ],
   },
 

@@ -1,0 +1,25 @@
+<figure class="bar-chart">
+  @if (unit()){
+    <figcaption class="bar-chart__unit">{{unit()}}</figcaption>
+  }
+
+  <div class="bar-chart__plot">
+    @for (bar of bars(); track bar.label){
+      <div class="bar-chart__col">
+        <div class="bar-chart__bar"
+        [class.is-highlight]="bar.destacado"
+        [class.is-projected]="bar.proyectado"
+        [style.title]="bar.height"
+        [attr.title]="bar.label + ':' + bar.value">
+        </div>
+        <span class="bar-chart_label" [class.is-highlight]="bar.destacado">{{ bar.label }}</span>
+      </div>
+    }
+  </div>
+
+  <ul class="bar-chart__legend">
+    <li><span class="bar-chart__key"></span> Ventas mensuales</li>
+    <li><span class="bar-chart__key bar-chart__key--highlight"></span> Mejor mes</li>
+    <li><span class="bar-chart__key bar-chart__key--projected"></span> Proyectado</li>
+  </ul>
+</figure>
