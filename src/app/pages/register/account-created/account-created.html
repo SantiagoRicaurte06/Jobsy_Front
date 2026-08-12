@@ -1,25 +1,24 @@
-
 <div class="account-created card">
-  <jobsy.logo variant="color" size="lg" />
+  <jobsy-logo variant="color" size="lg" />
 
-  <span class="account-created__check" aria-hidden="true">&#10004</span>
+  <span class="account-created__check" aria-hidden="true">&#10004;</span>
 
-  <h1 class="account-created__tittle">&iexcl;CUENTA CREADA CON EXITO!</h1>
-  <P class="account-created__text">
-    YA Eres Parte De Jobsy. Te Enviamos Un Correo De Confirmación Para verificar Tu Cuenta.    
-  </P>
+  <h1 class="account-created__title">&iexcl;Cuenta creada con exito!</h1>
+  <p class="account-created__text">
+    Ya eres parte de Jobsy. Te enviamos un correo de confirmacion para verificar tu cuenta.
+  </p>
 
   <ul class="account-created__steps">
-    @for (step of nextSteps; track steps.title) {
+    @for (step of nextSteps; track step.title) {
       <li>
         <a [routerLink]="step.path">
-          <span aria-hidden="true"> {{ step.icon}}</span>
-          {{ step.tittle}}
-          <span class="account-created__arrow" aria-hidden="true">&#8594;</span>      
+          <span aria-hidden="true">{{ step.icon }}</span>
+          {{ step.title }}
+          <span class="account-created__arrow" aria-hidden="true">&#8594;</span>
         </a>
       </li>
     }
   </ul>
 
-  <a routerLink="/auth/login" class="btn-primary btn-block">Iniciar Sesion</a>
+  <a routerLink="/auth/login" class="btn-primary btn-block">Iniciar sesion</a>
 </div>
