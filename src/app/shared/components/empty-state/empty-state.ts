@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'jobsy-empty-state',
@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './empty-state.scss',
 })
 export class EmptyStateComponent {
-  // TODO: inputs/outputs y logica del componente.
+  readonly icon = input('\u{1F4ED}');
+  readonly title = input('No hay nada por aqui');
+  readonly message = input('');
 }
