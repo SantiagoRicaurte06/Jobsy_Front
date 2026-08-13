@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+
+
+export type BadgeTone = 'info' | 'success' | 'warning' | 'danger' | 'accent';
 
 @Component({
   selector: 'jobsy-badge',
   standalone: true,
   imports: [],
-  templateUrl: './badge.html',
-  styleUrl: './badge.scss',
+  template: `<span class="badge-{{ tone() }}"><ng-content /></span>`,
+  styles: `:host { display: inline-flex;}`,
 })
 export class BadgeComponent {
-  // TODO: inputs/outputs y logica del componente.
+  readonly tone = input<BadgeTone>('info');
 }
