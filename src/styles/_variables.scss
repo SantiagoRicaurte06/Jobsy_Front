@@ -21,11 +21,19 @@ $color-warning:        #E8A33D; // pendiente / borrador
 $color-danger:         #D64545; // stock critico / error
 $color-info:           $color-primary-light;
 
+// Versiones claras: fondo de las pildoras de estado y los avisos.
+$color-success-pale:   #E3F5EA;
+$color-warning-pale:   #FDF3E3;
+$color-danger-pale:    #FBE9E9;
+$color-info-pale:      $color-primary-bg;
+$color-accent-pale:    #FDEBDA;
+
 // ---- Neutros ----
 $color-white:          #FFFFFF;
 $color-bg:             #F5F8FB;
 $color-surface:        #FFFFFF;
 $color-border:         #E1E8EF;
+$color-border-strong:  #C9D6E2; // bordes de inputs y controles
 $color-text:           #1C2B3A;
 $color-text-muted:     #6B7C8F;
 $color-text-invert:    #FFFFFF;
@@ -80,3 +88,7 @@ $bp-xl: 1280px;
 
 // ---- Gradiente del hero ----
 $gradient-hero: linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
+
+// ---- Transiciones ----
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;

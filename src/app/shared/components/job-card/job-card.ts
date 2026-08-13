@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { Job } from '../../../core/models';
 
 @Component({
   selector: 'jobsy-job-card',
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
   styleUrl: './job-card.scss',
 })
 export class JobCardComponent {
-  // TODO: inputs/outputs y logica del componente.
+  /** Oferta que pinta la tarjeta. */
+  readonly job = input.required<Job>();
+
+  // TODO: maquetar la tarjeta usando job().
 }

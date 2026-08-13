@@ -1,4 +1,53 @@
-<!-- TODO: maquetar "Home (logueado)" segun el diseno de Figma -->
 <section class="home-logged">
-  <h1>Home (logueado)</h1>
+  <!-- Bienvenida -->
+  <header class="home-logged__welcome card">
+    <div>
+      <h1 class="home-logged__title">Hola, {{ user()?.nombre }} &#128075;</h1>
+      <p class="home-logged__text">
+        Este es tu panel. Aqui puedes ver tus postulaciones y las ofertas nuevas de tu zona.
+      </p>
+    </div>
+
+    <a routerLink="/empleos" class="btn-primary">Buscar empleo</a>
+  </header>
+
+  <!-- Metricas -->
+  <div class="home-logged__stats">
+    <div class="home-logged__stat card">
+      <strong>{{ applications().length }}</strong>
+      <span>Postulaciones activas</span>
+    </div>
+    <div class="home-logged__stat card">
+      <strong>{{ jobs().length }}</strong>
+      <span>Ofertas nuevas</span>
+    </div>
+    <div class="home-logged__stat card">
+      <strong>{{ user()?.verificado ? 'Si' : 'No' }}</strong>
+      <span>Perfil verificado</span>
+    </div>
+  </div>
+
+  <!-- Accesos rapidos -->
+  <nav class="home-logged__shortcuts">
+    @for (s of shortcuts; track s.path) {
+      <a [routerLink]="s.path" class="home-logged__shortcut card">
+        <span aria-hidden="true">{{ s.icon }}</span>
+        {{ s.label }}
+      </a>
+    }
+  </nav>
+
+  <!-- Ofertas recomendadas -->
+  <section class="home-logged__section">
+    <div class="section-head">
+      <h2>Ofertas para ti</h2>
+      <a routerLink="/empleos">Ver todas &#8594;</a>
+    </div>
+
+    <div class="home-logged__grid">
+      @for (job of jobs(); track job.id) {
+        <jobsy-job-card [job]="job" />
+      }
+    </div>
+  </section>
 </section>

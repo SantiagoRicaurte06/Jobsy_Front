@@ -1,6 +1,105 @@
 @use 'variables' as v;
-@use 'mixins' as m;
 
 .login {
-  // TODO: estilos de "Iniciar Sesion"
+  width: 100%;
+  max-width: 400px;
+  padding: v.$space-6;
+
+  &__head{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: v.$space-5;
+  }
+
+  &__title {
+    margin: v.$space-4 0 v.$space-1;
+    font-size: v.$font-size-lg;
+  }
+
+  &__subtitle{
+    margin: 0;
+    font-size: v.$font-size-xs;
+    color: v.$color-primary-light;
+  }
+
+  &__field {
+    position: relative;
+
+    .form-input{
+      padding-left: v.$space-7;
+      background: v.$color-bg;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: v.$space-3;
+    transform: translateY(-50%);
+    font-size: v.$font-size-sm;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__eye {
+    position: absolute;
+    top: 50%;
+    right: v.$space-2;
+    transform: translateY(-50%);
+    padding: v.$space-1;
+    background: transparent;
+    border: none;
+    opacity: 0.5;
+    cursor: pointer;
+
+    &:hover { opacity: 0.9; }
+  }
+
+  &__forgot {
+    margin: 0 0 v.$space-4;
+    text-align: right;
+    font-size: v.$font-size-xs;
+  }
+
+  &__error { margin-bottom: v.$space-3;}
+
+  &__divider {
+    position: relative;
+    margin: v.$space-4 0;
+    text-align: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: v.$color-border;
+    }
+
+    span {
+      position: relative;
+      padding: 0 v.$space-3;
+      background: v.$color-surface;
+      color: v.$color-text-muted;
+      font-size: v.$font-size-xs;
+    }
+  }
+
+  &__google {
+    font-weight: v.$font-weight-bold;
+    color: #4285f4;
+  }
+
+  &__signup {
+    margin: v.$space-5 0 0;
+    text-align: center;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+
+    a { font-weight: v.$font-weight-semibold;}
+  }
 }
