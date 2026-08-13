@@ -1,0 +1,70 @@
+name: Desplegar en GitHub Pages
+
+on:
+  push:
+    branches: [develop]
+  # Permite lanzarlo a mano desde la pestana Actions.
+  workflow_dispatch:
+
+# Permisos que necesita la accion oficial de Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si se encadenan varios push, deja terminar el que ya esta desplegando.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Compilar
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      # El sitio no cuelga del dominio raiz, sino de /Jobsy_Front/.
+      # Sin este base-href los assets y las rutas apuntarian a / y darian 404.
+      - name: Compilar en modo produccion
+        run: npm run build -- --configuration production --base-href /${{ github.event.repository.name }}/
+
+      # GitHub Pages es hosting estatico: no sabe nada de las rutas de Angular.
+      # Al entrar directo a /empleos devolveria 404, asi que servimos el mismo
+      # index.html como pagina de error y deja que el router resuelva la ruta.
+      - name: Crear el fallback de rutas (404.html)
+        run: cp dist/jobsy-frontend/browser/index.html dist/jobsy-frontend/browser/404.html
+
+      # Evita que Pages procese la salida con Jekyll y descarte archivos con "_".
+      - name: Desactivar Jekyll
+        run: touch dist/jobsy-frontend/browser/.nojekyll
+
+      - name: Subir el artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/jobsy-frontend/browser
+
+  deploy:
+    name: Publicar
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Desplegar en Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
