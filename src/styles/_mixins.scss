@@ -68,6 +68,13 @@
   &:hover { background: rgba(245, 130, 31, 0.08); }
 }
 
+/// Grid responsivo de tarjetas: se ajustan solas al ancho disponible.
+@mixin grid-cards($min: 320px, $gap: v.$space-5) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min, 1fr));
+  gap: $gap;
+}
+
 /// Truncar texto a N lineas.
 @mixin line-clamp($lines: 2) {
   display: -webkit-box;
