@@ -1,4 +1,46 @@
-<!-- TODO: maquetar employee-card -->
-<div class="employee-card">
-  <p>employee-card</p>
-</div>
+<article class="employee-card">
+  @if (employee().disponible) {
+    <span class="employee-card__available badge-success">Disponible</span>
+  }
+
+  <header class="employee-card__head">
+    <div class="employee-card__avatar">
+      @if (employee().fotoUrl) {
+        <img [src]="employee().fotoUrl" [alt]="employee().nombre" />
+      } @else {
+        <span>{{ initials(employee().nombre) }}</span>
+      }
+    </div>
+
+    <h3 class="employee-card__name">{{ employee().nombre }}</h3>
+
+    @if (employee().verificado) {
+      <span class="employee-card__verified badge-info">
+        <span aria-hidden="true">&#10004;</span> Empleado de Hogar
+      </span>
+    }
+  </header>
+
+  <p class="employee-card__desc">{{ employee().descripcion }}</p>
+
+  <div class="employee-card__rating">
+    <jobsy-rating-stars [value]="employee().calificacion" [reviews]="employee().totalServicios" />
+  </div>
+
+  <p class="employee-card__exp">
+    <span aria-hidden="true">&#128188;</span> {{ employee().experiencia }}
+  </p>
+
+  <ul class="employee-card__skills">
+    @for (skill of employee().especialidades; track skill) {
+      <li class="badge-info">{{ skill }}</li>
+    }
+  </ul>
+
+  <footer class="employee-card__actions">
+    <a class="btn-ghost btn-sm" [routerLink]="['/empleados', employee().id]">Ver perfil</a>
+    <button type="button" class="btn-secondary btn-sm" (click)="solicitar.emit(employee())">
+      Solicitar
+    </button>
+  </footer>
+</article>
