@@ -1,4 +1,31 @@
-<!-- TODO: maquetar "Check List" segun el diseno de Figma -->
-<section class="checklist">
-  <h1>Check List</h1>
-</section>
+
+<div class="checklist card">
+  <header class="checklist__head">
+    <jobsy-logo variant="color" size="lg" />
+    <h1 class="checklist__title"> YA CASI ESTAMOS </h1>
+    <p class="checklist__subtitle">
+      Necesitamos Tres Datos Mas Para Completar Tu Perfil
+      @if(rol() === 'empleado') { de empleo } @else { de empleador}.
+      Te Toma Menos De Tres Minutos
+    </p>
+  </header>
+
+    <ol class="checklist__items">
+    @for (item of items; track item.title; let i = $index) {
+      <li class="checklist__item">
+        <span class="checklist__num">{{ i + 1 }}</span>
+        <span class="checklist__icon" aria-hidden="true">{{ item.icon }}</span>
+        <div>
+          <strong>{{ item.title }}</strong>
+          <span>{{ item.text }}</span>
+        </div>
+      </li>
+    }
+  </ol>
+
+  <button type="button" class="btn-primary btn-block" (click)="start()">Empezar</button>
+
+  <p class="checklist__skip">
+    <a routerLink="/app/inicio">Completar mas tarde</a>
+  </p>
+</div>
