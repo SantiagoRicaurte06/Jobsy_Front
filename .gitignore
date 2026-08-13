@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Herramientas locales (no forman parte del proyecto)
+.claude/
