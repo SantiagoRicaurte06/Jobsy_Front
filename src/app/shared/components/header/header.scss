@@ -2,5 +2,199 @@
 @use 'mixins' as m;
 
 .header {
-  // TODO: estilos
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: v.$color-surface;
+  border-bottom: 1px solid v.$color-border;
+
+
+  &__inner {
+    @include m.container;
+    display: flex;
+    align-items: center;
+    gap: v.$space-5;
+    height: v.$header-height;
+  }
+
+  &__brand:hover { text-decoration: none; }
+
+  // ---- Hamburguesa ----
+  &__burger {
+    display: none;
+    margin-left: auto;
+    padding: v.$space-2;
+    background: transparent;
+    border: none;
+    font-size: v.$font-size-xl;
+    color: v.$color-text;
+    cursor: pointer;
+
+    @include m.until(v.$bp-lg) { display: block; }
+  }
+
+  // ---- Navegacion ----
+  &__nav {
+    display: flex;
+    gap: v.$space-5;
+    margin-inline: auto;
+
+    a {
+      position: relative;
+      padding: v.$space-2 0;
+      color: v.$color-text;
+      font-size: v.$font-size-sm;
+      font-weight: v.$font-weight-medium;
+
+      &:hover { color: v.$color-primary; text-decoration: none; }
+
+      &.is-active {
+        color: v.$color-primary;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 2px;
+          background: v.$color-accent;
+        }
+      }
+    }
+
+    @include m.until(v.$bp-lg) {
+      position: absolute;
+      top: v.$header-height;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      margin: 0;
+      padding: v.$space-2 v.$space-4;
+      background: v.$color-surface;
+      border-bottom: 1px solid v.$color-border;
+      box-shadow: v.$shadow-md;
+
+
+      &:not(.is-open) { display: none; }
+
+      a { padding: v.$space-3 0; }
+    }
+  }
+
+  // ---- Acciones ----
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: v.$space-4;
+
+    @include m.until(v.$bp-lg) { margin-left: auto; }
+  }
+
+  &__cart {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-lg;
+
+    &:hover { background: v.$color-bg; text-decoration: none; }
+  }
+
+  &__cart-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background: v.$color-accent;
+    color: v.$color-text-invert;
+    border-radius: v.$radius-pill;
+    font-size: 10px;
+    font-weight: v.$font-weight-bold;
+  }
+
+  // ---- Menu de usuario ----
+  &__user { position: relative; }
+
+  &__user-btn {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    padding: v.$space-1 v.$space-2;
+    background: transparent;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-pill;
+    font-size: v.$font-size-sm;
+    color: v.$color-text;
+    cursor: pointer;
+
+    &:hover { background: v.$color-bg; }
+  }
+
+  &__avatar {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: v.$color-primary-light;
+    color: v.$color-text-invert;
+    border-radius: 50%;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-bold;
+  }
+
+  &__user-name {
+    @include m.until(v.$bp-md) { display: none; }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + #{v.$space-2});
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    min-width: 220px;
+    padding: v.$space-2;
+    background: v.$color-surface;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-lg;
+    box-shadow: v.$shadow-lg;
+
+
+    a,
+    button {
+      padding: v.$space-3;
+      border-radius: v.$radius-sm;
+      font-size: v.$font-size-sm;
+      color: v.$color-text;
+      text-align: left;
+
+      &:hover { background: v.$color-bg; text-decoration: none; }
+    }
+  }
+
+  &__dropdown-admin {
+    margin-top: v.$space-1;
+    border-top: 1px solid v.$color-border;
+    color: v.$color-primary !important;
+    font-weight: v.$font-weight-semibold;
+  }
+
+  &__logout {
+    margin-top: v.$space-1;
+    border: none;
+    border-top: 1px solid v.$color-border;
+    background: transparent;
+    color: v.$color-danger !important;
+    font-family: inherit;
+    cursor: pointer;
+  }
 }
