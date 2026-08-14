@@ -1,17 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
-import { Logo } from './logo';
+import { LogoComponent } from './logo';
 
-describe('Logo', () => {
-  let component: Logo;
-  let fixture: ComponentFixture<Logo>;
+describe('LogoComponent', () => {
+  let component: LogoComponent;
+  let fixture: ComponentFixture<LogoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Logo],
+      imports: [LogoComponent],
+      providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Logo);
+    fixture = TestBed.createComponent(LogoComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

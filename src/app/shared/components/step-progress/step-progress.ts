@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
-/** Barra de progreso por pasos (registro, postulacion, contratacion). */
+/** Barra de progreso del asistente de registro. */
 @Component({
   selector: 'jobsy-step-progress',
   standalone: true,
@@ -9,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './step-progress.scss',
 })
 export class StepProgressComponent {
-  // TODO: inputs `steps: string[]` y `current: number`.
+  readonly steps = input.required<string[]>();
+  /** Indice del paso actual, empezando en 0. */
+  readonly current = input.required<number>();
 }

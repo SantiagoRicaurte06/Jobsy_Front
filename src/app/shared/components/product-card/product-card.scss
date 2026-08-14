@@ -2,5 +2,79 @@
 @use 'mixins' as m;
 
 .product-card {
-  // TODO: estilos
+  @include m.card-hover;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__media {
+    position: relative;
+    aspect-ratio: 1;
+    background: v.$color-bg;
+
+    // Son fotos, no recortes sobre fondo blanco: se recortan a la caja.
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-size: v.$font-size-3xl;
+    opacity: 0.4;
+  }
+
+  &__flag {
+    position: absolute;
+    top: v.$space-3;
+    left: v.$space-3;
+    padding: v.$space-1 v.$space-3;
+    background: v.$color-accent;
+    color: v.$color-text-invert;
+    border-radius: v.$radius-pill;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+
+    &--warn { background: v.$color-danger; top: auto; bottom: v.$space-3; }
+  }
+
+  &__body {
+    flex: 1;
+    padding: v.$space-4;
+  }
+
+  &__category {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: v.$color-primary-light;
+  }
+
+  &__title {
+    margin: 0 0 v.$space-2;
+    font-size: v.$font-size-sm;
+
+    a { color: v.$color-text; }
+    a:hover { color: v.$color-primary; text-decoration: none; }
+  }
+
+  &__desc {
+    margin: 0 0 v.$space-3;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    @include m.line-clamp(2);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: v.$space-3;
+    padding: v.$space-4;
+    padding-top: 0;
+  }
+
+  &__price { font-size: v.$font-size-lg; }
 }

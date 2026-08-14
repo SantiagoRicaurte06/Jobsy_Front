@@ -1,6 +1,32 @@
 @use 'variables' as v;
-@use 'mixins' as m;
 
 .logo {
-  // TODO: estilos
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  font-weight: v.$font-weight-bold;
+  letter-spacing: -0.02em;
+  line-height: 1;
+
+  &__mark {
+    flex-shrink: 0;
+    width: 1.6em;
+    height: 1.6em;
+  }
+
+  // ---- Variantes de color ----
+  &--color {
+    color: v.$color-primary;
+    .logo__drop { color: v.$color-primary; }
+  }
+
+  &--light {
+    color: v.$color-white;
+    .logo__drop { color: v.$color-white; }
+  }
+
+  // ---- Tamanos ----
+  &--sm { font-size: v.$font-size-lg; }
+  &--md { font-size: v.$font-size-xl; }
+  &--lg { font-size: v.$font-size-2xl; }
 }

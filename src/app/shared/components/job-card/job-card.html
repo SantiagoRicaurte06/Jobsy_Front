@@ -1,4 +1,53 @@
-<!-- TODO: maquetar job-card -->
-<div class="job-card">
-  <p>job-card</p>
-</div>
+<article class="job-card">
+  <!-- Imagen de la vivienda -->
+  <div class="job-card__media">
+    @if (job().imagenUrl) {
+      <img [src]="job().imagenUrl" [alt]="job().titulo" />
+    } @else {
+      <div class="job-card__placeholder" aria-hidden="true">&#127968;</div>
+    }
+
+    @if (job().esNuevo) {
+      <span class="job-card__flag">Nuevo</span>
+    }
+  </div>
+
+  <div class="job-card__body">
+    <p class="job-card__meta">
+      <span class="job-card__dot" aria-hidden="true"></span>
+      Tamano: <strong>{{ sizeLabel() }}</strong>
+      <span class="badge-info">{{ sizeLabel() }}</span>
+    </p>
+
+    <h3 class="job-card__title">{{ job().titulo }}</h3>
+
+    <p class="job-card__price">
+      <span class="text-price">{{ job().precioHora | cop }} / hora</span>
+      <span class="text-xs text-muted">aprox.</span>
+    </p>
+
+    <dl class="job-card__details">
+      <div>
+        <dt aria-hidden="true">&#128337;</dt>
+        <dd><strong>Horario:</strong> {{ job().horario }}</dd>
+      </div>
+      <div>
+        <dt aria-hidden="true">&#128205;</dt>
+        <dd><strong>Direccion:</strong> {{ job().direccion }}, {{ job().ciudad }}</dd>
+      </div>
+    </dl>
+
+    @if (job().etiquetas.length) {
+      <ul class="job-card__tags">
+        @for (tag of job().etiquetas; track tag) {
+          <li class="badge-info">{{ tag }}</li>
+        }
+      </ul>
+    }
+  </div>
+
+  <footer class="job-card__actions">
+    <a class="btn-ghost btn-sm" [routerLink]="['/empleos', job().id]">Ver mas</a>
+    <a class="btn-primary btn-sm" [routerLink]="['/empleos', job().id, 'postularme']">Postularme</a>
+  </footer>
+</article>

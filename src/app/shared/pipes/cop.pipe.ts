@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({ name: 'cop', standalone: true })
 export class CopPipe implements PipeTransform {
   transform(value: number | null | undefined): string {
-    // TODO: implementar el formateo con toLocaleString('es-CO').
-    return String(value ?? '');
+    if (value == null) return '';
+    return `$${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
   }
 }

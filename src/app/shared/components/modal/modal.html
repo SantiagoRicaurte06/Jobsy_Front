@@ -1,4 +1,21 @@
-<!-- TODO: maquetar modal -->
-<div class="modal">
-  <p>modal</p>
+<div class="modal" role="dialog" aria-modal="true">
+  <!-- Clic fuera del panel cierra el modal -->
+  <div class="modal__backdrop" (click)="cerrar.emit()"></div>
+
+  <div class="modal__panel">
+    <header class="modal__head">
+      <div>
+        @if (title()) { <h2 class="modal__title">{{ title() }}</h2> }
+        @if (subtitle()) { <p class="modal__subtitle">{{ subtitle() }}</p> }
+      </div>
+
+      <button type="button" class="modal__close" (click)="cerrar.emit()" aria-label="Cerrar">
+        &#10005;
+      </button>
+    </header>
+
+    <div class="modal__body">
+      <ng-content />
+    </div>
+  </div>
 </div>
