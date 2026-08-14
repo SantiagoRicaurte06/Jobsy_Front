@@ -1,4 +1,85 @@
-<!-- TODO: maquetar "Analiticas" segun el diseno de Figma -->
 <section class="analytics">
-  <h1>Analiticas</h1>
+  <header class="analytics__head">
+    <div>
+      <h1 class="analytics__title">Analiticas</h1>
+      <p class="analytics__subtitle">Metricas generales de la plataforma</p>
+    </div>
+
+    <nav class="analytics__periods">
+      @for (p of periodos; track p.value) {
+        <button type="button"
+          [class.is-active]="periodo() === p.value"
+          (click)="periodo.set(p.value)">
+          {{ p.label }}
+        </button>
+      }
+    </nav>
+  </header>
+
+  <!-- Metricas -->
+  <div class="analytics__metrics">
+    @for (m of metricas; track m.label) {
+      <div class="analytics__metric card">
+        <span class="analytics__metric-label">{{ m.label }}</span>
+        <strong class="analytics__metric-value">{{ m.value }}</strong>
+        <span class="analytics__metric-delta">&#9650; {{ m.delta }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="analytics__grid">
+    <!-- Graficos -->
+    <section class="card analytics__panel">
+      <h2>Usuarios nuevos por semana</h2>
+      <jobsy-bar-chart [data]="usuariosNuevos" unit="usuarios" />
+    </section>
+
+    <section class="card analytics__panel">
+      <h2>Contrataciones por mes</h2>
+      <jobsy-bar-chart [data]="contrataciones" unit="contrataciones" />
+    </section>
+
+    <!-- Distribucion por ciudad -->
+    <section class="card analytics__panel">
+      <h2>Usuarios por ciudad</h2>
+
+      <ul class="analytics__cities">
+        @for (c of ciudades; track c.nombre) {
+          <li>
+            <div class="analytics__city-head">
+              <span>{{ c.nombre }}</span>
+              <strong>{{ c.usuarios }}</strong>
+            </div>
+            <div class="analytics__meter">
+              <span [style.width.%]="c.porcentaje"></span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- Top empleados -->
+    <section class="card analytics__panel">
+      <h2>Top empleados</h2>
+
+      <ul class="analytics__top">
+        @for (e of topEmpleados; track e.nombre; let i = $index) {
+          <li>
+            <span class="analytics__rank">{{ i + 1 }}</span>
+            <span class="analytics__avatar">{{ e.nombre.charAt(0) }}</span>
+
+            <div class="analytics__top-info">
+              <strong>{{ e.nombre }}</strong>
+              <span class="text-xs text-muted">Empleado de hogar &middot; {{ e.zona }}</span>
+            </div>
+
+            <div class="analytics__top-right">
+              <strong>&#9733; {{ e.calificacion.toFixed(1) }}</strong>
+              <span class="text-xs text-muted">{{ e.servicios }} servicios</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
 </section>
