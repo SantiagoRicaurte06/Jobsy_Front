@@ -1,6 +1,55 @@
+
 @use 'variables' as v;
 @use 'mixins' as m;
 
 .create-account {
-  // TODO: estilos de "Crear Cuenta"
+  width: 100%;
+  max-width: 460px;
+  padding: v.$space-6;
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: v.$space-5;
+  }
+
+  &__little {
+    margin: v.$space-4 0 v.$space-1;
+    font-size: v.$font-size-lg;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: v.$font-size-xs;
+    color: v.$color-primary-light;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-3;
+
+    @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+  }
+
+  &__term {
+    margin-bottom: v.$space-4;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    align-items: flex-start;
+
+    input { margin-top: 2px; }
+
+  }
+
+  &__login {
+    margin: v.$space-5 0 0;
+    text-align: center;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+
+    a { font-weight: v$font-weight-semibold; }
+  }
 }
