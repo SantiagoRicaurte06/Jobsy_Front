@@ -1,4 +1,63 @@
-<!-- TODO: maquetar "Plan" segun el diseno de Figma -->
-<section class="plan">
-  <h1>Plan</h1>
-</section>
+@if (loading()){
+  <jobsy-loading-spinner  />
+}@else {
+  <div class="accoun-plan">
+  <!--Plan actual-->
+  @if (current(); as sub) {
+    <section class="account-plan_current card">
+     <div>
+      <span class="account-plan__label">Tu plan actual</span>
+      <strong class="acoount-plan_name">{{currentPlanName}}</strong>
+      <span class="text-xs text-muted">Renueva el {{ sub.fechaRenovacion }}</span>
+     </div>
+
+     <span [class]="sub.activa ? 'badge-success' : 'badge-warning'">
+        {{sub.activa ? 'Activa' : 'Inactiva' }}
+     </span>"
+    </section>
+    
+  }
+
+  <h2 class="account-plan_title"> Planes disponibles</h2>
+
+  <div class="account-plan__grid">
+    @for (plan of plans(); track plan.id){
+      <article class="account-plan_card card" [class.is-current]= "esActual(plan.id)"
+      [class.is-feactured]="plan.destacado">
+      @if (plan.destacado) {
+        <span class="account-plan__flag">Mas popular</span>
+      }
+      <h3 class="account-plan__card-name">{{plan.nombre}}</h3>
+
+      <p class="account-plan__price">
+        @if (plan.precioMensual === 0) {
+          <strong>Gratis</strong>
+        }@else {
+          <strong>{{ plan.precioMensual | cop }}</strong>
+          <span>/ mes</span>
+        }
+      </p>
+
+      <ul class="account-plan__features">
+        @for (f of plan.beneficios; track f ) {
+          <li>&#10004; {{ f }}</li>
+        }
+      </ul>
+      @if (esActual(plan.id)) {
+        <button type="button" class="btn-ghost btn-block" disable>Plan actual</button>
+        } @else {
+            <button type="button" class="btn-primary btn-block"
+              [disabled]="cambiando() === plan.id"
+              (click)="cambiar(plan.id)">
+              {{ cambiando() === plan.id ? 'Cambiando...' : 'Elegir plan' }}
+            </button>
+          }
+      
+    </article>
+    }
+  </div>
+    <p class="account-plan__note">
+      Puedes cambiar o cancelar tu plan en cualquier momento. Los cambios se aplican en el siguiente ciclo de facturacion.
+    </p>
+  </div>
+}

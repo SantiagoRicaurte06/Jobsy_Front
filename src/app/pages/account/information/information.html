@@ -1,4 +1,66 @@
-<!-- TODO: maquetar "Informacion" segun el diseno de Figma -->
-<section class="information">
-  <h1>Informacion</h1>
-</section>
+@if (loading()) {
+  <jobsy-loading-spinner />
+} @else {
+  <div class="account-info">
+    <!-- Datos de la cuenta -->
+    <section class="card account-info__block">
+      <div class="account-info__head">
+        <h2>Informacion de la cuenta</h2>
+        <a routerLink="/app/perfil/editar" class="btn-ghost btn-sm">Editar</a>
+      </div>
+
+      <dl class="account-info__data">
+        <div><dt>Nombre completo</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
+        <div><dt>Correo electronico</dt><dd>{{ user()?.email }}</dd></div>
+        <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
+        <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
+        <div><dt>Tipo de cuenta</dt><dd class="account-info__role">{{ user()?.rol }}</dd></div>
+        <div>
+          <dt>Estado</dt>
+          <dd>
+            @if (user()?.verificado) {
+              <span class="badge-success">Verificada</span>
+            } @else {
+              <span class="badge-warning">Pendiente de verificar</span>
+            }
+          </dd>
+        </div>
+        <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro }}</dd></div>
+      </dl>
+    </section>
+
+    <!-- Historial de pedidos -->
+    <section class="card account-info__block">
+      <h2>Mis pedidos</h2>
+
+      @if (orders().length === 0) {
+        <p class="account-info__empty">Aun no has hecho pedidos en la tienda.</p>
+      } @else {
+        <div class="account-info__table-wrap">
+          <table class="account-info__table">
+            <thead>
+              <tr>
+                <th>Pedido</th>
+                <th>Fecha</th>
+                <th>Articulos</th>
+                <th>Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (order of orders(); track order.id) {
+                <tr>
+                  <td><strong>{{ order.numero }}</strong></td>
+                  <td>{{ order.fecha }}</td>
+                  <td>{{ order.items.length }}</td>
+                  <td class="text-price">{{ order.total | cop }}</td>
+                  <td><span [class]="badgeClass(order.estado)">{{ order.estado }}</span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </div>
+}

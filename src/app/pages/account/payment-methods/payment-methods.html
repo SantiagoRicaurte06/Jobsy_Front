@@ -1,4 +1,52 @@
-<!-- TODO: maquetar "Metodos de Pago" segun el diseno de Figma -->
-<section class="payment-methods">
-  <h1>Metodos de Pago</h1>
-</section>
+<div class="payment-methods">
+  <!-- Saldo Jobsy -->
+  <section class="payment-methods__balance card">
+    <div>
+      <span class="payment-methods__balance-label">Saldo Jobsy</span>
+      <strong class="payment-methods__balance-amount">${{ saldoJobsy().toLocaleString('es-CO') }}</strong>
+    </div>
+
+    <button type="button" class="btn-secondary btn-sm">Recargar</button>
+  </section>
+
+  <!-- Metodos guardados -->
+  <section class="card payment-methods__block">
+    <div class="payment-methods__head">
+      <h2>Metodos de pago guardados</h2>
+      <button type="button" class="btn-primary btn-sm">+ Agregar metodo</button>
+    </div>
+
+    @if (methods().length === 0) {
+      <p class="payment-methods__empty">No tienes metodos de pago guardados.</p>
+    } @else {
+      <ul class="payment-methods__list">
+        @for (m of methods(); track m.id) {
+          <li class="payment-methods__item">
+            <span class="payment-methods__icon" aria-hidden="true">{{ m.icono }}</span>
+
+            <div class="payment-methods__info">
+              <strong>{{ m.titulo }}</strong>
+              <span class="text-xs text-muted">{{ m.detalle }}</span>
+            </div>
+
+            @if (m.principal) {
+              <span class="badge-success">Principal</span>
+            } @else {
+              <button type="button" class="payment-methods__link" (click)="hacerPrincipal(m.id)">
+                Hacer principal
+              </button>
+            }
+
+            <button type="button" class="payment-methods__remove" (click)="eliminar(m.id)">
+              Eliminar
+            </button>
+          </li>
+        }
+      </ul>
+    }
+
+    <p class="payment-methods__note">
+      &#128274; Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el numero completo de tu tarjeta.
+    </p>
+  </section>
+</div>
