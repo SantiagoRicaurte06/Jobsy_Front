@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { LogoComponent } from './logo';
+import { ForgotPasswordPage } from './forgot-password';
 
-describe('LogoComponent', () => {
-  let component: LogoComponent;
-  let fixture: ComponentFixture<LogoComponent>;
+describe('ForgotPasswordPage', () => {
+  let component: ForgotPasswordPage;
+  let fixture: ComponentFixture<ForgotPasswordPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LogoComponent],
+      imports: [ForgotPasswordPage],
       providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LogoComponent);
+    fixture = TestBed.createComponent(ForgotPasswordPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

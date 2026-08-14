@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
+import { UserRole } from '../models';
 
 /**
  * Estado del asistente de registro.
@@ -8,6 +9,21 @@ import { Injectable } from '@angular/core';
  */
 @Injectable({ providedIn: 'root' })
 export class RegistrationService {
-  // TODO: signal con el borrador, metodo patch() para ir guardando cada paso
-  // y reset() al completar el registro.
+  /** Rol elegido en el paso "Seleccionar rol". */
+  private _rol = signal<UserRole | null>(null);
+  readonly rol = computed(() => this._rol());
+
+  /** Pasos que muestra la barra de progreso. */
+  readonly steps = ['Datos personales', 'Modalidad de trabajo', 'Ubicacion y foto'];
+
+  setRol(rol: UserRole | null): void {
+    this._rol.set(rol);
+  }
+
+  reset(): void {
+    this._rol.set(null);
+  }
+
+  // TODO: signal con el resto del borrador (datos personales, modalidad,
+  // ubicacion) y un patch() para ir guardando cada paso.
 }

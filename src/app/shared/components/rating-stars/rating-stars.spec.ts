@@ -2,20 +2,21 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { LogoComponent } from './logo';
+import { RatingStarsComponent } from './rating-stars';
 
-describe('LogoComponent', () => {
-  let component: LogoComponent;
-  let fixture: ComponentFixture<LogoComponent>;
+describe('RatingStarsComponent', () => {
+  let component: RatingStarsComponent;
+  let fixture: ComponentFixture<RatingStarsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LogoComponent],
+      imports: [RatingStarsComponent],
       providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LogoComponent);
+    fixture = TestBed.createComponent(RatingStarsComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('value', 0);
     await fixture.whenStable();
   });
 
