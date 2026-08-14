@@ -1,4 +1,61 @@
-<!-- TODO: maquetar "Crear Cuenta" segun el diseno de Figma -->
-<section class="create-account">
-  <h1>Crear Cuenta</h1>
-</section>
+
+<div class="create-account card">
+  <header class="create-account__head">
+    <jobsy-logo variant="color" size="lg" />
+    <h1 class="create-account__title">Crear cuenta</h1>
+    <p class="create-account__subtitle">Empieza gratis en Jobsy</p>
+  </header>
+
+  <form (ngSubmit)="submit()">
+    <div class="create-account__row">
+      <div class="form-group">
+        <label class="form-label" for="nombre">Nombre</label>
+        <input id="nombre" type="text" class="form-input" placeholder="Santiago"
+          [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="apellido">Apellido</label>
+        <input id="apellido" type="text" class="form-input" placeholder="Ricaurte"
+          [ngModel]="apellido()" (ngModelChange)="apellido.set($event)" name="apellido" />
+      </div>
+    </div>]
+
+    <div class="form-group">
+      <label class="form-label" for="email">Correo electronico</label>
+      <input id="email" type="email" class="form-input" placeholder="tucorreo@ejemplo.com"
+        autocomplete="email"
+        [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="password">Contrasena</label>
+      <input id="password" type="password" class="form-input" placeholder="Minimo 8 caracteres"
+        autocomplete="new-password"
+        [ngModel]="password()" (ngModelChange)="password.set($event)" name="password" />
+      <p class="form-hint">Usa al menos 8 caracteres, con letras y numeros.</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="confirm">Confirmar contrasena</label>
+      <input id="confirm" type="password" class="form-input" placeholder="Repite tu contrasena"
+        autocomplete="new-password"
+        [ngModel]="confirm()" (ngModelChange)="confirm.set($event)" name="confirm" />
+    </div>
+
+    <label class="form-check create-account__terms">
+      <input type="checkbox" [ngModel]="acepta()" (ngModelChange)="acepta.set($event)" name="acepta" />
+      Acepto los <a href="#">terminos y condiciones</a> y la <a href="#">politica de privacidad</a>.
+    </label>
+
+    @if (error()) {
+      <p class="form-error" role="alert">{{ error() }}</p>
+    }
+
+    <button type="submit" class="btn-primary btn-block">Continuar</button>
+  </form>
+
+  <p class="create-account__login">
+    &iquest;Ya tienes cuenta? <a routerLink="/auth/login">Iniciar sesion</a>
+  </p>
+</div>
