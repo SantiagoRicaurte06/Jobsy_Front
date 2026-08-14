@@ -3,6 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 import { ProductCardComponent } from './product-card';
+import { MOCK_PRODUCTS } from '../../../mocks';
 
 describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
@@ -16,6 +17,7 @@ describe('ProductCardComponent', () => {
 
     fixture = TestBed.createComponent(ProductCardComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('product', MOCK_PRODUCTS[0]);
     await fixture.whenStable();
   });
 
