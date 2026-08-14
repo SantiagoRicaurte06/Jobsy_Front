@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
+/** Indicador de carga. Usar mientras un servicio resuelve. */
 @Component({
   selector: 'jobsy-loading-spinner',
   standalone: true,
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './loading-spinner.scss',
 })
 export class LoadingSpinnerComponent {
-  // TODO: inputs/outputs y logica del componente.
+  readonly label = input('Cargando...');
 }
