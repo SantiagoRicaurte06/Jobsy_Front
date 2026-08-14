@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 
+/** Estrellas de calificacion (0-5), con el valor numerico al lado. */
 @Component({
   selector: 'jobsy-rating-stars',
   standalone: true,
@@ -8,14 +9,13 @@ import { Component, input } from '@angular/core';
   styleUrl: './rating-stars.scss',
 })
 export class RatingStarsComponent {
-  /** Calificacion de 0 a 5. */
   readonly value = input.required<number>();
-
-  /** Numero de resenas; null lo oculta. */
+  readonly showValue = input(true);
   readonly reviews = input<number | null>(null);
 
-  /** Si se muestra el valor numerico junto a las estrellas. */
-  readonly showValue = input(true);
-
-  // TODO: maquetar las estrellas a partir de value().
+  /** [true, true, true, false, false] segun el redondeo del valor. */
+  readonly stars = computed(() => {
+    const rounded = Math.round(this.value());
+    return Array.from({ length: 5 }, (_, i) => i < rounded);
+  });
 }
