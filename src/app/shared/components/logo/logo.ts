@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
-/** Logotipo de Jobsy. Se usa en header, footer, auth y sidebar de admin. */
+/** Logotipo de Jobsy. `variant` cambia el color del texto segun el fondo. */
 @Component({
   selector: 'jobsy-logo',
   standalone: true,
@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrl: './logo.scss',
 })
 export class LogoComponent {
-  // TODO: inputs `variant` ('color' | 'light') y `size` ('sm' | 'md' | 'lg').
+  readonly variant = input<'color' | 'light'>('color');
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
 }

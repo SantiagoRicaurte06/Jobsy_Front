@@ -1,4 +1,40 @@
-<!-- TODO: maquetar product-card -->
-<div class="product-card">
-  <p>product-card</p>
-</div>
+<article class="product-card">
+  <div class="product-card__media">
+    @if (product().imagenUrl) {
+      <img [src]="product().imagenUrl" [alt]="product().nombre" />
+    } @else {
+      <div class="product-card__placeholder" aria-hidden="true">&#129529;</div>
+    }
+
+    @if (product().estado === 'destacado') {
+      <span class="product-card__flag">Destacado</span>
+    }
+    @if (product().stock <= 5 && product().stock > 0) {
+      <span class="product-card__flag product-card__flag--warn">Ultimas {{ product().stock }}</span>
+    }
+  </div>
+
+  <div class="product-card__body">
+    <p class="product-card__category">{{ product().categoria }}</p>
+
+    <h3 class="product-card__title">
+      <a [routerLink]="['/tienda/producto', product().id]">{{ product().nombre }}</a>
+    </h3>
+
+    <p class="product-card__desc">{{ product().descripcion }}</p>
+
+    <jobsy-rating-stars [value]="product().calificacion" [showValue]="false" />
+  </div>
+
+  <footer class="product-card__footer">
+    <span class="product-card__price text-price">{{ product().precio | cop }}</span>
+
+    <button
+      type="button"
+      class="btn-primary btn-sm"
+      [disabled]="product().stock === 0"
+      (click)="agregar.emit(product())">
+      {{ product().stock === 0 ? 'Agotado' : 'Agregar' }}
+    </button>
+  </footer>
+</article>

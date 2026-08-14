@@ -45,9 +45,99 @@ img { max-width: 100%; display: block; }
 
 button { font-family: inherit; }
 
-// ---- Utilidades minimas ----
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+// ============================================================
+//  Utilidades
+// ============================================================
 .container { @include m.container; }
 .card      { @include m.card; }
+
+// ---- Botones ----
 .btn-primary   { @include m.btn-primary; }
 .btn-secondary { @include m.btn-secondary; }
 .btn-outline   { @include m.btn-outline; }
+.btn-ghost     { @include m.btn-ghost; }
+
+// Los botones son inline-flex para poder centrar icono + texto.
+.btn-primary,
+.btn-secondary,
+.btn-outline,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space-2;
+  font-size: v.$font-size-sm;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover { text-decoration: none; }
+}
+
+.btn-sm {
+  padding: v.$space-2 v.$space-3;
+  font-size: v.$font-size-xs;
+}
+
+.btn-block { width: 100%; }
+
+// ---- Formularios ----
+.form-group  { margin-bottom: v.$space-4; }
+.form-label  { @include m.form-label; }
+.form-input,
+.form-select,
+.form-textarea { @include m.input; }
+.form-textarea { min-height: 120px; resize: vertical; }
+
+.form-error {
+  margin-top: v.$space-1;
+  font-size: v.$font-size-xs;
+  color: v.$color-danger;
+}
+
+.form-hint {
+  margin-top: v.$space-1;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  font-size: v.$font-size-sm;
+  cursor: pointer;
+
+  input { accent-color: v.$color-primary-light; cursor: pointer; }
+}
+
+// ---- Badges de estado ----
+.badge-success { @include m.badge(v.$color-success-pale, v.$color-success); }
+.badge-warning { @include m.badge(v.$color-warning-pale, v.$color-warning); }
+.badge-danger  { @include m.badge(v.$color-danger-pale, v.$color-danger); }
+.badge-info    { @include m.badge(v.$color-info-pale, v.$color-primary); }
+.badge-accent  { @include m.badge(v.$color-accent-pale, v.$color-accent-dark); }
+
+// ---- Cabecera de seccion ----
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  margin-bottom: v.$space-5;
+
+  h1, h2 { margin: 0; }
+}
+
+// ---- Texto ----
+.text-muted { color: v.$color-text-muted; }
+.text-sm    { font-size: v.$font-size-sm; }
+.text-xs    { font-size: v.$font-size-xs; }
+.text-price {
+  color: v.$color-accent;
+  font-weight: v.$font-weight-bold;
+}
+
+.visually-hidden { @include m.visually-hidden; }

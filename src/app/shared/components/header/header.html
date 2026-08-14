@@ -1,4 +1,67 @@
-<!-- TODO: maquetar header -->
-<div class="header">
-  <p>header</p>
-</div>
+<header class="header">
+  <div class="header__inner">
+    <a routerLink="/" class="header__brand" (click)="closeMenus()">
+      <jobsy-logo variant="color" size="md" />
+    </a>
+
+    <!-- Boton hamburguesa (movil) -->
+    <button
+      type="button"
+      class="header__burger"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-label="Abrir menu">
+      &#9776;
+    </button>
+
+    <!-- Navegacion principal -->
+    <nav class="header__nav" [class.is-open]="menuOpen()">
+      <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenus()">Home</a>
+      <a routerLink="/empleos" routerLinkActive="is-active" (click)="closeMenus()">Buscar Empleo</a>
+      <a routerLink="/empleados" routerLinkActive="is-active" (click)="closeMenus()">Buscar Empleados</a>
+      <a routerLink="/tienda" routerLinkActive="is-active" (click)="closeMenus()">Tienda</a>
+    </nav>
+
+    <div class="header__actions">
+      <!-- Carrito -->
+      <a routerLink="/tienda/carrito" class="header__cart" aria-label="Carrito de compras">
+        <span aria-hidden="true">&#128722;</span>
+        @if (cart.count() > 0) {
+          <span class="header__cart-count">{{ cart.count() }}</span>
+        }
+      </a>
+
+      @if (isLoggedIn()) {
+        <!-- Menu de usuario -->
+        <div class="header__user">
+          <button type="button" class="header__user-btn" (click)="toggleUserMenu()" [attr.aria-expanded]="userMenuOpen()">
+            <span class="header__avatar">{{ user()?.nombre?.charAt(0) }}</span>
+            <span class="header__user-name">{{ user()?.nombre }}</span>
+            <span aria-hidden="true">&#9662;</span>
+          </button>
+
+          @if (userMenuOpen()) {
+            <div class="header__dropdown">
+              <a routerLink="/app/inicio" (click)="closeMenus()">Mi inicio</a>
+              <a routerLink="/app/perfil" (click)="closeMenus()">Mi perfil</a>
+              <a routerLink="/app/mis-postulaciones" (click)="closeMenus()">Mis postulaciones</a>
+              <a routerLink="/app/hoja-de-vida" (click)="closeMenus()">Hoja de vida</a>
+              <a routerLink="/app/cuenta" (click)="closeMenus()">Cuenta</a>
+              <a routerLink="/app/configuracion" (click)="closeMenus()">Configuracion</a>
+
+              @if (role() === 'admin') {
+                <a routerLink="/admin/dashboard" class="header__dropdown-admin" (click)="closeMenus()">
+                  Panel de administracion
+                </a>
+              }
+
+              <button type="button" class="header__logout" (click)="logout()">Cerrar sesion</button>
+            </div>
+          }
+        </div>
+      } @else {
+        <a routerLink="/auth/login" class="btn-primary btn-sm">Iniciar Sesion</a>
+      }
+    </div>
+  </div>
+</header>

@@ -1,4 +1,15 @@
-<!-- TODO: maquetar rating-stars -->
 <div class="rating-stars">
-  <p>rating-stars</p>
+  <span class="rating-stars__icons" [attr.aria-label]="'Calificacion ' + value() + ' de 5'">
+    @for (filled of stars(); track $index) {
+      <span class="rating-stars__star" [class.is-filled]="filled">&#9733;</span>
+    }
+  </span>
+
+  @if (showValue()) {
+    <strong class="rating-stars__value">{{ value().toFixed(1) }}</strong>
+  }
+
+  @if (reviews() !== null) {
+    <span class="rating-stars__reviews">({{ reviews() }})</span>
+  }
 </div>

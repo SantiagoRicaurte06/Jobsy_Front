@@ -16,6 +16,8 @@ describe('StepProgressComponent', () => {
 
     fixture = TestBed.createComponent(StepProgressComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('steps', []);
+    fixture.componentRef.setInput('current', 0);
     await fixture.whenStable();
   });
 

@@ -2,5 +2,44 @@
 @use 'mixins' as m;
 
 .filter-panel {
-  // TODO: estilos
+  @include m.card;
+  padding: v.$space-4;
+
+  &__title {
+    margin: 0 0 v.$space-4;
+    font-size: v.$font-size-base;
+  }
+
+  &__group {
+    margin: 0 0 v.$space-5;
+    padding: 0;
+    border: none;
+
+    .form-check { margin-bottom: v.$space-2; }
+  }
+
+  &__legend {
+    margin-bottom: v.$space-2;
+    padding: 0;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: v.$color-text-muted;
+  }
+
+  &__range {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+
+    input { min-width: 0; }
+    span { color: v.$color-text-muted; }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-2;
+  }
 }
