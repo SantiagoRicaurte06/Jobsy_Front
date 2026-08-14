@@ -38,6 +38,7 @@ $color-text:           #1C2B3A;
 $color-text-muted:     #6B7C8F;
 $color-text-invert:    #FFFFFF;
 $color-sidebar:        #0E2136; // sidebar admin azul oscuro
+$color-sidebar-hover:  #17304C;
 
 // ---- Tipografia ----
 $font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -49,6 +50,7 @@ $font-size-lg:   1.125rem;  // 18px
 $font-size-xl:   1.5rem;    // 24px
 $font-size-2xl:  2rem;      // 32px
 $font-size-3xl:  2.5rem;    // 40px
+$font-size-4xl:  3rem;      // 48px
 
 $font-weight-regular: 400;
 $font-weight-medium:  500;
@@ -69,6 +71,7 @@ $space-8: 4rem;
 $radius-sm:   4px;
 $radius-md:   8px;
 $radius-lg:   12px;
+$radius-xl:   16px;
 $radius-pill: 999px;
 
 $shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.08);
@@ -88,6 +91,7 @@ $bp-xl: 1280px;
 
 // ---- Gradiente del hero ----
 $gradient-hero: linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
+$gradient-band: linear-gradient(90deg, #1668B3 0%, #2B8FE0 100%);
 
 // ---- Transiciones ----
 $transition-fast: 0.15s ease;
