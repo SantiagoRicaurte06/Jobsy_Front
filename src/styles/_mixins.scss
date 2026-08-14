@@ -26,6 +26,17 @@
   box-shadow: v.$shadow-sm;
 }
 
+/// Tarjeta que se eleva al pasar el raton.
+@mixin card-hover {
+  @include card;
+  transition: box-shadow v.$transition-base, transform v.$transition-base;
+
+  &:hover {
+    box-shadow: v.$shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
 /// Boton naranja de accion principal.
 @mixin btn-primary {
   background: v.$color-accent;
