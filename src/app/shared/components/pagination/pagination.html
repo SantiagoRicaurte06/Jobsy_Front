@@ -1,4 +1,32 @@
-<!-- TODO: maquetar pagination -->
-<div class="pagination">
-  <p>pagination</p>
-</div>
+@if (totalPages() > 1) {
+  <nav class="pagination" aria-label="Paginacion">
+    <button
+      type="button"
+      class="pagination__arrow"
+      [disabled]="!canPrev()"
+      (click)="go(page() - 1)"
+      aria-label="Pagina anterior">
+      &#8249;
+    </button>
+
+    @for (p of pages(); track p) {
+      <button
+        type="button"
+        class="pagination__page"
+        [class.is-active]="p === page()"
+        [attr.aria-current]="p === page() ? 'page' : null"
+        (click)="go(p)">
+        {{ p }}
+      </button>
+    }
+
+    <button
+      type="button"
+      class="pagination__arrow"
+      [disabled]="!canNext()"
+      (click)="go(page() + 1)"
+      aria-label="Pagina siguiente">
+      &#8250;
+    </button>
+  </nav>
+}
