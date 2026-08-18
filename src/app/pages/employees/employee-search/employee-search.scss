@@ -1,6 +1,40 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+.employees-hero {
+  background: v.$gradient-band;
+  color: v.$color-text-invert;
+
+  &__inner {
+    @include m.container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: v.$space-5;
+    padding-block: v.$space-6;
+
+    @include m.until(v.$bp-lg) {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    margin: 0 0 v.$space-2;
+    font-size: v.$font-size-2xl;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: v.$font-size-sm;
+    opacity: 0.9;
+  }
+}
+
 .employee-search {
-  // TODO: estilos de "Encuentra Empleados"
+  padding-block: v.$space-6;
+
+  &__head { margin-top: v.$space-5; }
+
+  &__grid { @include m.grid-cards(300px); }
 }

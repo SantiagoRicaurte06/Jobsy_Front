@@ -1,4 +1,96 @@
-<!-- TODO: maquetar "Ver perfil de empleado" segun el diseno de Figma -->
-<section class="employee-detail">
-  <h1>Ver perfil de empleado</h1>
-</section>
+<div class="container employee-detail">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (!employee()) {
+    <jobsy-empty-state icon="&#128533;" title="Perfil no encontrado">
+      <a routerLink="/empleados" class="btn-primary">Ver otros empleados</a>
+    </jobsy-empty-state>
+  } @else {
+    <nav class="employee-detail__crumbs">
+      <a routerLink="/empleados">&#8592; Volver a empleados</a>
+    </nav>
+
+    <div class="employee-detail__grid">
+      <!-- ---- Perfil ---- -->
+      <article class="employee-detail__main card">
+        <header class="employee-detail__head">
+          <div class="employee-detail__avatar">
+            @if (employee()!.fotoUrl) {
+              <img [src]="employee()!.fotoUrl" [alt]="employee()!.nombre" />
+            } @else {
+              <span>{{ employee()!.nombre.charAt(0) }}</span>
+            }
+          </div>
+
+          <div>
+            <h1 class="employee-detail__name">{{ employee()!.nombre }}</h1>
+
+            <div class="employee-detail__badges">
+              @if (employee()!.verificado) { <span class="badge-success">&#10004; Verificado</span> }
+              @if (employee()!.disponible) { <span class="badge-info">Disponible</span> }
+            </div>
+
+            <jobsy-rating-stars
+              [value]="employee()!.calificacion"
+              [reviews]="employee()!.totalServicios" />
+
+            <p class="employee-detail__city">&#128205; {{ employee()!.ciudad }}</p>
+          </div>
+        </header>
+
+        <section class="employee-detail__section">
+          <h2>Sobre mi</h2>
+          <p class="text-sm text-muted">{{ employee()!.descripcion }}</p>
+        </section>
+
+        <section class="employee-detail__section">
+          <h2>Experiencia</h2>
+          <p class="text-sm text-muted">{{ employee()!.experiencia }}</p>
+        </section>
+
+        <section class="employee-detail__section">
+          <h2>Especialidades</h2>
+          <ul class="employee-detail__skills">
+            @for (skill of employee()!.especialidades; track skill) {
+              <li class="badge-info">{{ skill }}</li>
+            }
+          </ul>
+        </section>
+
+        <section class="employee-detail__section">
+          <h2>Resenas ({{ reviews.length }})</h2>
+
+          <ul class="employee-detail__reviews">
+            @for (review of reviews; track review.autor) {
+              <li class="employee-detail__review">
+                <div class="employee-detail__review-head">
+                  <strong>{{ review.autor }}</strong>
+                  <jobsy-rating-stars [value]="review.estrellas" [showValue]="false" />
+                </div>
+                <p>{{ review.texto }}</p>
+                <span class="text-xs text-muted">{{ review.fecha }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      </article>
+
+      <!-- ---- Contratar ---- -->
+      <aside class="employee-detail__side card">
+        <p class="employee-detail__services">
+          <strong>{{ employee()!.totalServicios }}</strong> servicios completados
+        </p>
+
+        <a [routerLink]="['/contratacion', employee()!.id]" class="btn-primary btn-block">
+          Solicitar contratacion
+        </a>
+        <a routerLink="/agendar" class="btn-secondary btn-block">Agendar horario</a>
+        <button type="button" class="btn-ghost btn-block">&#9825; Guardar perfil</button>
+
+        <p class="employee-detail__note">
+          Todos los pagos y acuerdos se gestionan dentro de Jobsy para tu seguridad.
+        </p>
+      </aside>
+    </div>
+  }
+</div>

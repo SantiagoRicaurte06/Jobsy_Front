@@ -1,4 +1,40 @@
-<!-- TODO: maquetar "Encuentra Empleados" segun el diseno de Figma -->
-<section class="employee-search">
-  <h1>Encuentra Empleados</h1>
+<section class="employees-hero">
+  <div class="employees-hero__inner">
+    <div>
+      <h1 class="employees-hero__title">ENCUENTRA EMPLEADOS</h1>
+      <p class="employees-hero__text">Perfiles verificados y calificados por otros hogares de tu ciudad.</p>
+    </div>
+
+    <a routerLink="/publicar-oferta" class="btn-primary">Publicar una oferta</a>
+  </div>
 </section>
+
+<div class="container employee-search">
+  <jobsy-search-bar
+    placeholder="Buscar por nombre o especialidad..."
+    (buscar)="buscar($event)" />
+
+  <div class="section-head employee-search__head">
+    <h2>Empleados disponibles</h2>
+    @if (!loading()) {
+      <p class="text-sm text-muted">{{ total() }} perfiles</p>
+    }
+  </div>
+
+  @if (loading()) {
+    <jobsy-loading-spinner label="Buscando empleados..." />
+  } @else if (employees().length === 0) {
+    <jobsy-empty-state
+      icon="&#128100;"
+      title="Sin resultados"
+      message="No encontramos empleados con ese criterio. Prueba otra busqueda." />
+  } @else {
+    <div class="employee-search__grid">
+      @for (employee of employees(); track employee.id) {
+        <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />
+      }
+    </div>
+
+    <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
+  }
+</div>
