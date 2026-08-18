@@ -1,4 +1,35 @@
-<!-- TODO: maquetar "Seleccionar Rol" segun el diseno de Figma -->
-<section class="select-role">
-  <h1>Seleccionar Rol</h1>
-</section>
+
+<div class="select-role card">
+  <header class="select-role__head">
+    <jobsy-logo variant="color" size="lg" />
+    <h1 class="select-role__title">&iquest;Como Quieres Usar Jobsy?</h1>
+    <p class="select-role__subtitle">Elige Tu Rol. Podrás Cambiarlo Más Adelante</p>
+  </header>
+
+  <div class="select-role__options">
+    @for (role of roles; track role.value) {
+      <button
+        type="button"
+        class="select-role__option"
+        [class.is-selected]="selected() === role.value"
+        [attr.aria-pressed]="selected() === role.value"
+        (click)="select(role.value)">
+      <span class="select-role__icon" aria-hidden="true">{{ role.icon }}</span>
+      <strong class="select-role__option-title">{{ role.title }}</strong>
+      <span class="select-role__option-text">{{ role.text }}</span>
+
+      <ul class="select-role__perks">
+        @for (perk of role.perks; track perk) {
+          <li>&#10004; {{ perk }}</li>
+        }
+      </ul>
+      
+    </button>
+
+    }
+  </div>
+
+  <button type="button" class="btn-primary btn-block" [disabled]="!selected()" (click)="continue()">
+    Continuar
+  </button>
+</div>
