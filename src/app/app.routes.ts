@@ -298,12 +298,12 @@ export const routes: Routes = [
           {
             path: 'informacion',
             loadComponent: () =>
-              import('./pages/account/information/information').then((m) => m.InformationPage),
+              import('./pages/account/information/information').then((m) => m.AccountInfoPage),
           },
           {
             path: 'plan',
             loadComponent: () =>
-              import('./pages/account/plan/plan').then((m) => m.PlanPage),
+              import('./pages/account/plan/plan').then((m) => m.AccountPlanPage),
           },
           {
             path: 'metodos-pago',
@@ -343,7 +343,7 @@ export const routes: Routes = [
       {
         path: 'analiticas',
         loadComponent: () =>
-          import('./pages/admin/analytics/analytics').then((m) => m.AnalyticsPage),
+          import('./pages/admin/analytics/analytics').then((m) => m.AdminAnalyticsPage),
         title: 'Analiticas — Admin Jobsy',
       },
       {
