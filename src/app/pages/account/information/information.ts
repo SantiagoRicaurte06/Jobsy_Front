@@ -9,8 +9,8 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
   selector: 'jobsy-account-info',
   standalone: true,
   imports: [RouterLink, CopPipe, LoadingSpinnerComponent],
-  templateUrl: './account-info.html',
-  styleUrl: './account-info.scss',
+  templateUrl: './information.html',
+  styleUrl: './information.scss',
 })
 export class AccountInfoPage implements OnInit {
   private profileService = inject(ProfileService);

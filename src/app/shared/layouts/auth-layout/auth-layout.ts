@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+/** Layout de autenticacion: tarjeta centrada sobre fondo celeste. */
 @Component({
   selector: 'jobsy-auth-layout',
   standalone: true,
@@ -9,5 +10,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './auth-layout.scss',
 })
 export class AuthLayoutComponent {
-  // TODO: inputs/outputs y logica del componente.
+  readonly year = new Date().getFullYear();
 }

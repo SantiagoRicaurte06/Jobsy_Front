@@ -1,4 +1,113 @@
-<!-- TODO: maquetar "Contratacion" segun el diseno de Figma -->
-<section class="hiring">
-  <h1>Contratacion</h1>
-</section>
+<div class="container hiring">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (done()) {
+    <div class="hiring__done card">
+      <span aria-hidden="true">&#10004;</span>
+      <h1>Solicitud enviada</h1>
+      <p>
+        Enviamos tu solicitud de contratacion a <strong>{{ employee()?.nombre }}</strong>.
+        Te avisaremos cuando responda.
+      </p>
+      <button type="button" class="btn-primary" (click)="goHome()">Volver a empleados</button>
+    </div>
+  } @else {
+    <div class="hiring__card card">
+      <jobsy-step-progress [steps]="steps" [current]="step()" />
+
+      <!-- Resumen del empleado -->
+      <div class="hiring__employee">
+        <span class="hiring__avatar">{{ employee()?.nombre?.charAt(0) }}</span>
+        <div>
+          <strong>{{ employee()?.nombre }}</strong>
+          <span class="text-xs text-muted">
+            {{ employee()?.calificacion }} &#9733; &middot; {{ employee()?.totalServicios }} servicios
+          </span>
+        </div>
+      </div>
+
+      <!-- ===== Paso 1: modalidad ===== -->
+      @if (step() === 0) {
+        <h1 class="hiring__title">Modalidad de contratacion</h1>
+
+        <div class="hiring__options">
+          @for (mo of modalidades; track mo.value) {
+            <button type="button" class="hiring__option"
+              [class.is-selected]="modalidad() === mo.value"
+              (click)="modalidad.set(mo.value)">
+              <strong>{{ mo.label }}</strong>
+              <span>{{ mo.text }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      <!-- ===== Paso 2: fecha y hora ===== -->
+      @if (step() === 1) {
+        <h1 class="hiring__title">Fecha y horario</h1>
+
+        <div class="hiring__row">
+          <div class="form-group">
+            <label class="form-label" for="fecha">Fecha</label>
+            <input id="fecha" type="date" class="form-input"
+              [ngModel]="fecha()" (ngModelChange)="fecha.set($event)" name="fecha" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="hora">Hora de inicio</label>
+            <input id="hora" type="time" class="form-input"
+              [ngModel]="horaInicio()" (ngModelChange)="horaInicio.set($event)" name="hora" />
+          </div>
+        </div>
+
+        <div class="hiring__row">
+          <div class="form-group">
+            <label class="form-label" for="horas">Numero de horas</label>
+            <input id="horas" type="number" min="1" max="12" class="form-input"
+              [ngModel]="horas()" (ngModelChange)="horas.set(+$event)" name="horas" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="tarifa">Tarifa por hora (COP)</label>
+            <input id="tarifa" type="number" class="form-input"
+              [ngModel]="tarifaHora()" (ngModelChange)="tarifaHora.set(+$event)" name="tarifa" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="direccion">Direccion del servicio</label>
+          <input id="direccion" type="text" class="form-input" placeholder="Calle 7 #33, Yopal"
+            [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
+        </div>
+      }
+
+      <!-- ===== Paso 3: confirmar ===== -->
+      @if (step() === 2) {
+        <h1 class="hiring__title">Confirma la contratacion</h1>
+
+        <dl class="hiring__summary">
+          <div><dt>Empleado</dt><dd>{{ employee()?.nombre }}</dd></div>
+          <div><dt>Modalidad</dt><dd>{{ modalidad() }}</dd></div>
+          <div><dt>Fecha</dt><dd>{{ fecha() || 'Sin definir' }}</dd></div>
+          <div><dt>Inicio</dt><dd>{{ horaInicio() }}</dd></div>
+          <div><dt>Horas</dt><dd>{{ horas() }} h</dd></div>
+          <div><dt>Tarifa</dt><dd>{{ tarifaHora() | cop }} / hora</dd></div>
+        </dl>
+
+        <p class="hiring__total">
+          Total estimado: <strong class="text-price">{{ total() | cop }}</strong>
+        </p>
+      }
+
+      <footer class="hiring__actions">
+        <button type="button" class="btn-ghost" [disabled]="step() === 0" (click)="back()">Atras</button>
+
+        @if (step() < steps.length - 1) {
+          <button type="button" class="btn-primary" (click)="next()">Siguiente</button>
+        } @else {
+          <button type="button" class="btn-primary" (click)="confirmar()">Enviar solicitud</button>
+        }
+      </footer>
+    </div>
+  }
+</div>

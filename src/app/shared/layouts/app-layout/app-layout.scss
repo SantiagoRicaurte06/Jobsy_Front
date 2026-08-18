@@ -2,5 +2,65 @@
 @use 'mixins' as m;
 
 .app-layout {
-  // TODO: estilos
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__body { flex: 1; }
+
+  &__inner {
+    @include m.container;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: v.$space-6;
+    padding-block: v.$space-6;
+
+    @include m.until(v.$bp-lg) {
+      grid-template-columns: 1fr;
+      gap: v.$space-4;
+    }
+  }
+
+  // ---- Menu lateral ----
+  &__side {
+    @include m.until(v.$bp-lg) { overflow-x: auto; }
+  }
+
+  &__menu {
+    @include m.card;
+    display: flex;
+    flex-direction: column;
+    padding: v.$space-2;
+    position: sticky;
+    top: calc(#{v.$header-height} + #{v.$space-4});
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: v.$space-3;
+      padding: v.$space-3;
+      border-radius: v.$radius-sm;
+      color: v.$color-text;
+      font-size: v.$font-size-sm;
+
+      &:hover { background: v.$color-bg; text-decoration: none; }
+
+      &.is-active {
+        background: v.$color-primary-bg;
+        color: v.$color-primary;
+        font-weight: v.$font-weight-semibold;
+      }
+    }
+
+    @include m.until(v.$bp-lg) {
+      flex-direction: row;
+      position: static;
+
+      a { white-space: nowrap; }
+    }
+  }
+
+  &__icon { font-size: v.$font-size-base; }
+
+  &__main { min-width: 0; }
 }

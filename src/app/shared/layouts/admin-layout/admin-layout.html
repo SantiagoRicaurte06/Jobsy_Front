@@ -1,4 +1,60 @@
-<!-- TODO: maquetar admin-layout -->
 <div class="admin-layout">
-  <router-outlet />
+  <!-- Sidebar -->
+  <aside class="admin-layout__side">
+    <div class="admin-layout__brand">
+      <jobsy-logo variant="light" size="sm" />
+      <span class="admin-layout__tag">Admin Panel</span>
+    </div>
+
+    <div class="admin-layout__user">
+      <span class="admin-layout__avatar">{{ user()?.nombre?.charAt(0) ?? 'A' }}</span>
+      <div>
+        <strong>{{ user()?.nombre }} {{ user()?.apellido }}</strong>
+        <small>Super Administrador</small>
+      </div>
+    </div>
+
+    <nav class="admin-layout__nav">
+      @for (group of groups(); track group.title) {
+        <p class="admin-layout__group">{{ group.title }}</p>
+
+        @for (item of group.items; track item.path) {
+          <a [routerLink]="item.path" routerLinkActive="is-active">
+            <span aria-hidden="true">{{ item.icon }}</span>
+            <span class="admin-layout__label">{{ item.label }}</span>
+            @if (item.badge) {
+              <span class="admin-layout__badge">{{ item.badge }}</span>
+            }
+          </a>
+        }
+      }
+    </nav>
+
+    <button type="button" class="admin-layout__logout" (click)="logout()">
+      <span aria-hidden="true">&#8617;</span> Cerrar Sesion
+    </button>
+  </aside>
+
+  <!-- Contenido -->
+  <div class="admin-layout__content">
+    <header class="admin-layout__topbar">
+      <nav class="admin-layout__breadcrumb">
+        <a routerLink="/tienda">Tienda</a>
+        <span aria-hidden="true">/</span>
+        <strong>Dashboard</strong>
+      </nav>
+
+      <div class="admin-layout__tools">
+        <input type="search" class="admin-layout__search" placeholder="Buscar productos, pedidos..." aria-label="Buscar" />
+        <button type="button" class="admin-layout__icon-btn" aria-label="Notificaciones">
+          &#128276;<span class="admin-layout__dot"></span>
+        </button>
+        <button type="button" class="admin-layout__icon-btn" aria-label="Nuevo">+</button>
+      </div>
+    </header>
+
+    <main class="admin-layout__main">
+      <router-outlet />
+    </main>
+  </div>
 </div>

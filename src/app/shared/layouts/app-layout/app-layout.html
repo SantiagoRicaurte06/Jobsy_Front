@@ -1,4 +1,25 @@
-<!-- TODO: maquetar app-layout -->
 <div class="app-layout">
-  <router-outlet />
+  <jobsy-header />
+
+  <div class="app-layout__body">
+    <div class="app-layout__inner">
+      <!-- Menu lateral del usuario -->
+      <aside class="app-layout__side">
+        <nav class="app-layout__menu">
+          @for (item of menu; track item.path) {
+            <a [routerLink]="item.path" routerLinkActive="is-active">
+              <span class="app-layout__icon" aria-hidden="true">{{ item.icon }}</span>
+              {{ item.label }}
+            </a>
+          }
+        </nav>
+      </aside>
+
+      <main class="app-layout__main">
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+
+  <jobsy-footer />
 </div>

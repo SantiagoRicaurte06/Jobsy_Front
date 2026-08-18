@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { PlanPage } from './plan';
+import { AccountPlanPage } from './plan';
 
-describe('PlanPage', () => {
-  let component: PlanPage;
-  let fixture: ComponentFixture<PlanPage>;
+describe('AccountPlanPage', () => {
+  let component: AccountPlanPage;
+  let fixture: ComponentFixture<AccountPlanPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlanPage],
+      imports: [AccountPlanPage],
       providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PlanPage);
+    fixture = TestBed.createComponent(AccountPlanPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
