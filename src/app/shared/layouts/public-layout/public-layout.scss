@@ -1,6 +1,7 @@
-@use 'variables' as v;
-@use 'mixins' as m;
-
 .public-layout {
-  // TODO: estilos
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__main { flex: 1; }
 }
