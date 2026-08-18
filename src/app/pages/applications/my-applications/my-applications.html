@@ -1,4 +1,67 @@
-<!-- TODO: maquetar "Mis Postulaciones" segun el diseno de Figma -->
 <section class="my-applications">
-  <h1>Mis Postulaciones</h1>
+  <div class="section-head">
+    <h1>Mis Postulaciones</h1>
+    </div>
+
+<!--Filstros por estado-->
+ <nav class="my-applications__filters">
+  @for (f of filtros; track f.value) {
+    <button type="button">
+      class="my-applications__filter"
+      [class.is-active]="filtro()" === f.value"
+      [click]="filtro.set(f.value)">
+      {{ f.label }}
+    </button>
+  }
+ </nav>
+
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (visibles().length === 0) {
+    <div class=" card">
+      <jobsy-empty-state
+        icon="&#128203;"
+        title="Sin postulaciones"
+        message="cuando te postules a una oferta, aparecera aqui.">
+        <a routerLink="/empleos" class="btn-primaty">Buscar empleos</a>
+        </jobsy-empty-state>
+    </div>
+  }@else {
+    <ul class="my-applications__list">
+      @for (row of visibles(); track row.application.id) {
+        <li class="my-applications__item card">
+          <div class="my-applications__media" aria-hidden="true">&#127968;</div>
+
+          <div class="my-applications__info">
+            <h2>{{ row.job?.titulo ?? 'Oferta' }}</h2>
+            <p class="text-xs text-muted">
+              {{ row.job?.direccion }}@if (row.job) {, {{ row.job.ciudad }}}
+            </p>
+            @if (row.job) {
+              <p class="text-price">{{ row.job.precioHora | cop }} / hora</p>
+            }
+            <p class="text-xs text-muted">Postulado el {{ row.application.fechaPostulacion }}</p>
+          </div>
+
+          <div class="my-applications__status">
+            <span [class]="badgeClass(row.application.estado)">
+              {{ label(row.application.estado) }}
+            </span>
+          </div>
+
+          <div class="my-applications__actions">
+            @if (row.job) {
+              <a [routerLink]="['/empleos', row.job.id]" class="btn-ghost btn-sm">Ver oferta</a>
+            }
+            @if (row.application.estado === 'pendiente') {
+              <button type="button" class="my-applications__cancel"
+                (click)="cancelar(row.application.id)">
+                Cancelar
+              </button>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  }
 </section>
