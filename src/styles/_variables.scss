@@ -92,7 +92,21 @@ $bp-xl: 1280px;
 // ---- Gradiente del hero ----
 $gradient-hero: linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
 $gradient-band: linear-gradient(90deg, #1668B3 0%, #2B8FE0 100%);
+$gradient-login: linear-gradient(160deg, #DCEEFB 0%, #C3E2F7 100%);
 
 // ---- Transiciones ----
 $transition-fast: 0.15s ease;
 $transition-base: 0.25s ease;
+
+// ============================================================
+//  Liquid glass
+//  Superficies translucidas que dejan ver el fondo desenfocado.
+//  Las usa el sidebar del panel de administracion.
+// ============================================================
+$glass-bg:          rgba(255, 255, 255, 0.62);
+$glass-bg-strong:   rgba(255, 255, 255, 0.80);
+$glass-bg-dark:     rgba(14, 33, 54, 0.55);
+$glass-border:      rgba(255, 255, 255, 0.65);
+$glass-border-dark: rgba(255, 255, 255, 0.12);
+$glass-blur:        18px;
+$glass-blur-strong: 28px;
