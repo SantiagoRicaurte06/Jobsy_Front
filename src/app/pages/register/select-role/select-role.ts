@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { LogoComponent } from "../../../shared/components/logo/logo";
 
 @Component({
   selector: 'jobsy-select-role',
   standalone: true,
-  imports: [],
+  imports: [LogoComponent],
   templateUrl: './select-role.html',
   styleUrl: './select-role.scss',
 })
