@@ -1,21 +1,21 @@
-<div class="app-layout">
+<div class="marco_privado">
   <jobsy-header />
 
-  <div class="app-layout__body">
-    <div class="app-layout__inner">
+  <div class="cuerpo_marco_privado">
+    <div class="interior_marco_privado">
       <!-- Menu lateral del usuario -->
-      <aside class="app-layout__side">
-        <nav class="app-layout__menu">
+      <aside class="lateral_marco_privado">
+        <nav class="menu_marco_privado">
           @for (item of menu; track item.path) {
             <a [routerLink]="item.path" routerLinkActive="is-active">
-              <span class="app-layout__icon" aria-hidden="true">{{ item.icon }}</span>
+              <span class="icono_marco_privado" aria-hidden="true">{{ item.icon }}</span>
               {{ item.label }}
             </a>
           }
         </nav>
       </aside>
 
-      <main class="app-layout__main">
+      <main class="principal_marco_privado">
         <router-outlet />
       </main>
     </div>

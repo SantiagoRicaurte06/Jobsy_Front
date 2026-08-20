@@ -1,81 +1,82 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.auth-layout {
+.marco_acceso {
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: v.$gradient-login;
   overflow: hidden;
+}
 
-  // ---- Manchas suaves del fondo ----
-  &__blob {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.35);
-    filter: blur(60px);
-    pointer-events: none;
+// ---- Manchas suaves del fondo ----
+.mancha_marco_acceso {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  filter: blur(60px);
+  pointer-events: none;
+}
 
-    &--1 { top: -80px; left: 5%; width: 380px; height: 300px; }
-    &--2 { top: 12%; right: 8%; width: 300px; height: 260px; }
-    &--3 { bottom: 12%; right: 18%; width: 420px; height: 340px; }
+.mancha_marco_acceso_1 { top: -80px; left: 5%; width: 380px; height: 300px; }
+.mancha_marco_acceso_2 { top: 12%; right: 8%; width: 300px; height: 260px; }
+.mancha_marco_acceso_3 { bottom: 12%; right: 18%; width: 420px; height: 340px; }
+
+.principal_marco_acceso {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: v.$space-6 v.$space-4;
+}
+
+// ---- Pie con los enlaces legales ----
+.pie_marco_acceso {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  padding: v.$space-4 v.$space-6;
+  background: v.$color-primary;
+  color: v.$color-text-invert;
+
+  @include m.until(v.$bp-sm) { flex-direction: column; }
+}
+
+.enlaces_marco_acceso {
+  display: flex;
+  gap: v.$space-5;
+
+  a {
+    color: v.$color-text-invert;
+    font-size: v.$font-size-xs;
+    opacity: 0.9;
+
+    &:hover { opacity: 1; }
   }
+}
 
-  &__main {
-    position: relative;
-    z-index: 1;
-    flex: 1;
+.redes_marco_acceso {
+  display: flex;
+  gap: v.$space-2;
+
+  a {
     display: grid;
     place-items: center;
-    padding: v.$space-6 v.$space-4;
-  }
-
-  // ---- Pie ----
-  &__footer {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: v.$space-4;
-    padding: v.$space-4 v.$space-6;
-    background: v.$color-primary;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: v.$radius-sm;
     color: v.$color-text-invert;
+    font-size: v.$font-size-xs;
 
-    @include m.until(v.$bp-sm) {
-      flex-direction: column;
-    }
-  }
-
-  &__links {
-    display: flex;
-    gap: v.$space-5;
-
-    a {
-      color: v.$color-text-invert;
-      font-size: v.$font-size-xs;
-      opacity: 0.9;
-
-      &:hover { opacity: 1; }
-    }
-  }
-
-  &__social {
-    display: flex;
-    gap: v.$space-2;
-
-    a {
-      display: grid;
-      place-items: center;
-      width: 28px;
-      height: 28px;
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: v.$radius-sm;
-      color: v.$color-text-invert;
-      font-size: v.$font-size-xs;
-
-      &:hover { background: rgba(255, 255, 255, 0.3); text-decoration: none; }
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      text-decoration: none;
     }
   }
 }

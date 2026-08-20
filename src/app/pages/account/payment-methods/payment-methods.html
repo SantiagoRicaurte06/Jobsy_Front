@@ -1,43 +1,43 @@
-<div class="payment-methods">
+<div class="metodos_pago">
   <!-- Saldo Jobsy -->
-  <section class="payment-methods__balance card">
+  <section class="saldo_metodos_pago tarjeta">
     <div>
-      <span class="payment-methods__balance-label">Saldo Jobsy</span>
-      <strong class="payment-methods__balance-amount">${{ saldoJobsy().toLocaleString('es-CO') }}</strong>
+      <span class="etiqueta_saldo_metodos_pago">Saldo Jobsy</span>
+      <strong class="monto_saldo_metodos_pago">${{ saldoJobsy().toLocaleString('es-CO') }}</strong>
     </div>
 
-    <button type="button" class="btn-secondary btn-sm">Recargar</button>
+    <button type="button" class="boton_secundario boton_chico">Recargar</button>
   </section>
 
   <!-- Metodos guardados -->
-  <section class="card payment-methods__block">
-    <div class="payment-methods__head">
+  <section class="tarjeta bloque_metodos_pago">
+    <div class="encabezado_metodos_pago">
       <h2>Metodos de pago guardados</h2>
-      <button type="button" class="btn-primary btn-sm">+ Agregar metodo</button>
+      <button type="button" class="boton_principal boton_chico">+ Agregar metodo</button>
     </div>
 
     @if (methods().length === 0) {
-      <p class="payment-methods__empty">No tienes metodos de pago guardados.</p>
+      <p class="vacio_metodos_pago">No tienes metodos de pago guardados.</p>
     } @else {
-      <ul class="payment-methods__list">
+      <ul class="lista_metodos_pago">
         @for (m of methods(); track m.id) {
-          <li class="payment-methods__item">
-            <span class="payment-methods__icon" aria-hidden="true">{{ m.icono }}</span>
+          <li class="elemento_metodos_pago">
+            <span class="icono_metodos_pago" aria-hidden="true">{{ m.icono }}</span>
 
-            <div class="payment-methods__info">
+            <div class="info_metodos_pago">
               <strong>{{ m.titulo }}</strong>
-              <span class="text-xs text-muted">{{ m.detalle }}</span>
+              <span class="texto_mini texto_gris">{{ m.detalle }}</span>
             </div>
 
             @if (m.principal) {
-              <span class="badge-success">Principal</span>
+              <span class="pildora_exito">Principal</span>
             } @else {
-              <button type="button" class="payment-methods__link" (click)="hacerPrincipal(m.id)">
+              <button type="button" class="enlace_metodos_pago" (click)="hacerPrincipal(m.id)">
                 Hacer principal
               </button>
             }
 
-            <button type="button" class="payment-methods__remove" (click)="eliminar(m.id)">
+            <button type="button" class="quitar_metodos_pago" (click)="eliminar(m.id)">
               Eliminar
             </button>
           </li>
@@ -45,7 +45,7 @@
       </ul>
     }
 
-    <p class="payment-methods__note">
+    <p class="nota_metodos_pago">
       &#128274; Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el numero completo de tu tarjeta.
     </p>
   </section>

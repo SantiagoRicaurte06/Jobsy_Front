@@ -1,11 +1,11 @@
-<aside class="filter-panel">
-  <h3 class="filter-panel__title">Filtros</h3>
+<aside class="panel_filtros">
+  <h3 class="titulo_panel_filtros">Filtros</h3>
 
   <!-- Tamano de la vivienda -->
-  <fieldset class="filter-panel__group">
-    <legend class="filter-panel__legend">Tamano</legend>
+  <fieldset class="grupo_panel_filtros">
+    <legend class="leyenda_panel_filtros">Tamano</legend>
     @for (size of sizes; track size.value) {
-      <label class="form-check">
+      <label class="casilla">
         <input
           type="checkbox"
           [checked]="selectedSizes().includes(size.value)"
@@ -16,10 +16,10 @@
   </fieldset>
 
   <!-- Modalidad de trabajo -->
-  <fieldset class="filter-panel__group">
-    <legend class="filter-panel__legend">Modalidad</legend>
+  <fieldset class="grupo_panel_filtros">
+    <legend class="leyenda_panel_filtros">Modalidad</legend>
     @for (m of modalities; track m.value) {
-      <label class="form-check">
+      <label class="casilla">
         <input
           type="checkbox"
           [checked]="selectedModalities().includes(m.value)"
@@ -30,12 +30,12 @@
   </fieldset>
 
   <!-- Rango de precio por hora -->
-  <fieldset class="filter-panel__group">
-    <legend class="filter-panel__legend">Precio por hora (COP)</legend>
-    <div class="filter-panel__range">
+  <fieldset class="grupo_panel_filtros">
+    <legend class="leyenda_panel_filtros">Precio por hora (COP)</legend>
+    <div class="rango_panel_filtros">
       <input
         type="number"
-        class="form-input"
+        class="campo"
         placeholder="Min"
         [ngModel]="precioMin()"
         (ngModelChange)="precioMin.set($event)"
@@ -43,7 +43,7 @@
       <span aria-hidden="true">&ndash;</span>
       <input
         type="number"
-        class="form-input"
+        class="campo"
         placeholder="Max"
         [ngModel]="precioMax()"
         (ngModelChange)="precioMax.set($event)"
@@ -51,8 +51,8 @@
     </div>
   </fieldset>
 
-  <div class="filter-panel__actions">
-    <button type="button" class="btn-secondary btn-block" (click)="submit()">Aplicar filtros</button>
-    <button type="button" class="btn-ghost btn-block btn-sm" (click)="reset()">Limpiar</button>
+  <div class="acciones_panel_filtros">
+    <button type="button" class="boton_secundario boton_ancho" (click)="submit()">Aplicar filtros</button>
+    <button type="button" class="boton_simple boton_ancho boton_chico" (click)="reset()">Limpiar</button>
   </div>
 </aside>

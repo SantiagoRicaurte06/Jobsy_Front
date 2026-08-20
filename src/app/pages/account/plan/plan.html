@@ -1,35 +1,35 @@
 @if (loading()){
   <jobsy-loading-spinner  />
 }@else {
-  <div class="accoun-plan">
+  <div class="plan_cuenta">
   <!--Plan actual-->
   @if (current(); as sub) {
-    <section class="account-plan_current card">
+    <section class="actual_plan_cuenta tarjeta">
      <div>
-      <span class="account-plan__label">Tu plan actual</span>
-      <strong class="acoount-plan_name">{{ currentPlanName() }}</strong>
-      <span class="text-xs text-muted">Renueva el {{ sub.fechaRenovacion }}</span>
+      <span class="etiqueta_plan_cuenta">Tu plan actual</span>
+      <strong class="nombre_plan_cuenta">{{ currentPlanName() }}</strong>
+      <span class="texto_mini texto_gris">Renueva el {{ sub.fechaRenovacion }}</span>
      </div>
 
-     <span [class]="sub.activa ? 'badge-success' : 'badge-warning'">
+     <span [class]="sub.activa ? 'pildora_exito' : 'pildora_aviso'">
         {{sub.activa ? 'Activa' : 'Inactiva' }}
-     </span>"
+     </span>
     </section>
     
   }
 
-  <h2 class="account-plan_title"> Planes disponibles</h2>
+  <h2 class="titulo_plan_cuenta"> Planes disponibles</h2>
 
-  <div class="account-plan__grid">
+  <div class="rejilla_plan_cuenta">
     @for (plan of plans(); track plan.id){
-      <article class="account-plan_card card" [class.is-current]= "esActual(plan.id)"
-      [class.is-feactured]="plan.destacado">
+      <article class="tarjeta_plan_cuenta tarjeta" [class.is-current]= "esActual(plan.id)"
+      [class.is-featured]="plan.destacado">
       @if (plan.destacado) {
-        <span class="account-plan__flag">Mas popular</span>
+        <span class="distintivo_plan_cuenta">Mas popular</span>
       }
-      <h3 class="account-plan__card-name">{{plan.nombre}}</h3>
+      <h3 class="nombre_tarjeta_plan_cuenta">{{plan.nombre}}</h3>
 
-      <p class="account-plan__price">
+      <p class="precio_plan_cuenta">
         @if (plan.precioMensual === 0) {
           <strong>Gratis</strong>
         }@else {
@@ -38,15 +38,15 @@
         }
       </p>
 
-      <ul class="account-plan__features">
+      <ul class="caracteristicas_plan_cuenta">
         @for (f of plan.beneficios; track f ) {
           <li>&#10004; {{ f }}</li>
         }
       </ul>
       @if (esActual(plan.id)) {
-        <button type="button" class="btn-ghost btn-block" disable>Plan actual</button>
+        <button type="button" class="boton_simple boton_ancho" disabled>Plan actual</button>
         } @else {
-            <button type="button" class="btn-primary btn-block"
+            <button type="button" class="boton_principal boton_ancho"
               [disabled]="cambiando() === plan.id"
               (click)="cambiar(plan.id)">
               {{ cambiando() === plan.id ? 'Cambiando...' : 'Elegir plan' }}
@@ -56,7 +56,7 @@
     </article>
     }
   </div>
-    <p class="account-plan__note">
+    <p class="nota_plan_cuenta">
       Puedes cambiar o cancelar tu plan en cualquier momento. Los cambios se aplican en el siguiente ciclo de facturacion.
     </p>
   </div>

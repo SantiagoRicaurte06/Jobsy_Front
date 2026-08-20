@@ -20,10 +20,10 @@ const STATUS_LABEL: Record<ApplicationStatus, string> = {
 };
 
 const STATUS_CLASS: Record<ApplicationStatus, string> = {
-  pendiente: 'badge-warning',
-  en_revision: 'badge-info',
-  aceptada: 'badge-success',
-  rechazada: 'badge-danger',
+  pendiente: 'pildora_aviso',
+  en_revision: 'pildora_info',
+  aceptada: 'pildora_exito',
+  rechazada: 'pildora_error',
 };
 
 @Component({

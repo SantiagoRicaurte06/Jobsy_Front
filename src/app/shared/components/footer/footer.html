@@ -1,8 +1,8 @@
-<footer class="footer">
-  <div class="footer__inner">
-    <div class="footer__brand">
-      <jobsy-logo variant="light" size="md" />
-      <p class="footer__tagline">
+<footer class="pie">
+  <div class="interior_pie">
+    <div class="marca_pie">
+      <jobsy-logo variant="claro" size="medio" />
+      <p class="lema_pie">
         Conectamos empleados del hogar<br />
         con empleadores en toda Colombia.<br />
         Rapido, seguro y verificado.
@@ -10,8 +10,8 @@
     </div>
 
     @for (col of columns; track col.title) {
-      <nav class="footer__col">
-        <h3 class="footer__col-title">{{ col.title }}</h3>
+      <nav class="columna_pie">
+        <h3 class="titulo_columna_pie">{{ col.title }}</h3>
         <ul>
           @for (link of col.links; track link.label) {
             <li><a [routerLink]="link.path">{{ link.label }}</a></li>
@@ -21,11 +21,11 @@
     }
   </div>
 
-  <div class="footer__bottom">
-    <div class="footer__bottom-inner">
-      <p class="footer__copy">&copy;{{ year }} Jobsy. Todos los derechos reservados.</p>
+  <div class="inferior_pie">
+    <div class="interior_inferior_pie">
+      <p class="copyright_pie">&copy;{{ year }} Jobsy. Todos los derechos reservados.</p>
 
-      <ul class="footer__social">
+      <ul class="redes_pie">
         <li><a href="#" aria-label="Facebook">f</a></li>
         <li><a href="#" aria-label="Instagram">&#9635;</a></li>
         <li><a href="#" aria-label="TikTok">&#9834;</a></li>

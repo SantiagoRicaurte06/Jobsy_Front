@@ -1,61 +1,61 @@
 
-<div class="create-account card">
-  <header class="create-account__head">
-    <jobsy-logo variant="color" size="lg" />
-    <h1 class="create-account__title">Crear cuenta</h1>
-    <p class="create-account__subtitle">Empieza gratis en Jobsy</p>
+<div class="crear_cuenta tarjeta">
+  <header class="encabezado_crear_cuenta">
+    <jobsy-logo variant="color" size="grande" />
+    <h1 class="titulo_crear_cuenta">Crear cuenta</h1>
+    <p class="subtitulo_crear_cuenta">Empieza gratis en Jobsy</p>
   </header>
 
   <form (ngSubmit)="submit()">
-    <div class="create-account__row">
-      <div class="form-group">
-        <label class="form-label" for="nombre">Nombre</label>
-        <input id="nombre" type="text" class="form-input" placeholder="Santiago"
+    <div class="fila_crear_cuenta">
+      <div class="grupo_campo">
+        <label class="etiqueta" for="nombre">Nombre</label>
+        <input id="nombre" type="text" class="campo" placeholder="Santiago"
           [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="apellido">Apellido</label>
-        <input id="apellido" type="text" class="form-input" placeholder="Ricaurte"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="apellido">Apellido</label>
+        <input id="apellido" type="text" class="campo" placeholder="Ricaurte"
           [ngModel]="apellido()" (ngModelChange)="apellido.set($event)" name="apellido" />
       </div>
-    </div>]
+    </div>
 
-    <div class="form-group">
-      <label class="form-label" for="email">Correo electronico</label>
-      <input id="email" type="email" class="form-input" placeholder="tucorreo@ejemplo.com"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="email">Correo electronico</label>
+      <input id="email" type="email" class="campo" placeholder="tucorreo@ejemplo.com"
         autocomplete="email"
         [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="password">Contrasena</label>
-      <input id="password" type="password" class="form-input" placeholder="Minimo 8 caracteres"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="password">Contrasena</label>
+      <input id="password" type="password" class="campo" placeholder="Minimo 8 caracteres"
         autocomplete="new-password"
         [ngModel]="password()" (ngModelChange)="password.set($event)" name="password" />
-      <p class="form-hint">Usa al menos 8 caracteres, con letras y numeros.</p>
+      <p class="ayuda">Usa al menos 8 caracteres, con letras y numeros.</p>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="confirm">Confirmar contrasena</label>
-      <input id="confirm" type="password" class="form-input" placeholder="Repite tu contrasena"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="confirm">Confirmar contrasena</label>
+      <input id="confirm" type="password" class="campo" placeholder="Repite tu contrasena"
         autocomplete="new-password"
         [ngModel]="confirm()" (ngModelChange)="confirm.set($event)" name="confirm" />
     </div>
 
-    <label class="form-check create-account__terms">
+    <label class="casilla terminos_crear_cuenta">
       <input type="checkbox" [ngModel]="acepta()" (ngModelChange)="acepta.set($event)" name="acepta" />
       Acepto los <a href="#">terminos y condiciones</a> y la <a href="#">politica de privacidad</a>.
     </label>
 
     @if (error()) {
-      <p class="form-error" role="alert">{{ error() }}</p>
+      <p class="error" role="alert">{{ error() }}</p>
     }
 
-    <button type="submit" class="btn-primary btn-block">Continuar</button>
+    <button type="submit" class="boton_principal boton_ancho">Continuar</button>
   </form>
 
-  <p class="create-account__login">
+  <p class="acceso_crear_cuenta">
     &iquest;Ya tienes cuenta? <a routerLink="/auth/login">Iniciar sesion</a>
   </p>
 </div>
