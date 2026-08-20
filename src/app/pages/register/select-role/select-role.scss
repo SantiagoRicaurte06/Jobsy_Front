@@ -1,4 +1,3 @@
-
 @use 'variables' as v;
 @use 'mixins' as m;
 
@@ -47,7 +46,7 @@
     border-radius: v.$radius-lg;
     font-family: inherit;
     cursor: pointer;
-    transition: border-color v.$transition-fast, background v.$tramsitions-fast;
+    transition: border-color v.$transition-fast, background v.$transition-fast;
 
     &:hover {border-color: v.$color-primary-light;}
 
