@@ -59,7 +59,7 @@ export class StepLocationPage {
     const draft = this.registration.draft();
     this.loading.set(true);
 
-        this.auth
+    this.auth
       .register({
         nombre: draft.nombre,
         apellido: draft.apellido,
