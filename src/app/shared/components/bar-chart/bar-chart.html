@@ -1,25 +1,26 @@
-<figure class="bar-chart">
-  @if (unit()){
-    <figcaption class="bar-chart__unit">{{unit()}}</figcaption>
+<figure class="grafico">
+  @if (unit()) {
+    <figcaption class="unidad_grafico">{{ unit() }}</figcaption>
   }
 
-  <div class="bar-chart__plot">
-    @for (bar of bars(); track bar.label){
-      <div class="bar-chart__col">
-        <div class="bar-chart__bar"
-        [class.is-highlight]="bar.destacado"
-        [class.is-projected]="bar.proyectado"
-        [style.title]="bar.height"
-        [attr.title]="bar.label + ':' + bar.value">
+  <div class="area_grafico">
+    @for (bar of bars(); track bar.label) {
+      <div class="columna_grafico">
+        <div
+          class="barra_grafico"
+          [class.is-highlight]="bar.destacado"
+          [class.is-projected]="bar.proyectado"
+          [style.height.%]="bar.height"
+          [attr.title]="bar.label + ': ' + bar.value">
         </div>
-        <span class="bar-chart_label" [class.is-highlight]="bar.destacado">{{ bar.label }}</span>
+        <span class="etiqueta_grafico" [class.is-highlight]="bar.destacado">{{ bar.label }}</span>
       </div>
     }
   </div>
 
-  <ul class="bar-chart__legend">
-    <li><span class="bar-chart__key"></span> Ventas mensuales</li>
-    <li><span class="bar-chart__key bar-chart__key--highlight"></span> Mejor mes</li>
-    <li><span class="bar-chart__key bar-chart__key--projected"></span> Proyectado</li>
+  <ul class="leyenda_grafico">
+    <li><span class="clave_grafico"></span> Ventas mensuales</li>
+    <li><span class="clave_grafico clave_grafico_destacado"></span> Mejor mes</li>
+    <li><span class="clave_grafico clave_grafico_proyectado"></span> Proyectado</li>
   </ul>
 </figure>

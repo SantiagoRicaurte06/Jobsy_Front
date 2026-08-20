@@ -7,26 +7,30 @@
   font-weight: v.$font-weight-bold;
   letter-spacing: -0.02em;
   line-height: 1;
-
-  &__mark {
-    flex-shrink: 0;
-    width: 1.6em;
-    height: 1.6em;
-  }
-
-  // ---- Variantes de color ----
-  &--color {
-    color: v.$color-primary;
-    .logo__drop { color: v.$color-primary; }
-  }
-
-  &--light {
-    color: v.$color-white;
-    .logo__drop { color: v.$color-white; }
-  }
-
-  // ---- Tamanos ----
-  &--sm { font-size: v.$font-size-lg; }
-  &--md { font-size: v.$font-size-xl; }
-  &--lg { font-size: v.$font-size-2xl; }
 }
+
+.marca_logo {
+  flex-shrink: 0;
+  width: 1.6em;
+  height: 1.6em;
+}
+
+.texto_logo { display: inline-block; }
+
+// ---- Colores segun el fondo ----
+.logo_color {
+  color: v.$color-primary;
+
+  .gota_logo { color: v.$color-primary; }
+}
+
+.logo_claro {
+  color: v.$color-white;
+
+  .gota_logo { color: v.$color-white; }
+}
+
+// ---- Tamanos ----
+.logo_chico  { font-size: v.$font-size-lg; }
+.logo_medio  { font-size: v.$font-size-xl; }
+.logo_grande { font-size: v.$font-size-2xl; }

@@ -1,90 +1,88 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.home-logged {
-  // ---- Bienvenida ----
-  &__welcome {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: v.$space-4;
-    padding: v.$space-5;
-    margin-bottom: v.$space-4;
+// ---- Bienvenida ----
+.bienvenida_inicio_privado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  padding: v.$space-5;
+  margin-bottom: v.$space-4;
 
-    @include m.until(v.$bp-md) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  @include m.until(v.$bp-md) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.titulo_inicio_privado {
+  margin: 0 0 v.$space-1;
+  font-size: v.$font-size-xl;
+}
+
+.texto_inicio_privado {
+  margin: 0;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+}
+
+// ---- Metricas ----
+.cifras_inicio_privado {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$space-3;
+  margin-bottom: v.$space-4;
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+.cifra_inicio_privado {
+  display: flex;
+  flex-direction: column;
+  padding: v.$space-4;
+
+  strong {
+    font-size: v.$font-size-2xl;
+    color: v.$color-primary;
   }
 
-  &__title {
-    margin: 0 0 v.$space-1;
-    font-size: v.$font-size-xl;
-  }
-
-  &__text {
-    margin: 0;
-    font-size: v.$font-size-sm;
+  span {
+    font-size: v.$font-size-xs;
     color: v.$color-text-muted;
   }
-
-  // ---- Metricas ----
-  &__stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: v.$space-3;
-    margin-bottom: v.$space-4;
-
-    @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
-  }
-
-  &__stat {
-    display: flex;
-    flex-direction: column;
-    padding: v.$space-4;
-
-    strong {
-      font-size: v.$font-size-2xl;
-      color: v.$color-primary;
-    }
-
-    span {
-      font-size: v.$font-size-xs;
-      color: v.$color-text-muted;
-    }
-  }
-
-  // ---- Accesos rapidos ----
-  &__shortcuts {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: v.$space-3;
-    margin-bottom: v.$space-6;
-
-    @include m.until(v.$bp-md) { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  &__shortcut {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: v.$space-2;
-    padding: v.$space-4;
-    color: v.$color-text;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-medium;
-    text-align: center;
-    transition: border-color v.$transition-fast;
-
-    span { font-size: v.$font-size-xl; }
-
-    &:hover {
-      border-color: v.$color-primary-light;
-      text-decoration: none;
-    }
-  }
-
-  &__section { margin-bottom: v.$space-6; }
-
-  &__grid { @include m.grid-cards(280px, v.$space-4); }
 }
+
+// ---- Accesos rapidos ----
+.accesos_inicio_privado {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: v.$space-3;
+  margin-bottom: v.$space-6;
+
+  @include m.until(v.$bp-md) { grid-template-columns: repeat(2, 1fr); }
+}
+
+.acceso_inicio_privado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-4;
+  color: v.$color-text;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-medium;
+  text-align: center;
+  transition: border-color v.$transition-fast;
+
+  span { font-size: v.$font-size-xl; }
+
+  &:hover {
+    border-color: v.$color-primary-light;
+    text-decoration: none;
+  }
+}
+
+.seccion_inicio_privado { margin-bottom: v.$space-6; }
+
+.rejilla_inicio_privado { @include m.grid-cards(280px, v.$space-4); }

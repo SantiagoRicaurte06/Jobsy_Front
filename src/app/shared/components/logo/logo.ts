@@ -9,6 +9,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './logo.scss',
 })
 export class LogoComponent {
-  readonly variant = input<'color' | 'light'>('color');
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly variant = input<'color' | 'claro'>('color');
+  readonly size = input<'chico' | 'medio' | 'grande'>('medio');
 }

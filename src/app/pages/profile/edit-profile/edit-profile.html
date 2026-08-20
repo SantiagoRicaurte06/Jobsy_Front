@@ -1,70 +1,70 @@
-  <section class="edit-profile">
+  <section class="editar_perfil">
   @if (loading()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="section-head">
+    <div class="encabezado_seccion">
       <h1>Editar perfil</h1>
-      <a routerLink="/app/perfil" class="btn-ghost btn-sm">Cancelar</a>
+      <a routerLink="/app/perfil" class="boton_simple boton_chico">Cancelar</a>
     </div>
 
     @if (guardado()) {
-      <p class="edit-profile__saved" role="status">&#10004; Cambios guardados correctamente.</p>
+      <p class="guardado_editar_perfil" role="status">&#10004; Cambios guardados correctamente.</p>
     }
 
-    <form class="card edit-profile__form" (ngSubmit)="submit()">
-      <h2 class="edit-profile__legend">Datos personales</h2>
+    <form class="tarjeta formulario_editar_perfil" (ngSubmit)="submit()">
+      <h2 class="leyenda_editar_perfil">Datos personales</h2>
 
-      <div class="edit-profile__row">
-        <div class="form-group">
-          <label class="form-label" for="nombre">Nombre</label>
-          <input id="nombre" type="text" class="form-input"
+      <div class="fila_editar_perfil">
+        <div class="grupo_campo">
+          <label class="etiqueta" for="nombre">Nombre</label>
+          <input id="nombre" type="text" class="campo"
             [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="apellido">Apellido</label>
-          <input id="apellido" type="text" class="form-input"
+        <div class="grupo_campo">
+          <label class="etiqueta" for="apellido">Apellido</label>
+          <input id="apellido" type="text" class="campo"
             [ngModel]="apellido()" (ngModelChange)="apellido.set($event)" name="apellido" />
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="email">Correo electronico</label>
-        <input id="email" type="email" class="form-input" [value]="email()" disabled />
-        <p class="form-hint">El correo no se puede cambiar desde aqui.</p>
+      <div class="grupo_campo">
+        <label class="etiqueta" for="email">Correo electronico</label>
+        <input id="email" type="email" class="campo" [value]="email()" disabled />
+        <p class="ayuda">El correo no se puede cambiar desde aqui.</p>
       </div>
 
-      <div class="edit-profile__row">
-        <div class="form-group">
-          <label class="form-label" for="telefono">Telefono</label>
-          <input id="telefono" type="tel" class="form-input" placeholder="300 123 4567"
+      <div class="fila_editar_perfil">
+        <div class="grupo_campo">
+          <label class="etiqueta" for="telefono">Telefono</label>
+          <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
             [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="ciudad">Ciudad</label>
-          <select id="ciudad" class="form-select"
+        <div class="grupo_campo">
+          <label class="etiqueta" for="ciudad">Ciudad</label>
+          <select id="ciudad" class="lista"
             [ngModel]="ciudad()" (ngModelChange)="ciudad.set($event)" name="ciudad">
             @for (c of ciudades; track c) { <option [value]="c">{{ c }}</option> }
           </select>
         </div>
       </div>
 
-      <h2 class="edit-profile__legend">Perfil publico</h2>
+      <h2 class="leyenda_editar_perfil">Perfil publico</h2>
 
-      <div class="form-group">
-        <label class="form-label" for="descripcion">Descripcion</label>
-        <textarea id="descripcion" class="form-textarea"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="descripcion">Descripcion</label>
+        <textarea id="descripcion" class="area_texto"
           placeholder="Cuenta brevemente quien eres y como trabajas."
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Especialidades</label>
-        <ul class="edit-profile__chips">
+      <div class="grupo_campo">
+        <label class="etiqueta">Especialidades</label>
+        <ul class="fichas_editar_perfil">
           @for (e of opcionesEspecialidad; track e) {
             <li>
-              <button type="button" class="edit-profile__chip"
+              <button type="button" class="ficha_editar_perfil"
                 [class.is-selected]="especialidades().includes(e)"
                 (click)="toggleEspecialidad(e)">
                 {{ e }}
@@ -74,9 +74,9 @@
         </ul>
       </div>
 
-      <footer class="edit-profile__actions">
-        <a routerLink="/app/perfil" class="btn-ghost">Cancelar</a>
-        <button type="submit" class="btn-primary" [disabled]="saving()">
+      <footer class="acciones_editar_perfil">
+        <a routerLink="/app/perfil" class="boton_simple">Cancelar</a>
+        <button type="submit" class="boton_principal" [disabled]="saving()">
           {{ saving() ? 'Guardando...' : 'Guardar cambios' }}
         </button>
       </footer>
