@@ -1,4 +1,18 @@
-<!-- TODO: maquetar "Inicio de Sesion Exitoso" segun el diseno de Figma -->
-<section class="acceso_correcto">
-  <h1>Inicio de Sesion Exitoso</h1>
-</section>
+<div class="login-success card">
+  <jobsy-logo variant="color" size="lg" />
+
+  <span class="login-success__check" aria-hidden="true">&#10004;</span>
+
+  <h1 class="login-success__title">&iexcl;Bienvenido, {{ user()?.nombre }}!</h1>
+  <p class="login-success__text">Iniciaste sesion correctamente en Jobsy.</p>
+
+  <button type="button" class="btn-primary btn-block" (click)="go()">
+    Ir a mi inicio
+  </button>
+
+  <p class="login-success__timer">
+    Te redirigiremos en {{ seconds() }}s...
+  </p>
+
+  <a routerLink="/" class="login-success__home">Ir al inicio publico</a>
+</div>
