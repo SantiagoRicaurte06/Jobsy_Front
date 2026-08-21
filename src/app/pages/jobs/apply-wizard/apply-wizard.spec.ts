@@ -16,6 +16,7 @@ describe('ApplyWizardPage', () => {
 
     fixture = TestBed.createComponent(ApplyWizardPage);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('id', '1');
     await fixture.whenStable();
   });
 

@@ -1,4 +1,146 @@
-<!-- TODO: maquetar "Postularme" segun el diseno de Figma -->
-<section class="asistente_postulacion">
-  <h1>Postularme</h1>
-</section>
+<div class="contenedor asistente_postulacion">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else {
+    <div class="tarjeta_asistente_postulacion tarjeta">
+      <jobsy-step-progress [steps]="steps" [current]="step()" />
+
+      <!-- ===== Paso 1: revisar la oferta ===== -->
+      @if (step() === 0) {
+        <section>
+          <h1 class="titulo_asistente_postulacion">Revisa la oferta</h1>
+          <p class="subtitulo_asistente_postulacion">Confirma que este es el empleo al que quieres postularte.</p>
+
+          <div class="empleo_asistente_postulacion">
+            <div class="imagen_empleo_asistente_postulacion" aria-hidden="true">&#127968;</div>
+            <div>
+              <h2>{{ job()?.titulo }}</h2>
+              <p class="precio">{{ job()?.precioHora | cop }} / hora</p>
+              <p class="texto_mini texto_gris">{{ job()?.horario }}</p>
+              <p class="texto_mini texto_gris">{{ job()?.direccion }}, {{ job()?.ciudad }}</p>
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- ===== Paso 2: disponibilidad ===== -->
+      @if (step() === 1) {
+        <section>
+          <h1 class="titulo_asistente_postulacion">Tu disponibilidad</h1>
+          <p class="subtitulo_asistente_postulacion">Indica que dias y horas puedes trabajar.</p>
+
+          <div class="grupo_campo">
+            <label class="etiqueta">Dias disponibles</label>
+            <div class="dias_asistente_postulacion">
+              @for (d of diasSemana; track d) {
+                <button
+                  type="button"
+                  class="dia_asistente_postulacion"
+                  [class.is-selected]="dias().includes(d)"
+                  [attr.aria-pressed]="dias().includes(d)"
+                  (click)="toggleDia(d)">
+                  {{ d }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="fila_asistente_postulacion">
+            <div class="grupo_campo">
+              <label class="etiqueta" for="inicio">Hora de inicio</label>
+              <input id="inicio" type="time" class="campo"
+                [ngModel]="horaInicio()" (ngModelChange)="horaInicio.set($event)" name="inicio" />
+            </div>
+
+            <div class="grupo_campo">
+              <label class="etiqueta" for="fin">Hora de fin</label>
+              <input id="fin" type="time" class="campo"
+                [ngModel]="horaFin()" (ngModelChange)="horaFin.set($event)" name="fin" />
+            </div>
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="tarifa">Tu tarifa por hora (COP)</label>
+            <input id="tarifa" type="number" class="campo"
+              [ngModel]="tarifa()" (ngModelChange)="tarifa.set($event)" name="tarifa" />
+            <p class="ayuda">El empleador ofrece {{ job()?.precioHora | cop }}. Puedes proponer otra tarifa.</p>
+          </div>
+        </section>
+      }
+
+      <!-- ===== Paso 3: mensaje ===== -->
+      @if (step() === 2) {
+        <section>
+          <h1 class="titulo_asistente_postulacion">Mensaje al empleador</h1>
+          <p class="subtitulo_asistente_postulacion">Cuentale por que eres la persona indicada.</p>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="mensaje">Tu mensaje</label>
+            <textarea id="mensaje" class="area_texto"
+              placeholder="Hola, tengo 6 anos de experiencia en limpieza profunda y cocina..."
+              [ngModel]="mensaje()" (ngModelChange)="mensaje.set($event)" name="mensaje"></textarea>
+            <p class="ayuda">{{ mensaje().length }} caracteres. Minimo 20.</p>
+          </div>
+        </section>
+      }
+
+      <!-- ===== Paso 4: confirmar ===== -->
+      @if (step() === 3) {
+        <section>
+          <h1 class="titulo_asistente_postulacion">Confirma tu postulacion</h1>
+          <p class="subtitulo_asistente_postulacion">Revisa los datos antes de enviar.</p>
+
+          <dl class="resumen_asistente_postulacion">
+            <div>
+              <dt>Empleo</dt>
+              <dd>{{ job()?.titulo }}</dd>
+            </div>
+            <div>
+              <dt>Dias</dt>
+              <dd>{{ dias().join(', ') || 'Sin especificar' }}</dd>
+            </div>
+            <div>
+              <dt>Horario</dt>
+              <dd>{{ horaInicio() }} - {{ horaFin() }}</dd>
+            </div>
+            <div>
+              <dt>Tarifa propuesta</dt>
+              <dd>{{ tarifa() | cop }} / hora</dd>
+            </div>
+            <div class="resumen_completo_asistente_postulacion">
+              <dt>Mensaje</dt>
+              <dd>{{ mensaje() }}</dd>
+            </div>
+          </dl>
+
+          <label class="casilla terminos_asistente_postulacion">
+            <input type="checkbox"
+              [ngModel]="aceptaCondiciones()" (ngModelChange)="aceptaCondiciones.set($event)" name="acepta" />
+            Confirmo que la informacion es veraz y acepto las condiciones del servicio.
+          </label>
+        </section>
+      }
+
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+
+      <!-- ===== Navegacion ===== -->
+      <footer class="acciones_asistente_postulacion">
+        @if (step() === 0) {
+          <a [routerLink]="['/empleos', id()]" class="boton_simple">Cancelar</a>
+        } @else {
+          <button type="button" class="boton_simple" (click)="back()">Atras</button>
+        }
+
+        @if (step() < steps.length - 1) {
+          <button type="button" class="boton_principal" (click)="next()">Siguiente</button>
+        } @else {
+          <button type="button" class="boton_principal" [disabled]="sending()" (click)="submit()">
+            {{ sending() ? 'Enviando...' : 'Enviar postulacion' }}
+          </button>
+        }
+      </footer>
+    </div>
+  }
+</div>

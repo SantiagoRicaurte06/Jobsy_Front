@@ -1,4 +1,163 @@
-<!-- TODO: maquetar "Home" segun el diseno de Figma -->
-<section class="inicio">
-  <h1>Home</h1>
+<!-- ============ PORTADA ============ -->
+<section class="portada">
+  <div class="interior_portada">
+    <div class="columna_portada">
+      <span class="pildora_portada">{{ totalEmpleos() }} empleos disponibles hoy</span>
+
+      <h1 class="titulo_portada">
+        CONECTA.<br />
+        CRECE.<br />
+        <em>OPORTUNIDADES</em><br />
+        PROFESIONALES
+      </h1>
+
+      <p class="texto_portada">
+        Encuentra el trabajo de hogar ideal en tu ciudad.<br />
+        Conectamos empleadores con empleados verificados y de confianza.
+      </p>
+
+      <div class="acciones_portada">
+        <a routerLink="/empleos" class="boton_principal">Explorar Empleos</a>
+        <a routerLink="/empleados" class="boton_secundario">Encontrar Talento</a>
+      </div>
+    </div>
+
+    <div class="media_portada">
+      <img
+        class="foto_portada"
+        [src]="images.hero"
+        alt="Profesional del hogar limpiando una vivienda"
+        loading="eager" />
+    </div>
+  </div>
+</section>
+
+<!-- ============ FRANJA DE CIFRAS ============ -->
+<section class="cifras">
+  <div class="interior_cifras">
+    @for (stat of stats(); track stat.label) {
+      <div class="elemento_cifras">
+        <strong>{{ stat.value }}</strong>
+        <span>{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ BUSCADOR ============ -->
+<section class="buscador">
+  <div class="interior_buscador">
+    <jobsy-search-bar (buscar)="buscar($event)" />
+
+    <ul class="filtros_buscador">
+      @for (f of quickFilters; track f) {
+        <li>
+          <button
+            type="button"
+            class="ficha_buscador"
+            [class.is-active]="activeFilter() === f"
+            (click)="setFilter(f)">
+            {{ f }}
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============ TRABAJOS DISPONIBLES ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion">
+    <h2>Trabajos Disponibles</h2>
+    <a routerLink="/empleos" class="enlace_seccion">Ver todos &#8594;</a>
+  </div>
+
+  @if (loading()) {
+    <jobsy-loading-spinner label="Cargando empleos..." />
+  } @else {
+    <div class="rejilla_inicio">
+      @for (job of jobs(); track job.id) {
+        <jobsy-job-card [job]="job" />
+      }
+    </div>
+  }
+</section>
+
+<!-- ============ EMPLEADOS DESTACADOS ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion">
+    <h2>Empleados Destacados</h2>
+    <a routerLink="/empleados" class="enlace_seccion">Ver todos &#8594;</a>
+  </div>
+
+  <div class="rejilla_inicio">
+    @for (employee of employees(); track employee.id) {
+      <jobsy-employee-card [employee]="employee" />
+    }
+  </div>
+</section>
+
+<!-- ============ SOBRE NOSOTROS ============ -->
+<section class="nosotros">
+  <div class="interior_nosotros">
+    <div class="columna_nosotros">
+      <span class="pildora_info">Conoce sobre nosotros</span>
+
+      <h2 class="titulo_nosotros">
+        Conectamos hogares con<br />
+        personas <em>confiables</em>
+      </h2>
+
+      <p class="texto_nosotros">
+        Jobsy es una plataforma disenada para conectar empleadores con empleados
+        del hogar de forma rapida, segura y verificada. Ofrecemos perfiles
+        verificados, calificaciones reales y procesos simples para contratar con
+        confianza en Yopal y todo Casanare.
+      </p>
+
+      <ul class="ventajas_nosotros">
+        @for (b of benefits; track b.title) {
+          <li>
+            <span aria-hidden="true">{{ b.icon }}</span>
+            {{ b.title }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="lateral_nosotros">
+      <img
+        class="foto_nosotros"
+        [src]="images.about"
+        alt="Empleador y profesional del hogar cerrando un acuerdo"
+        loading="lazy" />
+
+      <div class="cifras_nosotros">
+        @for (stat of stats().slice(0, 3); track stat.label) {
+          <div>
+            <strong>{{ stat.value }}</strong>
+            <span>{{ stat.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LLAMADA FINAL ============ -->
+<section class="llamada">
+  <div class="interior_llamada">
+    <div>
+      <h2 class="titulo_llamada">&iquest;Eres un profesional del hogar?</h2>
+      <p class="texto_llamada">
+        Registrate gratis y empieza a recibir ofertas de trabajo en tu ciudad.<br />
+        Miles de empleadores estan buscando talento como el tuyo.
+      </p>
+    </div>
+
+    <div class="acciones_llamada">
+      <a routerLink="/registro/crear-cuenta" class="boton_principal">Crear mi perfil</a>
+      <a routerLink="/empleos" class="boton_secundario">Saber mas</a>
+    </div>
+  </div>
 </section>
