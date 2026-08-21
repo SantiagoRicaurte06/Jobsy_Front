@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { DashboardPage } from './dashboard';
+import { AdminDashboardPage } from './dashboard';
 
-describe('DashboardPage', () => {
-  let component: DashboardPage;
-  let fixture: ComponentFixture<DashboardPage>;
+describe('AdminDashboardPage', () => {
+  let component: AdminDashboardPage;
+  let fixture: ComponentFixture<AdminDashboardPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardPage],
+      imports: [AdminDashboardPage],
       providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardPage);
+    fixture = TestBed.createComponent(AdminDashboardPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
