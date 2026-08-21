@@ -1,42 +1,45 @@
 @use 'variables' as v;
 
-.pagination {
+.paginado {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: v.$space-2;
   padding: v.$space-5 0;
+}
 
-  &__page,
-  &__arrow {
-    min-width: 36px;
-    height: 36px;
-    padding: 0 v.$space-2;
-    background: v.$color-surface;
-    border: 1px solid v.$color-border;
-    border-radius: v.$radius-sm;
-    color: v.$color-text;
-    font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-medium;
-    cursor: pointer;
-    transition: background v.$transition-fast, border-color v.$transition-fast;
+.pagina_paginado,
+.flecha_paginado {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 v.$space-2;
+  background: v.$color-surface;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-sm;
+  color: v.$color-text;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  cursor: pointer;
+  transition: background v.$transition-fast, border-color v.$transition-fast;
 
-    &:hover:not(:disabled):not(.is-active) {
-      background: v.$color-primary-bg;
-      border-color: v.$color-primary-light;
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-  }
-
-  &__page.is-active {
-    background: v.$color-primary-light;
+  &:hover:not(:disabled):not(.is-active) {
+    background: v.$color-primary-bg;
     border-color: v.$color-primary-light;
-    color: v.$color-text-invert;
   }
 
-  &__arrow { font-size: v.$font-size-lg; line-height: 1; }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.pagina_paginado.is-active {
+  background: v.$color-primary-light;
+  border-color: v.$color-primary-light;
+  color: v.$color-text-invert;
+}
+
+.flecha_paginado {
+  font-size: v.$font-size-lg;
+  line-height: 1;
 }

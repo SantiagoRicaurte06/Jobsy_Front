@@ -1,15 +1,15 @@
-<section class="account">
-  <div class="section-head">
+<section class="cuenta">
+  <div class="encabezado_seccion">
     <h1>Mi cuenta</h1>
   </div>
 
-  <nav class="account__tabs">
+  <nav class="pestanas_cuenta">
     @for (tab of tabs; track tab.path) {
       <a [routerLink]="tab.path" routerLinkActive="is-active">{{ tab.label }}</a>
     }
   </nav>
 
-  <div class="account__panel">
+  <div class="panel_cuenta">
     <router-outlet />
   </div>
 </section>

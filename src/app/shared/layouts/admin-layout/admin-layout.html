@@ -1,59 +1,59 @@
-<div class="admin-layout">
+<div class="marco_admin">
   <!-- Sidebar -->
-  <aside class="admin-layout__side">
-    <div class="admin-layout__brand">
-      <jobsy-logo variant="light" size="sm" />
-      <span class="admin-layout__tag">Admin Panel</span>
+  <aside class="lateral_marco_admin">
+    <div class="marca_marco_admin">
+      <jobsy-logo variant="claro" size="chico" />
+      <span class="sello_marco_admin">Admin Panel</span>
     </div>
 
-    <div class="admin-layout__user">
-      <span class="admin-layout__avatar">{{ user()?.nombre?.charAt(0) ?? 'A' }}</span>
+    <div class="usuario_marco_admin">
+      <span class="avatar_marco_admin">{{ user()?.nombre?.charAt(0) ?? 'A' }}</span>
       <div>
         <strong>{{ user()?.nombre }} {{ user()?.apellido }}</strong>
         <small>Super Administrador</small>
       </div>
     </div>
 
-    <nav class="admin-layout__nav">
+    <nav class="navegacion_marco_admin">
       @for (group of groups(); track group.title) {
-        <p class="admin-layout__group">{{ group.title }}</p>
+        <p class="grupo_marco_admin">{{ group.title }}</p>
 
         @for (item of group.items; track item.path) {
           <a [routerLink]="item.path" routerLinkActive="is-active">
             <span aria-hidden="true">{{ item.icon }}</span>
-            <span class="admin-layout__label">{{ item.label }}</span>
+            <span class="etiqueta_marco_admin">{{ item.label }}</span>
             @if (item.badge) {
-              <span class="admin-layout__badge">{{ item.badge }}</span>
+              <span class="pildora_marco_admin">{{ item.badge }}</span>
             }
           </a>
         }
       }
     </nav>
 
-    <button type="button" class="admin-layout__logout" (click)="logout()">
+    <button type="button" class="salir_marco_admin" (click)="logout()">
       <span aria-hidden="true">&#8617;</span> Cerrar Sesion
     </button>
   </aside>
 
   <!-- Contenido -->
-  <div class="admin-layout__content">
-    <header class="admin-layout__topbar">
-      <nav class="admin-layout__breadcrumb">
+  <div class="contenido_marco_admin">
+    <header class="barra_superior_marco_admin">
+      <nav class="ruta_marco_admin">
         <a routerLink="/tienda">Tienda</a>
         <span aria-hidden="true">/</span>
         <strong>Dashboard</strong>
       </nav>
 
-      <div class="admin-layout__tools">
-        <input type="search" class="admin-layout__search" placeholder="Buscar productos, pedidos..." aria-label="Buscar" />
-        <button type="button" class="admin-layout__icon-btn" aria-label="Notificaciones">
-          &#128276;<span class="admin-layout__dot"></span>
+      <div class="herramientas_marco_admin">
+        <input type="search" class="buscador_marco_admin" placeholder="Buscar productos, pedidos..." aria-label="Buscar" />
+        <button type="button" class="boton_icono_marco_admin" aria-label="Notificaciones">
+          &#128276;<span class="punto_marco_admin"></span>
         </button>
-        <button type="button" class="admin-layout__icon-btn" aria-label="Nuevo">+</button>
+        <button type="button" class="boton_icono_marco_admin" aria-label="Nuevo">+</button>
       </div>
     </header>
 
-    <main class="admin-layout__main">
+    <main class="principal_marco_admin">
       <router-outlet />
     </main>
   </div>

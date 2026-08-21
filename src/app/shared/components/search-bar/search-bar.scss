@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.search-bar {
+.barra_busqueda {
   display: flex;
   gap: v.$space-2;
   padding: v.$space-2;
@@ -15,39 +15,43 @@
     border-radius: v.$radius-lg;
   }
 
-  &__field {
-    position: relative;
-    flex: 1;
-
-    &--city { flex: 0 0 220px; }
-
-    @include m.until(v.$bp-md) {
-      &--city { flex: 1; }
-    }
+  button {
+    border-radius: v.$radius-pill;
+    padding-inline: v.$space-6;
   }
+}
 
-  &__icon {
-    position: absolute;
-    top: 50%;
-    left: v.$space-3;
-    transform: translateY(-50%);
-    font-size: v.$font-size-sm;
-    opacity: 0.6;
-    pointer-events: none;
-  }
+.campo_barra_busqueda {
+  position: relative;
+  flex: 1;
+}
 
-  &__input {
-    width: 100%;
-    padding: v.$space-3 v.$space-4 v.$space-3 v.$space-7;
-    border: none;
-    background: transparent;
-    font-family: inherit;
-    font-size: v.$font-size-sm;
-    color: v.$color-text;
+// La ciudad ocupa menos que el termino de busqueda, salvo en movil.
+.campo_barra_busqueda_ciudad {
+  flex: 0 0 220px;
 
-    &::placeholder { color: v.$color-text-muted; }
-    &:focus { outline: none; }
-  }
+  @include m.until(v.$bp-md) { flex: 1; }
+}
 
-  button { border-radius: v.$radius-pill; padding-inline: v.$space-6; }
+.icono_barra_busqueda {
+  position: absolute;
+  top: 50%;
+  left: v.$space-3;
+  transform: translateY(-50%);
+  font-size: v.$font-size-sm;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.entrada_barra_busqueda {
+  width: 100%;
+  padding: v.$space-3 v.$space-4 v.$space-3 v.$space-7;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: v.$font-size-sm;
+  color: v.$color-text;
+
+  &::placeholder { color: v.$color-text-muted; }
+  &:focus { outline: none; }
 }

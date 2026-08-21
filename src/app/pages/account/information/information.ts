@@ -30,9 +30,9 @@ export class AccountInfoPage implements OnInit {
   }
 
   badgeClass(estado: string): string {
-    if (estado === 'entregado') return 'badge-success';
-    if (estado === 'enviado') return 'badge-info';
-    if (estado === 'cancelado') return 'badge-danger';
-    return 'badge-warning';
+    if (estado === 'entregado') return 'pildora_exito';
+    if (estado === 'enviado') return 'pildora_info';
+    if (estado === 'cancelado') return 'pildora_error';
+    return 'pildora_aviso';
   }
 }

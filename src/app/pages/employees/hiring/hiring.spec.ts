@@ -16,6 +16,7 @@ describe('HiringPage', () => {
 
     fixture = TestBed.createComponent(HiringPage);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('id', '1');
     await fixture.whenStable();
   });
 

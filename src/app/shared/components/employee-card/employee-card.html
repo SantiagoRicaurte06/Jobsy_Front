@@ -1,10 +1,10 @@
-<article class="employee-card">
+<article class="tarjeta_empleado">
   @if (employee().disponible) {
-    <span class="employee-card__available badge-success">Disponible</span>
+    <span class="disponible_tarjeta_empleado pildora_exito">Disponible</span>
   }
 
-  <header class="employee-card__head">
-    <div class="employee-card__avatar">
+  <header class="encabezado_tarjeta_empleado">
+    <div class="avatar_tarjeta_empleado">
       @if (employee().fotoUrl) {
         <img [src]="employee().fotoUrl" [alt]="employee().nombre" />
       } @else {
@@ -12,34 +12,34 @@
       }
     </div>
 
-    <h3 class="employee-card__name">{{ employee().nombre }}</h3>
+    <h3 class="nombre_tarjeta_empleado">{{ employee().nombre }}</h3>
 
     @if (employee().verificado) {
-      <span class="employee-card__verified badge-info">
+      <span class="verificado_tarjeta_empleado pildora_info">
         <span aria-hidden="true">&#10004;</span> Empleado de Hogar
       </span>
     }
   </header>
 
-  <p class="employee-card__desc">{{ employee().descripcion }}</p>
+  <p class="descripcion_tarjeta_empleado">{{ employee().descripcion }}</p>
 
-  <div class="employee-card__rating">
+  <div class="valoracion_tarjeta_empleado">
     <jobsy-rating-stars [value]="employee().calificacion" [reviews]="employee().totalServicios" />
   </div>
 
-  <p class="employee-card__exp">
+  <p class="experiencia_tarjeta_empleado">
     <span aria-hidden="true">&#128188;</span> {{ employee().experiencia }}
   </p>
 
-  <ul class="employee-card__skills">
+  <ul class="habilidades_tarjeta_empleado">
     @for (skill of employee().especialidades; track skill) {
-      <li class="badge-info">{{ skill }}</li>
+      <li class="pildora_info">{{ skill }}</li>
     }
   </ul>
 
-  <footer class="employee-card__actions">
-    <a class="btn-ghost btn-sm" [routerLink]="['/empleados', employee().id]">Ver perfil</a>
-    <button type="button" class="btn-secondary btn-sm" (click)="solicitar.emit(employee())">
+  <footer class="acciones_tarjeta_empleado">
+    <a class="boton_simple boton_chico" [routerLink]="['/empleados', employee().id]">Ver perfil</a>
+    <button type="button" class="boton_secundario boton_chico" (click)="solicitar.emit(employee())">
       Solicitar
     </button>
   </footer>

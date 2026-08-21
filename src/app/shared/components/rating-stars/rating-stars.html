@@ -1,15 +1,15 @@
-<div class="rating-stars">
-  <span class="rating-stars__icons" [attr.aria-label]="'Calificacion ' + value() + ' de 5'">
+<div class="estrellas">
+  <span class="iconos_estrellas" [attr.aria-label]="'Calificacion ' + value() + ' de 5'">
     @for (filled of stars(); track $index) {
-      <span class="rating-stars__star" [class.is-filled]="filled">&#9733;</span>
+      <span class="estrella" [class.is-filled]="filled">&#9733;</span>
     }
   </span>
 
   @if (showValue()) {
-    <strong class="rating-stars__value">{{ value().toFixed(1) }}</strong>
+    <strong class="valor_estrellas">{{ value().toFixed(1) }}</strong>
   }
 
   @if (reviews() !== null) {
-    <span class="rating-stars__reviews">({{ reviews() }})</span>
+    <span class="resenas_estrellas">({{ reviews() }})</span>
   }
 </div>

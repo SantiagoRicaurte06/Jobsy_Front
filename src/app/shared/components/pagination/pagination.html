@@ -1,8 +1,8 @@
 @if (totalPages() > 1) {
-  <nav class="pagination" aria-label="Paginacion">
+  <nav class="paginado" aria-label="Paginacion">
     <button
       type="button"
-      class="pagination__arrow"
+      class="flecha_paginado"
       [disabled]="!canPrev()"
       (click)="go(page() - 1)"
       aria-label="Pagina anterior">
@@ -12,7 +12,7 @@
     @for (p of pages(); track p) {
       <button
         type="button"
-        class="pagination__page"
+        class="pagina_paginado"
         [class.is-active]="p === page()"
         [attr.aria-current]="p === page() ? 'page' : null"
         (click)="go(p)">
@@ -22,7 +22,7 @@
 
     <button
       type="button"
-      class="pagination__arrow"
+      class="flecha_paginado"
       [disabled]="!canNext()"
       (click)="go(page() + 1)"
       aria-label="Pagina siguiente">
