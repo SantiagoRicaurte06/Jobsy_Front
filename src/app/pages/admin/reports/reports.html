@@ -1,4 +1,121 @@
-<!-- TODO: maquetar "Reportes (admin)" -->
-<section class="reportes_admin">
-  <h1>Reportes</h1>
+<section class="admin-reports">
+  <header class="admin-reports__head">
+    <div>
+      <h1 class="admin-reports__title">Reportes</h1>
+      <p class="admin-reports__subtitle">Atiende las incidencias que reportan los usuarios</p>
+    </div>
+  </header>
+
+  @if (aviso()) {
+    <p class="admin-reports__aviso" role="status">&#10004; {{ aviso() }}</p>
+  }
+
+  <!-- Resumen -->
+  <div class="admin-reports__stats">
+    <div class="card admin-reports__stat admin-reports__stat--danger">
+      <strong>{{ abiertos() }}</strong>
+      <span>Abiertos</span>
+    </div>
+    <div class="card admin-reports__stat admin-reports__stat--info">
+      <strong>{{ enProceso() }}</strong>
+      <span>En proceso</span>
+    </div>
+    <div class="card admin-reports__stat admin-reports__stat--ok">
+      <strong>{{ resueltos() }}</strong>
+      <span>Resueltos</span>
+    </div>
+    <div class="card admin-reports__stat">
+      <strong>{{ reports().length }}</strong>
+      <span>Total</span>
+    </div>
+  </div>
+
+  <div class="card admin-reports__panel">
+    <!-- Filtros -->
+    <nav class="admin-reports__filtros">
+      @for (f of filtros; track f.value) {
+        <button type="button" [class.is-active]="filtro() === f.value"
+          (click)="filtro.set(f.value)">{{ f.label }}</button>
+      }
+    </nav>
+
+    @if (visibles().length === 0) {
+      <jobsy-empty-state icon="&#128203;" title="Sin reportes"
+        message="No hay reportes con ese estado." />
+    } @else {
+      <ul class="admin-reports__list">
+        @for (r of visibles(); track r.id) {
+          <li class="admin-reports__item">
+            <span class="admin-reports__icon" aria-hidden="true">{{ iconoTipo(r.tipo) }}</span>
+
+            <div class="admin-reports__info">
+              <div class="admin-reports__info-head">
+                <strong>{{ r.asunto }}</strong>
+                <span class="badge-info">{{ r.tipo }}</span>
+              </div>
+              <p class="admin-reports__desc">{{ r.descripcion }}</p>
+              <span class="text-xs text-muted">
+                {{ r.reportanteId }} &middot; {{ r.fecha }}
+              </span>
+            </div>
+
+            <!-- Estado editable directamente en la lista -->
+            <select class="admin-reports__estado" [class]="badgeClass(r.estado)"
+              [ngModel]="r.estado" (ngModelChange)="cambiarEstado(r, $event)"
+              [name]="'estado' + r.id" aria-label="Estado del reporte">
+              @for (e of estados; track e) {
+                <option [value]="e">{{ etiqueta(e) }}</option>
+              }
+            </select>
+
+            <div class="admin-reports__actions">
+              <button type="button" class="btn-ghost btn-sm" (click)="abrir(r)">Atender</button>
+              <button type="button" class="admin-reports__delete" (click)="eliminar(r)">
+                Eliminar
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
 </section>
+
+<!-- ============ Detalle del reporte ============ -->
+@if (seleccionado(); as r) {
+  <jobsy-modal [title]="r.asunto" [subtitle]="r.tipo + ' · ' + r.fecha" (cerrar)="cerrarDetalle()">
+    <dl class="admin-reports__detalle">
+      <div>
+        <dt>Reportado por</dt>
+        <dd>{{ r.reportanteId }}</dd>
+      </div>
+      <div>
+        <dt>Estado actual</dt>
+        <dd><span [class]="badgeClass(r.estado)">{{ etiqueta(r.estado) }}</span></dd>
+      </div>
+    </dl>
+
+    <div class="admin-reports__mensaje">
+      <h3>Descripcion</h3>
+      <p>{{ r.descripcion }}</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="respuesta">Respuesta al usuario</label>
+      <textarea id="respuesta" class="form-textarea"
+        placeholder="Explica que se hizo para solucionar el caso."
+        [ngModel]="respuesta()" (ngModelChange)="respuesta.set($event)" name="respuesta"></textarea>
+      <p class="form-hint">
+        TEMPORAL: la respuesta aun no se envia. Se conectara con Soporte_API.
+      </p>
+    </div>
+
+    <footer class="admin-reports__modal-actions">
+      <button type="button" class="btn-ghost" (click)="cerrarDetalle()">Cerrar</button>
+      <button type="button" class="btn-secondary" (click)="cambiarEstado(r, 'en_proceso')">
+        Marcar en proceso
+      </button>
+      <button type="button" class="btn-primary" (click)="resolver()">Resolver</button>
+    </footer>
+  </jobsy-modal>
+}
