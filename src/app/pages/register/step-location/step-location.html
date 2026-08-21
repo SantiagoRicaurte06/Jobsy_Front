@@ -17,7 +17,7 @@
 
     <div>
       <label class="btn-ghost-sm" for="foto">Subir Foto</label>
-      <input id="foto" type="file" accept="image/*" class="visually-hidden" (change)="onFile($event)" />
+      <input id="foto" type="file" accept="image/*" class="visually-hidden" (change)="onlife($event)" />
       <p class="form-hint">JPG o PNG, Maximo 2 MB.</p>
     </div>
 
@@ -25,7 +25,7 @@
       <label class="form-label" for="ciudad">Ciudad</label>
       <select id="ciudad" class="form-select"
         [ngModel]="ciudad()" (ngModelChange)="ciudad.set($event)" name="ciudad">
-        @for (c of ciudades; track c) {
+        @for (c of Ciudades; track c) {
           <option [value]="c">{{ c }}</option>
         }
       </select>
