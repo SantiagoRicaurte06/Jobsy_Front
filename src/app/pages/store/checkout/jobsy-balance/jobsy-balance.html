@@ -1,4 +1,60 @@
-<!-- TODO: maquetar "Saldo Jobsy" segun el diseno de Figma -->
-<section class="saldo">
-  <h1>Saldo Jobsy</h1>
+<section class="balance">
+  <h2 class="balance__title">Saldo Jobsy</h2>
+  <p class="balance__subtitle">Paga al instante con el saldo de tu cuenta.</p>
+
+  <!-- Tarjeta de saldo -->
+  <div class="balance__card">
+    <span class="balance__label">Saldo disponible</span>
+    <strong class="balance__amount">${{ saldo().toLocaleString('es-CO') }}</strong>
+  </div>
+
+  <!-- Calculo del pago -->
+  <dl class="balance__calc">
+    <div>
+      <dt>Total del pedido</dt>
+      <dd>${{ cart.total().toLocaleString('es-CO') }}</dd>
+    </div>
+
+    @if (suficiente()) {
+      <div class="balance__calc-ok">
+        <dt>Saldo restante</dt>
+        <dd>${{ restante().toLocaleString('es-CO') }}</dd>
+      </div>
+    } @else {
+      <div class="balance__calc-bad">
+        <dt>Saldo faltante</dt>
+        <dd>${{ faltante().toLocaleString('es-CO') }}</dd>
+      </div>
+    }
+  </dl>
+
+  @if (suficiente()) {
+    <button type="button" class="btn-primary btn-block" [disabled]="procesando()" (click)="pagar()">
+      {{ procesando() ? 'Procesando...' : 'Pagar con saldo Jobsy' }}
+    </button>
+  } @else {
+    <p class="balance__warning">
+      No tienes saldo suficiente. Recarga tu cuenta o elige otro metodo de pago.
+    </p>
+    <button type="button" class="btn-secondary btn-block">Recargar saldo</button>
+  }
+
+  <!-- Movimientos -->
+  <section class="balance__history">
+    <h3>Movimientos recientes</h3>
+
+    <ul>
+      @for (mov of movimientos; track mov.concepto) {
+        <li>
+          <div>
+            <strong>{{ mov.concepto }}</strong>
+            <span class="text-xs text-muted">{{ mov.fecha }}</span>
+          </div>
+          <span [class.balance__in]="mov.monto > 0" [class.balance__out]="mov.monto < 0">
+            {{ formatear(mov.monto) }}
+          </span>
+        </li>
+      }
+    </ul>
+  </section>
 </section>

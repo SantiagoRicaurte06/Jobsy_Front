@@ -1,6 +1,39 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.pago_tarjeta {
-  // TODO: estilos de "Pago con Tarjeta"
+.card-pay {
+  &__title {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-lg;
+  }
+
+  &__subtitle {
+    margin: 0 0 v.$space-4;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+
+  &__demo {
+    padding: v.$space-3;
+    margin-bottom: v.$space-5;
+    background: v.$color-warning-pale;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-xs;
+    color: v.$color-warning;
+    line-height: 1.6;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-3;
+
+    @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+  }
+
+  &__save {
+    margin-bottom: v.$space-4;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
 }

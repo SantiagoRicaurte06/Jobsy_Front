@@ -1,6 +1,123 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.pagar {
-  // TODO: estilos de "Checkout"
+.checkout {
+  padding-block: v.$space-6;
+
+  &__title {
+    margin: 0 0 v.$space-5;
+    font-size: v.$font-size-xl;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+    gap: v.$space-5;
+
+    @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+  }
+
+  // ---- Pestanas de metodo ----
+  &__methods {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: v.$space-2;
+    margin-bottom: v.$space-4;
+
+    @include m.until(v.$bp-sm) { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  &__method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: v.$space-1;
+    padding: v.$space-3;
+    background: v.$color-surface;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-md;
+    color: v.$color-text;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-medium;
+    text-align: center;
+    transition: all v.$transition-fast;
+
+    span { font-size: v.$font-size-lg; }
+
+    &:hover {
+      border-color: v.$color-primary-light;
+      text-decoration: none;
+    }
+
+    &.is-active {
+      border-color: v.$color-accent;
+      background: v.$color-accent-pale;
+      color: v.$color-accent-dark;
+      font-weight: v.$font-weight-semibold;
+    }
+  }
+
+  &__panel { padding: v.$space-5; }
+
+  // ---- Resumen ----
+  &__summary {
+    padding: v.$space-5;
+    position: sticky;
+    top: calc(#{v.$header-height} + #{v.$space-4});
+
+    @include m.until(v.$bp-lg) { position: static; }
+  }
+
+  &__summary-title {
+    margin: 0 0 v.$space-4;
+    font-size: v.$font-size-base;
+  }
+
+  &__items {
+    margin-bottom: v.$space-4;
+    padding-bottom: v.$space-4;
+    border-bottom: 1px solid v.$color-border;
+
+    li {
+      display: flex;
+      gap: v.$space-2;
+      margin-bottom: v.$space-2;
+      font-size: v.$font-size-xs;
+    }
+  }
+
+  &__item-qty { color: v.$color-text-muted; }
+
+  &__item-name {
+    flex: 1;
+    @include m.line-clamp(1);
+  }
+
+  &__lines {
+    > div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: v.$space-2;
+      font-size: v.$font-size-sm;
+    }
+
+    dt { color: v.$color-text-muted; }
+    dd { margin: 0; }
+  }
+
+  &__lines-total {
+    padding-top: v.$space-3;
+    border-top: 1px solid v.$color-border;
+    font-weight: v.$font-weight-semibold;
+
+    dd { font-size: v.$font-size-lg; }
+  }
+
+  &__back {
+    display: block;
+    margin-top: v.$space-4;
+    font-size: v.$font-size-xs;
+    text-align: center;
+  }
 }
