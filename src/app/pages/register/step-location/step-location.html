@@ -1,4 +1,64 @@
-<!-- TODO: maquetar "Paso 3 - Ubicacion y foto" segun el diseno de Figma -->
-<section class="paso_ubicacion">
-  <h1>Paso 3 - Ubicacion y foto</h1>
-</section>
+
+<div class="step-location card">
+  <jobsy-step-progress [steps]="steps" [current]="2" />
+
+  <h1 class="step-location__title">Ubicacion Y Foto</h1>
+  <p class="step-location__subtitle">Ultimo Paso. Asi los Empleadores Cercanos Podran Encontrarse. </p>
+
+  <form (ngSubmit)="finish()">
+    <!--FOTO DE PERFIL-->
+    <div class="form-group step-location__photo-group">
+      @if (fotoPreview()) {
+        <img [src]="fotoPreview()" alt="Vista Previa De Tu Foto" />
+      } @else {
+        <span aria-hidden="true">&#128247;</span>
+      }
+    </div>
+
+    <div>
+      <label class="btn-ghost-sm" for="foto">Subir Foto</label>
+      <input id="foto" type="file" accept="image/*" class="visually-hidden" (change)="onFile($event)" />
+      <p class="form-hint">JPG o PNG, Maximo 2 MB.</p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="ciudad">Ciudad</label>
+      <select id="ciudad" class="form-select"
+        [ngModel]="ciudad()" (ngModelChange)="ciudad.set($event)" name="ciudad">
+        @for (c of ciudades; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="barrio">Barrio o zona</label>
+      <input id="barrio" type="text" class="form-input" placeholder="Ej: El Alcaravan"
+        [ngModel]="barrio()" (ngModelChange)="barrio.set($event)" name="barrio" />
+    </div>
+
+    <!-- Radio De Trabajo -->
+     <div class="form-group">
+      <label class="form-label" for="distancia">
+        Distancia Maxima De Trabajo: <strong>{{ distanciaKm() }} Km</strong>
+        </label>
+        <input id="distancia" type="range" min="1" max="50" class="step-location__range"
+        [ngModel]="distanciaKm()" (ngModelChange)="distanciaKm.set(+$event)" name="distancia" />
+        <div class="step-location__range-labels">
+          <span>1 Km</span>
+          <span>50 Km</span>
+        </div>
+     </div>
+
+     @if (error()) {
+      <p class="form-error" role="alert">{{ error() }}</p>
+     }
+
+     <div class="step-location__actions">
+      <button type="button" class="btn-ghots" (click)="back()">Atras</button>
+      <button type="submit" class="btn-primary" [disabled]="loading()">
+        {{ loading() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
+      </button>
+     </div>
+  </form>
+</div>
