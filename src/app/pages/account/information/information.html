@@ -1,27 +1,27 @@
 @if (loading()) {
   <jobsy-loading-spinner />
 } @else {
-  <div class="account-info">
+  <div class="info_cuenta">
     <!-- Datos de la cuenta -->
-    <section class="card account-info__block">
-      <div class="account-info__head">
+    <section class="tarjeta bloque_info_cuenta">
+      <div class="encabezado_info_cuenta">
         <h2>Informacion de la cuenta</h2>
-        <a routerLink="/app/perfil/editar" class="btn-ghost btn-sm">Editar</a>
+        <a routerLink="/app/perfil/editar" class="boton_simple boton_chico">Editar</a>
       </div>
 
-      <dl class="account-info__data">
+      <dl class="datos_info_cuenta">
         <div><dt>Nombre completo</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
         <div><dt>Correo electronico</dt><dd>{{ user()?.email }}</dd></div>
         <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
         <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
-        <div><dt>Tipo de cuenta</dt><dd class="account-info__role">{{ user()?.rol }}</dd></div>
+        <div><dt>Tipo de cuenta</dt><dd class="rol_info_cuenta">{{ user()?.rol }}</dd></div>
         <div>
           <dt>Estado</dt>
           <dd>
             @if (user()?.verificado) {
-              <span class="badge-success">Verificada</span>
+              <span class="pildora_exito">Verificada</span>
             } @else {
-              <span class="badge-warning">Pendiente de verificar</span>
+              <span class="pildora_aviso">Pendiente de verificar</span>
             }
           </dd>
         </div>
@@ -30,14 +30,14 @@
     </section>
 
     <!-- Historial de pedidos -->
-    <section class="card account-info__block">
+    <section class="tarjeta bloque_info_cuenta">
       <h2>Mis pedidos</h2>
 
       @if (orders().length === 0) {
-        <p class="account-info__empty">Aun no has hecho pedidos en la tienda.</p>
+        <p class="vacio_info_cuenta">Aun no has hecho pedidos en la tienda.</p>
       } @else {
-        <div class="account-info__table-wrap">
-          <table class="account-info__table">
+        <div class="caja_tabla_info_cuenta">
+          <table class="tabla_info_cuenta">
             <thead>
               <tr>
                 <th>Pedido</th>
@@ -53,7 +53,7 @@
                   <td><strong>{{ order.numero }}</strong></td>
                   <td>{{ order.fecha }}</td>
                   <td>{{ order.items.length }}</td>
-                  <td class="text-price">{{ order.total | cop }}</td>
+                  <td class="precio">{{ order.total | cop }}</td>
                   <td><span [class]="badgeClass(order.estado)">{{ order.estado }}</span></td>
                 </tr>
               }

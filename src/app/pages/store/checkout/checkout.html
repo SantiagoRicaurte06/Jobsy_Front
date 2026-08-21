@@ -1,4 +1,47 @@
-<!-- TODO: maquetar "Checkout" segun el diseno de Figma -->
-<section class="checkout">
-  <h1>Checkout</h1>
-</section>
+<div class="container checkout">
+  <h1 class="checkout__title">Finalizar compra</h1>
+
+  <div class="checkout__grid">
+    <div class="checkout__main">
+      <!-- Selector de metodo de pago -->
+      <nav class="checkout__methods">
+        @for (method of methods; track method.path) {
+          <a [routerLink]="method.path" routerLinkActive="is-active" class="checkout__method">
+            <span aria-hidden="true">{{ method.icon }}</span>
+            {{ method.label }}
+          </a>
+        }
+      </nav>
+
+      <div class="checkout__panel card">
+        <router-outlet />
+      </div>
+    </div>
+
+    <!-- Resumen -->
+    <aside class="checkout__summary card">
+      <h2 class="checkout__summary-title">Tu pedido</h2>
+
+      <ul class="checkout__items">
+        @for (item of cart.items(); track item.product.id) {
+          <li>
+            <span class="checkout__item-qty">{{ item.cantidad }}&times;</span>
+            <span class="checkout__item-name">{{ item.product.nombre }}</span>
+            <span>{{ item.product.precio * item.cantidad | cop }}</span>
+          </li>
+        }
+      </ul>
+
+      <dl class="checkout__lines">
+        <div><dt>Subtotal</dt><dd>{{ cart.subtotal() | cop }}</dd></div>
+        <div><dt>Envio</dt><dd>{{ cart.envio() | cop }}</dd></div>
+        <div class="checkout__lines-total">
+          <dt>Total</dt>
+          <dd class="text-price">{{ cart.total() | cop }}</dd>
+        </div>
+      </dl>
+
+      <a routerLink="/tienda/carrito" class="checkout__back">&#8592; Volver al carrito</a>
+    </aside>
+  </div>
+</div>

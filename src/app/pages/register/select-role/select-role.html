@@ -1,24 +1,24 @@
 
-<div class="select-role card">
-  <header class="select-role__head">
-    <jobsy-logo variant="color" size="lg" />
-    <h1 class="select-role__title">&iquest;Como Quieres Usar Jobsy?</h1>
-    <p class="select-role__subtitle">Elige Tu Rol. Podrás Cambiarlo Más Adelante</p>
+<div class="elegir_rol tarjeta">
+  <header class="encabezado_elegir_rol">
+    <jobsy-logo variant="color" size="grande" />
+    <h1 class="titulo_elegir_rol">&iquest;Como Quieres Usar Jobsy?</h1>
+    <p class="subtitulo_elegir_rol">Elige Tu Rol. Podrás Cambiarlo Más Adelante</p>
   </header>
 
-  <div class="select-role__options">
+  <div class="opciones_elegir_rol">
     @for (role of roles; track role.value) {
       <button
         type="button"
-        class="select-role__option"
+        class="opcion_elegir_rol"
         [class.is-selected]="selected() === role.value"
         [attr.aria-pressed]="selected() === role.value"
         (click)="select(role.value)">
-      <span class="select-role__icon" aria-hidden="true">{{ role.icon }}</span>
-      <strong class="select-role__option-title">{{ role.title }}</strong>
-      <span class="select-role__option-text">{{ role.text }}</span>
+      <span class="icono_elegir_rol" aria-hidden="true">{{ role.icon }}</span>
+      <strong class="titulo_opcion_elegir_rol">{{ role.title }}</strong>
+      <span class="texto_opcion_elegir_rol">{{ role.text }}</span>
 
-      <ul class="select-role__perks">
+      <ul class="beneficios_elegir_rol">
         @for (perk of role.perks; track perk) {
           <li>&#10004; {{ perk }}</li>
         }
@@ -29,7 +29,7 @@
     }
   </div>
 
-  <button type="button" class="btn-primary btn-block" [disabled]="!selected()" (click)="continue()">
+  <button type="button" class="boton_principal boton_ancho" [disabled]="!selected()" (click)="continue()">
     Continuar
   </button>
 </div>

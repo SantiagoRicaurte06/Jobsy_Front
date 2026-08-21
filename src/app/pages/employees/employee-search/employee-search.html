@@ -1,23 +1,23 @@
-<section class="employees-hero">
-  <div class="employees-hero__inner">
+<section class="portada_empleados">
+  <div class="interior_portada_empleados">
     <div>
-      <h1 class="employees-hero__title">ENCUENTRA EMPLEADOS</h1>
-      <p class="employees-hero__text">Perfiles verificados y calificados por otros hogares de tu ciudad.</p>
+      <h1 class="titulo_portada_empleados">ENCUENTRA EMPLEADOS</h1>
+      <p class="texto_portada_empleados">Perfiles verificados y calificados por otros hogares de tu ciudad.</p>
     </div>
 
-    <a routerLink="/publicar-oferta" class="btn-primary">Publicar una oferta</a>
+    <a routerLink="/publicar-oferta" class="boton_principal">Publicar una oferta</a>
   </div>
 </section>
 
-<div class="container employee-search">
+<div class="contenedor buscar_empleados">
   <jobsy-search-bar
     placeholder="Buscar por nombre o especialidad..."
     (buscar)="buscar($event)" />
 
-  <div class="section-head employee-search__head">
+  <div class="encabezado_seccion encabezado_buscar_empleados">
     <h2>Empleados disponibles</h2>
     @if (!loading()) {
-      <p class="text-sm text-muted">{{ total() }} perfiles</p>
+      <p class="texto_chico texto_gris">{{ total() }} perfiles</p>
     }
   </div>
 
@@ -29,7 +29,7 @@
       title="Sin resultados"
       message="No encontramos empleados con ese criterio. Prueba otra busqueda." />
   } @else {
-    <div class="employee-search__grid">
+    <div class="rejilla_buscar_empleados">
       @for (employee of employees(); track employee.id) {
         <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />
       }

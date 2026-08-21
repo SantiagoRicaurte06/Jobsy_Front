@@ -1,4 +1,59 @@
-<!-- TODO: maquetar "Pago con Tarjeta" segun el diseno de Figma -->
-<section class="card">
-  <h1>Pago con Tarjeta</h1>
+<section class="card-pay">
+  <h2 class="card-pay__title">Pago con tarjeta</h2>
+  <p class="card-pay__subtitle">Aceptamos Visa, Mastercard y American Express.</p>
+
+  <!-- Formulario simulado: no hay pasarela conectada ni se almacena nada. -->
+  <p class="card-pay__demo">
+    &#9888; Modo demostracion: no ingreses datos reales de tu tarjeta.
+    Este formulario no esta conectado a ninguna pasarela.
+  </p>
+
+  <form (ngSubmit)="pagar()">
+    <div class="form-group">
+      <label class="form-label" for="numero">Numero de tarjeta</label>
+      <input id="numero" type="text" class="form-input" placeholder="0000 0000 0000 0000"
+        inputmode="numeric" maxlength="19"
+        [ngModel]="numero()" (ngModelChange)="numero.set($event)" name="numero" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="titular">Nombre del titular</label>
+      <input id="titular" type="text" class="form-input" placeholder="Como aparece en la tarjeta"
+        [ngModel]="titular()" (ngModelChange)="titular.set($event)" name="titular" />
+    </div>
+
+    <div class="card-pay__row">
+      <div class="form-group">
+        <label class="form-label" for="venc">Vencimiento</label>
+        <input id="venc" type="text" class="form-input" placeholder="MM/AA" maxlength="5"
+          [ngModel]="vencimiento()" (ngModelChange)="vencimiento.set($event)" name="venc" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cvv">CVV</label>
+        <input id="cvv" type="text" class="form-input" placeholder="123" maxlength="4"
+          inputmode="numeric"
+          [ngModel]="cvv()" (ngModelChange)="cvv.set($event)" name="cvv" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="cuotas">Numero de cuotas</label>
+      <select id="cuotas" class="form-select"
+        [ngModel]="cuotas()" (ngModelChange)="cuotas.set(+$event)" name="cuotas">
+        @for (c of opcionesCuotas; track c) {
+          <option [value]="c">{{ c }} {{ c === 1 ? 'cuota' : 'cuotas' }}</option>
+        }
+      </select>
+    </div>
+
+    <label class="form-check card-pay__save">
+      <input type="checkbox" [ngModel]="guardar()" (ngModelChange)="guardar.set($event)" name="guardar" />
+      Guardar esta tarjeta para futuras compras
+    </label>
+
+    <button type="submit" class="btn-primary btn-block" [disabled]="procesando()">
+      {{ procesando() ? 'Procesando pago...' : 'Pagar con tarjeta' }}
+    </button>
+  </form>
 </section>

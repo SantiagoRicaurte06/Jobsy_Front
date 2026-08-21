@@ -50,20 +50,20 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 // ============================================================
 //  Utilidades
 // ============================================================
-.container { @include m.container; }
-.card      { @include m.card; }
+.contenedor { @include m.container; }
+.tarjeta      { @include m.card; }
 
 // ---- Botones ----
-.btn-primary   { @include m.btn-primary; }
-.btn-secondary { @include m.btn-secondary; }
-.btn-outline   { @include m.btn-outline; }
-.btn-ghost     { @include m.btn-ghost; }
+.boton_principal   { @include m.btn-primary; }
+.boton_secundario { @include m.btn-secondary; }
+.boton_borde   { @include m.btn-outline; }
+.boton_simple     { @include m.btn-ghost; }
 
 // Los botones son inline-flex para poder centrar icono + texto.
-.btn-primary,
-.btn-secondary,
-.btn-outline,
-.btn-ghost {
+.boton_principal,
+.boton_secundario,
+.boton_borde,
+.boton_simple {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -76,34 +76,34 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   &:hover { text-decoration: none; }
 }
 
-.btn-sm {
+.boton_chico {
   padding: v.$space-2 v.$space-3;
   font-size: v.$font-size-xs;
 }
 
-.btn-block { width: 100%; }
+.boton_ancho { width: 100%; }
 
 // ---- Formularios ----
-.form-group  { margin-bottom: v.$space-4; }
-.form-label  { @include m.form-label; }
-.form-input,
-.form-select,
-.form-textarea { @include m.input; }
-.form-textarea { min-height: 120px; resize: vertical; }
+.grupo_campo  { margin-bottom: v.$space-4; }
+.etiqueta  { @include m.form-label; }
+.campo,
+.lista,
+.area_texto { @include m.input; }
+.area_texto { min-height: 120px; resize: vertical; }
 
-.form-error {
+.error {
   margin-top: v.$space-1;
   font-size: v.$font-size-xs;
   color: v.$color-danger;
 }
 
-.form-hint {
+.ayuda {
   margin-top: v.$space-1;
   font-size: v.$font-size-xs;
   color: v.$color-text-muted;
 }
 
-.form-check {
+.casilla {
   display: flex;
   align-items: center;
   gap: v.$space-2;
@@ -114,14 +114,14 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 // ---- Badges de estado ----
-.badge-success { @include m.badge(v.$color-success-pale, v.$color-success); }
-.badge-warning { @include m.badge(v.$color-warning-pale, v.$color-warning); }
-.badge-danger  { @include m.badge(v.$color-danger-pale, v.$color-danger); }
-.badge-info    { @include m.badge(v.$color-info-pale, v.$color-primary); }
-.badge-accent  { @include m.badge(v.$color-accent-pale, v.$color-accent-dark); }
+.pildora_exito { @include m.badge(v.$color-success-pale, v.$color-success); }
+.pildora_aviso { @include m.badge(v.$color-warning-pale, v.$color-warning); }
+.pildora_error  { @include m.badge(v.$color-danger-pale, v.$color-danger); }
+.pildora_info    { @include m.badge(v.$color-info-pale, v.$color-primary); }
+.pildora_naranja  { @include m.badge(v.$color-accent-pale, v.$color-accent-dark); }
 
 // ---- Cabecera de seccion ----
-.section-head {
+.encabezado_seccion {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -132,12 +132,12 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 // ---- Texto ----
-.text-muted { color: v.$color-text-muted; }
-.text-sm    { font-size: v.$font-size-sm; }
-.text-xs    { font-size: v.$font-size-xs; }
-.text-price {
+.texto_gris { color: v.$color-text-muted; }
+.texto_chico    { font-size: v.$font-size-sm; }
+.texto_mini    { font-size: v.$font-size-xs; }
+.precio {
   color: v.$color-accent;
   font-weight: v.$font-weight-bold;
 }
 
-.visually-hidden { @include m.visually-hidden; }
+.oculto { @include m.visually-hidden; }

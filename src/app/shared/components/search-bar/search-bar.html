@@ -1,9 +1,9 @@
-<form class="search-bar" (ngSubmit)="submit()">
-  <div class="search-bar__field">
-    <span class="search-bar__icon" aria-hidden="true">&#128269;</span>
+<form class="barra_busqueda" (ngSubmit)="submit()">
+  <div class="campo_barra_busqueda">
+    <span class="icono_barra_busqueda" aria-hidden="true">&#128269;</span>
     <input
       type="search"
-      class="search-bar__input"
+      class="entrada_barra_busqueda"
       [placeholder]="placeholder()"
       [ngModel]="termino()"
       (ngModelChange)="termino.set($event)"
@@ -12,11 +12,11 @@
   </div>
 
   @if (showCity()) {
-    <div class="search-bar__field search-bar__field--city">
-      <span class="search-bar__icon" aria-hidden="true">&#128205;</span>
+    <div class="campo_barra_busqueda campo_barra_busqueda_ciudad">
+      <span class="icono_barra_busqueda" aria-hidden="true">&#128205;</span>
       <input
         type="text"
-        class="search-bar__input"
+        class="entrada_barra_busqueda"
         placeholder="Yopal, Casanare"
         [ngModel]="ciudad()"
         (ngModelChange)="ciudad.set($event)"
@@ -25,5 +25,5 @@
     </div>
   }
 
-  <button type="submit" class="btn-secondary">Buscar</button>
+  <button type="submit" class="boton_secundario">Buscar</button>
 </form>

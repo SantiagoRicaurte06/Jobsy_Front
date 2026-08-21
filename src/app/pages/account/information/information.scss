@@ -1,76 +1,74 @@
 @use 'variables' as v;
 
-.account-info {
-  &__block {
-    padding: v.$space-5;
-    margin-bottom: v.$space-4;
+.bloque_info_cuenta {
+  padding: v.$space-5;
+  margin-bottom: v.$space-4;
 
-    h2 { margin: 0 0 v.$space-4; font-size: v.$font-size-base; }
-  }
+  h2 { margin: 0 0 v.$space-4; font-size: v.$font-size-base; }
+}
 
-  &__head {
+.encabezado_info_cuenta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  margin-bottom: v.$space-4;
+
+  h2 { margin: 0; }
+}
+
+.datos_info_cuenta {
+  > div {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: v.$space-3;
-    margin-bottom: v.$space-4;
-
-    h2 { margin: 0; }
-  }
-
-  &__data {
-    > div {
-      display: flex;
-      justify-content: space-between;
-      gap: v.$space-3;
-      padding-block: v.$space-3;
-      border-bottom: 1px solid v.$color-border;
-      font-size: v.$font-size-sm;
-
-      &:last-child { border-bottom: none; }
-    }
-
-    dt { color: v.$color-text-muted; }
-    dd { margin: 0; font-weight: v.$font-weight-medium; text-align: right; }
-  }
-
-  &__role { text-transform: capitalize; }
-
-  &__empty {
-    padding: v.$space-4;
-    background: v.$color-bg;
-    border-radius: v.$radius-md;
+    padding-block: v.$space-3;
+    border-bottom: 1px solid v.$color-border;
     font-size: v.$font-size-sm;
+
+    &:last-child { border-bottom: none; }
+  }
+
+  dt { color: v.$color-text-muted; }
+  dd { margin: 0; font-weight: v.$font-weight-medium; text-align: right; }
+}
+
+.rol_info_cuenta { text-transform: capitalize; }
+
+.vacio_info_cuenta {
+  padding: v.$space-4;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+  text-align: center;
+}
+
+// ---- Tabla de pedidos ----
+.caja_tabla_info_cuenta { overflow-x: auto; }
+
+.tabla_info_cuenta {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: v.$font-size-sm;
+
+  th {
+    padding: v.$space-3;
+    border-bottom: 1px solid v.$color-border;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: v.$color-text-muted;
-    text-align: center;
+    text-align: left;
+    white-space: nowrap;
   }
 
-  // ---- Tabla de pedidos ----
-  &__table-wrap { overflow-x: auto; }
-
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: v.$font-size-sm;
-
-    th {
-      padding: v.$space-3;
-      border-bottom: 1px solid v.$color-border;
-      font-size: v.$font-size-xs;
-      font-weight: v.$font-weight-semibold;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: v.$color-text-muted;
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    td {
-      padding: v.$space-3;
-      border-bottom: 1px solid v.$color-border;
-      white-space: nowrap;
-    }
-
-    tbody tr:hover { background: v.$color-bg; }
+  td {
+    padding: v.$space-3;
+    border-bottom: 1px solid v.$color-border;
+    white-space: nowrap;
   }
+
+  tbody tr:hover { background: v.$color-bg; }
 }
