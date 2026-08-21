@@ -1,4 +1,46 @@
-<!-- TODO: maquetar "Subir Foto" segun el diseno de Figma -->
-<section class="subir_foto">
-  <h1>Subir Foto</h1>
+<section class="upload-photo">
+  <div class="section-head">
+    <h1>Foto de perfil</h1>
+    <a routerLink="/app/perfil" class="btn-ghost btn-sm">Volver</a>
+  </div>
+
+  <div class="upload-photo__card card">
+    <p class="upload-photo__intro">
+      Una buena foto genera confianza. Usa una imagen clara de tu rostro, con buena luz y fondo neutro.
+    </p>
+
+    <!-- Zona de carga -->
+    <div class="upload-photo__drop">
+      @if (preview()) {
+        <img [src]="preview()" alt="Vista previa de tu foto" class="upload-photo__preview" />
+      } @else {
+        <span class="upload-photo__icon" aria-hidden="true">&#128247;</span>
+        <p class="text-sm text-muted">Arrastra tu foto aqui o seleccionala</p>
+      }
+
+      <label class="btn-secondary btn-sm" for="foto">
+        {{ preview() ? 'Cambiar imagen' : 'Seleccionar imagen' }}
+      </label>
+      <input id="foto" type="file" accept="image/*" class="visually-hidden" (change)="onFile($event)" />
+    </div>
+
+    @if (error()) {
+      <p class="form-error" role="alert">{{ error() }}</p>
+    }
+
+    <ul class="upload-photo__tips">
+      <li>&#10004; Formatos JPG o PNG</li>
+      <li>&#10004; Tamano maximo 2 MB</li>
+      <li>&#10004; Preferiblemente cuadrada (1:1)</li>
+    </ul>
+
+    <footer class="upload-photo__actions">
+      @if (preview()) {
+        <button type="button" class="btn-ghost" (click)="quitar()">Quitar</button>
+      }
+      <button type="button" class="btn-primary" [disabled]="!archivo() || subiendo()" (click)="subir()">
+        {{ subiendo() ? 'Subiendo...' : 'Guardar foto' }}
+      </button>
+    </footer>
+  </div>
 </section>
