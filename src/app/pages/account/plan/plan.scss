@@ -1,103 +1,101 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.account-plan {
-  // ---- Plan actual ----
-  &__current {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: v.$space-4;
-    padding: v.$space-5;
-    margin-bottom: v.$space-5;
-    background: v.$color-primary-bg;
-    border-color: v.$color-primary-light;
-  }
+// ---- Plan actual ----
+.actual_plan_cuenta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  padding: v.$space-5;
+  margin-bottom: v.$space-5;
+  background: v.$color-primary-bg;
+  border-color: v.$color-primary-light;
+}
 
-  &__label {
-    display: block;
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-  }
+.etiqueta_plan_cuenta {
+  display: block;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
 
-  &__name {
-    display: block;
-    margin-block: v.$space-1;
-    font-size: v.$font-size-xl;
-    color: v.$color-primary;
-  }
+.nombre_plan_cuenta {
+  display: block;
+  margin-block: v.$space-1;
+  font-size: v.$font-size-xl;
+  color: v.$color-primary;
+}
 
-  &__title {
-    margin: 0 0 v.$space-4;
-    font-size: v.$font-size-base;
-  }
+.titulo_plan_cuenta {
+  margin: 0 0 v.$space-4;
+  font-size: v.$font-size-base;
+}
 
-  // ---- Planes ----
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: v.$space-4;
-    margin-bottom: v.$space-4;
+// ---- Planes ----
+.rejilla_plan_cuenta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$space-4;
+  margin-bottom: v.$space-4;
 
-    @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
-  }
+  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+}
 
-  &__card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: v.$space-5;
+.tarjeta_plan_cuenta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: v.$space-5;
 
-    &.is-featured { border-color: v.$color-accent; }
-    &.is-current { border-color: v.$color-success; }
-  }
+  &.is-featured { border-color: v.$color-accent; }
+  &.is-current { border-color: v.$color-success; }
+}
 
-  &__flag {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: v.$space-1 v.$space-3;
-    background: v.$color-accent;
-    border-radius: v.$radius-pill;
-    color: v.$color-text-invert;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-semibold;
-    white-space: nowrap;
-  }
+.distintivo_plan_cuenta {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: v.$space-1 v.$space-3;
+  background: v.$color-accent;
+  border-radius: v.$radius-pill;
+  color: v.$color-text-invert;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  white-space: nowrap;
+}
 
-  &__card-name {
-    margin: 0 0 v.$space-3;
-    font-size: v.$font-size-base;
-  }
+.nombre_tarjeta_plan_cuenta {
+  margin: 0 0 v.$space-3;
+  font-size: v.$font-size-base;
+}
 
-  &__price {
-    display: flex;
-    align-items: baseline;
-    gap: v.$space-1;
-    margin: 0 0 v.$space-4;
-    padding-bottom: v.$space-4;
-    border-bottom: 1px solid v.$color-border;
+.precio_plan_cuenta {
+  display: flex;
+  align-items: baseline;
+  gap: v.$space-1;
+  margin: 0 0 v.$space-4;
+  padding-bottom: v.$space-4;
+  border-bottom: 1px solid v.$color-border;
 
-    strong { font-size: v.$font-size-2xl; color: v.$color-primary; }
-    span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
-  }
+  strong { font-size: v.$font-size-2xl; color: v.$color-primary; }
+  span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
+}
 
-  &__features {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: v.$space-2;
-    margin-bottom: v.$space-5;
-    font-size: v.$font-size-sm;
-    color: v.$color-text-muted;
+.caracteristicas_plan_cuenta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-2;
+  margin-bottom: v.$space-5;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
 
-    li { color: v.$color-text; }
-  }
+  li { color: v.$color-text; }
+}
 
-  &__note {
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-    text-align: center;
-  }
+.nota_plan_cuenta {
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+  text-align: center;
 }

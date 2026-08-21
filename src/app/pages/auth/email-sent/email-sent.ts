@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink, ActivatedRoute } from '@angular/router';
+import { LogoComponent } from '../../../shared/components/logo/logo';
 
 @Component({
   selector: 'jobsy-email-sent',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, LogoComponent],
   templateUrl: './email-sent.html',
   styleUrl: './email-sent.scss',
 })
 export class EmailSentPage {
-  // TODO: inyectar servicios y cargar datos.
+  private route = inject(ActivatedRoute);
+
+  readonly email = this.route.snapshot.queryParamMap.get('email') ?? 'tu correo';
 }

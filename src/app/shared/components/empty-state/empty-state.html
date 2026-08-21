@@ -1,9 +1,9 @@
-<div class="empty-state">
-  <span class="empty-state__icon" aria-hidden="true">{{ icon() }}</span>
-  <h3 class="empty-state__message">{{ message() }}</h3>
+<div class="sin_datos">
+  <span class="icono_sin_datos" aria-hidden="true">{{ icon() }}</span>
+  <h3 class="titulo_sin_datos">{{ title() }}</h3>
 
   @if (message()) {
-    <p class="empty-state__message">{{ message() }}</p>
+    <p class="mensaje_sin_datos">{{ message() }}</p>
   }
 
   <ng-content />

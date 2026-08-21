@@ -1,31 +1,32 @@
 @use 'variables' as v;
 
-.loading-spinner {
+.cargando {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: v.$space-3;
   padding: v.$space-7 v.$space-4;
-
-  &__circle {
-    width: 32px;
-    height: 32px;
-    border: 3px solid v.$color-primary-pale;
-    border-top-color: v.$color-primary-light;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-
-  &__label {
-    font-size: v.$font-size-sm;
-    color: v.$color-text-muted;
-  }
 }
 
-@keyframes spin {
+.circulo_cargando {
+  width: 32px;
+  height: 32px;
+  border: 3px solid v.$color-primary-pale;
+  border-top-color: v.$color-primary-light;
+  border-radius: 50%;
+  animation: girar 0.7s linear infinite;
+}
+
+.etiqueta_cargando {
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+}
+
+@keyframes girar {
   to { transform: rotate(360deg); }
 }
 
+// Con la preferencia de menos movimiento, la animacion se ralentiza.
 @media (prefers-reduced-motion: reduce) {
-  .loading-spinner__circle { animation-duration: 2s; }
+  .circulo_cargando { animation-duration: 2s; }
 }
