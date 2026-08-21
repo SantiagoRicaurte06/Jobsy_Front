@@ -1,4 +1,187 @@
-<!-- TODO: maquetar "Configuracion" segun el diseno de Figma -->
-<section class="ajustes">
-  <h1>Configuracion</h1>
+<section class="settings">
+  <div class="section-head">
+    <h1>Configuracion</h1>
+    <button type="button" class="btn-primary btn-sm" (click)="guardar()">Guardar cambios</button>
+  </div>
+
+  @if (guardado()) {
+    <p class="settings__saved" role="status">&#10004; Preferencias guardadas.</p>
+  }
+
+  <!-- ---- Notificaciones ---- -->
+  <section class="settings__block card">
+    <h2>Notificaciones</h2>
+    <p class="settings__hint">Elige como quieres que Jobsy te avise.</p>
+
+    <ul class="settings__switches">
+      <li>
+        <div>
+          <strong>Correo electronico</strong>
+          <span>Recibe avisos en tu correo.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="notifEmail()" (ngModelChange)="notifEmail.set($event)" name="notifEmail" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Notificaciones push</strong>
+          <span>Avisos en el navegador.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="notifPush()" (ngModelChange)="notifPush.set($event)" name="notifPush" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Nuevas ofertas</strong>
+          <span>Cuando aparezca un empleo que encaje contigo.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="notifOfertas()" (ngModelChange)="notifOfertas.set($event)" name="notifOfertas" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Mensajes</strong>
+          <span>Cuando un empleador te escriba.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="notifMensajes()" (ngModelChange)="notifMensajes.set($event)" name="notifMensajes" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Promociones</strong>
+          <span>Novedades y descuentos de la tienda.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="notifPromos()" (ngModelChange)="notifPromos.set($event)" name="notifPromos" />
+      </li>
+    </ul>
+  </section>
+
+  <!-- ---- Privacidad ---- -->
+  <section class="settings__block card">
+    <h2>Privacidad</h2>
+    <p class="settings__hint">Controla que ven los demas usuarios de tu perfil.</p>
+
+    <ul class="settings__switches">
+      <li>
+        <div>
+          <strong>Perfil publico</strong>
+          <span>Tu perfil aparece en las busquedas.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="perfilPublico()" (ngModelChange)="perfilPublico.set($event)" name="perfilPublico" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Mostrar telefono</strong>
+          <span>Solo visible tras confirmar una contratacion.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="mostrarTelefono()" (ngModelChange)="mostrarTelefono.set($event)" name="mostrarTelefono" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Mostrar calificaciones</strong>
+          <span>Tus resenas son visibles en tu perfil.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="mostrarCalificaciones()" (ngModelChange)="mostrarCalificaciones.set($event)" name="mostrarCalif" />
+      </li>
+    </ul>
+  </section>
+
+  <!-- ---- Preferencias ---- -->
+  <section class="settings__block card">
+    <h2>Preferencias</h2>
+
+    <div class="settings__row">
+      <div class="form-group">
+        <label class="form-label" for="idioma">Idioma</label>
+        <select id="idioma" class="form-select"
+          [ngModel]="idioma()" (ngModelChange)="idioma.set($event)" name="idioma">
+          <option value="es">Espanol</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="moneda">Moneda</label>
+        <select id="moneda" class="form-select"
+          [ngModel]="moneda()" (ngModelChange)="moneda.set($event)" name="moneda">
+          <option value="COP">Peso colombiano (COP)</option>
+          <option value="USD">Dolar (USD)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="tema">Tema</label>
+        <select id="tema" class="form-select"
+          [ngModel]="tema()" (ngModelChange)="tema.set($event)" name="tema">
+          <option value="claro">Claro</option>
+          <option value="oscuro">Oscuro</option>
+          <option value="sistema">Segun el sistema</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- Seguridad ---- -->
+  <section class="settings__block card">
+    <h2>Seguridad</h2>
+    <p class="settings__hint">Manten tu cuenta protegida.</p>
+
+    <div class="settings__row">
+      <div class="form-group">
+        <label class="form-label" for="passActual">Contrasena actual</label>
+        <input id="passActual" type="password" class="form-input" autocomplete="current-password"
+          [ngModel]="passwordActual()" (ngModelChange)="passwordActual.set($event)" name="passActual" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="passNueva">Nueva contrasena</label>
+        <input id="passNueva" type="password" class="form-input" autocomplete="new-password"
+          [ngModel]="passwordNueva()" (ngModelChange)="passwordNueva.set($event)" name="passNueva" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="passConfirm">Confirmar</label>
+        <input id="passConfirm" type="password" class="form-input" autocomplete="new-password"
+          [ngModel]="passwordConfirm()" (ngModelChange)="passwordConfirm.set($event)" name="passConfirm" />
+      </div>
+    </div>
+
+    @if (errorPassword()) {
+      <p class="form-error" role="alert">{{ errorPassword() }}</p>
+    }
+
+    <button type="button" class="btn-secondary btn-sm" (click)="cambiarPassword()">
+      Cambiar contrasena
+    </button>
+
+    <ul class="settings__switches settings__switches--top">
+      <li>
+        <div>
+          <strong>Verificacion en dos pasos</strong>
+          <span>Pide un codigo adicional al iniciar sesion.</span>
+        </div>
+        <input type="checkbox" class="settings__switch"
+          [ngModel]="dobleFactor()" (ngModelChange)="dobleFactor.set($event)" name="dobleFactor" />
+      </li>
+    </ul>
+  </section>
+
+  <!-- ---- Zona peligrosa ---- -->
+  <section class="settings__block settings__danger card">
+    <h2>Eliminar cuenta</h2>
+    <p class="settings__hint">
+      Al eliminar tu cuenta se borran tu perfil, tu hoja de vida y tu historial. Esta accion no se puede deshacer.
+    </p>
+    <button type="button" class="settings__delete">Eliminar mi cuenta</button>
+  </section>
 </section>
