@@ -29,14 +29,14 @@
   </dl>
 
   @if (suficiente()) {
-    <button type="button" class="btn-primary btn-block" [disabled]="procesando()" (click)="pagar()">
+    <button type="button" class="boton_principal boton_ancho" [disabled]="procesando()" (click)="pagar()">
       {{ procesando() ? 'Procesando...' : 'Pagar con saldo Jobsy' }}
     </button>
   } @else {
     <p class="balance__warning">
       No tienes saldo suficiente. Recarga tu cuenta o elige otro metodo de pago.
     </p>
-    <button type="button" class="btn-secondary btn-block">Recargar saldo</button>
+    <button type="button" class="boton_secundario boton_ancho">Recargar saldo</button>
   }
 
   <!-- Movimientos -->
@@ -48,7 +48,7 @@
         <li>
           <div>
             <strong>{{ mov.concepto }}</strong>
-            <span class="text-xs text-muted">{{ mov.fecha }}</span>
+            <span class="texto_mini texto_gris">{{ mov.fecha }}</span>
           </div>
           <span [class.balance__in]="mov.monto > 0" [class.balance__out]="mov.monto < 0">
             {{ formatear(mov.monto) }}
