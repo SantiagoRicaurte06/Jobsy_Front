@@ -1,26 +1,26 @@
 
-<div class="step-work tarjeta">
+<div class="paso-trabajo tarjeta">
   <jobsy-step-progress [steps]="steps" [current]="1" />
 
-  <h1 class="step-work__title">Modalidad De Trabajo</h1>
-  <p class="step-work__subtitle">Cuentanos Como Prefieres Trabajar. Puedes Elejir Varias</p>
+  <h1 class="paso-trabajo__title">Modalidad De Trabajo</h1>
+  <p class="paso-trabajo__subtitle">Cuentanos Como Prefieres Trabajar. Puedes Elejir Varias</p>
 
   <form (ngSubmit)="next()">
 
     <!-- MODALIDADES -->
     <div class="grupo_campo">
       <label class="etiqueta">Modalidades Disponibles</label>
-      <div class="step-work__grid">
+      <div class="paso-trabajo__grid">
         @for (op of opcionesModalidad; track op.value) {
           <button
             type="button"
-            class="step-work__option"
+            class="paso-trabajo__option"
             [class.is-selected]="modalidades().includes(op.value)"
             [attr.aria-pressed]="modalidades().includes(op.value)"
             (click)="toggleModalidad(op.value)">
-            <span class="step-work__icon" aria-hidden="true">{{ op.icon }}</span>
+            <span class="paso-trabajo__icon" aria-hidden="true">{{ op.icon }}</span>
             <strong>{{ op.label }}</strong>
-            <span class="step-work__option-text">{{ op.text }}</span>
+            <span class="paso-trabajo__option-text">{{ op.text }}</span>
           </button>
         }
       </div>
@@ -30,12 +30,12 @@
     <!-- ESPECIALIDADES -->
     <div class="grupo_campo">
       <label class="etiqueta">Especialidades</label>
-      <ul class="step-work__chips">
+      <ul class="paso-trabajo__chips">
         @for (e of opcionesEspecialidad; track e) {
           <li>
             <button
               type="button"
-              class="step-work__chip"
+              class="paso-trabajo__chip"
               [class.is-selected]="especialidades().includes(e)"
               [attr.aria-pressed]="especialidades().includes(e)"
               (click)="toggleEspecialidades(e)">
@@ -60,7 +60,7 @@
       <p class="error" role="alert">{{ error() }}</p>
     }
 
-    <div class="step-work__actions">
+    <div class="paso-trabajo__actions">
       <button type="button" class="boton_simple" (click)="back()">Atras</button>
       <button type="submit" class="boton_principal">Siguiente</button>
     </div>

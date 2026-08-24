@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.visual-report {
+.reporte-visual {
   // ---- KPIs ----
   &__kpis {
     display: grid;

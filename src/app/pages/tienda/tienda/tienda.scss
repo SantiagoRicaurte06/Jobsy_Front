@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.store-hero {
+.tienda-portada {
   background: v.$gradient-band;
   color: v.$color-text-invert;
 
@@ -35,7 +35,7 @@
   }
 }
 
-.store {
+.tienda {
   padding-block: v.$space-6;
 
   &__layout {

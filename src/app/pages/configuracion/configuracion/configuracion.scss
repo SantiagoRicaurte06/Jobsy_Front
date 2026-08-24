@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.settings {
+.configuracion {
   &__saved {
     padding: v.$space-3 v.$space-4;
     margin-bottom: v.$space-4;

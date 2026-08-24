@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.admin-dashboard {
+.admin-tablero {
   // ---- Cabecera ----
   &__head {
     display: flex;

@@ -1,8 +1,8 @@
-<div class="step-personal tarjeta">
+<div class="paso-personal tarjeta">
   <jobsy-step-progress [steps]="steps" [current]="0" />
 
-  <h1 class="step-personal__title">Datos personales</h1>
-  <p class="step-personal__subtitle">Esta Informacion Nos Ayuda A Verificar Tu Identidad.</p>
+  <h1 class="paso-personal__title">Datos personales</h1>
+  <p class="paso-personal__subtitle">Esta Informacion Nos Ayuda A Verificar Tu Identidad.</p>
 
   <form (ngSubmit)="next()">
     <div class="grupo_campo">
@@ -17,9 +17,9 @@
 
     <div class="grupo_campo">
       <label class="etiqueta">Genero</label>
-      <div class="step-personal__options">
+      <div class="paso-personal__options">
         @for (g of generos; track g) {
-          <label class="step-personal__radio" [class.is-selected]="genero() === g">
+          <label class="paso-personal__radio" [class.is-selected]="genero() === g">
             <input type="radio" name="genero" [value]="g"
               [ngModel]="genero()" (ngModelChange)="genero.set($event)" />
             {{ g }}
@@ -45,7 +45,7 @@
       <p class="error" role="alert">{{ error() }}</p>
     }
 
-    <div class="step-personal__actions">
+    <div class="paso-personal__actions">
       <button type="button" class="boton_simple" (click)="back()">Atras</button>
       <button type="submit" class="boton_principal">Siguiente</button>
     </div>

@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.report-center {
+.centro-reportes {
   &__grid {
     display: grid;
     grid-template-columns: 1fr 340px;

@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.admin-reports {
+.admin-reportes {
   &__head { margin-bottom: v.$space-5; }
 
   &__title {

@@ -1,30 +1,30 @@
-<section class="report-center">
+<section class="centro-reportes">
   <div class="encabezado_seccion">
     <h1>Centro de reportes</h1>
     <a routerLink="/app/reportes/visual" class="boton_simple boton_chico">Ver estadisticas</a>
   </div>
 
-  <div class="report-center__grid">
+  <div class="centro-reportes__grid">
     <!-- ---- Nuevo reporte ---- -->
-    <section class="report-center__form tarjeta">
+    <section class="centro-reportes__form tarjeta">
       <h2>Crear un reporte</h2>
-      <p class="report-center__hint">Cuentanos que ocurrio y te responderemos en menos de 48 horas.</p>
+      <p class="centro-reportes__hint">Cuentanos que ocurrio y te responderemos en menos de 48 horas.</p>
 
       @if (enviado()) {
-        <p class="report-center__sent" role="status">&#10004; Reporte enviado. Te contactaremos pronto.</p>
+        <p class="centro-reportes__sent" role="status">&#10004; Reporte enviado. Te contactaremos pronto.</p>
       }
 
       <form (ngSubmit)="enviar()">
         <div class="grupo_campo">
           <label class="etiqueta">Tipo de reporte</label>
-          <div class="report-center__types">
+          <div class="centro-reportes__types">
             @for (t of tipos; track t.value) {
-              <button type="button" class="report-center__type"
+              <button type="button" class="centro-reportes__type"
                 [class.is-selected]="tipo() === t.value"
                 (click)="tipo.set(t.value)">
                 <span aria-hidden="true">{{ t.icon }}</span>
                 <strong>{{ t.label }}</strong>
-                <span class="report-center__type-text">{{ t.text }}</span>
+                <span class="centro-reportes__type-text">{{ t.text }}</span>
               </button>
             }
           </div>
@@ -50,19 +50,19 @@
     </section>
 
     <!-- ---- Historial y ayuda ---- -->
-    <div class="report-center__side">
-      <section class="tarjeta report-center__history">
+    <div class="centro-reportes__side">
+      <section class="tarjeta centro-reportes__history">
         <h2>Mis reportes</h2>
 
         @if (loading()) {
           <jobsy-loading-spinner />
         } @else if (reports().length === 0) {
-          <p class="report-center__empty">Aun no has creado reportes.</p>
+          <p class="centro-reportes__empty">Aun no has creado reportes.</p>
         } @else {
           <ul>
             @for (r of reports(); track r.id) {
               <li>
-                <div class="report-center__report-head">
+                <div class="centro-reportes__report-head">
                   <strong>{{ r.asunto }}</strong>
                   <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
                 </div>
@@ -74,7 +74,7 @@
         }
       </section>
 
-      <section class="tarjeta report-center__faq">
+      <section class="tarjeta centro-reportes__faq">
         <h2>Preguntas frecuentes</h2>
 
         <ul>
