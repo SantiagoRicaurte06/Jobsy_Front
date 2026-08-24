@@ -95,10 +95,10 @@ export class AdminReportsPage {
   }
 
   badgeClass(estado: ReportStatus): string {
-    if (estado === 'resuelto') return 'badge-success';
-    if (estado === 'en_proceso') return 'badge-info';
-    if (estado === 'cerrado') return 'badge-warning';
-    return 'badge-danger';
+    if (estado === 'resuelto') return 'pildora_exito';
+    if (estado === 'en_proceso') return 'pildora_info';
+    if (estado === 'cerrado') return 'pildora_aviso';
+    return 'pildora_error';
   }
 
   iconoTipo(tipo: string): string {
