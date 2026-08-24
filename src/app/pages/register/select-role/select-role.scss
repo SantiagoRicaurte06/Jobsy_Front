@@ -7,7 +7,7 @@
   padding: v.$space-6;
 }
 
-  &__head {
+  .encabezado_elegir_rol {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,19 +15,19 @@
     margin-bottom: v.$space-5;
   }
 
-  &__title {
+  .titulo_elegir_rol{
     margin: v.$space-4 0 v.$space-1;
     font-size: v.$font-size-lg;
   }
 
-  &__subtitle {
+  .subtitulo_elegir_rol {
     margin: 0;
     font-size: v.$font-size-xs;
     color: v.$color-text-muted;
   }
 
   //---OPCIONES DE ROL---
-  &__opctions {
+  .opciones_elegir_rol {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: v.$space-4;
@@ -36,7 +36,7 @@
     @include m.until(v.$bp-sm)  {grid-template-columns: 1fr;}
   }
 
-  &__option {
+  .opcion_elegir_rol {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,4 +116,5 @@
   gap: v.$space-1;
   font-size: v.$font-size-xs;
   color: v.$color-success;
+}
 }

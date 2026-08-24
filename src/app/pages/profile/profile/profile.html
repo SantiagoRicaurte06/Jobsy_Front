@@ -1,4 +1,100 @@
-<!-- TODO: maquetar "Perfil" segun el diseno de Figma -->
-<section class="perfil">
-  <h1>Perfil</h1>
+<section class="profile">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else {
+    <div class="section-head">
+      <h1>Mi perfil</h1>
+      <a routerLink="/app/perfil/editar" class="btn-primary btn-sm">Editar perfil</a>
+    </div>
+
+    <!-- Cabecera -->
+    <header class="profile__head card">
+      <div class="profile__avatar">
+        @if (user()?.fotoUrl) {
+          <img [src]="user()!.fotoUrl" [alt]="user()!.nombre" />
+        } @else {
+          <span>{{ user()?.nombre?.charAt(0) }}</span>
+        }
+      </div>
+
+      <div class="profile__identity">
+        <h2 class="profile__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
+
+        <div class="profile__badges">
+          <span class="badge-info">{{ user()?.rol }}</span>
+          @if (user()?.verificado) {
+            <span class="badge-success">&#10004; Verificado</span>
+          }
+        </div>
+
+        <jobsy-rating-stars [value]="calificacion" [reviews]="servicios" />
+
+        <p class="profile__city">&#128205; {{ user()?.ciudad }}</p>
+      </div>
+
+      <a routerLink="/app/perfil/subir-foto" class="btn-ghost btn-sm">Cambiar foto</a>
+    </header>
+
+    <div class="profile__grid">
+      <!-- Datos personales -->
+      <section class="profile__block card">
+        <h3>Datos personales</h3>
+
+        <dl class="profile__data">
+          <div><dt>Nombre</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
+          <div><dt>Correo</dt><dd>{{ user()?.email }}</dd></div>
+          <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
+          <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
+          <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro }}</dd></div>
+        </dl>
+      </section>
+
+      <!-- Especialidades -->
+      <section class="profile__block card">
+        <h3>Especialidades</h3>
+
+        <ul class="profile__skills">
+          @for (skill of especialidades; track skill) {
+            <li class="badge-info">{{ skill }}</li>
+          }
+        </ul>
+
+        <h3 class="profile__subtitle">Resumen de actividad</h3>
+
+        <div class="profile__metrics">
+          <div>
+            <strong>{{ servicios }}</strong>
+            <span>Servicios</span>
+          </div>
+          <div>
+            <strong>{{ calificacion.toFixed(1) }}</strong>
+            <span>Calificacion</span>
+          </div>
+          <div>
+            <strong>100%</strong>
+            <span>Cumplimiento</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Enlaces relacionados -->
+    <nav class="profile__links">
+      <a routerLink="/app/hoja-de-vida" class="card">
+        <span aria-hidden="true">&#128196;</span>
+        <div>
+          <strong>Hoja de vida</strong>
+          <span>Actualiza tu experiencia y estudios</span>
+        </div>
+      </a>
+
+      <a routerLink="/app/configuracion" class="card">
+        <span aria-hidden="true">&#9881;</span>
+        <div>
+          <strong>Configuracion</strong>
+          <span>Notificaciones, privacidad y seguridad</span>
+        </div>
+      </a>
+    </nav>
+  }
 </section>

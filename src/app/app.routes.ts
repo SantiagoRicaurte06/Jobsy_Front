@@ -337,7 +337,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/admin/dashboard/dashboard').then((m) => m.DashboardPage),
+          import('./pages/admin/dashboard/dashboard').then((m) => m.AdminDashboardPage),
         title: 'Dashboard — Admin Jobsy',
       },
       {

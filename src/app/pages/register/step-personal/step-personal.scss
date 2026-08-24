@@ -1,6 +1,55 @@
 @use 'variables' as v;
-@use 'mixins' as m;
 
-.paso_datos {
-  // TODO: estilos de "Paso 1 - Datos personales"
+.step-personal {
+  width: 100%;
+  max-width: 520px;
+  padding: v.$space-6;
+
+  &__title {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-lg;
+  }
+
+  &__subtitle {
+    margin: 0 0 v.$space-5;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+
+  // ---- Radios en formato tarjeta ----
+  &__options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-2;
+  }
+
+  &__radio {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    padding: v.$space-3;
+    background: v.$color-surface;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-sm;
+    cursor: pointer;
+    transition: border-color v.$transition-fast, background v.$transition-fast;
+
+    &:hover { border-color: v.$color-primary-light; }
+
+    &.is-selected {
+      border-color: v.$color-accent;
+      background: v.$color-accent-pale;
+      font-weight: v.$font-weight-medium;
+    }
+
+    input { accent-color: v.$color-accent; }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: v.$space-3;
+    margin-top: v.$space-5;
+  }
 }

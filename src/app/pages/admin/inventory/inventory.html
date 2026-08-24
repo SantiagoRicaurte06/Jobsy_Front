@@ -1,75 +1,104 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { AdminService, AdminStats, AdminStore } from '../../../core/services';
-import { Order } from '../../../core/models';
-import { CopPipe } from '../../../shared/pipes';
-import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+<section class="admin-inventory">
+  <header class="admin-inventory__head">
+    <div>
+      <h1 class="admin-inventory__title">Inventario</h1>
+      <p class="admin-inventory__subtitle">Control de existencias de la tienda</p>
+    </div>
+  </header>
 
-@Component({
-  selector: 'jobsy-admin-dashboard',
-  standalone: true,
-  imports: [RouterLink, CopPipe, BarChartComponent, LoadingSpinnerComponent],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
-})
-export class AdminDashboardPage implements OnInit {
-  private adminService = inject(AdminService);
-  private store = inject(AdminStore);
-
-  readonly stats = signal<AdminStats | undefined>(undefined);
-  readonly recentOrders = signal<Order[]>([]);
-  readonly loading = signal(true);
-
-  // Estos vienen del almacen editable: reflejan lo que acabas de cambiar.
-  readonly topProducts = this.store.products;
-  readonly totalProductos = this.store.totalProductos;
-  readonly stockCritico = this.store.stockCritico;
-  readonly valorInventario = this.store.valorInventario;
-  readonly reportesAbiertos = this.store.reportesAbiertos;
-  readonly porReponer = this.store.porReponer;
-
-  /** TEMPORAL: serie de ventas de ejemplo. */
-  readonly ventas: BarDatum[] = [
-    { label: 'Ene', value: 620 },
-    { label: 'Feb', value: 810 },
-    { label: 'Mar', value: 940 },
-    { label: 'Abr', value: 720 },
-    { label: 'May', value: 1180, destacado: true },
-    { label: 'Jun', value: 890 },
-    { label: 'Jul', value: 500, proyectado: true },
-    { label: 'Ago', value: 560, proyectado: true },
-  ];
-
-  /** Se recalcula solo cuando editas productos o reportes. */
-  readonly resumen = computed(() => [
-    { label: 'Productos', value: String(this.totalProductos()), delta: 'en catalogo', tone: 'up' },
-    { label: 'Reportes abiertos', value: String(this.reportesAbiertos()), delta: 'por atender', tone: this.reportesAbiertos() > 0 ? 'down' : 'up' },
-    { label: 'Stock critico', value: String(this.stockCritico()), delta: this.stockCritico() > 0 ? 'Reponer ya' : 'Todo en orden', tone: this.stockCritico() > 0 ? 'down' : 'up' },
-    { label: 'Satisfaccion', value: '98%', delta: '+2% este mes', tone: 'up' },
-  ]);
-
-  readonly actividad = [
-    { icon: '\u{2705}', text: 'Nueva postulacion de Maria Gonzalez en Casa Familiar Grande', time: 'Hace 5 min' },
-    { icon: '\u{1F4E6}', text: 'Pedido #PED-0147 enviado - Kit de Limpieza Profesional', time: 'Hace 22 min' },
-    { icon: '\u{26A0}', text: 'Stock bajo en Guantes Industriales x5 - quedan 2 unidades', time: 'Hace 1 hora' },
-    { icon: '\u{1F464}', text: 'Nuevo cliente registrado: Pedro Gomez - Yopal, Casanare', time: 'Hace 2 horas' },
-    { icon: '\u{2B50}', text: 'Martha C. recibio una nueva resena de 5 estrellas', time: 'Hace 3 horas' },
-  ];
-
-  ngOnInit(): void {
-    this.adminService.stats().subscribe((s) => {
-      this.stats.set(s);
-      this.loading.set(false);
-    });
-
-    this.adminService.recentOrders(4).subscribe((o) => this.recentOrders.set(o));
+  @if (aviso()) {
+    <p class="admin-inventory__aviso" role="status">&#10004; {{ aviso() }}</p>
   }
 
-  estadoClass(estado: string): string {
-    if (estado === 'entregado' || estado === 'publicado') return 'badge-success';
-    if (estado === 'enviado') return 'badge-info';
-    if (estado === 'cancelado') return 'badge-danger';
-    return 'badge-warning';
-  }
+  <!-- Resumen -->
+  <div class="admin-inventory__summary">
+    <div class="card admin-inventory__stat">
+      <strong>{{ products().length }}</strong>
+      <span>Productos</span>
+    </div>
+    <div class="card admin-inventory__stat">
+      <strong>{{ unidadesTotales() }}</strong>
+      <span>Unidades en stock</span>
+    </div>
+    <div class="card admin-inventory__stat admin-inventory__stat--warn">
+      <strong>{{ bajos() }}</strong>
+      <span>Stock bajo</span>
+    </div>
+    <div class="card admin-inventory__stat admin-inventory__stat--danger">
+      <strong>{{ criticos() }}</strong>
+      <span>Stock critico</span>
+    </div>
+  </div>
+
+  <p class="admin-inventory__valor">
+    Valor total del inventario: <strong class="text-price">{{ valorInventario() | cop }}</strong>
+  </p>
+
+  <div class="card admin-inventory__panel">
+    <!-- Filtros -->
+    <nav class="admin-inventory__filters">
+      @for (f of filtros; track f.value) {
+        <button type="button" [class.is-active]="filtro() === f.value"
+          (click)="filtro.set(f.value)">{{ f.label }}</button>
+      }
+    </nav>
+
+    <ul class="admin-inventory__list">
+      @for (p of visibles(); track p.id) {
+        <li class="admin-inventory__item">
+          @if (p.imagenUrl) {
+            <img [src]="p.imagenUrl" [alt]="p.nombre" class="admin-inventory__thumb" />
+          } @else {
+            <span class="admin-inventory__icon" aria-hidden="true">&#129529;</span>
+          }
+
+          <div class="admin-inventory__info">
+            <strong>{{ p.nombre }}</strong>
+            <span class="text-xs text-muted">{{ p.sku }} &middot; {{ p.categoria }}</span>
+          </div>
+
+          <div class="admin-inventory__level">
+            <div class="admin-inventory__meter">
+              <span [style.width.%]="porcentaje(p.stock)"
+                [class.is-low]="p.stock <= 10"
+                [class.is-critical]="p.stock <= 2"></span>
+            </div>
+            <span class="text-xs text-muted">{{ p.stock }} unidades</span>
+          </div>
+
+          <span [class]="nivel(p.stock).clase">{{ nivel(p.stock).texto }}</span>
+
+          <!-- Ajustes de stock -->
+          <div class="admin-inventory__controls">
+            <button type="button" (click)="sumar(p, -1)" [disabled]="p.stock === 0"
+              aria-label="Restar una unidad">&minus;</button>
+            <button type="button" (click)="sumar(p, 1)" aria-label="Sumar una unidad">+</button>
+            <button type="button" class="admin-inventory__bulk" (click)="sumar(p, 20)">+20</button>
+            <button type="button" class="btn-ghost btn-sm" (click)="abrirAjuste(p)">Ajustar</button>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============ Ajuste manual ============ -->
+@if (ajustando(); as p) {
+  <jobsy-modal title="Ajustar inventario" [subtitle]="p.nombre" (cerrar)="ajustando.set(null)">
+    <p class="admin-inventory__actual">
+      Stock actual: <strong>{{ p.stock }} unidades</strong>
+    </p>
+
+    <div class="form-group">
+      <label class="form-label" for="stock">Nuevo valor</label>
+      <input id="stock" type="number" min="0" class="form-input"
+        [ngModel]="nuevoStock()" (ngModelChange)="nuevoStock.set(+$event)" name="stock" />
+      <p class="form-hint">Usa esto tras un conteo fisico para cuadrar la cifra real.</p>
+    </div>
+
+    <footer class="admin-inventory__modal-actions">
+      <button type="button" class="btn-ghost" (click)="ajustando.set(null)">Cancelar</button>
+      <button type="button" class="btn-primary" (click)="guardarAjuste()">Guardar</button>
+    </footer>
+  </jobsy-modal>
 }

@@ -1,6 +1,100 @@
+
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.paso_trabajo {
-  // TODO: estilos de "Paso 2 - Modalidad de trabajo"
+.step-work {
+  width: 100%;
+  max-width: 560px;
+  padding: v.$space-6;
+
+  &__title {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-lg;
+  }
+
+  &__subtitle {
+    margin: 0 0 v.$space-5;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+
+  // ---- TARJETAS DE MODALIDAD ----
+
+  &__grip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-3;
+
+    @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+  }
+
+   &__option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: v.$space-1;
+    padding: v.$space-4;
+    background: v.$color-surface;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-md;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color v.$transition-fast, background v.$transition-fast;
+
+    &:hover { border-color: v.$color-primary-light; }
+
+    &.is-selected {
+      border-color: v.$color-accent;
+      background: v.$color-accent-pale;
+    }
+
+    strong { font-size: v.$font-size-sm; }
+  }
+
+  &__icon { font-size: v.$font-size-lg; }
+
+  &__option-text {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+
+  // ---- CHIPS DE ESPECIALIDAD ----
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space-2;
+  }
+
+  &__chip {
+    padding: v.$space-2 v.$space-3;
+    background: v.$color-bg;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-pill;
+    font-family: inherit;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    &:hover { border-color: v.$color-primary-light; }
+
+    &.is-selected {
+      background: v.$color-primary-light;
+      border-color: v.$color-primary-light;
+      color: v.$color-text-invert;
+      font-weight: v.$font-weight-semibold;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: v.$space-3;
+    margin-top: v.$space-5;    
+  }
+
+
 }
+
