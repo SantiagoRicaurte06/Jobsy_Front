@@ -1,9 +1,9 @@
-<div class="container product-detail">
+<div class="contenedor product-detail">
   @if (loading()) {
     <jobsy-loading-spinner />
   } @else if (!product()) {
     <jobsy-empty-state icon="&#128230;" title="Producto no encontrado">
-      <a routerLink="/tienda" class="btn-primary">Volver a la tienda</a>
+      <a routerLink="/tienda" class="boton_principal">Volver a la tienda</a>
     </jobsy-empty-state>
   } @else {
     <nav class="product-detail__crumbs">
@@ -12,7 +12,7 @@
 
     <div class="product-detail__grid">
       <!-- Imagen -->
-      <div class="product-detail__media card">
+      <div class="product-detail__media tarjeta">
         @if (product()!.imagenUrl) {
           <img [src]="product()!.imagenUrl" [alt]="product()!.nombre" />
         } @else {
@@ -27,15 +27,15 @@
 
         <jobsy-rating-stars [value]="product()!.calificacion" />
 
-        <p class="product-detail__price text-price">{{ product()!.precio | cop }}</p>
+        <p class="product-detail__price precio">{{ product()!.precio | cop }}</p>
 
         <p class="product-detail__stock">
           @if (product()!.stock > 5) {
-            <span class="badge-success">&#10004; En stock ({{ product()!.stock }} unidades)</span>
+            <span class="pildora_exito">&#10004; En stock ({{ product()!.stock }} unidades)</span>
           } @else if (product()!.stock > 0) {
-            <span class="badge-warning">Quedan solo {{ product()!.stock }}</span>
+            <span class="pildora_aviso">Quedan solo {{ product()!.stock }}</span>
           } @else {
-            <span class="badge-danger">Agotado</span>
+            <span class="pildora_error">Agotado</span>
           }
         </p>
 
@@ -43,7 +43,7 @@
 
         <!-- Cantidad -->
         <div class="product-detail__qty">
-          <span class="form-label">Cantidad</span>
+          <span class="etiqueta">Cantidad</span>
           <div class="product-detail__stepper">
             <button type="button" (click)="cambiarCantidad(-1)" aria-label="Restar">&minus;</button>
             <span>{{ cantidad() }}</span>
@@ -52,10 +52,10 @@
         </div>
 
         <div class="product-detail__actions">
-          <button type="button" class="btn-primary" [disabled]="product()!.stock === 0" (click)="agregar()">
+          <button type="button" class="boton_principal" [disabled]="product()!.stock === 0" (click)="agregar()">
             Agregar al carrito
           </button>
-          <button type="button" class="btn-secondary" [disabled]="product()!.stock === 0" (click)="agregar(true)">
+          <button type="button" class="boton_secundario" [disabled]="product()!.stock === 0" (click)="agregar(true)">
             Comprar ahora
           </button>
         </div>

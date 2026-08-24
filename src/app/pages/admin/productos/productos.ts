@@ -144,10 +144,10 @@ export class AdminProductsPage {
   }
 
   estadoClass(estado: ProductStatus): string {
-    if (estado === 'publicado') return 'badge-success';
-    if (estado === 'destacado') return 'badge-info';
-    if (estado === 'agotado') return 'badge-danger';
-    return 'badge-warning';
+    if (estado === 'publicado') return 'pildora_exito';
+    if (estado === 'destacado') return 'pildora_info';
+    if (estado === 'agotado') return 'pildora_error';
+    return 'pildora_aviso';
   }
 
   private generarSku(nombre: string): string {

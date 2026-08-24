@@ -69,8 +69,8 @@ export class ReportCenterPage implements OnInit {
   }
 
   badgeClass(estado: string): string {
-    if (estado === 'resuelto') return 'badge-success';
-    if (estado === 'en_proceso') return 'badge-info';
-    return 'badge-warning';
+    if (estado === 'resuelto') return 'pildora_exito';
+    if (estado === 'en_proceso') return 'pildora_info';
+    return 'pildora_aviso';
   }
 }
