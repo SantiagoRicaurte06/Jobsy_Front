@@ -1,10 +1,10 @@
 <section class="upload-photo">
-  <div class="section-head">
+  <div class="encabezado_seccion">
     <h1>Foto de perfil</h1>
-    <a routerLink="/app/perfil" class="btn-ghost btn-sm">Volver</a>
+    <a routerLink="/app/perfil" class="boton_simple boton_chico">Volver</a>
   </div>
 
-  <div class="upload-photo__card card">
+  <div class="upload-photo__card tarjeta">
     <p class="upload-photo__intro">
       Una buena foto genera confianza. Usa una imagen clara de tu rostro, con buena luz y fondo neutro.
     </p>
@@ -15,17 +15,17 @@
         <img [src]="preview()" alt="Vista previa de tu foto" class="upload-photo__preview" />
       } @else {
         <span class="upload-photo__icon" aria-hidden="true">&#128247;</span>
-        <p class="text-sm text-muted">Arrastra tu foto aqui o seleccionala</p>
+        <p class="texto_chico texto_gris">Arrastra tu foto aqui o seleccionala</p>
       }
 
-      <label class="btn-secondary btn-sm" for="foto">
+      <label class="boton_secundario boton_chico" for="foto">
         {{ preview() ? 'Cambiar imagen' : 'Seleccionar imagen' }}
       </label>
-      <input id="foto" type="file" accept="image/*" class="visually-hidden" (change)="onFile($event)" />
+      <input id="foto" type="file" accept="image/*" class="oculto" (change)="onFile($event)" />
     </div>
 
     @if (error()) {
-      <p class="form-error" role="alert">{{ error() }}</p>
+      <p class="error" role="alert">{{ error() }}</p>
     }
 
     <ul class="upload-photo__tips">
@@ -36,9 +36,9 @@
 
     <footer class="upload-photo__actions">
       @if (preview()) {
-        <button type="button" class="btn-ghost" (click)="quitar()">Quitar</button>
+        <button type="button" class="boton_simple" (click)="quitar()">Quitar</button>
       }
-      <button type="button" class="btn-primary" [disabled]="!archivo() || subiendo()" (click)="subir()">
+      <button type="button" class="boton_principal" [disabled]="!archivo() || subiendo()" (click)="subir()">
         {{ subiendo() ? 'Subiendo...' : 'Guardar foto' }}
       </button>
     </footer>
