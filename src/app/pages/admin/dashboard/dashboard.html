@@ -13,14 +13,14 @@
       </div>
 
       <div class="admin-dashboard__actions">
-        <button type="button" class="btn-ghost btn-sm">&#11015; Exportar</button>
-        <button type="button" class="btn-primary btn-sm">+ Nuevo Producto</button>
+        <button type="button" class="boton_simple boton_chico">&#11015; Exportar</button>
+        <button type="button" class="boton_principal boton_chico">+ Nuevo Producto</button>
       </div>
     </header>
 
     <!-- KPIs -->
     <div class="admin-dashboard__kpis">
-      <div class="admin-dashboard__kpi card">
+      <div class="admin-dashboard__kpi tarjeta">
         <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#128176;</span>
         <span class="admin-dashboard__kpi-delta">+18%</span>
         <strong>{{ stats()!.ventasMes | cop }}</strong>
@@ -28,7 +28,7 @@
         <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--blue"></div>
       </div>
 
-      <div class="admin-dashboard__kpi card">
+      <div class="admin-dashboard__kpi tarjeta">
         <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#128230;</span>
         <span class="admin-dashboard__kpi-delta">+24</span>
         <strong>{{ stats()!.pedidosMes }}</strong>
@@ -36,7 +36,7 @@
         <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--green"></div>
       </div>
 
-      <div class="admin-dashboard__kpi card">
+      <div class="admin-dashboard__kpi tarjeta">
         <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#128100;</span>
         <span class="admin-dashboard__kpi-delta">+12</span>
         <strong>{{ stats()!.clientesRegistrados }}</strong>
@@ -44,7 +44,7 @@
         <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--orange"></div>
       </div>
 
-      <div class="admin-dashboard__kpi card">
+      <div class="admin-dashboard__kpi tarjeta">
         <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#11088;</span>
         <span class="admin-dashboard__kpi-delta">+0.2</span>
         <strong>{{ stats()!.calificacionPromedio }}</strong>
@@ -57,7 +57,7 @@
       <!-- ===== Columna principal ===== -->
       <div class="admin-dashboard__main">
         <!-- Grafico de ventas -->
-        <section class="card admin-dashboard__panel">
+        <section class="tarjeta admin-dashboard__panel">
           <div class="admin-dashboard__panel-head">
             <h2>&#128200; Ventas por mes &mdash; 2026</h2>
             <span class="admin-dashboard__year">2026</span>
@@ -67,7 +67,7 @@
         </section>
 
         <!-- Productos mas vendidos -->
-        <section class="card admin-dashboard__panel">
+        <section class="tarjeta admin-dashboard__panel">
           <div class="admin-dashboard__panel-head">
             <h2>&#128722; Catalogo de la tienda</h2>
             <a routerLink="/admin/productos">Gestionar &#8594;</a>
@@ -93,7 +93,7 @@
                         <span class="admin-dashboard__product-icon" aria-hidden="true">&#129529;</span>
                         <div>
                           <strong>{{ p.nombre }}</strong>
-                          <span class="text-xs text-muted">{{ p.sku }}</span>
+                          <span class="texto_mini texto_gris">{{ p.sku }}</span>
                         </div>
                       </div>
                     </td>
@@ -101,9 +101,9 @@
                     <td>
                       <span [class.admin-dashboard__stock-low]="p.stock <= 5">{{ p.stock }} u.</span>
                     </td>
-                    <td class="text-price">{{ p.precio | cop }}</td>
+                    <td class="precio">{{ p.precio | cop }}</td>
                     <td><span [class]="estadoClass(p.estado)">{{ p.estado }}</span></td>
-                    <td><button type="button" class="btn-ghost btn-sm">Editar</button></td>
+                    <td><button type="button" class="boton_simple boton_chico">Editar</button></td>
                   </tr>
                 }
               </tbody>
@@ -115,7 +115,7 @@
       <!-- ===== Columna lateral ===== -->
       <div class="admin-dashboard__side">
         <!-- Resumen rapido -->
-        <section class="card admin-dashboard__panel">
+        <section class="tarjeta admin-dashboard__panel">
           <h2 class="admin-dashboard__panel-title">&#9889; Resumen rapido</h2>
 
           <div class="admin-dashboard__quick">
@@ -131,7 +131,7 @@
         </section>
 
         <!-- Pedidos recientes -->
-        <section class="card admin-dashboard__panel">
+        <section class="tarjeta admin-dashboard__panel">
           <div class="admin-dashboard__panel-head">
             <h2>&#128203; Pedidos recientes</h2>
             <a routerLink="/app/cuenta">Ver todos &#8594;</a>
@@ -143,7 +143,7 @@
                 <span class="admin-dashboard__order-num">{{ o.numero }}</span>
                 <div class="admin-dashboard__order-info">
                   <strong>{{ o.items[0]?.nombre ?? 'Pedido' }}</strong>
-                  <span class="text-xs text-muted">{{ o.items.length }} articulo(s)</span>
+                  <span class="texto_mini texto_gris">{{ o.items.length }} articulo(s)</span>
                 </div>
                 <div class="admin-dashboard__order-right">
                   <strong>{{ o.total | cop }}</strong>
@@ -155,7 +155,7 @@
         </section>
 
         <!-- Actividad reciente -->
-        <section class="card admin-dashboard__panel">
+        <section class="tarjeta admin-dashboard__panel">
           <h2 class="admin-dashboard__panel-title">&#128276; Actividad reciente</h2>
 
           <ul class="admin-dashboard__activity">
@@ -164,7 +164,7 @@
                 <span class="admin-dashboard__activity-icon" aria-hidden="true">{{ a.icon }}</span>
                 <div>
                   <p>{{ a.text }}</p>
-                  <span class="text-xs text-muted">{{ a.time }}</span>
+                  <span class="texto_mini texto_gris">{{ a.time }}</span>
                 </div>
               </li>
             }

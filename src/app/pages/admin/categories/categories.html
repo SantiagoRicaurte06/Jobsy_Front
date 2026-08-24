@@ -14,30 +14,30 @@
 
   <div class="admin-categories__grid">
     <!-- ---- Alta ---- -->
-    <section class="card admin-categories__form">
+    <section class="tarjeta admin-categories__form">
       <h2>Nueva categoria</h2>
       <p class="admin-categories__hint">
         El identificador (slug) se genera solo a partir del nombre.
       </p>
 
-      <div class="form-group">
-        <label class="form-label" for="nombre">Nombre</label>
-        <input id="nombre" type="text" class="form-input" placeholder="Ej: Insumos de aseo"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="nombre">Nombre</label>
+        <input id="nombre" type="text" class="campo" placeholder="Ej: Insumos de aseo"
           [ngModel]="nueva()" (ngModelChange)="nueva.set($event)" name="nombre"
           (keydown.enter)="agregar()" />
       </div>
 
       @if (error()) {
-        <p class="form-error" role="alert">{{ error() }}</p>
+        <p class="error" role="alert">{{ error() }}</p>
       }
 
-      <button type="button" class="btn-primary btn-block" (click)="agregar()">
+      <button type="button" class="boton_principal boton_ancho" (click)="agregar()">
         Agregar categoria
       </button>
     </section>
 
     <!-- ---- Listado ---- -->
-    <section class="card admin-categories__list">
+    <section class="tarjeta admin-categories__list">
       <h2>Categorias existentes</h2>
 
       @if (categories().length === 0) {
@@ -52,25 +52,25 @@
 
               @if (editandoId() === cat.id) {
                 <!-- Modo edicion en linea -->
-                <input type="text" class="form-input admin-categories__input"
+                <input type="text" class="campo admin-categories__input"
                   [ngModel]="nombreEditado()" (ngModelChange)="nombreEditado.set($event)"
                   [name]="'edit' + cat.id"
                   (keydown.enter)="confirmarEdicion(cat)"
                   (keydown.escape)="cancelarEdicion()" />
 
-                <button type="button" class="btn-primary btn-sm"
+                <button type="button" class="boton_principal boton_chico"
                   (click)="confirmarEdicion(cat)">Guardar</button>
                 <button type="button" class="admin-categories__link"
                   (click)="cancelarEdicion()">Cancelar</button>
               } @else {
                 <div class="admin-categories__info">
                   <strong>{{ cat.nombre }}</strong>
-                  <span class="text-xs text-muted">
+                  <span class="texto_mini texto_gris">
                     /{{ cat.slug }} &middot; {{ cat.cantidadProductos }} productos
                   </span>
                 </div>
 
-                <button type="button" class="btn-ghost btn-sm"
+                <button type="button" class="boton_simple boton_chico"
                   (click)="empezarEdicion(cat)">Editar</button>
                 <button type="button" class="admin-categories__delete"
                   (click)="pedirBorrado(cat)">Eliminar</button>
@@ -95,7 +95,7 @@
     </p>
 
     <footer class="admin-categories__modal-actions">
-      <button type="button" class="btn-ghost" (click)="porBorrar.set(null)">Cancelar</button>
+      <button type="button" class="boton_simple" (click)="porBorrar.set(null)">Cancelar</button>
       <button type="button" class="admin-categories__danger-btn" (click)="confirmarBorrado()">
         Si, eliminar
       </button>

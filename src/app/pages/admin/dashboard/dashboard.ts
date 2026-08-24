@@ -67,9 +67,9 @@ export class AdminDashboardPage implements OnInit {
   }
 
   estadoClass(estado: string): string {
-    if (estado === 'entregado' || estado === 'publicado') return 'badge-success';
-    if (estado === 'enviado') return 'badge-info';
-    if (estado === 'cancelado') return 'badge-danger';
-    return 'badge-warning';
+    if (estado === 'entregado' || estado === 'publicado') return 'pildora_exito';
+    if (estado === 'enviado') return 'pildora_info';
+    if (estado === 'cancelado') return 'pildora_error';
+    return 'pildora_aviso';
   }
 }
