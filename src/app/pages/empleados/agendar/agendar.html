@@ -1,9 +1,9 @@
-<div class="contenedor schedule">
-  <h1 class="schedule__title">Agendar horario</h1>
-  <p class="schedule__subtitle">Elige el dia y la franja en la que necesitas el servicio.</p>
+<div class="contenedor agenda">
+  <h1 class="agenda__title">Agendar horario</h1>
+  <p class="agenda__subtitle">Elige el dia y la franja en la que necesitas el servicio.</p>
 
   @if (confirmado()) {
-    <div class="schedule__done tarjeta">
+    <div class="agenda__done tarjeta">
       <span aria-hidden="true">&#10004;</span>
       <h2>Horario agendado</h2>
       <p>
@@ -13,29 +13,29 @@
       <p class="texto_mini texto_gris">Te avisaremos cuando el empleado confirme.</p>
     </div>
   } @else {
-    <div class="schedule__grid">
+    <div class="agenda__grid">
       <!-- ---- Calendario ---- -->
-      <div class="schedule__calendar tarjeta">
-        <header class="schedule__cal-head">
+      <div class="agenda__calendar tarjeta">
+        <header class="agenda__cal-head">
           <button type="button" (click)="cambiarMes(-1)" aria-label="Mes anterior">&#8249;</button>
           <strong>{{ nombreMes() }}</strong>
           <button type="button" (click)="cambiarMes(1)" aria-label="Mes siguiente">&#8250;</button>
         </header>
 
-        <div class="schedule__weekdays">
+        <div class="agenda__weekdays">
           @for (d of nombresDia; track d) {
             <span>{{ d }}</span>
           }
         </div>
 
-        <div class="schedule__days">
+        <div class="agenda__days">
           @for (dia of dias(); track $index) {
             @if (dia === null) {
-              <span class="schedule__day schedule__day--empty"></span>
+              <span class="agenda__day agenda__day--empty"></span>
             } @else {
               <button
                 type="button"
-                class="schedule__day"
+                class="agenda__day"
                 [class.is-selected]="diaSeleccionado() === dia"
                 (click)="seleccionarDia(dia)">
                 {{ dia }}
@@ -46,8 +46,8 @@
       </div>
 
       <!-- ---- Franjas horarias ---- -->
-      <div class="schedule__slots tarjeta">
-        <h2 class="schedule__slots-title">
+      <div class="agenda__slots tarjeta">
+        <h2 class="agenda__slots-title">
           @if (diaSeleccionado()) {
             Franjas del {{ diaSeleccionado() }}
           } @else {
@@ -56,12 +56,12 @@
         </h2>
 
         @if (diaSeleccionado()) {
-          <ul class="schedule__slot-list">
+          <ul class="agenda__slot-list">
             @for (slot of slots; track slot.hora) {
               <li>
                 <button
                   type="button"
-                  class="schedule__slot"
+                  class="agenda__slot"
                   [class.is-selected]="slotSeleccionado() === slot.hora"
                   [disabled]="!slot.disponible"
                   (click)="slotSeleccionado.set(slot.hora)">

@@ -1,27 +1,27 @@
-<section class="balance">
-  <h2 class="balance__title">Saldo Jobsy</h2>
-  <p class="balance__subtitle">Paga al instante con el saldo de tu cuenta.</p>
+<section class="saldo">
+  <h2 class="saldo__title">Saldo Jobsy</h2>
+  <p class="saldo__subtitle">Paga al instante con el saldo de tu cuenta.</p>
 
   <!-- Tarjeta de saldo -->
-  <div class="balance__card">
-    <span class="balance__label">Saldo disponible</span>
-    <strong class="balance__amount">${{ saldo().toLocaleString('es-CO') }}</strong>
+  <div class="saldo__card">
+    <span class="saldo__label">Saldo disponible</span>
+    <strong class="saldo__amount">${{ saldo().toLocaleString('es-CO') }}</strong>
   </div>
 
   <!-- Calculo del pago -->
-  <dl class="balance__calc">
+  <dl class="saldo__calc">
     <div>
       <dt>Total del pedido</dt>
       <dd>${{ cart.total().toLocaleString('es-CO') }}</dd>
     </div>
 
     @if (suficiente()) {
-      <div class="balance__calc-ok">
+      <div class="saldo__calc-ok">
         <dt>Saldo restante</dt>
         <dd>${{ restante().toLocaleString('es-CO') }}</dd>
       </div>
     } @else {
-      <div class="balance__calc-bad">
+      <div class="saldo__calc-bad">
         <dt>Saldo faltante</dt>
         <dd>${{ faltante().toLocaleString('es-CO') }}</dd>
       </div>
@@ -33,14 +33,14 @@
       {{ procesando() ? 'Procesando...' : 'Pagar con saldo Jobsy' }}
     </button>
   } @else {
-    <p class="balance__warning">
+    <p class="saldo__warning">
       No tienes saldo suficiente. Recarga tu cuenta o elige otro metodo de pago.
     </p>
     <button type="button" class="boton_secundario boton_ancho">Recargar saldo</button>
   }
 
   <!-- Movimientos -->
-  <section class="balance__history">
+  <section class="saldo__history">
     <h3>Movimientos recientes</h3>
 
     <ul>
@@ -50,7 +50,7 @@
             <strong>{{ mov.concepto }}</strong>
             <span class="texto_mini texto_gris">{{ mov.fecha }}</span>
           </div>
-          <span [class.balance__in]="mov.monto > 0" [class.balance__out]="mov.monto < 0">
+          <span [class.saldo__in]="mov.monto > 0" [class.saldo__out]="mov.monto < 0">
             {{ formatear(mov.monto) }}
           </span>
         </li>

@@ -1,7 +1,7 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.product-detail {
+.detalle-producto {
   padding-block: v.$space-6;
 
   &__crumbs {

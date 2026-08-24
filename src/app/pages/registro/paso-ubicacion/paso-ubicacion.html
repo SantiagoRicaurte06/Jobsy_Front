@@ -1,13 +1,13 @@
 
-<div class="step-location tarjeta">
+<div class="paso-ubicacion tarjeta">
   <jobsy-step-progress [steps]="steps" [current]="2" />
 
-  <h1 class="step-location__title">Ubicacion Y Foto</h1>
-  <p class="step-location__subtitle">Ultimo Paso. Asi los Empleadores Cercanos Podran Encontrarse. </p>
+  <h1 class="paso-ubicacion__title">Ubicacion Y Foto</h1>
+  <p class="paso-ubicacion__subtitle">Ultimo Paso. Asi los Empleadores Cercanos Podran Encontrarse. </p>
 
   <form (ngSubmit)="finish()">
     <!--FOTO DE PERFIL-->
-    <div class="grupo_campo step-location__photo-group">
+    <div class="grupo_campo paso-ubicacion__photo-group">
       @if (fotoPreview()) {
         <img [src]="fotoPreview()" alt="Vista Previa De Tu Foto" />
       } @else {
@@ -42,9 +42,9 @@
       <label class="etiqueta" for="distancia">
         Distancia Maxima De Trabajo: <strong>{{ distanciaKm() }} Km</strong>
         </label>
-        <input id="distancia" type="range" min="1" max="50" class="step-location__range"
+        <input id="distancia" type="range" min="1" max="50" class="paso-ubicacion__range"
         [ngModel]="distanciaKm()" (ngModelChange)="distanciaKm.set(+$event)" name="distancia" />
-        <div class="step-location__range-labels">
+        <div class="paso-ubicacion__range-labels">
           <span>1 Km</span>
           <span>50 Km</span>
         </div>
@@ -54,7 +54,7 @@
       <p class="error" role="alert">{{ error() }}</p>
      }
 
-     <div class="step-location__actions">
+     <div class="paso-ubicacion__actions">
       <button type="button" class="boton_simple" (click)="back()">Atras</button>
       <button type="submit" class="boton_principal" [disabled]="loading()">
         {{ loading() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
