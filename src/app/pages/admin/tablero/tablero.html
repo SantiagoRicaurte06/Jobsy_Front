@@ -1,80 +1,80 @@
 @if (loading()) {
   <jobsy-loading-spinner />
 } @else {
-  <section class="admin-dashboard">
+  <section class="admin-tablero">
     <!-- Cabecera -->
-    <header class="admin-dashboard__head">
+    <header class="admin-tablero__head">
       <div>
-        <h1 class="admin-dashboard__title">Dashboard</h1>
-        <p class="admin-dashboard__updated">
-          <span class="admin-dashboard__dot" aria-hidden="true"></span>
+        <h1 class="admin-tablero__title">Dashboard</h1>
+        <p class="admin-tablero__updated">
+          <span class="admin-tablero__dot" aria-hidden="true"></span>
           Actualizado hace 3 min &mdash; martes 3 de marzo, 2026
         </p>
       </div>
 
-      <div class="admin-dashboard__actions">
+      <div class="admin-tablero__actions">
         <button type="button" class="boton_simple boton_chico">&#11015; Exportar</button>
         <button type="button" class="boton_principal boton_chico">+ Nuevo Producto</button>
       </div>
     </header>
 
     <!-- KPIs -->
-    <div class="admin-dashboard__kpis">
-      <div class="admin-dashboard__kpi tarjeta">
-        <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#128176;</span>
-        <span class="admin-dashboard__kpi-delta">+18%</span>
+    <div class="admin-tablero__kpis">
+      <div class="admin-tablero__kpi tarjeta">
+        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#128176;</span>
+        <span class="admin-tablero__kpi-delta">+18%</span>
         <strong>{{ stats()!.ventasMes | cop }}</strong>
-        <span class="admin-dashboard__kpi-label">Ventas este mes (COP)</span>
-        <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--blue"></div>
+        <span class="admin-tablero__kpi-label">Ventas este mes (COP)</span>
+        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--blue"></div>
       </div>
 
-      <div class="admin-dashboard__kpi tarjeta">
-        <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#128230;</span>
-        <span class="admin-dashboard__kpi-delta">+24</span>
+      <div class="admin-tablero__kpi tarjeta">
+        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#128230;</span>
+        <span class="admin-tablero__kpi-delta">+24</span>
         <strong>{{ stats()!.pedidosMes }}</strong>
-        <span class="admin-dashboard__kpi-label">Pedidos este mes</span>
-        <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--green"></div>
+        <span class="admin-tablero__kpi-label">Pedidos este mes</span>
+        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--green"></div>
       </div>
 
-      <div class="admin-dashboard__kpi tarjeta">
-        <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#128100;</span>
-        <span class="admin-dashboard__kpi-delta">+12</span>
+      <div class="admin-tablero__kpi tarjeta">
+        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#128100;</span>
+        <span class="admin-tablero__kpi-delta">+12</span>
         <strong>{{ stats()!.clientesRegistrados }}</strong>
-        <span class="admin-dashboard__kpi-label">Clientes registrados</span>
-        <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--orange"></div>
+        <span class="admin-tablero__kpi-label">Clientes registrados</span>
+        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--orange"></div>
       </div>
 
-      <div class="admin-dashboard__kpi tarjeta">
-        <span class="admin-dashboard__kpi-icon" aria-hidden="true">&#11088;</span>
-        <span class="admin-dashboard__kpi-delta">+0.2</span>
+      <div class="admin-tablero__kpi tarjeta">
+        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#11088;</span>
+        <span class="admin-tablero__kpi-delta">+0.2</span>
         <strong>{{ stats()!.calificacionPromedio }}</strong>
-        <span class="admin-dashboard__kpi-label">Calificacion promedio</span>
-        <div class="admin-dashboard__kpi-bar admin-dashboard__kpi-bar--purple"></div>
+        <span class="admin-tablero__kpi-label">Calificacion promedio</span>
+        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--purple"></div>
       </div>
     </div>
 
-    <div class="admin-dashboard__grid">
+    <div class="admin-tablero__grid">
       <!-- ===== Columna principal ===== -->
-      <div class="admin-dashboard__main">
+      <div class="admin-tablero__main">
         <!-- Grafico de ventas -->
-        <section class="tarjeta admin-dashboard__panel">
-          <div class="admin-dashboard__panel-head">
+        <section class="tarjeta admin-tablero__panel">
+          <div class="admin-tablero__panel-head">
             <h2>&#128200; Ventas por mes &mdash; 2026</h2>
-            <span class="admin-dashboard__year">2026</span>
+            <span class="admin-tablero__year">2026</span>
           </div>
 
           <jobsy-bar-chart [data]="ventas" unit="COP (miles)" />
         </section>
 
         <!-- Productos mas vendidos -->
-        <section class="tarjeta admin-dashboard__panel">
-          <div class="admin-dashboard__panel-head">
+        <section class="tarjeta admin-tablero__panel">
+          <div class="admin-tablero__panel-head">
             <h2>&#128722; Catalogo de la tienda</h2>
             <a routerLink="/admin/productos">Gestionar &#8594;</a>
           </div>
 
-          <div class="admin-dashboard__table-wrap">
-            <table class="admin-dashboard__table">
+          <div class="admin-tablero__table-wrap">
+            <table class="admin-tablero__table">
               <thead>
                 <tr>
                   <th>Producto</th>
@@ -89,8 +89,8 @@
                 @for (p of topProducts(); track p.id) {
                   <tr>
                     <td>
-                      <div class="admin-dashboard__product">
-                        <span class="admin-dashboard__product-icon" aria-hidden="true">&#129529;</span>
+                      <div class="admin-tablero__product">
+                        <span class="admin-tablero__product-icon" aria-hidden="true">&#129529;</span>
                         <div>
                           <strong>{{ p.nombre }}</strong>
                           <span class="texto_mini texto_gris">{{ p.sku }}</span>
@@ -99,7 +99,7 @@
                     </td>
                     <td>{{ p.categoria }}</td>
                     <td>
-                      <span [class.admin-dashboard__stock-low]="p.stock <= 5">{{ p.stock }} u.</span>
+                      <span [class.admin-tablero__stock-low]="p.stock <= 5">{{ p.stock }} u.</span>
                     </td>
                     <td class="precio">{{ p.precio | cop }}</td>
                     <td><span [class]="estadoClass(p.estado)">{{ p.estado }}</span></td>
@@ -113,17 +113,17 @@
       </div>
 
       <!-- ===== Columna lateral ===== -->
-      <div class="admin-dashboard__side">
+      <div class="admin-tablero__side">
         <!-- Resumen rapido -->
-        <section class="tarjeta admin-dashboard__panel">
-          <h2 class="admin-dashboard__panel-title">&#9889; Resumen rapido</h2>
+        <section class="tarjeta admin-tablero__panel">
+          <h2 class="admin-tablero__panel-title">&#9889; Resumen rapido</h2>
 
-          <div class="admin-dashboard__quick">
+          <div class="admin-tablero__quick">
             @for (r of resumen(); track r.label) {
               <div>
                 <strong>{{ r.value }}</strong>
-                <span class="admin-dashboard__quick-label">{{ r.label }}</span>
-                <span class="admin-dashboard__quick-delta"
+                <span class="admin-tablero__quick-label">{{ r.label }}</span>
+                <span class="admin-tablero__quick-delta"
                   [class.is-down]="r.tone === 'down'">{{ r.delta }}</span>
               </div>
             }
@@ -131,21 +131,21 @@
         </section>
 
         <!-- Pedidos recientes -->
-        <section class="tarjeta admin-dashboard__panel">
-          <div class="admin-dashboard__panel-head">
+        <section class="tarjeta admin-tablero__panel">
+          <div class="admin-tablero__panel-head">
             <h2>&#128203; Pedidos recientes</h2>
             <a routerLink="/app/cuenta">Ver todos &#8594;</a>
           </div>
 
-          <ul class="admin-dashboard__orders">
+          <ul class="admin-tablero__orders">
             @for (o of recentOrders(); track o.id) {
               <li>
-                <span class="admin-dashboard__order-num">{{ o.numero }}</span>
-                <div class="admin-dashboard__order-info">
+                <span class="admin-tablero__order-num">{{ o.numero }}</span>
+                <div class="admin-tablero__order-info">
                   <strong>{{ o.items[0]?.nombre ?? 'Pedido' }}</strong>
                   <span class="texto_mini texto_gris">{{ o.items.length }} articulo(s)</span>
                 </div>
-                <div class="admin-dashboard__order-right">
+                <div class="admin-tablero__order-right">
                   <strong>{{ o.total | cop }}</strong>
                   <span [class]="estadoClass(o.estado)">{{ o.estado }}</span>
                 </div>
@@ -155,13 +155,13 @@
         </section>
 
         <!-- Actividad reciente -->
-        <section class="tarjeta admin-dashboard__panel">
-          <h2 class="admin-dashboard__panel-title">&#128276; Actividad reciente</h2>
+        <section class="tarjeta admin-tablero__panel">
+          <h2 class="admin-tablero__panel-title">&#128276; Actividad reciente</h2>
 
-          <ul class="admin-dashboard__activity">
+          <ul class="admin-tablero__activity">
             @for (a of actividad; track a.text) {
               <li>
-                <span class="admin-dashboard__activity-icon" aria-hidden="true">{{ a.icon }}</span>
+                <span class="admin-tablero__activity-icon" aria-hidden="true">{{ a.icon }}</span>
                 <div>
                   <p>{{ a.text }}</p>
                   <span class="texto_mini texto_gris">{{ a.time }}</span>

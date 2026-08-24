@@ -1,7 +1,7 @@
-<div class="contenedor publish-offer">
-  <div class="publish-offer__card tarjeta">
-    <h1 class="publish-offer__title">Publicar una oferta</h1>
-    <p class="publish-offer__subtitle">
+<div class="contenedor publicar-oferta">
+  <div class="publicar-oferta__card tarjeta">
+    <h1 class="publicar-oferta__title">Publicar una oferta</h1>
+    <p class="publicar-oferta__subtitle">
       Describe el trabajo que necesitas. Los empleados cercanos podran postularse.
     </p>
 
@@ -15,9 +15,9 @@
       <!-- Tamano de la vivienda -->
       <div class="grupo_campo">
         <label class="etiqueta">Tamano de la vivienda</label>
-        <div class="publish-offer__options">
+        <div class="publicar-oferta__options">
           @for (t of tamanos; track t.value) {
-            <button type="button" class="publish-offer__option"
+            <button type="button" class="publicar-oferta__option"
               [class.is-selected]="tamano() === t.value"
               (click)="tamano.set(t.value)">
               {{ t.label }}
@@ -29,9 +29,9 @@
       <!-- Modalidad -->
       <div class="grupo_campo">
         <label class="etiqueta">Modalidad</label>
-        <div class="publish-offer__options">
+        <div class="publicar-oferta__options">
           @for (mo of modalidades; track mo.value) {
-            <button type="button" class="publish-offer__option"
+            <button type="button" class="publicar-oferta__option"
               [class.is-selected]="modalidad() === mo.value"
               (click)="modalidad.set(mo.value)">
               {{ mo.label }}
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="publish-offer__row">
+      <div class="publicar-oferta__row">
         <div class="grupo_campo">
           <label class="etiqueta" for="precio">Precio por hora (COP)</label>
           <input id="precio" type="number" class="campo" placeholder="30000"
@@ -73,10 +73,10 @@
       <!-- Tareas -->
       <div class="grupo_campo">
         <label class="etiqueta">Tareas incluidas</label>
-        <ul class="publish-offer__chips">
+        <ul class="publicar-oferta__chips">
           @for (t of tareas; track t) {
             <li>
-              <button type="button" class="publish-offer__chip"
+              <button type="button" class="publicar-oferta__chip"
                 [class.is-selected]="etiquetas().includes(t)"
                 (click)="toggleTarea(t)">
                 {{ t }}

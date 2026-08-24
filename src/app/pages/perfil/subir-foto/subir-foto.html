@@ -1,20 +1,20 @@
-<section class="upload-photo">
+<section class="subir-foto">
   <div class="encabezado_seccion">
     <h1>Foto de perfil</h1>
     <a routerLink="/app/perfil" class="boton_simple boton_chico">Volver</a>
   </div>
 
-  <div class="upload-photo__card tarjeta">
-    <p class="upload-photo__intro">
+  <div class="subir-foto__card tarjeta">
+    <p class="subir-foto__intro">
       Una buena foto genera confianza. Usa una imagen clara de tu rostro, con buena luz y fondo neutro.
     </p>
 
     <!-- Zona de carga -->
-    <div class="upload-photo__drop">
+    <div class="subir-foto__drop">
       @if (preview()) {
-        <img [src]="preview()" alt="Vista previa de tu foto" class="upload-photo__preview" />
+        <img [src]="preview()" alt="Vista previa de tu foto" class="subir-foto__preview" />
       } @else {
-        <span class="upload-photo__icon" aria-hidden="true">&#128247;</span>
+        <span class="subir-foto__icon" aria-hidden="true">&#128247;</span>
         <p class="texto_chico texto_gris">Arrastra tu foto aqui o seleccionala</p>
       }
 
@@ -28,13 +28,13 @@
       <p class="error" role="alert">{{ error() }}</p>
     }
 
-    <ul class="upload-photo__tips">
+    <ul class="subir-foto__tips">
       <li>&#10004; Formatos JPG o PNG</li>
       <li>&#10004; Tamano maximo 2 MB</li>
       <li>&#10004; Preferiblemente cuadrada (1:1)</li>
     </ul>
 
-    <footer class="upload-photo__actions">
+    <footer class="subir-foto__actions">
       @if (preview()) {
         <button type="button" class="boton_simple" (click)="quitar()">Quitar</button>
       }

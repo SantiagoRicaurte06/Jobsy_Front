@@ -1,22 +1,22 @@
-<section class="admin-categories">
-  <header class="admin-categories__head">
+<section class="admin-categorias">
+  <header class="admin-categorias__head">
     <div>
-      <h1 class="admin-categories__title">Categorias</h1>
-      <p class="admin-categories__subtitle">
+      <h1 class="admin-categorias__title">Categorias</h1>
+      <p class="admin-categorias__subtitle">
         {{ categories().length }} categorias &middot; organiza el catalogo de la tienda
       </p>
     </div>
   </header>
 
   @if (aviso()) {
-    <p class="admin-categories__aviso" role="status">&#10004; {{ aviso() }}</p>
+    <p class="admin-categorias__aviso" role="status">&#10004; {{ aviso() }}</p>
   }
 
-  <div class="admin-categories__grid">
+  <div class="admin-categorias__grid">
     <!-- ---- Alta ---- -->
-    <section class="tarjeta admin-categories__form">
+    <section class="tarjeta admin-categorias__form">
       <h2>Nueva categoria</h2>
-      <p class="admin-categories__hint">
+      <p class="admin-categorias__hint">
         El identificador (slug) se genera solo a partir del nombre.
       </p>
 
@@ -37,22 +37,22 @@
     </section>
 
     <!-- ---- Listado ---- -->
-    <section class="tarjeta admin-categories__list">
+    <section class="tarjeta admin-categorias__list">
       <h2>Categorias existentes</h2>
 
       @if (categories().length === 0) {
-        <p class="admin-categories__empty">
+        <p class="admin-categorias__empty">
           No hay categorias. Crea la primera con el formulario de la izquierda.
         </p>
       } @else {
         <ul>
           @for (cat of categories(); track cat.id) {
             <li>
-              <span class="admin-categories__icon" aria-hidden="true">&#128193;</span>
+              <span class="admin-categorias__icon" aria-hidden="true">&#128193;</span>
 
               @if (editandoId() === cat.id) {
                 <!-- Modo edicion en linea -->
-                <input type="text" class="campo admin-categories__input"
+                <input type="text" class="campo admin-categorias__input"
                   [ngModel]="nombreEditado()" (ngModelChange)="nombreEditado.set($event)"
                   [name]="'edit' + cat.id"
                   (keydown.enter)="confirmarEdicion(cat)"
@@ -60,10 +60,10 @@
 
                 <button type="button" class="boton_principal boton_chico"
                   (click)="confirmarEdicion(cat)">Guardar</button>
-                <button type="button" class="admin-categories__link"
+                <button type="button" class="admin-categorias__link"
                   (click)="cancelarEdicion()">Cancelar</button>
               } @else {
-                <div class="admin-categories__info">
+                <div class="admin-categorias__info">
                   <strong>{{ cat.nombre }}</strong>
                   <span class="texto_mini texto_gris">
                     /{{ cat.slug }} &middot; {{ cat.cantidadProductos }} productos
@@ -72,7 +72,7 @@
 
                 <button type="button" class="boton_simple boton_chico"
                   (click)="empezarEdicion(cat)">Editar</button>
-                <button type="button" class="admin-categories__delete"
+                <button type="button" class="admin-categorias__delete"
                   (click)="pedirBorrado(cat)">Eliminar</button>
               }
             </li>
@@ -86,7 +86,7 @@
 <!-- ============ Confirmacion de borrado ============ -->
 @if (porBorrar(); as cat) {
   <jobsy-modal title="Eliminar categoria" (cerrar)="porBorrar.set(null)">
-    <p class="admin-categories__confirm">
+    <p class="admin-categorias__confirm">
       Vas a eliminar <strong>{{ cat.nombre }}</strong>.
       @if (cat.cantidadProductos > 0) {
         Sus <strong>{{ cat.cantidadProductos }} productos</strong> no se borran, pero quedaran
@@ -94,9 +94,9 @@
       }
     </p>
 
-    <footer class="admin-categories__modal-actions">
+    <footer class="admin-categorias__modal-actions">
       <button type="button" class="boton_simple" (click)="porBorrar.set(null)">Cancelar</button>
-      <button type="button" class="admin-categories__danger-btn" (click)="confirmarBorrado()">
+      <button type="button" class="admin-categorias__danger-btn" (click)="confirmarBorrado()">
         Si, eliminar
       </button>
     </footer>

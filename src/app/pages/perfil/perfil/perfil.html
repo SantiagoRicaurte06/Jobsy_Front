@@ -1,4 +1,4 @@
-<section class="profile">
+<section class="perfil">
   @if (loading()) {
     <jobsy-loading-spinner />
   } @else {
@@ -8,8 +8,8 @@
     </div>
 
     <!-- Cabecera -->
-    <header class="profile__head tarjeta">
-      <div class="profile__avatar">
+    <header class="perfil__head tarjeta">
+      <div class="perfil__avatar">
         @if (user()?.fotoUrl) {
           <img [src]="user()!.fotoUrl" [alt]="user()!.nombre" />
         } @else {
@@ -17,10 +17,10 @@
         }
       </div>
 
-      <div class="profile__identity">
-        <h2 class="profile__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
+      <div class="perfil__identity">
+        <h2 class="perfil__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
 
-        <div class="profile__badges">
+        <div class="perfil__badges">
           <span class="pildora_info">{{ user()?.rol }}</span>
           @if (user()?.verificado) {
             <span class="pildora_exito">&#10004; Verificado</span>
@@ -29,18 +29,18 @@
 
         <jobsy-rating-stars [value]="calificacion" [reviews]="servicios" />
 
-        <p class="profile__city">&#128205; {{ user()?.ciudad }}</p>
+        <p class="perfil__city">&#128205; {{ user()?.ciudad }}</p>
       </div>
 
       <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico">Cambiar foto</a>
     </header>
 
-    <div class="profile__grid">
+    <div class="perfil__grid">
       <!-- Datos personales -->
-      <section class="profile__block tarjeta">
+      <section class="perfil__block tarjeta">
         <h3>Datos personales</h3>
 
-        <dl class="profile__data">
+        <dl class="perfil__data">
           <div><dt>Nombre</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
           <div><dt>Correo</dt><dd>{{ user()?.email }}</dd></div>
           <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
@@ -50,18 +50,18 @@
       </section>
 
       <!-- Especialidades -->
-      <section class="profile__block tarjeta">
+      <section class="perfil__block tarjeta">
         <h3>Especialidades</h3>
 
-        <ul class="profile__skills">
+        <ul class="perfil__skills">
           @for (skill of especialidades; track skill) {
             <li class="pildora_info">{{ skill }}</li>
           }
         </ul>
 
-        <h3 class="profile__subtitle">Resumen de actividad</h3>
+        <h3 class="perfil__subtitle">Resumen de actividad</h3>
 
-        <div class="profile__metrics">
+        <div class="perfil__metrics">
           <div>
             <strong>{{ servicios }}</strong>
             <span>Servicios</span>
@@ -79,7 +79,7 @@
     </div>
 
     <!-- Enlaces relacionados -->
-    <nav class="profile__links">
+    <nav class="perfil__links">
       <a routerLink="/app/hoja-de-vida" class="tarjeta">
         <span aria-hidden="true">&#128196;</span>
         <div>

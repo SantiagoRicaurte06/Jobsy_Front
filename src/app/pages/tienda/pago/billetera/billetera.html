@@ -1,15 +1,15 @@
-<section class="wallet">
-  <h2 class="wallet__title">Billetera digital</h2>
-  <p class="wallet__subtitle">Recibiras una notificacion en tu app para aprobar el pago.</p>
+<section class="billetera">
+  <h2 class="billetera__title">Billetera digital</h2>
+  <p class="billetera__subtitle">Recibiras una notificacion en tu app para aprobar el pago.</p>
 
-  <p class="wallet__demo">&#9888; Modo demostracion: no se envia ninguna solicitud real.</p>
+  <p class="billetera__demo">&#9888; Modo demostracion: no se envia ninguna solicitud real.</p>
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
       <label class="etiqueta">Elige tu billetera</label>
-      <div class="wallet__options">
+      <div class="billetera__options">
         @for (b of billeteras; track b.value) {
-          <button type="button" class="wallet__option"
+          <button type="button" class="billetera__option"
             [class.is-selected]="billetera() === b.value"
             (click)="billetera.set(b.value)">
             <span aria-hidden="true">{{ b.icon }}</span>

@@ -1,5 +1,5 @@
-<div class="contenedor cart">
-  <h1 class="cart__title">Mi carrito</h1>
+<div class="contenedor carrito">
+  <h1 class="carrito__title">Mi carrito</h1>
 
   @if (cart.isEmpty()) {
     <div class="tarjeta">
@@ -11,14 +11,14 @@
       </jobsy-empty-state>
     </div>
   } @else {
-    <div class="cart__grid">
+    <div class="carrito__grid">
       <!-- ---- Lineas del carrito ---- -->
-      <div class="cart__items tarjeta">
+      <div class="carrito__items tarjeta">
         @for (item of cart.items(); track item.product.id) {
-          <article class="cart__item">
-            <div class="cart__item-media" aria-hidden="true">&#129529;</div>
+          <article class="carrito__item">
+            <div class="carrito__item-media" aria-hidden="true">&#129529;</div>
 
-            <div class="cart__item-info">
+            <div class="carrito__item-info">
               <h2>
                 <a [routerLink]="['/tienda/producto', item.product.id]">{{ item.product.nombre }}</a>
               </h2>
@@ -26,7 +26,7 @@
               <p class="precio">{{ item.product.precio | cop }}</p>
             </div>
 
-            <div class="cart__item-qty">
+            <div class="carrito__item-qty">
               <button type="button" (click)="cart.updateQuantity(item.product.id, item.cantidad - 1)" aria-label="Restar">
                 &minus;
               </button>
@@ -36,26 +36,26 @@
               </button>
             </div>
 
-            <div class="cart__item-total">
+            <div class="carrito__item-total">
               <strong>{{ item.product.precio * item.cantidad | cop }}</strong>
-              <button type="button" class="cart__remove" (click)="cart.remove(item.product.id)">
+              <button type="button" class="carrito__remove" (click)="cart.remove(item.product.id)">
                 Eliminar
               </button>
             </div>
           </article>
         }
 
-        <footer class="cart__items-foot">
+        <footer class="carrito__items-foot">
           <a routerLink="/tienda" class="boton_simple boton_chico">&#8592; Seguir comprando</a>
-          <button type="button" class="cart__clear" (click)="cart.clear()">Vaciar carrito</button>
+          <button type="button" class="carrito__clear" (click)="cart.clear()">Vaciar carrito</button>
         </footer>
       </div>
 
       <!-- ---- Resumen ---- -->
-      <aside class="cart__summary tarjeta">
-        <h2 class="cart__summary-title">Resumen del pedido</h2>
+      <aside class="carrito__summary tarjeta">
+        <h2 class="carrito__summary-title">Resumen del pedido</h2>
 
-        <dl class="cart__lines">
+        <dl class="carrito__lines">
           <div>
             <dt>Subtotal ({{ cart.count() }} art.)</dt>
             <dd>{{ cart.subtotal() | cop }}</dd>
@@ -64,7 +64,7 @@
             <dt>Envio</dt>
             <dd>{{ cart.envio() | cop }}</dd>
           </div>
-          <div class="cart__lines-total">
+          <div class="carrito__lines-total">
             <dt>Total</dt>
             <dd class="precio">{{ cart.total() | cop }}</dd>
           </div>
@@ -72,7 +72,7 @@
 
         <a routerLink="/tienda/checkout" class="boton_principal boton_ancho">Ir a pagar</a>
 
-        <p class="cart__note">
+        <p class="carrito__note">
           &#128274; Pago seguro. Aceptamos PSE, tarjeta, billetera digital y saldo Jobsy.
         </p>
       </aside>

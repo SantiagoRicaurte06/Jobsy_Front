@@ -1,9 +1,9 @@
-<section class="card-pay">
-  <h2 class="card-pay__title">Pago con tarjeta</h2>
-  <p class="card-pay__subtitle">Aceptamos Visa, Mastercard y American Express.</p>
+<section class="pago-tarjeta">
+  <h2 class="pago-tarjeta__title">Pago con tarjeta</h2>
+  <p class="pago-tarjeta__subtitle">Aceptamos Visa, Mastercard y American Express.</p>
 
   <!-- Formulario simulado: no hay pasarela conectada ni se almacena nada. -->
-  <p class="card-pay__demo">
+  <p class="pago-tarjeta__demo">
     &#9888; Modo demostracion: no ingreses datos reales de tu tarjeta.
     Este formulario no esta conectado a ninguna pasarela.
   </p>
@@ -22,7 +22,7 @@
         [ngModel]="titular()" (ngModelChange)="titular.set($event)" name="titular" />
     </div>
 
-    <div class="card-pay__row">
+    <div class="pago-tarjeta__row">
       <div class="grupo_campo">
         <label class="etiqueta" for="venc">Vencimiento</label>
         <input id="venc" type="text" class="campo" placeholder="MM/AA" maxlength="5"
@@ -47,7 +47,7 @@
       </select>
     </div>
 
-    <label class="casilla card-pay__save">
+    <label class="casilla pago-tarjeta__save">
       <input type="checkbox" [ngModel]="guardar()" (ngModelChange)="guardar.set($event)" name="guardar" />
       Guardar esta tarjeta para futuras compras
     </label>
