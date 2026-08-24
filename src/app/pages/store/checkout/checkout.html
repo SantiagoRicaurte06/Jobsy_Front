@@ -1,4 +1,4 @@
-<div class="container checkout">
+<div class="contenedor checkout">
   <h1 class="checkout__title">Finalizar compra</h1>
 
   <div class="checkout__grid">
@@ -13,13 +13,13 @@
         }
       </nav>
 
-      <div class="checkout__panel card">
+      <div class="checkout__panel tarjeta">
         <router-outlet />
       </div>
     </div>
 
     <!-- Resumen -->
-    <aside class="checkout__summary card">
+    <aside class="checkout__summary tarjeta">
       <h2 class="checkout__summary-title">Tu pedido</h2>
 
       <ul class="checkout__items">
@@ -37,7 +37,7 @@
         <div><dt>Envio</dt><dd>{{ cart.envio() | cop }}</dd></div>
         <div class="checkout__lines-total">
           <dt>Total</dt>
-          <dd class="text-price">{{ cart.total() | cop }}</dd>
+          <dd class="precio">{{ cart.total() | cop }}</dd>
         </div>
       </dl>
 

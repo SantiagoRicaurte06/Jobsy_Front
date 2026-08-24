@@ -11,10 +11,10 @@
   </div>
 </section>
 
-<div class="container store">
+<div class="contenedor store">
   <div class="store__layout">
     <!-- ---- Filtros ---- -->
-    <aside class="store__filters card">
+    <aside class="store__filters tarjeta">
       <h2 class="store__filters-title">Categorias</h2>
 
       <ul class="store__cats">
@@ -49,12 +49,12 @@
 
     <!-- ---- Catalogo ---- -->
     <div class="store__catalog">
-      <div class="section-head">
+      <div class="encabezado_seccion">
         <h2>
           @if (categoriaActiva()) { {{ categoriaActiva() }} } @else { Productos seleccionados }
         </h2>
 
-        <a routerLink="/tienda/carrito" class="btn-secondary btn-sm">
+        <a routerLink="/tienda/carrito" class="boton_secundario boton_chico">
           Ver carrito ({{ cart.count() }})
         </a>
       </div>

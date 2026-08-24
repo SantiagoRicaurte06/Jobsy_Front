@@ -2,13 +2,13 @@
   @if (loading()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="section-head">
+    <div class="encabezado_seccion">
       <h1>Mi perfil</h1>
-      <a routerLink="/app/perfil/editar" class="btn-primary btn-sm">Editar perfil</a>
+      <a routerLink="/app/perfil/editar" class="boton_principal boton_chico">Editar perfil</a>
     </div>
 
     <!-- Cabecera -->
-    <header class="profile__head card">
+    <header class="profile__head tarjeta">
       <div class="profile__avatar">
         @if (user()?.fotoUrl) {
           <img [src]="user()!.fotoUrl" [alt]="user()!.nombre" />
@@ -21,9 +21,9 @@
         <h2 class="profile__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
 
         <div class="profile__badges">
-          <span class="badge-info">{{ user()?.rol }}</span>
+          <span class="pildora_info">{{ user()?.rol }}</span>
           @if (user()?.verificado) {
-            <span class="badge-success">&#10004; Verificado</span>
+            <span class="pildora_exito">&#10004; Verificado</span>
           }
         </div>
 
@@ -32,12 +32,12 @@
         <p class="profile__city">&#128205; {{ user()?.ciudad }}</p>
       </div>
 
-      <a routerLink="/app/perfil/subir-foto" class="btn-ghost btn-sm">Cambiar foto</a>
+      <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico">Cambiar foto</a>
     </header>
 
     <div class="profile__grid">
       <!-- Datos personales -->
-      <section class="profile__block card">
+      <section class="profile__block tarjeta">
         <h3>Datos personales</h3>
 
         <dl class="profile__data">
@@ -50,12 +50,12 @@
       </section>
 
       <!-- Especialidades -->
-      <section class="profile__block card">
+      <section class="profile__block tarjeta">
         <h3>Especialidades</h3>
 
         <ul class="profile__skills">
           @for (skill of especialidades; track skill) {
-            <li class="badge-info">{{ skill }}</li>
+            <li class="pildora_info">{{ skill }}</li>
           }
         </ul>
 
@@ -80,7 +80,7 @@
 
     <!-- Enlaces relacionados -->
     <nav class="profile__links">
-      <a routerLink="/app/hoja-de-vida" class="card">
+      <a routerLink="/app/hoja-de-vida" class="tarjeta">
         <span aria-hidden="true">&#128196;</span>
         <div>
           <strong>Hoja de vida</strong>
@@ -88,7 +88,7 @@
         </div>
       </a>
 
-      <a routerLink="/app/configuracion" class="card">
+      <a routerLink="/app/configuracion" class="tarjeta">
         <span aria-hidden="true">&#9881;</span>
         <div>
           <strong>Configuracion</strong>

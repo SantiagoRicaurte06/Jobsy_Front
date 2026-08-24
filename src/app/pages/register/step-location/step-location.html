@@ -1,5 +1,5 @@
 
-<div class="step-location card">
+<div class="step-location tarjeta">
   <jobsy-step-progress [steps]="steps" [current]="2" />
 
   <h1 class="step-location__title">Ubicacion Y Foto</h1>
@@ -7,7 +7,7 @@
 
   <form (ngSubmit)="finish()">
     <!--FOTO DE PERFIL-->
-    <div class="form-group step-location__photo-group">
+    <div class="grupo_campo step-location__photo-group">
       @if (fotoPreview()) {
         <img [src]="fotoPreview()" alt="Vista Previa De Tu Foto" />
       } @else {
@@ -16,14 +16,14 @@
     </div>
 
     <div>
-      <label class="btn-ghost-sm" for="foto">Subir Foto</label>
-      <input id="foto" type="file" accept="image/*" class="visually-hidden" (change)="onlife($event)" />
-      <p class="form-hint">JPG o PNG, Maximo 2 MB.</p>
+      <label class="boton_simple boton_chico" for="foto">Subir Foto</label>
+      <input id="foto" type="file" accept="image/*" class="oculto" (change)="onlife($event)" />
+      <p class="ayuda">JPG o PNG, Maximo 2 MB.</p>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="ciudad">Ciudad</label>
-      <select id="ciudad" class="form-select"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="ciudad">Ciudad</label>
+      <select id="ciudad" class="lista"
         [ngModel]="ciudad()" (ngModelChange)="ciudad.set($event)" name="ciudad">
         @for (c of Ciudades; track c) {
           <option [value]="c">{{ c }}</option>
@@ -31,15 +31,15 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="barrio">Barrio o zona</label>
-      <input id="barrio" type="text" class="form-input" placeholder="Ej: El Alcaravan"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="barrio">Barrio o zona</label>
+      <input id="barrio" type="text" class="campo" placeholder="Ej: El Alcaravan"
         [ngModel]="barrio()" (ngModelChange)="barrio.set($event)" name="barrio" />
     </div>
 
     <!-- Radio De Trabajo -->
-     <div class="form-group">
-      <label class="form-label" for="distancia">
+     <div class="grupo_campo">
+      <label class="etiqueta" for="distancia">
         Distancia Maxima De Trabajo: <strong>{{ distanciaKm() }} Km</strong>
         </label>
         <input id="distancia" type="range" min="1" max="50" class="step-location__range"
@@ -51,12 +51,12 @@
      </div>
 
      @if (error()) {
-      <p class="form-error" role="alert">{{ error() }}</p>
+      <p class="error" role="alert">{{ error() }}</p>
      }
 
      <div class="step-location__actions">
-      <button type="button" class="btn-ghots" (click)="back()">Atras</button>
-      <button type="submit" class="btn-primary" [disabled]="loading()">
+      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="submit" class="boton_principal" [disabled]="loading()">
         {{ loading() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
       </button>
      </div>

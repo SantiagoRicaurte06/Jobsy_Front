@@ -12,25 +12,25 @@
 
   <!-- Resumen -->
   <div class="admin-reports__stats">
-    <div class="card admin-reports__stat admin-reports__stat--danger">
+    <div class="tarjeta admin-reports__stat admin-reports__stat--danger">
       <strong>{{ abiertos() }}</strong>
       <span>Abiertos</span>
     </div>
-    <div class="card admin-reports__stat admin-reports__stat--info">
+    <div class="tarjeta admin-reports__stat admin-reports__stat--info">
       <strong>{{ enProceso() }}</strong>
       <span>En proceso</span>
     </div>
-    <div class="card admin-reports__stat admin-reports__stat--ok">
+    <div class="tarjeta admin-reports__stat admin-reports__stat--ok">
       <strong>{{ resueltos() }}</strong>
       <span>Resueltos</span>
     </div>
-    <div class="card admin-reports__stat">
+    <div class="tarjeta admin-reports__stat">
       <strong>{{ reports().length }}</strong>
       <span>Total</span>
     </div>
   </div>
 
-  <div class="card admin-reports__panel">
+  <div class="tarjeta admin-reports__panel">
     <!-- Filtros -->
     <nav class="admin-reports__filtros">
       @for (f of filtros; track f.value) {
@@ -51,10 +51,10 @@
             <div class="admin-reports__info">
               <div class="admin-reports__info-head">
                 <strong>{{ r.asunto }}</strong>
-                <span class="badge-info">{{ r.tipo }}</span>
+                <span class="pildora_info">{{ r.tipo }}</span>
               </div>
               <p class="admin-reports__desc">{{ r.descripcion }}</p>
-              <span class="text-xs text-muted">
+              <span class="texto_mini texto_gris">
                 {{ r.reportanteId }} &middot; {{ r.fecha }}
               </span>
             </div>
@@ -69,7 +69,7 @@
             </select>
 
             <div class="admin-reports__actions">
-              <button type="button" class="btn-ghost btn-sm" (click)="abrir(r)">Atender</button>
+              <button type="button" class="boton_simple boton_chico" (click)="abrir(r)">Atender</button>
               <button type="button" class="admin-reports__delete" (click)="eliminar(r)">
                 Eliminar
               </button>
@@ -100,22 +100,22 @@
       <p>{{ r.descripcion }}</p>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="respuesta">Respuesta al usuario</label>
-      <textarea id="respuesta" class="form-textarea"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="respuesta">Respuesta al usuario</label>
+      <textarea id="respuesta" class="area_texto"
         placeholder="Explica que se hizo para solucionar el caso."
         [ngModel]="respuesta()" (ngModelChange)="respuesta.set($event)" name="respuesta"></textarea>
-      <p class="form-hint">
+      <p class="ayuda">
         TEMPORAL: la respuesta aun no se envia. Se conectara con Soporte_API.
       </p>
     </div>
 
     <footer class="admin-reports__modal-actions">
-      <button type="button" class="btn-ghost" (click)="cerrarDetalle()">Cerrar</button>
-      <button type="button" class="btn-secondary" (click)="cambiarEstado(r, 'en_proceso')">
+      <button type="button" class="boton_simple" (click)="cerrarDetalle()">Cerrar</button>
+      <button type="button" class="boton_secundario" (click)="cambiarEstado(r, 'en_proceso')">
         Marcar en proceso
       </button>
-      <button type="button" class="btn-primary" (click)="resolver()">Resolver</button>
+      <button type="button" class="boton_principal" (click)="resolver()">Resolver</button>
     </footer>
   </jobsy-modal>
 }

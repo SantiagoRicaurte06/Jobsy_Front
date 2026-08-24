@@ -70,9 +70,9 @@ export class AdminInventoryPage {
   }
 
   nivel(stock: number): { clase: string; texto: string } {
-    if (stock <= 2) return { clase: 'badge-danger', texto: 'Critico' };
-    if (stock <= 10) return { clase: 'badge-warning', texto: 'Bajo' };
-    return { clase: 'badge-success', texto: 'Normal' };
+    if (stock <= 2) return { clase: 'pildora_error', texto: 'Critico' };
+    if (stock <= 10) return { clase: 'pildora_aviso', texto: 'Bajo' };
+    return { clase: 'pildora_exito', texto: 'Normal' };
   }
 
   /** Porcentaje visual de la barra, tomando 50 unidades como referencia. */

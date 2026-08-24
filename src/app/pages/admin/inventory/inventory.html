@@ -12,29 +12,29 @@
 
   <!-- Resumen -->
   <div class="admin-inventory__summary">
-    <div class="card admin-inventory__stat">
+    <div class="tarjeta admin-inventory__stat">
       <strong>{{ products().length }}</strong>
       <span>Productos</span>
     </div>
-    <div class="card admin-inventory__stat">
+    <div class="tarjeta admin-inventory__stat">
       <strong>{{ unidadesTotales() }}</strong>
       <span>Unidades en stock</span>
     </div>
-    <div class="card admin-inventory__stat admin-inventory__stat--warn">
+    <div class="tarjeta admin-inventory__stat admin-inventory__stat--warn">
       <strong>{{ bajos() }}</strong>
       <span>Stock bajo</span>
     </div>
-    <div class="card admin-inventory__stat admin-inventory__stat--danger">
+    <div class="tarjeta admin-inventory__stat admin-inventory__stat--danger">
       <strong>{{ criticos() }}</strong>
       <span>Stock critico</span>
     </div>
   </div>
 
   <p class="admin-inventory__valor">
-    Valor total del inventario: <strong class="text-price">{{ valorInventario() | cop }}</strong>
+    Valor total del inventario: <strong class="precio">{{ valorInventario() | cop }}</strong>
   </p>
 
-  <div class="card admin-inventory__panel">
+  <div class="tarjeta admin-inventory__panel">
     <!-- Filtros -->
     <nav class="admin-inventory__filters">
       @for (f of filtros; track f.value) {
@@ -54,7 +54,7 @@
 
           <div class="admin-inventory__info">
             <strong>{{ p.nombre }}</strong>
-            <span class="text-xs text-muted">{{ p.sku }} &middot; {{ p.categoria }}</span>
+            <span class="texto_mini texto_gris">{{ p.sku }} &middot; {{ p.categoria }}</span>
           </div>
 
           <div class="admin-inventory__level">
@@ -63,7 +63,7 @@
                 [class.is-low]="p.stock <= 10"
                 [class.is-critical]="p.stock <= 2"></span>
             </div>
-            <span class="text-xs text-muted">{{ p.stock }} unidades</span>
+            <span class="texto_mini texto_gris">{{ p.stock }} unidades</span>
           </div>
 
           <span [class]="nivel(p.stock).clase">{{ nivel(p.stock).texto }}</span>
@@ -74,7 +74,7 @@
               aria-label="Restar una unidad">&minus;</button>
             <button type="button" (click)="sumar(p, 1)" aria-label="Sumar una unidad">+</button>
             <button type="button" class="admin-inventory__bulk" (click)="sumar(p, 20)">+20</button>
-            <button type="button" class="btn-ghost btn-sm" (click)="abrirAjuste(p)">Ajustar</button>
+            <button type="button" class="boton_simple boton_chico" (click)="abrirAjuste(p)">Ajustar</button>
           </div>
         </li>
       }
@@ -89,16 +89,16 @@
       Stock actual: <strong>{{ p.stock }} unidades</strong>
     </p>
 
-    <div class="form-group">
-      <label class="form-label" for="stock">Nuevo valor</label>
-      <input id="stock" type="number" min="0" class="form-input"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="stock">Nuevo valor</label>
+      <input id="stock" type="number" min="0" class="campo"
         [ngModel]="nuevoStock()" (ngModelChange)="nuevoStock.set(+$event)" name="stock" />
-      <p class="form-hint">Usa esto tras un conteo fisico para cuadrar la cifra real.</p>
+      <p class="ayuda">Usa esto tras un conteo fisico para cuadrar la cifra real.</p>
     </div>
 
     <footer class="admin-inventory__modal-actions">
-      <button type="button" class="btn-ghost" (click)="ajustando.set(null)">Cancelar</button>
-      <button type="button" class="btn-primary" (click)="guardarAjuste()">Guardar</button>
+      <button type="button" class="boton_simple" (click)="ajustando.set(null)">Cancelar</button>
+      <button type="button" class="boton_principal" (click)="guardarAjuste()">Guardar</button>
     </footer>
   </jobsy-modal>
 }

@@ -7,17 +7,17 @@
       </p>
     </div>
 
-    <button type="button" class="btn-primary btn-sm" (click)="nuevo()">+ Nuevo producto</button>
+    <button type="button" class="boton_principal boton_chico" (click)="nuevo()">+ Nuevo producto</button>
   </header>
 
   @if (aviso()) {
     <p class="admin-products__aviso" role="status">&#10004; {{ aviso() }}</p>
   }
 
-  <div class="card admin-products__panel">
+  <div class="tarjeta admin-products__panel">
     <!-- Filtros -->
     <div class="admin-products__filtros">
-      <input type="search" class="form-input admin-products__search"
+      <input type="search" class="campo admin-products__search"
         placeholder="Buscar por nombre o SKU..."
         [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)" name="busqueda"
         aria-label="Buscar productos" />
@@ -35,7 +35,7 @@
     @if (visibles().length === 0) {
       <jobsy-empty-state icon="&#128230;" title="Sin resultados"
         message="Ningun producto coincide con el filtro.">
-        <button type="button" class="btn-primary" (click)="nuevo()">Crear producto</button>
+        <button type="button" class="boton_principal" (click)="nuevo()">Crear producto</button>
       </jobsy-empty-state>
     } @else {
       <div class="admin-products__table-wrap">
@@ -62,13 +62,13 @@
                     }
                     <div>
                       <strong>{{ p.nombre }}</strong>
-                      <span class="text-xs text-muted">{{ p.sku }}</span>
+                      <span class="texto_mini texto_gris">{{ p.sku }}</span>
                     </div>
                   </div>
                 </td>
 
                 <td>{{ p.categoria }}</td>
-                <td class="text-price">{{ p.precio | cop }}</td>
+                <td class="precio">{{ p.precio | cop }}</td>
 
                 <td>
                   <span [class.admin-products__low]="p.stock <= 5">{{ p.stock }} u.</span>
@@ -89,7 +89,7 @@
 
                 <td>
                   <div class="admin-products__actions">
-                    <button type="button" class="btn-ghost btn-sm" (click)="editar(p)">Editar</button>
+                    <button type="button" class="boton_simple boton_chico" (click)="editar(p)">Editar</button>
                     <button type="button" class="admin-products__delete"
                       (click)="pedirBorrado(p)">Eliminar</button>
                   </div>
@@ -110,22 +110,22 @@
     subtitle="Los cambios se reflejan al instante en la tienda"
     (cerrar)="cerrar()">
 
-    <div class="form-group">
-      <label class="form-label" for="f-nombre">Nombre</label>
-      <input id="f-nombre" type="text" class="form-input" placeholder="Kit de Limpieza Profesional"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-nombre">Nombre</label>
+      <input id="f-nombre" type="text" class="campo" placeholder="Kit de Limpieza Profesional"
         [ngModel]="form().nombre" (ngModelChange)="set('nombre', $event)" name="f-nombre" />
     </div>
 
     <div class="admin-products__row">
-      <div class="form-group">
-        <label class="form-label" for="f-sku">SKU</label>
-        <input id="f-sku" type="text" class="form-input" placeholder="Se genera solo"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-sku">SKU</label>
+        <input id="f-sku" type="text" class="campo" placeholder="Se genera solo"
           [ngModel]="form().sku" (ngModelChange)="set('sku', $event)" name="f-sku" />
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="f-cat">Categoria</label>
-        <select id="f-cat" class="form-select"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-cat">Categoria</label>
+        <select id="f-cat" class="lista"
           [ngModel]="form().categoria" (ngModelChange)="set('categoria', $event)" name="f-cat">
           <option value="">Selecciona...</option>
           @for (c of categories(); track c.id) {
@@ -136,22 +136,22 @@
     </div>
 
     <div class="admin-products__row">
-      <div class="form-group">
-        <label class="form-label" for="f-precio">Precio (COP)</label>
-        <input id="f-precio" type="number" min="0" class="form-input"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-precio">Precio (COP)</label>
+        <input id="f-precio" type="number" min="0" class="campo"
           [ngModel]="form().precio" (ngModelChange)="set('precio', +$event)" name="f-precio" />
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="f-stock">Stock</label>
-        <input id="f-stock" type="number" min="0" class="form-input"
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-stock">Stock</label>
+        <input id="f-stock" type="number" min="0" class="campo"
           [ngModel]="form().stock" (ngModelChange)="set('stock', +$event)" name="f-stock" />
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="f-estado">Estado</label>
-      <select id="f-estado" class="form-select"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-estado">Estado</label>
+      <select id="f-estado" class="lista"
         [ngModel]="form().estado" (ngModelChange)="set('estado', $event)" name="f-estado">
         @for (e of estados; track e) {
           <option [value]="e">{{ e }}</option>
@@ -159,15 +159,15 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="f-desc">Descripcion</label>
-      <textarea id="f-desc" class="form-textarea" placeholder="Para que sirve el producto."
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-desc">Descripcion</label>
+      <textarea id="f-desc" class="area_texto" placeholder="Para que sirve el producto."
         [ngModel]="form().descripcion" (ngModelChange)="set('descripcion', $event)" name="f-desc"></textarea>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" for="f-img">URL de la imagen</label>
-      <input id="f-img" type="url" class="form-input" placeholder="https://..."
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-img">URL de la imagen</label>
+      <input id="f-img" type="url" class="campo" placeholder="https://..."
         [ngModel]="form().imagenUrl" (ngModelChange)="set('imagenUrl', $event)" name="f-img" />
 
       @if (form().imagenUrl) {
@@ -176,12 +176,12 @@
     </div>
 
     @if (error()) {
-      <p class="form-error" role="alert">{{ error() }}</p>
+      <p class="error" role="alert">{{ error() }}</p>
     }
 
     <footer class="admin-products__modal-actions">
-      <button type="button" class="btn-ghost" (click)="cerrar()">Cancelar</button>
-      <button type="button" class="btn-primary" (click)="guardar()">
+      <button type="button" class="boton_simple" (click)="cerrar()">Cancelar</button>
+      <button type="button" class="boton_principal" (click)="guardar()">
         {{ editando() ? 'Guardar cambios' : 'Crear producto' }}
       </button>
     </footer>
@@ -196,7 +196,7 @@
     </p>
 
     <footer class="admin-products__modal-actions">
-      <button type="button" class="btn-ghost" (click)="porBorrar.set(null)">Cancelar</button>
+      <button type="button" class="boton_simple" (click)="porBorrar.set(null)">Cancelar</button>
       <button type="button" class="admin-products__danger-btn" (click)="confirmarBorrado()">
         Si, eliminar
       </button>
