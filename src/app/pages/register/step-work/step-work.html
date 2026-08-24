@@ -1,5 +1,5 @@
 
-<div class="step-work card">
+<div class="step-work tarjeta">
   <jobsy-step-progress [steps]="steps" [current]="1" />
 
   <h1 class="step-work__title">Modalidad De Trabajo</h1>
@@ -8,8 +8,8 @@
   <form (ngSubmit)="next()">
 
     <!-- MODALIDADES -->
-    <div class="form-group">
-      <label class="form-label">Modalidades Disponibles</label>
+    <div class="grupo_campo">
+      <label class="etiqueta">Modalidades Disponibles</label>
       <div class="step-work__grid">
         @for (op of opcionesModalidad; track op.value) {
           <button
@@ -28,8 +28,8 @@
 
 
     <!-- ESPECIALIDADES -->
-    <div class="form-group">
-      <label class="form-label">Especialidades</label>
+    <div class="grupo_campo">
+      <label class="etiqueta">Especialidades</label>
       <ul class="step-work__chips">
         @for (e of opcionesEspecialidad; track e) {
           <li>
@@ -48,21 +48,21 @@
 
     <!--EXPERIENCIA-->
 
-    <div class="form-group">
-      <label class="form-label" for="experiencia">Cuentanos Tu Experiencia</label>
-      <textarea id="experiencia" class="form-textarea"
+    <div class="grupo_campo">
+      <label class="etiqueta" for="experiencia">Cuentanos Tu Experiencia</label>
+      <textarea id="experiencia" class="area_texto"
       placeholder="Ej: 6 Anos De Experiencia En Hogares De Yopal, Con Enfasis En Limpieza Profunda Y Cocina"
       [ngModel]="experiencia()" (ngModelChange)="experiencia.set($event)" name="experiencia"></textarea>
-    <p class="form-hint">Este Texto Aparecera En Tu Perfil Publico.</p>
+    <p class="ayuda">Este Texto Aparecera En Tu Perfil Publico.</p>
     </div>
 
     @if (error()) {
-      <p class="form-error" role="alert">{{ error() }}</p>
+      <p class="error" role="alert">{{ error() }}</p>
     }
 
     <div class="step-work__actions">
-      <button type="button" class="btn-ghost" (click)="back()">Atras</button>
-      <button type="submit" class="btn-primary">Siguiente</button>
+      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="submit" class="boton_principal">Siguiente</button>
     </div>
   </form>
 </div>

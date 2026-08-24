@@ -1,13 +1,13 @@
 <section class="visual-report">
-  <div class="section-head">
+  <div class="encabezado_seccion">
     <h1>Reporte visual</h1>
-    <a routerLink="/app/reportes" class="btn-ghost btn-sm">Volver al centro</a>
+    <a routerLink="/app/reportes" class="boton_simple boton_chico">Volver al centro</a>
   </div>
 
   <!-- KPIs -->
   <div class="visual-report__kpis">
     @for (kpi of kpis; track kpi.label) {
-      <div class="visual-report__kpi card">
+      <div class="visual-report__kpi tarjeta">
         <span class="visual-report__kpi-label">{{ kpi.label }}</span>
         <strong class="visual-report__kpi-value">{{ kpi.value }}</strong>
         <span class="visual-report__kpi-delta">&#9650; {{ kpi.delta }}</span>
@@ -17,8 +17,8 @@
 
   <div class="visual-report__grid">
     <!-- Grafico principal -->
-    <section class="card visual-report__chart">
-      <div class="section-head">
+    <section class="tarjeta visual-report__chart">
+      <div class="encabezado_seccion">
         <h2>Postulaciones por mes &mdash; {{ periodo() }}</h2>
       </div>
 
@@ -26,7 +26,7 @@
     </section>
 
     <!-- Distribucion por categoria -->
-    <section class="card visual-report__breakdown">
+    <section class="tarjeta visual-report__breakdown">
       <h2>Tipos de servicio</h2>
 
       <ul>
