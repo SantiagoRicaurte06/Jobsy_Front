@@ -76,7 +76,7 @@ export const routes: Routes = [
         path: 'contratacion/:id',
         canActivate: [authGuard],
         loadComponent: () => import('./pages/empleados/contratacion/contratacion').then((m) => m.HiringPage),
-        title: 'Contratacion — Jobsy',
+        title: 'Contratación — Jobsy',
       },
 
       // ---- Tienda ----
@@ -124,7 +124,7 @@ export const routes: Routes = [
             path: 'saldo',
             loadComponent: () =>
               import('./pages/tienda/pago/saldo/saldo').then(
-                (m) => m.JobsyBalancePage,
+                (m) => m.BalancePage,
               ),
           },
         ],
@@ -144,13 +144,13 @@ export const routes: Routes = [
       {
         path: 'login',
         loadComponent: () => import('./pages/acceso/ingreso/ingreso').then((m) => m.LoginPage),
-        title: 'Iniciar sesion — Jobsy',
+        title: 'Iniciar sesión — Jobsy',
       },
       {
         path: 'recuperar',
         loadComponent: () =>
           import('./pages/acceso/recuperar/recuperar').then((m) => m.ForgotPasswordPage),
-        title: 'Restablecer contrasena — Jobsy',
+        title: 'Restablecer contraseña — Jobsy',
       },
       {
         path: 'correo-enviado',
@@ -163,7 +163,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
           import('./pages/acceso/ingreso-exitoso/ingreso-exitoso').then((m) => m.LoginSuccessPage),
-        title: 'Sesion iniciada — Jobsy',
+        title: 'Sesión iniciada — Jobsy',
       },
     ],
   },
@@ -211,7 +211,7 @@ export const routes: Routes = [
         path: 'paso-3',
         loadComponent: () =>
           import('./pages/registro/paso-ubicacion/paso-ubicacion').then((m) => m.StepLocationPage),
-        title: 'Paso 3: ubicacion y foto — Jobsy',
+        title: 'Paso 3: ubicación y foto — Jobsy',
       },
       {
         path: 'cuenta-creada',
@@ -319,7 +319,7 @@ export const routes: Routes = [
         path: 'configuracion',
         loadComponent: () =>
           import('./pages/configuracion/configuracion/configuracion').then((m) => m.SettingsPage),
-        title: 'Configuracion — Jobsy',
+        title: 'Configuración — Jobsy',
       },
     ],
   },
@@ -344,7 +344,7 @@ export const routes: Routes = [
         path: 'analiticas',
         loadComponent: () =>
           import('./pages/admin/analiticas/analiticas').then((m) => m.AdminAnalyticsPage),
-        title: 'Analiticas — Admin Jobsy',
+        title: 'Analíticas — Admin Jobsy',
       },
       {
         path: 'productos',
@@ -356,7 +356,7 @@ export const routes: Routes = [
         path: 'categorias',
         loadComponent: () =>
           import('./pages/admin/categorias/categorias').then((m) => m.AdminCategoriesPage),
-        title: 'Categorias — Admin Jobsy',
+        title: 'Categorías — Admin Jobsy',
       },
       {
         path: 'inventario',
@@ -379,6 +379,6 @@ export const routes: Routes = [
   {
     path: '**',
     loadComponent: () => import('./pages/no-encontrado/no-encontrado').then((m) => m.NotFoundPage),
-    title: 'Pagina no encontrada — Jobsy',
+    title: 'Página no encontrada — Jobsy',
   },
 ];
