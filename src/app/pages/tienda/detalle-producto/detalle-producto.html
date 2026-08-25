@@ -25,7 +25,7 @@
         <p class="detalle-producto__category">{{ product()!.categoria }}</p>
         <h1 class="detalle-producto__title">{{ product()!.nombre }}</h1>
 
-        <jobsy-rating-stars [value]="product()!.calificacion" />
+        <jobsy-rating-stars [value]="promedioCalificacion()" [reviews]="totalResenas()" />
 
         <p class="detalle-producto__price precio">{{ product()!.precio | cop }}</p>
 
@@ -67,5 +67,276 @@
         </dl>
       </div>
     </div>
+
+    <!-- ============================================================
+         Sección de Reseñas y Calificaciones
+         ============================================================ -->
+    <section class="detalle-producto__reviews" id="resenas">
+      <div class="detalle-producto__reviews-header">
+        <div>
+          <h2 class="detalle-producto__reviews-title">Opiniones sobre el producto</h2>
+          <p class="detalle-producto__reviews-subtitle">
+            Conoce la experiencia de otros clientes con este artículo
+          </p>
+        </div>
+        <button
+          type="button"
+          class="boton_secundario detalle-producto__btn-nueva-resena"
+          (click)="toggleFormulario()"
+        >
+          @if (mostrarFormulario()) {
+            Cancelar reseña
+          } @else {
+            &#9998; Escribir una reseña
+          }
+        </button>
+      </div>
+
+      <!-- Resumen estadístico de calificaciones -->
+      <div class="detalle-producto__reviews-summary tarjeta">
+        <div class="detalle-producto__summary-score">
+          <div class="detalle-producto__big-score">{{ promedioCalificacion() }}</div>
+          <jobsy-rating-stars [value]="promedioCalificacion()" [showValue]="false" />
+          <p class="detalle-producto__total-label">
+            Basado en {{ totalResenas() }} {{ totalResenas() === 1 ? 'reseña' : 'reseñas' }}
+          </p>
+        </div>
+
+        <div class="detalle-producto__summary-bars">
+          @for (item of distribucionEstrellas(); track item.stars) {
+            <div class="detalle-producto__bar-row">
+              <span class="detalle-producto__bar-stars">{{ item.stars }} &#9733;</span>
+              <div class="detalle-producto__bar-track">
+                <div class="detalle-producto__bar-fill" [style.width.%]="item.porcentaje"></div>
+              </div>
+              <span class="detalle-producto__bar-count">({{ item.count }})</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Mensaje de éxito al publicar -->
+      @if (mensajeExito()) {
+        <div class="detalle-producto__alert detalle-producto__alert--success">
+          <span>&#10004;</span>
+          <p>{{ mensajeExito() }}</p>
+        </div>
+      }
+
+      <!-- Formulario para dejar reseña -->
+      @if (mostrarFormulario()) {
+        <div class="detalle-producto__form-card tarjeta">
+          <h3 class="detalle-producto__form-title">Escribe tu opinión</h3>
+          <p class="detalle-producto__form-subtitle">Comparte tu experiencia para ayudar a otros compradores</p>
+
+          @if (mensajeError()) {
+            <div class="detalle-producto__alert detalle-producto__alert--error">
+              <span>&#9888;</span>
+              <p>{{ mensajeError() }}</p>
+            </div>
+          }
+
+          <form (ngSubmit)="enviarResena()" class="detalle-producto__form">
+            <!-- Calificación con estrellas -->
+            <div class="detalle-producto__form-group">
+              <label class="etiqueta">Calificación general</label>
+              <div class="detalle-producto__star-picker" role="radiogroup" aria-label="Calificación en estrellas">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <button
+                    type="button"
+                    class="detalle-producto__star-btn"
+                    [class.is-active]="star <= nuevaCalificacion"
+                    (click)="setCalificacion(star)"
+                    [attr.aria-label]="star + ' estrellas'"
+                  >
+                    &#9733;
+                  </button>
+                }
+                <span class="detalle-producto__star-desc">
+                  @switch (nuevaCalificacion) {
+                    @case (5) { Excelente, lo recomiendo totalmente }
+                    @case (4) { Muy bueno, cumple lo prometido }
+                    @case (3) { Regular, tiene aspectos por mejorar }
+                    @case (2) { Malo, no me gustó }
+                    @case (1) { Pésimo, no lo recomiendo }
+                  }
+                </span>
+              </div>
+            </div>
+
+            <!-- Nombre de autor -->
+            <div class="detalle-producto__form-group">
+              <label class="etiqueta" for="review-author">Tu nombre o alias *</label>
+              <input
+                id="review-author"
+                type="text"
+                class="campo"
+                placeholder="Ej. Juan Pérez"
+                [(ngModel)]="nuevoAutor"
+                name="autor"
+                required
+              />
+            </div>
+
+            <!-- Título de la reseña -->
+            <div class="detalle-producto__form-group">
+              <label class="etiqueta" for="review-title">Título de tu reseña *</label>
+              <input
+                id="review-title"
+                type="text"
+                class="campo"
+                placeholder="Resume tu opinión en pocas palabras"
+                [(ngModel)]="nuevoTitulo"
+                name="titulo"
+                required
+              />
+            </div>
+
+            <!-- Comentario detallado -->
+            <div class="detalle-producto__form-group">
+              <label class="etiqueta" for="review-comment">Tu reseña detallada *</label>
+              <textarea
+                id="review-comment"
+                class="campo detalle-producto__textarea"
+                rows="4"
+                placeholder="¿Qué te pareció el producto? ¿La calidad, entrega o funcionamiento cumplieron tus expectativas?"
+                [(ngModel)]="nuevoComentario"
+                name="comentario"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Subir fotos -->
+            <div class="detalle-producto__form-group">
+              <label class="etiqueta">Fotos del producto (opcional)</label>
+              <p class="detalle-producto__field-hint">
+                Puedes subir hasta 4 fotos reales del producto recibido (JPG o PNG, máx. 3MB cada una).
+              </p>
+
+              <!-- Vista previa de fotos cargadas -->
+              @if (nuevasFotos.length > 0) {
+                <div class="detalle-producto__photo-previews">
+                  @for (foto of nuevasFotos; track $index) {
+                    <div class="detalle-producto__photo-thumb">
+                      <img [src]="foto" alt="Foto adjunta" />
+                      <button
+                        type="button"
+                        class="detalle-producto__photo-remove"
+                        (click)="eliminarFoto($index)"
+                        aria-label="Eliminar foto"
+                        title="Eliminar foto"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (nuevasFotos.length < 4) {
+                <label class="detalle-producto__upload-box">
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg, image/webp"
+                    multiple
+                    (change)="onFotosSeleccionadas($event)"
+                    class="detalle-producto__file-input"
+                  />
+                  <span class="detalle-producto__upload-icon">&#128247;</span>
+                  <span class="detalle-producto__upload-text">Subir fotos desde tu dispositivo</span>
+                  <span class="detalle-producto__upload-limit">({{ 4 - nuevasFotos.length }} disponibles)</span>
+                </label>
+              }
+            </div>
+
+            <!-- Acciones del formulario -->
+            <div class="detalle-producto__form-actions">
+              <button
+                type="submit"
+                class="boton_principal"
+                [disabled]="guardandoResena()"
+              >
+                @if (guardandoResena()) {
+                  Publicando reseña...
+                } @else {
+                  Publicar reseña
+                }
+              </button>
+              <button
+                type="button"
+                class="boton_fantasma"
+                (click)="toggleFormulario()"
+                [disabled]="guardandoResena()"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      }
+
+      <!-- Historial de reseñas -->
+      <div class="detalle-producto__reviews-list">
+        <h3 class="detalle-producto__list-heading">
+          Historial de reseñas ({{ totalResenas() }})
+        </h3>
+
+        @if (reviews().length === 0) {
+          <div class="detalle-producto__no-reviews tarjeta">
+            <span class="detalle-producto__no-reviews-icon">&#128172;</span>
+            <h4>Aún no hay reseñas para este producto</h4>
+            <p>Sé el primero en compartir tu experiencia y ayudar a otros usuarios.</p>
+            <button type="button" class="boton_principal" (click)="toggleFormulario()">
+              Escribir primera reseña
+            </button>
+          </div>
+        } @else {
+          <div class="detalle-producto__reviews-grid">
+            @for (rev of reviews(); track rev.id) {
+              <article class="detalle-producto__review-card tarjeta">
+                <header class="detalle-producto__review-header">
+                  <div class="detalle-producto__author-info">
+                    <div class="detalle-producto__author-avatar">
+                      {{ rev.autor.charAt(0).toUpperCase() }}
+                    </div>
+                    <div>
+                      <div class="detalle-producto__author-name-row">
+                        <strong class="detalle-producto__author-name">{{ rev.autor }}</strong>
+                        @if (rev.verificado) {
+                          <span class="pildora_exito detalle-producto__verified-badge">
+                            &#10004; Compra verificada
+                          </span>
+                        }
+                      </div>
+                      <time class="detalle-producto__review-date">
+                        {{ rev.fecha | date:'d MMM, y' }}
+                      </time>
+                    </div>
+                  </div>
+
+                  <div class="detalle-producto__review-rating">
+                    <jobsy-rating-stars [value]="rev.calificacion" [showValue]="false" />
+                  </div>
+                </header>
+
+                <h4 class="detalle-producto__review-title">{{ rev.titulo }}</h4>
+                <p class="detalle-producto__review-body">{{ rev.comentario }}</p>
+
+                <!-- Galería de fotos adjuntas -->
+                @if (rev.fotos && rev.fotos.length > 0) {
+                  <div class="detalle-producto__review-gallery">
+                    @for (img of rev.fotos; track $index) {
+                      <a [href]="img" target="_blank" rel="noopener noreferrer" class="detalle-producto__gallery-item">
+                        <img [src]="img" alt="Foto de la reseña" />
+                      </a>
+                    }
+                  </div>
+                }
+              </article>
+            }
+          </div>
+        }
+      </div>
+    </section>
   }
 </div>

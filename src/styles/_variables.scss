@@ -26,11 +26,16 @@ $color-info:           $color-primary-light;
 $color-info-pale:      $color-primary-bg;
 
 // ---- Neutros ----
-$color-white:          #FFFFFF;
-$color-bg:             #EEF4FA;
-$color-surface:        #FFFFFF;
-$color-border:         #E1E8EF;
-$color-border-strong:  #C9D6E2;
+$color-white:                 #FFFFFF;
+$color-bg:                    #EEF4FA;
+$color-surface:               #FFFFFF;
+$color-surface-muted:         #E9F0F7; // blanco oscurito / gris claro suave
+$color-surface-muted-light:   #F5F8FB;
+$color-surface-muted-border:  #D0DFEC;
+$color-surface-muted-subtle:  #DCE7F2;
+$color-border:                #E1E8EF;
+$color-border-strong:         #C9D6E2;
+
 
 // ============================================================
 //  Liquid glass
@@ -110,9 +115,11 @@ $bp-lg: 1024px;
 $bp-xl: 1280px;
 
 // ---- Gradientes ----
-$gradient-hero:  linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
-$gradient-band:  linear-gradient(90deg, #1668B3 0%, #2B8FE0 100%);
-$gradient-login: linear-gradient(160deg, #DCEEFB 0%, #C3E2F7 100%);
+$gradient-hero:       linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
+$gradient-band:       linear-gradient(90deg, #1668B3 0%, #2B8FE0 100%);
+$gradient-login:      linear-gradient(160deg, #DCEEFB 0%, #C3E2F7 100%);
+$gradient-card-muted: linear-gradient(180deg, $color-surface-muted-light 0%, $color-surface-muted 100%);
+
 
 // ---- Transiciones ----
 $transition-fast: 0.15s ease;
