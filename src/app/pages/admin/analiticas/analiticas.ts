@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
 
 @Component({
-  selector: 'jobsy-analytics',
+  selector: 'jobsy-admin-analytics',
   standalone: true,
   imports: [BarChartComponent],
   templateUrl: './analiticas.html',

@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { JobsyBalancePage } from './saldo';
+import { BalancePage } from './saldo';
 
-describe('JobsyBalancePage', () => {
-  let component: JobsyBalancePage;
-  let fixture: ComponentFixture<JobsyBalancePage>;
+describe('BalancePage', () => {
+  let component: BalancePage;
+  let fixture: ComponentFixture<BalancePage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [JobsyBalancePage],
+      imports: [BalancePage],
       providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(JobsyBalancePage);
+    fixture = TestBed.createComponent(BalancePage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

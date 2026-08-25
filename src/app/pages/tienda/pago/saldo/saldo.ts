@@ -9,7 +9,7 @@ import { OrderService, CartService } from '../../../../core/services';
   templateUrl: './saldo.html',
   styleUrl: './saldo.scss',
 })
-export class JobsyBalancePage {
+export class BalancePage {
   private orderService = inject(OrderService);
   readonly cart = inject(CartService);
   private router = inject(Router);
