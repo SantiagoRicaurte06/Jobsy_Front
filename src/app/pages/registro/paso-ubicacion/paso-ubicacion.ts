@@ -58,14 +58,9 @@ export class StepLocationPage {
     const draft = this.registration.draft();
     this.loading.set(true);
 
+    // Envia todo el formulario; en mock queda guardado en localStorage como JSON.
     this.auth
-      .register({
-        nombre: draft.nombre,
-        apellido: draft.apellido,
-        email: draft.email,
-        password: draft.password,
-        rol: draft.rol ?? 'empleado',
-      })
+      .register(draft)
       .subscribe({
         next: () => {
           this.registration.reset();
