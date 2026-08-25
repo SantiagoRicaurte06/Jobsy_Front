@@ -58,10 +58,36 @@
         </section>
 
         <section class="seccion_detalle_empleado">
-          <h2>Resenas ({{ reviews.length }})</h2>
+          <h2>Resenas ({{ reviews().length }})</h2>
+
+          <form class="formulario_resena_detalle_empleado" (submit)="enviarResena($event)">
+            <p class="etiqueta_resena_detalle_empleado">Deja tu calificacion</p>
+
+            <jobsy-rating-stars
+              [value]="nuevaCalificacion()"
+              [editable]="true"
+              [showValue]="false"
+              (valueChange)="nuevaCalificacion.set($event)" />
+
+            <textarea
+              class="campo_resena_detalle_empleado"
+              rows="3"
+              placeholder="Cuenta como te fue con esta persona (opcional)"
+              [value]="nuevoComentario()"
+              (input)="nuevoComentario.set($any($event.target).value)"
+            ></textarea>
+
+            <button
+              type="submit"
+              class="boton_principal"
+              [disabled]="nuevaCalificacion() === 0"
+            >
+              Publicar resena
+            </button>
+          </form>
 
           <ul class="resenas_detalle_empleado">
-            @for (review of reviews; track review.autor) {
+            @for (review of reviews(); track $index) {
               <li class="resena_detalle_empleado">
                 <div class="encabezado_resena_detalle_empleado">
                   <strong>{{ review.autor }}</strong>
