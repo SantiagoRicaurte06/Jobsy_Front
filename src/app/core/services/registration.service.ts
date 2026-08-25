@@ -24,6 +24,16 @@ export interface RegistrationDraft {
   fotoUrl: string;
 }
 
+/**
+ * Registro ya persistido (simula el documento que guardaria Usuarios_Api).
+ * Reune todo lo capturado en el formulario mas los campos que genera el backend.
+ */
+export interface UsuarioRegistrado extends RegistrationDraft {
+  id: string;
+  fechaRegistro: string;
+  verificado: boolean;
+}
+
 const EMPTY: RegistrationDraft = {
   nombre: '', apellido: '', email: '', password: '', rol: null,
   nacionalidad: '', genero: '', fechaNacimiento: '', documento: '',
