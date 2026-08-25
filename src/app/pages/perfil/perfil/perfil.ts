@@ -19,7 +19,7 @@ export class ProfilePage implements OnInit {
   readonly loading = signal(true);
 
   /** TEMPORAL: datos de perfil publico hasta que el backend los exponga. */
-  readonly especialidades = ['Limpieza profunda', 'Cocina', 'Planchado'];
+  readonly especialidades = ['Limpieza profunda', 'Cocina', 'Planchado', 'Lavanderia', 'Cuidado y Asistencia'];
   readonly calificacion = 5.0;
   readonly servicios = 23;
 
