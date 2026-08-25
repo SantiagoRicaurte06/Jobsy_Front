@@ -1,0 +1,104 @@
+<section class="admin-inventario">
+  <header class="admin-inventario__head">
+    <div>
+      <h1 class="admin-inventario__title">Inventario</h1>
+      <p class="admin-inventario__subtitle">Control de existencias de la tienda</p>
+    </div>
+  </header>
+
+  @if (aviso()) {
+    <p class="admin-inventario__aviso" role="status">&#10004; {{ aviso() }}</p>
+  }
+
+  <!-- Resumen -->
+  <div class="admin-inventario__summary">
+    <div class="tarjeta admin-inventario__stat">
+      <strong>{{ products().length }}</strong>
+      <span>Productos</span>
+    </div>
+    <div class="tarjeta admin-inventario__stat">
+      <strong>{{ unidadesTotales() }}</strong>
+      <span>Unidades en stock</span>
+    </div>
+    <div class="tarjeta admin-inventario__stat admin-inventario__stat--warn">
+      <strong>{{ bajos() }}</strong>
+      <span>Stock bajo</span>
+    </div>
+    <div class="tarjeta admin-inventario__stat admin-inventario__stat--danger">
+      <strong>{{ criticos() }}</strong>
+      <span>Stock critico</span>
+    </div>
+  </div>
+
+  <p class="admin-inventario__valor">
+    Valor total del inventario: <strong class="precio">{{ valorInventario() | cop }}</strong>
+  </p>
+
+  <div class="tarjeta admin-inventario__panel">
+    <!-- Filtros -->
+    <nav class="admin-inventario__filters">
+      @for (f of filtros; track f.value) {
+        <button type="button" [class.is-active]="filtro() === f.value"
+          (click)="filtro.set(f.value)">{{ f.label }}</button>
+      }
+    </nav>
+
+    <ul class="admin-inventario__list">
+      @for (p of visibles(); track p.id) {
+        <li class="admin-inventario__item">
+          @if (p.imagenUrl) {
+            <img [src]="p.imagenUrl" [alt]="p.nombre" class="admin-inventario__thumb" />
+          } @else {
+            <span class="admin-inventario__icon" aria-hidden="true">&#129529;</span>
+          }
+
+          <div class="admin-inventario__info">
+            <strong>{{ p.nombre }}</strong>
+            <span class="texto_mini texto_gris">{{ p.sku }} &middot; {{ p.categoria }}</span>
+          </div>
+
+          <div class="admin-inventario__level">
+            <div class="admin-inventario__meter">
+              <span [style.width.%]="porcentaje(p.stock)"
+                [class.is-low]="p.stock <= 10"
+                [class.is-critical]="p.stock <= 2"></span>
+            </div>
+            <span class="texto_mini texto_gris">{{ p.stock }} unidades</span>
+          </div>
+
+          <span [class]="nivel(p.stock).clase">{{ nivel(p.stock).texto }}</span>
+
+          <!-- Ajustes de stock -->
+          <div class="admin-inventario__controls">
+            <button type="button" (click)="sumar(p, -1)" [disabled]="p.stock === 0"
+              aria-label="Restar una unidad">&minus;</button>
+            <button type="button" (click)="sumar(p, 1)" aria-label="Sumar una unidad">+</button>
+            <button type="button" class="admin-inventario__bulk" (click)="sumar(p, 20)">+20</button>
+            <button type="button" class="boton_simple boton_chico" (click)="abrirAjuste(p)">Ajustar</button>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============ Ajuste manual ============ -->
+@if (ajustando(); as p) {
+  <jobsy-modal title="Ajustar inventario" [subtitle]="p.nombre" (cerrar)="ajustando.set(null)">
+    <p class="admin-inventario__actual">
+      Stock actual: <strong>{{ p.stock }} unidades</strong>
+    </p>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="stock">Nuevo valor</label>
+      <input id="stock" type="number" min="0" class="campo"
+        [ngModel]="nuevoStock()" (ngModelChange)="nuevoStock.set(+$event)" name="stock" />
+      <p class="ayuda">Usa esto tras un conteo fisico para cuadrar la cifra real.</p>
+    </div>
+
+    <footer class="admin-inventario__modal-actions">
+      <button type="button" class="boton_simple" (click)="ajustando.set(null)">Cancelar</button>
+      <button type="button" class="boton_principal" (click)="guardarAjuste()">Guardar</button>
+    </footer>
+  </jobsy-modal>
+}

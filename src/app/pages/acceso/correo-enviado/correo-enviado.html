@@ -1,0 +1,18 @@
+<div class="correo-enviado tarjeta">
+  <jobsy-logo variant="color" size="chico" />
+
+  <span class="correo-enviado__icon" aria-hidden="true">&#128231;</span>
+
+  <h1 class="correo-enviado__title">Correo enviado</h1>
+
+  <p class="correo-enviado__text">
+    Enviamos un enlace de recuperacion a <strong>{{ email }}</strong>.
+    Revisa tu bandeja de entrada y la carpeta de spam.
+  </p>
+
+  <a routerLink="/auth/login" class="boton_principal boton_ancho">Volver a iniciar sesion</a>
+
+  <p class="correo-enviado__resend">
+    &iquest;No te llego? <a routerLink="/auth/recuperar">Enviar de nuevo</a>
+  </p>
+</div>

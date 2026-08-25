@@ -1,0 +1,33 @@
+<div class="recuperar tarjeta">
+  <header class="recuperar__head">
+    <jobsy-logo variant="color" size="chico" />
+    <h1 class="recuperar__title">Restablecer contrasena</h1>
+    <p class="recuperar__subtitle">
+      Escribe tu correo y te enviaremos un enlace para crear una nueva contrasena.
+    </p>
+  </header>
+
+  <form (ngSubmit)="submit()">
+    <div class="grupo_campo">
+      <label class="etiqueta" for="email">Correo electronico</label>
+      <input
+        id="email"
+        type="email"
+        class="campo"
+        placeholder="tucorreo@ejemplo.com"
+        autocomplete="email"
+        required
+        [ngModel]="email()"
+        (ngModelChange)="email.set($event)"
+        name="email" />
+    </div>
+
+    <button type="submit" class="boton_principal boton_ancho" [disabled]="loading()">
+      {{ loading() ? 'Enviando...' : 'Enviar enlace' }}
+    </button>
+  </form>
+
+  <p class="recuperar__back">
+    <a routerLink="/auth/login">&#8592; Volver a iniciar sesion</a>
+  </p>
+</div>

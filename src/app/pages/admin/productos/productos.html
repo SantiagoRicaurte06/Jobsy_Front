@@ -1,0 +1,205 @@
+<section class="admin-productos">
+  <header class="admin-productos__head">
+    <div>
+      <h1 class="admin-productos__title">Productos</h1>
+      <p class="admin-productos__subtitle">
+        {{ visibles().length }} de {{ products().length }} productos
+      </p>
+    </div>
+
+    <button type="button" class="boton_principal boton_chico" (click)="nuevo()">+ Nuevo producto</button>
+  </header>
+
+  @if (aviso()) {
+    <p class="admin-productos__aviso" role="status">&#10004; {{ aviso() }}</p>
+  }
+
+  <div class="tarjeta admin-productos__panel">
+    <!-- Filtros -->
+    <div class="admin-productos__filtros">
+      <input type="search" class="campo admin-productos__search"
+        placeholder="Buscar por nombre o SKU..."
+        [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)" name="busqueda"
+        aria-label="Buscar productos" />
+
+      <div class="admin-productos__chips">
+        <button type="button" [class.is-active]="filtroEstado() === 'todos'"
+          (click)="filtroEstado.set('todos')">Todos</button>
+        @for (e of estados; track e) {
+          <button type="button" [class.is-active]="filtroEstado() === e"
+            (click)="filtroEstado.set(e)">{{ e }}</button>
+        }
+      </div>
+    </div>
+
+    @if (visibles().length === 0) {
+      <jobsy-empty-state icon="&#128230;" title="Sin resultados"
+        message="Ningun producto coincide con el filtro.">
+        <button type="button" class="boton_principal" (click)="nuevo()">Crear producto</button>
+      </jobsy-empty-state>
+    } @else {
+      <div class="admin-productos__table-wrap">
+        <table class="admin-productos__table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoria</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of visibles(); track p.id) {
+              <tr>
+                <td>
+                  <div class="admin-productos__product">
+                    @if (p.imagenUrl) {
+                      <img [src]="p.imagenUrl" [alt]="p.nombre" class="admin-productos__thumb" />
+                    } @else {
+                      <span class="admin-productos__icon" aria-hidden="true">&#129529;</span>
+                    }
+                    <div>
+                      <strong>{{ p.nombre }}</strong>
+                      <span class="texto_mini texto_gris">{{ p.sku }}</span>
+                    </div>
+                  </div>
+                </td>
+
+                <td>{{ p.categoria }}</td>
+                <td class="precio">{{ p.precio | cop }}</td>
+
+                <td>
+                  <span [class.admin-productos__low]="p.stock <= 5">{{ p.stock }} u.</span>
+                  <button type="button" class="admin-productos__mini" (click)="reponer(p)"
+                    title="Sumar 20 unidades">+20</button>
+                </td>
+
+                <td>
+                  <!-- El estado se cambia sin abrir el modal -->
+                  <select class="admin-productos__estado" [class]="estadoClass(p.estado)"
+                    [ngModel]="p.estado" (ngModelChange)="cambiarEstado(p, $event)"
+                    [name]="'estado' + p.id" aria-label="Estado del producto">
+                    @for (e of estados; track e) {
+                      <option [value]="e">{{ e }}</option>
+                    }
+                  </select>
+                </td>
+
+                <td>
+                  <div class="admin-productos__actions">
+                    <button type="button" class="boton_simple boton_chico" (click)="editar(p)">Editar</button>
+                    <button type="button" class="admin-productos__delete"
+                      (click)="pedirBorrado(p)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ Modal de alta / edicion ============ -->
+@if (modalAbierto()) {
+  <jobsy-modal
+    [title]="editando() ? 'Editar producto' : 'Nuevo producto'"
+    subtitle="Los cambios se reflejan al instante en la tienda"
+    (cerrar)="cerrar()">
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-nombre">Nombre</label>
+      <input id="f-nombre" type="text" class="campo" placeholder="Kit de Limpieza Profesional"
+        [ngModel]="form().nombre" (ngModelChange)="set('nombre', $event)" name="f-nombre" />
+    </div>
+
+    <div class="admin-productos__row">
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-sku">SKU</label>
+        <input id="f-sku" type="text" class="campo" placeholder="Se genera solo"
+          [ngModel]="form().sku" (ngModelChange)="set('sku', $event)" name="f-sku" />
+      </div>
+
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-cat">Categoria</label>
+        <select id="f-cat" class="lista"
+          [ngModel]="form().categoria" (ngModelChange)="set('categoria', $event)" name="f-cat">
+          <option value="">Selecciona...</option>
+          @for (c of categories(); track c.id) {
+            <option [value]="c.nombre">{{ c.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="admin-productos__row">
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-precio">Precio (COP)</label>
+        <input id="f-precio" type="number" min="0" class="campo"
+          [ngModel]="form().precio" (ngModelChange)="set('precio', +$event)" name="f-precio" />
+      </div>
+
+      <div class="grupo_campo">
+        <label class="etiqueta" for="f-stock">Stock</label>
+        <input id="f-stock" type="number" min="0" class="campo"
+          [ngModel]="form().stock" (ngModelChange)="set('stock', +$event)" name="f-stock" />
+      </div>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-estado">Estado</label>
+      <select id="f-estado" class="lista"
+        [ngModel]="form().estado" (ngModelChange)="set('estado', $event)" name="f-estado">
+        @for (e of estados; track e) {
+          <option [value]="e">{{ e }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-desc">Descripcion</label>
+      <textarea id="f-desc" class="area_texto" placeholder="Para que sirve el producto."
+        [ngModel]="form().descripcion" (ngModelChange)="set('descripcion', $event)" name="f-desc"></textarea>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="f-img">URL de la imagen</label>
+      <input id="f-img" type="url" class="campo" placeholder="https://..."
+        [ngModel]="form().imagenUrl" (ngModelChange)="set('imagenUrl', $event)" name="f-img" />
+
+      @if (form().imagenUrl) {
+        <img [src]="form().imagenUrl" alt="Vista previa" class="admin-productos__preview" />
+      }
+    </div>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <footer class="admin-productos__modal-actions">
+      <button type="button" class="boton_simple" (click)="cerrar()">Cancelar</button>
+      <button type="button" class="boton_principal" (click)="guardar()">
+        {{ editando() ? 'Guardar cambios' : 'Crear producto' }}
+      </button>
+    </footer>
+  </jobsy-modal>
+}
+
+<!-- ============ Confirmacion de borrado ============ -->
+@if (porBorrar(); as p) {
+  <jobsy-modal title="Eliminar producto" (cerrar)="porBorrar.set(null)">
+    <p class="admin-productos__confirm">
+      Vas a eliminar <strong>{{ p.nombre }}</strong>. Esta accion no se puede deshacer.
+    </p>
+
+    <footer class="admin-productos__modal-actions">
+      <button type="button" class="boton_simple" (click)="porBorrar.set(null)">Cancelar</button>
+      <button type="button" class="admin-productos__danger-btn" (click)="confirmarBorrado()">
+        Si, eliminar
+      </button>
+    </footer>
+  </jobsy-modal>
+}

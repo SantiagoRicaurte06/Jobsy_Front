@@ -1,0 +1,71 @@
+<div class="contenedor detalle-producto">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (!product()) {
+    <jobsy-empty-state icon="&#128230;" title="Producto no encontrado">
+      <a routerLink="/tienda" class="boton_principal">Volver a la tienda</a>
+    </jobsy-empty-state>
+  } @else {
+    <nav class="detalle-producto__crumbs">
+      <a routerLink="/tienda">&#8592; Volver a la tienda</a>
+    </nav>
+
+    <div class="detalle-producto__grid">
+      <!-- Imagen -->
+      <div class="detalle-producto__media tarjeta">
+        @if (product()!.imagenUrl) {
+          <img [src]="product()!.imagenUrl" [alt]="product()!.nombre" />
+        } @else {
+          <span aria-hidden="true">&#129529;</span>
+        }
+      </div>
+
+      <!-- Informacion -->
+      <div class="detalle-producto__info">
+        <p class="detalle-producto__category">{{ product()!.categoria }}</p>
+        <h1 class="detalle-producto__title">{{ product()!.nombre }}</h1>
+
+        <jobsy-rating-stars [value]="product()!.calificacion" />
+
+        <p class="detalle-producto__price precio">{{ product()!.precio | cop }}</p>
+
+        <p class="detalle-producto__stock">
+          @if (product()!.stock > 5) {
+            <span class="pildora_exito">&#10004; En stock ({{ product()!.stock }} unidades)</span>
+          } @else if (product()!.stock > 0) {
+            <span class="pildora_aviso">Quedan solo {{ product()!.stock }}</span>
+          } @else {
+            <span class="pildora_error">Agotado</span>
+          }
+        </p>
+
+        <p class="detalle-producto__desc">{{ product()!.descripcion }}</p>
+
+        <!-- Cantidad -->
+        <div class="detalle-producto__qty">
+          <span class="etiqueta">Cantidad</span>
+          <div class="detalle-producto__stepper">
+            <button type="button" (click)="cambiarCantidad(-1)" aria-label="Restar">&minus;</button>
+            <span>{{ cantidad() }}</span>
+            <button type="button" (click)="cambiarCantidad(1)" aria-label="Sumar">+</button>
+          </div>
+        </div>
+
+        <div class="detalle-producto__actions">
+          <button type="button" class="boton_principal" [disabled]="product()!.stock === 0" (click)="agregar()">
+            Agregar al carrito
+          </button>
+          <button type="button" class="boton_secundario" [disabled]="product()!.stock === 0" (click)="agregar(true)">
+            Comprar ahora
+          </button>
+        </div>
+
+        <dl class="detalle-producto__meta">
+          <div><dt>SKU</dt><dd>{{ product()!.sku }}</dd></div>
+          <div><dt>Categoria</dt><dd>{{ product()!.categoria }}</dd></div>
+          <div><dt>Envio</dt><dd>2 a 4 dias habiles</dd></div>
+        </dl>
+      </div>
+    </div>
+  }
+</div>

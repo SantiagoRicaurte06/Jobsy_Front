@@ -1,0 +1,53 @@
+<div class="paso-personal tarjeta">
+  <jobsy-step-progress [steps]="steps" [current]="0" />
+
+  <h1 class="paso-personal__title">Datos personales</h1>
+  <p class="paso-personal__subtitle">Esta Informacion Nos Ayuda A Verificar Tu Identidad.</p>
+
+  <form (ngSubmit)="next()">
+    <div class="grupo_campo">
+      <label class="etiqueta" for="nacionalidad">Nacionalidad</label>
+      <select id="nacionalidad" class="lista"
+        [ngModel]="nacionalidad()" (ngModelChange)="nacionalidad.set($event)" name="nacionalidad">
+        @for (n of nacionalidades; track n) {
+          <option [value]="n">{{ n }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta">Genero</label>
+      <div class="paso-personal__options">
+        @for (g of generos; track g) {
+          <label class="paso-personal__radio" [class.is-selected]="genero() === g">
+            <input type="radio" name="genero" [value]="g"
+              [ngModel]="genero()" (ngModelChange)="genero.set($event)" />
+            {{ g }}
+          </label>
+        }
+      </div>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="fecha">Fecha de nacimiento</label>
+      <input id="fecha" type="date" class="campo"
+        [ngModel]="fechaNacimiento()" (ngModelChange)="fechaNacimiento.set($event)" name="fecha" />
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="documento">Numero de documento</label>
+      <input id="documento" type="text" class="campo" placeholder="1.234.567.890"
+        [ngModel]="documento()" (ngModelChange)="documento.set($event)" name="documento" />
+      <p class="ayuda">Lo Usamos Solo Para Verificar Tu Perfil. Nunca Se Muestra Publicamente.</p>
+    </div>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <div class="paso-personal__actions">
+      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="submit" class="boton_principal">Siguiente</button>
+    </div>
+  </form>
+</div>

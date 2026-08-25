@@ -1,0 +1,92 @@
+<div class="contenedor agenda">
+  <h1 class="agenda__title">Agendar horario</h1>
+  <p class="agenda__subtitle">Elige el dia y la franja en la que necesitas el servicio.</p>
+
+  @if (confirmado()) {
+    <div class="agenda__done tarjeta">
+      <span aria-hidden="true">&#10004;</span>
+      <h2>Horario agendado</h2>
+      <p>
+        Reservaste el dia <strong>{{ diaSeleccionado() }}</strong> de {{ nombreMes() }},
+        franja <strong>{{ slotSeleccionado() }}</strong>.
+      </p>
+      <p class="texto_mini texto_gris">Te avisaremos cuando el empleado confirme.</p>
+    </div>
+  } @else {
+    <div class="agenda__grid">
+      <!-- ---- Calendario ---- -->
+      <div class="agenda__calendar tarjeta">
+        <header class="agenda__cal-head">
+          <button type="button" (click)="cambiarMes(-1)" aria-label="Mes anterior">&#8249;</button>
+          <strong>{{ nombreMes() }}</strong>
+          <button type="button" (click)="cambiarMes(1)" aria-label="Mes siguiente">&#8250;</button>
+        </header>
+
+        <div class="agenda__weekdays">
+          @for (d of nombresDia; track d) {
+            <span>{{ d }}</span>
+          }
+        </div>
+
+        <div class="agenda__days">
+          @for (dia of dias(); track $index) {
+            @if (dia === null) {
+              <span class="agenda__day agenda__day--empty"></span>
+            } @else {
+              <button
+                type="button"
+                class="agenda__day"
+                [class.is-selected]="diaSeleccionado() === dia"
+                (click)="seleccionarDia(dia)">
+                {{ dia }}
+              </button>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- ---- Franjas horarias ---- -->
+      <div class="agenda__slots tarjeta">
+        <h2 class="agenda__slots-title">
+          @if (diaSeleccionado()) {
+            Franjas del {{ diaSeleccionado() }}
+          } @else {
+            Selecciona un dia
+          }
+        </h2>
+
+        @if (diaSeleccionado()) {
+          <ul class="agenda__slot-list">
+            @for (slot of slots; track slot.hora) {
+              <li>
+                <button
+                  type="button"
+                  class="agenda__slot"
+                  [class.is-selected]="slotSeleccionado() === slot.hora"
+                  [disabled]="!slot.disponible"
+                  (click)="slotSeleccionado.set(slot.hora)">
+                  {{ slot.hora }}
+                  @if (!slot.disponible) { <span class="texto_mini">Ocupado</span> }
+                </button>
+              </li>
+            }
+          </ul>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="notas">Notas para el empleado</label>
+            <textarea id="notas" class="area_texto"
+              placeholder="Ej: timbre del apartamento 302, hay un perro pequeno."
+              [ngModel]="notas()" (ngModelChange)="notas.set($event)" name="notas"></textarea>
+          </div>
+
+          <button type="button" class="boton_principal boton_ancho"
+            [disabled]="!slotSeleccionado()" (click)="confirmar()">
+            Confirmar horario
+          </button>
+        } @else {
+          <p class="texto_chico texto_gris">Elige un dia en el calendario para ver las franjas disponibles.</p>
+        }
+      </div>
+    </div>
+  }
+</div>

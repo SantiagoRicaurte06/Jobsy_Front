@@ -16,7 +16,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./pages/home/landing/landing').then((m) => m.LandingPage),
+        loadComponent: () => import('./pages/inicio/portada/portada').then((m) => m.LandingPage),
         title: 'Jobsy — Conecta hogares con profesionales',
       },
 
@@ -24,20 +24,20 @@ export const routes: Routes = [
       {
         path: 'empleos',
         loadComponent: () =>
-          import('./pages/jobs/job-search/job-search').then((m) => m.JobSearchPage),
+          import('./pages/empleos/buscar-empleos/buscar-empleos').then((m) => m.JobSearchPage),
         title: 'Buscar empleo — Jobsy',
       },
       {
         path: 'empleos/:id',
         loadComponent: () =>
-          import('./pages/jobs/job-detail/job-detail').then((m) => m.JobDetailPage),
+          import('./pages/empleos/detalle-empleo/detalle-empleo').then((m) => m.JobDetailPage),
         title: 'Detalle de la oferta — Jobsy',
       },
       {
         path: 'empleos/:id/postularme',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./pages/jobs/apply-wizard/apply-wizard').then((m) => m.ApplyWizardPage),
+          import('./pages/empleos/asistente-postulacion/asistente-postulacion').then((m) => m.ApplyWizardPage),
         title: 'Postularme — Jobsy',
       },
 
@@ -45,7 +45,7 @@ export const routes: Routes = [
       {
         path: 'empleados',
         loadComponent: () =>
-          import('./pages/employees/employee-search/employee-search').then(
+          import('./pages/empleados/buscar-empleados/buscar-empleados').then(
             (m) => m.EmployeeSearchPage,
           ),
         title: 'Buscar empleados — Jobsy',
@@ -53,7 +53,7 @@ export const routes: Routes = [
       {
         path: 'empleados/:id',
         loadComponent: () =>
-          import('./pages/employees/employee-detail/employee-detail').then(
+          import('./pages/empleados/detalle-empleado/detalle-empleado').then(
             (m) => m.EmployeeDetailPage,
           ),
         title: 'Perfil del empleado — Jobsy',
@@ -62,69 +62,69 @@ export const routes: Routes = [
         path: 'publicar-oferta',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./pages/employees/publish-offer/publish-offer').then((m) => m.PublishOfferPage),
+          import('./pages/empleados/publicar-oferta/publicar-oferta').then((m) => m.PublishOfferPage),
         title: 'Publicar oferta — Jobsy',
       },
       {
         path: 'agendar',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./pages/employees/schedule/schedule').then((m) => m.SchedulePage),
+          import('./pages/empleados/agendar/agendar').then((m) => m.SchedulePage),
         title: 'Agendar horario — Jobsy',
       },
       {
         path: 'contratacion/:id',
         canActivate: [authGuard],
-        loadComponent: () => import('./pages/employees/hiring/hiring').then((m) => m.HiringPage),
-        title: 'Contratacion — Jobsy',
+        loadComponent: () => import('./pages/empleados/contratacion/contratacion').then((m) => m.HiringPage),
+        title: 'Contratación — Jobsy',
       },
 
       // ---- Tienda ----
       {
         path: 'tienda',
-        loadComponent: () => import('./pages/store/store/store').then((m) => m.StorePage),
+        loadComponent: () => import('./pages/tienda/tienda/tienda').then((m) => m.StorePage),
         title: 'Tienda — Jobsy',
       },
       {
         path: 'tienda/producto/:id',
         loadComponent: () =>
-          import('./pages/store/product-detail/product-detail').then((m) => m.ProductDetailPage),
+          import('./pages/tienda/detalle-producto/detalle-producto').then((m) => m.ProductDetailPage),
         title: 'Producto — Jobsy',
       },
       {
         path: 'tienda/carrito',
-        loadComponent: () => import('./pages/store/cart/cart').then((m) => m.CartPage),
+        loadComponent: () => import('./pages/tienda/carrito/carrito').then((m) => m.CartPage),
         title: 'Mi carrito — Jobsy',
       },
       {
         path: 'tienda/checkout',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./pages/store/checkout/checkout').then((m) => m.CheckoutPage),
+          import('./pages/tienda/pago/pago').then((m) => m.CheckoutPage),
         title: 'Finalizar compra — Jobsy',
         children: [
           { path: '', redirectTo: 'pse', pathMatch: 'full' },
           {
             path: 'pse',
-            loadComponent: () => import('./pages/store/checkout/pse/pse').then((m) => m.PsePage),
+            loadComponent: () => import('./pages/tienda/pago/pse/pse').then((m) => m.PsePage),
           },
           {
             path: 'tarjeta',
             loadComponent: () =>
-              import('./pages/store/checkout/card/card').then((m) => m.CardPage),
+              import('./pages/tienda/pago/tarjeta/tarjeta').then((m) => m.CardPage),
           },
           {
             path: 'billetera',
             loadComponent: () =>
-              import('./pages/store/checkout/digital-wallet/digital-wallet').then(
+              import('./pages/tienda/pago/billetera/billetera').then(
                 (m) => m.DigitalWalletPage,
               ),
           },
           {
             path: 'saldo',
             loadComponent: () =>
-              import('./pages/store/checkout/jobsy-balance/jobsy-balance').then(
-                (m) => m.JobsyBalancePage,
+              import('./pages/tienda/pago/saldo/saldo').then(
+                (m) => m.BalancePage,
               ),
           },
         ],
@@ -143,27 +143,27 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       {
         path: 'login',
-        loadComponent: () => import('./pages/auth/login/login').then((m) => m.LoginPage),
-        title: 'Iniciar sesion — Jobsy',
+        loadComponent: () => import('./pages/acceso/ingreso/ingreso').then((m) => m.LoginPage),
+        title: 'Iniciar sesión — Jobsy',
       },
       {
         path: 'recuperar',
         loadComponent: () =>
-          import('./pages/auth/forgot-password/forgot-password').then((m) => m.ForgotPasswordPage),
-        title: 'Restablecer contrasena — Jobsy',
+          import('./pages/acceso/recuperar/recuperar').then((m) => m.ForgotPasswordPage),
+        title: 'Restablecer contraseña — Jobsy',
       },
       {
         path: 'correo-enviado',
         loadComponent: () =>
-          import('./pages/auth/email-sent/email-sent').then((m) => m.EmailSentPage),
+          import('./pages/acceso/correo-enviado/correo-enviado').then((m) => m.EmailSentPage),
         title: 'Correo enviado — Jobsy',
       },
       {
         path: 'exito',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./pages/auth/login-success/login-success').then((m) => m.LoginSuccessPage),
-        title: 'Sesion iniciada — Jobsy',
+          import('./pages/acceso/ingreso-exitoso/ingreso-exitoso').then((m) => m.LoginSuccessPage),
+        title: 'Sesión iniciada — Jobsy',
       },
     ],
   },
@@ -180,43 +180,43 @@ export const routes: Routes = [
       {
         path: 'crear-cuenta',
         loadComponent: () =>
-          import('./pages/register/create-account/create-account').then((m) => m.CreateAccountPage),
+          import('./pages/registro/crear-cuenta/crear-cuenta').then((m) => m.CreateAccountPage),
         title: 'Crear cuenta — Jobsy',
       },
       {
         path: 'rol',
         loadComponent: () =>
-          import('./pages/register/select-role/select-role').then((m) => m.SelectRolePage),
+          import('./pages/registro/elegir-rol/elegir-rol').then((m) => m.SelectRolePage),
         title: 'Seleccionar rol — Jobsy',
       },
       {
         path: 'checklist',
         loadComponent: () =>
-          import('./pages/register/checklist/checklist').then((m) => m.ChecklistPage),
+          import('./pages/registro/lista-pasos/lista-pasos').then((m) => m.ChecklistPage),
         title: 'Completar perfil — Jobsy',
       },
       {
         path: 'paso-1',
         loadComponent: () =>
-          import('./pages/register/step-personal/step-personal').then((m) => m.StepPersonalPage),
+          import('./pages/registro/paso-personal/paso-personal').then((m) => m.StepPersonalPage),
         title: 'Paso 1: datos personales — Jobsy',
       },
       {
         path: 'paso-2',
         loadComponent: () =>
-          import('./pages/register/step-work/step-work').then((m) => m.StepWorkPage),
+          import('./pages/registro/paso-trabajo/paso-trabajo').then((m) => m.StepWorkPage),
         title: 'Paso 2: modalidad de trabajo — Jobsy',
       },
       {
         path: 'paso-3',
         loadComponent: () =>
-          import('./pages/register/step-location/step-location').then((m) => m.StepLocationPage),
-        title: 'Paso 3: ubicacion y foto — Jobsy',
+          import('./pages/registro/paso-ubicacion/paso-ubicacion').then((m) => m.StepLocationPage),
+        title: 'Paso 3: ubicación y foto — Jobsy',
       },
       {
         path: 'cuenta-creada',
         loadComponent: () =>
-          import('./pages/register/account-created/account-created').then(
+          import('./pages/registro/cuenta-creada/cuenta-creada').then(
             (m) => m.AccountCreatedPage,
           ),
         title: 'Cuenta creada — Jobsy',
@@ -237,13 +237,13 @@ export const routes: Routes = [
       {
         path: 'inicio',
         loadComponent: () =>
-          import('./pages/home/home-logged/home-logged').then((m) => m.HomeLoggedPage),
+          import('./pages/inicio/inicio-privado/inicio-privado').then((m) => m.HomeLoggedPage),
         title: 'Mi inicio — Jobsy',
       },
       {
         path: 'mis-postulaciones',
         loadComponent: () =>
-          import('./pages/applications/my-applications/my-applications').then(
+          import('./pages/postulaciones/mis-postulaciones/mis-postulaciones').then(
             (m) => m.MyApplicationsPage,
           ),
         title: 'Mis postulaciones — Jobsy',
@@ -252,25 +252,25 @@ export const routes: Routes = [
       // ---- Perfil ----
       {
         path: 'perfil',
-        loadComponent: () => import('./pages/profile/profile/profile').then((m) => m.ProfilePage),
+        loadComponent: () => import('./pages/perfil/perfil/perfil').then((m) => m.ProfilePage),
         title: 'Mi perfil — Jobsy',
       },
       {
         path: 'perfil/editar',
         loadComponent: () =>
-          import('./pages/profile/edit-profile/edit-profile').then((m) => m.EditProfilePage),
+          import('./pages/perfil/editar-perfil/editar-perfil').then((m) => m.EditProfilePage),
         title: 'Editar perfil — Jobsy',
       },
       {
         path: 'perfil/subir-foto',
         loadComponent: () =>
-          import('./pages/profile/upload-photo/upload-photo').then((m) => m.UploadPhotoPage),
+          import('./pages/perfil/subir-foto/subir-foto').then((m) => m.UploadPhotoPage),
         title: 'Foto de perfil — Jobsy',
       },
 
       {
         path: 'hoja-de-vida',
-        loadComponent: () => import('./pages/resume/resume/resume').then((m) => m.ResumePage),
+        loadComponent: () => import('./pages/hoja-vida/hoja-vida/hoja-vida').then((m) => m.ResumePage),
         title: 'Hoja de vida — Jobsy',
       },
 
@@ -278,37 +278,37 @@ export const routes: Routes = [
       {
         path: 'reportes',
         loadComponent: () =>
-          import('./pages/reports/report-center/report-center').then((m) => m.ReportCenterPage),
+          import('./pages/reportes/centro-reportes/centro-reportes').then((m) => m.ReportCenterPage),
         title: 'Centro de reportes — Jobsy',
       },
       {
         path: 'reportes/visual',
         loadComponent: () =>
-          import('./pages/reports/visual-report/visual-report').then((m) => m.VisualReportPage),
+          import('./pages/reportes/reporte-visual/reporte-visual').then((m) => m.VisualReportPage),
         title: 'Reporte visual — Jobsy',
       },
 
       // ---- Cuenta ----
       {
         path: 'cuenta',
-        loadComponent: () => import('./pages/account/account/account').then((m) => m.AccountPage),
+        loadComponent: () => import('./pages/cuenta/cuenta/cuenta').then((m) => m.AccountPage),
         title: 'Mi cuenta — Jobsy',
         children: [
           { path: '', redirectTo: 'informacion', pathMatch: 'full' },
           {
             path: 'informacion',
             loadComponent: () =>
-              import('./pages/account/information/information').then((m) => m.AccountInfoPage),
+              import('./pages/cuenta/informacion/informacion').then((m) => m.AccountInfoPage),
           },
           {
             path: 'plan',
             loadComponent: () =>
-              import('./pages/account/plan/plan').then((m) => m.AccountPlanPage),
+              import('./pages/cuenta/plan/plan').then((m) => m.AccountPlanPage),
           },
           {
             path: 'metodos-pago',
             loadComponent: () =>
-              import('./pages/account/payment-methods/payment-methods').then(
+              import('./pages/cuenta/metodos-pago/metodos-pago').then(
                 (m) => m.PaymentMethodsPage,
               ),
           },
@@ -318,8 +318,8 @@ export const routes: Routes = [
       {
         path: 'configuracion',
         loadComponent: () =>
-          import('./pages/settings/settings/settings').then((m) => m.SettingsPage),
-        title: 'Configuracion — Jobsy',
+          import('./pages/configuracion/configuracion/configuracion').then((m) => m.SettingsPage),
+        title: 'Configuración — Jobsy',
       },
     ],
   },
@@ -337,37 +337,37 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/admin/dashboard/dashboard').then((m) => m.AdminDashboardPage),
+          import('./pages/admin/tablero/tablero').then((m) => m.AdminDashboardPage),
         title: 'Dashboard — Admin Jobsy',
       },
       {
         path: 'analiticas',
         loadComponent: () =>
-          import('./pages/admin/analytics/analytics').then((m) => m.AdminAnalyticsPage),
-        title: 'Analiticas — Admin Jobsy',
+          import('./pages/admin/analiticas/analiticas').then((m) => m.AdminAnalyticsPage),
+        title: 'Analíticas — Admin Jobsy',
       },
       {
         path: 'productos',
         loadComponent: () =>
-          import('./pages/admin/products/products').then((m) => m.AdminProductsPage),
+          import('./pages/admin/productos/productos').then((m) => m.AdminProductsPage),
         title: 'Productos — Admin Jobsy',
       },
       {
         path: 'categorias',
         loadComponent: () =>
-          import('./pages/admin/categories/categories').then((m) => m.AdminCategoriesPage),
-        title: 'Categorias — Admin Jobsy',
+          import('./pages/admin/categorias/categorias').then((m) => m.AdminCategoriesPage),
+        title: 'Categorías — Admin Jobsy',
       },
       {
         path: 'inventario',
         loadComponent: () =>
-          import('./pages/admin/inventory/inventory').then((m) => m.AdminInventoryPage),
+          import('./pages/admin/inventario/inventario').then((m) => m.AdminInventoryPage),
         title: 'Inventario — Admin Jobsy',
       },
       {
         path: 'reportes',
         loadComponent: () =>
-          import('./pages/admin/reports/reports').then((m) => m.AdminReportsPage),
+          import('./pages/admin/reportes/reportes').then((m) => m.AdminReportsPage),
         title: 'Reportes — Admin Jobsy',
       },
     ],
@@ -378,7 +378,7 @@ export const routes: Routes = [
   // ============================================================
   {
     path: '**',
-    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFoundPage),
-    title: 'Pagina no encontrada — Jobsy',
+    loadComponent: () => import('./pages/no-encontrado/no-encontrado').then((m) => m.NotFoundPage),
+    title: 'Página no encontrada — Jobsy',
   },
 ];

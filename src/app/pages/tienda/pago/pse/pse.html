@@ -1,0 +1,63 @@
+<section class="pse">
+  <h2 class="pse__title">Pago con PSE</h2>
+  <p class="pse__subtitle">Seras redirigido al portal de tu banco para autorizar el pago.</p>
+
+  <!-- Este flujo es una simulacion: no se envia informacion a ninguna pasarela real. -->
+  <p class="pse__demo">&#9888; Modo demostracion: ningun dato se envia a una pasarela real.</p>
+
+  <form (ngSubmit)="pagar()">
+    <div class="grupo_campo">
+      <label class="etiqueta" for="banco">Banco</label>
+      <select id="banco" class="lista"
+        [ngModel]="banco()" (ngModelChange)="banco.set($event)" name="banco">
+        <option value="">Selecciona tu banco</option>
+        @for (b of bancos; track b) { <option [value]="b">{{ b }}</option> }
+      </select>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta">Tipo de persona</label>
+      <div class="pse__radios">
+        <label class="casilla">
+          <input type="radio" name="tipoPersona" value="natural"
+            [ngModel]="tipoPersona()" (ngModelChange)="tipoPersona.set($event)" />
+          Persona natural
+        </label>
+        <label class="casilla">
+          <input type="radio" name="tipoPersona" value="juridica"
+            [ngModel]="tipoPersona()" (ngModelChange)="tipoPersona.set($event)" />
+          Persona juridica
+        </label>
+      </div>
+    </div>
+
+    <div class="pse__row">
+      <div class="grupo_campo">
+        <label class="etiqueta" for="tipoDoc">Tipo de documento</label>
+        <select id="tipoDoc" class="lista"
+          [ngModel]="tipoDocumento()" (ngModelChange)="tipoDocumento.set($event)" name="tipoDoc">
+          <option value="CC">Cedula de ciudadania</option>
+          <option value="CE">Cedula de extranjeria</option>
+          <option value="NIT">NIT</option>
+        </select>
+      </div>
+
+      <div class="grupo_campo">
+        <label class="etiqueta" for="documento">Numero de documento</label>
+        <input id="documento" type="text" class="campo" placeholder="1234567890"
+          [ngModel]="documento()" (ngModelChange)="documento.set($event)" name="documento" />
+      </div>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="email">Correo electronico</label>
+      <input id="email" type="email" class="campo" placeholder="tucorreo@ejemplo.com"
+        [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
+      <p class="ayuda">Enviaremos el comprobante a este correo.</p>
+    </div>
+
+    <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
+      {{ procesando() ? 'Redirigiendo al banco...' : 'Pagar con PSE' }}
+    </button>
+  </form>
+</section>

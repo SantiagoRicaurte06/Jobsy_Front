@@ -1,0 +1,158 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.agenda {
+  padding-block: v.$space-6;
+
+  &__title {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-xl;
+  }
+
+  &__subtitle {
+    margin: 0 0 v.$space-5;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    align-items: start;
+    gap: v.$space-5;
+
+    @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+  }
+
+  // ---- Calendario ----
+  &__calendar { padding: v.$space-4; }
+
+  &__cal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: v.$space-4;
+    text-transform: capitalize;
+
+    button {
+      width: 32px;
+      height: 32px;
+      background: v.$color-bg;
+      border: 1px solid v.$color-border;
+      border-radius: v.$radius-sm;
+      font-size: v.$font-size-lg;
+      cursor: pointer;
+
+      &:hover { background: v.$color-primary-bg; }
+    }
+  }
+
+  &__weekdays,
+  &__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: v.$space-1;
+  }
+
+  &__weekdays {
+    margin-bottom: v.$space-2;
+
+    span {
+      text-align: center;
+      font-size: v.$font-size-xs;
+      font-weight: v.$font-weight-semibold;
+      color: v.$color-text-muted;
+    }
+  }
+
+  &__day {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: v.$radius-sm;
+    font-family: inherit;
+    font-size: v.$font-size-sm;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    &:hover:not(&--empty) {
+      background: v.$color-primary-bg;
+      border-color: v.$color-primary-light;
+    }
+
+    &--empty { cursor: default; }
+
+    &.is-selected {
+      background: v.$color-accent;
+      border-color: v.$color-accent;
+      color: v.$color-text-invert;
+      font-weight: v.$font-weight-bold;
+    }
+  }
+
+  // ---- Franjas ----
+  &__slots { padding: v.$space-4; }
+
+  &__slots-title {
+    margin: 0 0 v.$space-4;
+    font-size: v.$font-size-base;
+  }
+
+  &__slot-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-2;
+    margin-bottom: v.$space-4;
+  }
+
+  &__slot {
+    width: 100%;
+    padding: v.$space-3;
+    background: v.$color-surface;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-md;
+    font-family: inherit;
+    font-size: v.$font-size-xs;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    span { display: block; color: v.$color-danger; }
+
+    &:hover:not(:disabled) { border-color: v.$color-primary-light; }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: v.$color-bg;
+    }
+
+    &.is-selected {
+      background: v.$color-accent;
+      border-color: v.$color-accent;
+      color: v.$color-text-invert;
+      font-weight: v.$font-weight-semibold;
+    }
+  }
+
+  // ---- Confirmacion ----
+  &__done {
+    max-width: 480px;
+    margin-inline: auto;
+    padding: v.$space-6;
+    text-align: center;
+
+    > span {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto v.$space-4;
+      background: v.$color-success-pale;
+      border-radius: 50%;
+      color: v.$color-success;
+      font-size: v.$font-size-xl;
+    }
+  }
+}

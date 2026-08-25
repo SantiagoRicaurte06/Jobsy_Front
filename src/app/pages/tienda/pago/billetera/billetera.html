@@ -1,0 +1,34 @@
+<section class="billetera">
+  <h2 class="billetera__title">Billetera digital</h2>
+  <p class="billetera__subtitle">Recibiras una notificacion en tu app para aprobar el pago.</p>
+
+  <p class="billetera__demo">&#9888; Modo demostracion: no se envia ninguna solicitud real.</p>
+
+  <form (ngSubmit)="pagar()">
+    <div class="grupo_campo">
+      <label class="etiqueta">Elige tu billetera</label>
+      <div class="billetera__options">
+        @for (b of billeteras; track b.value) {
+          <button type="button" class="billetera__option"
+            [class.is-selected]="billetera() === b.value"
+            (click)="billetera.set(b.value)">
+            <span aria-hidden="true">{{ b.icon }}</span>
+            {{ b.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="telefono">Numero de celular</label>
+      <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
+        inputmode="tel"
+        [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
+      <p class="ayuda">Debe ser el numero asociado a tu billetera.</p>
+    </div>
+
+    <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
+      {{ procesando() ? 'Esperando aprobacion...' : 'Enviar solicitud de pago' }}
+    </button>
+  </form>
+</section>
