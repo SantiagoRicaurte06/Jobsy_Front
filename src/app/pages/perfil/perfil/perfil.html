@@ -11,9 +11,10 @@
     <header class="perfil__head tarjeta">
       <div class="perfil__avatar">
         @if (user()?.fotoUrl) {
-          <img [src]="user()!.fotoUrl" [alt]="user()!.nombre" />
+          <img [src]="user()!.fotoUrl" [alt]="'Foto de perfil de' +user()!.nombre" />
         } @else {
-          <span>{{ user()?.nombre?.charAt(0) }}</span>
+          <span aria-hidden="true">{{ user()?.nombre?.charAt(0) }}</span>
+          <span class="sr-only">{{ user()?.nombre}}</span>
         }
       </div>
 
