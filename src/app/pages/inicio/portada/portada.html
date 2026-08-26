@@ -23,11 +23,46 @@
     </div>
 
     <div class="media_portada">
-      <img
-        class="foto_portada"
-        [src]="images.hero"
-        alt="Profesional del hogar limpiando una vivienda"
-        loading="eager" />
+      <div class="carrusel_portada">
+        <div class="carrusel_portada__pista">
+          @for (slide of heroSlides; track slide.src; let i = $index) {
+            <img
+              class="foto_portada carrusel_portada__foto"
+              [class.carrusel_portada__foto--activa]="i === slideActual()"
+              [src]="slide.src"
+              [alt]="slide.alt"
+              [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
+          }
+        </div>
+
+        <button
+          type="button"
+          class="carrusel_portada__flecha carrusel_portada__flecha--izq"
+          (click)="anteriorSlide()"
+          aria-label="Imagen anterior">
+          &#10094;
+        </button>
+
+        <button
+          type="button"
+          class="carrusel_portada__flecha carrusel_portada__flecha--der"
+          (click)="siguienteSlide()"
+          aria-label="Siguiente imagen">
+          &#10095;
+        </button>
+
+        <div class="carrusel_portada__puntos">
+          @for (slide of heroSlides; track slide.src; let i = $index) {
+            <button
+              type="button"
+              class="carrusel_portada__punto"
+              [class.carrusel_portada__punto--activo]="i === slideActual()"
+              (click)="irASlide(i)"
+              [attr.aria-label]="'Ir a imagen ' + (i + 1)">
+            </button>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>

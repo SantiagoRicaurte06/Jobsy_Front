@@ -47,6 +47,10 @@ export const IMG_PRODUCTS: Record<string, string> = {
 export const IMG_SITE = {
   /** Hero de la portada: profesional del hogar trabajando. */
   hero: foto('1581578731548-c64695cc6952', 900, 700),
+  /** Hero portada, slide 2: cuidado de jardin. */
+  heroJardineria: foto('1529303906282-705ca092db6f', 900, 700),
+  /** Hero portada, slide 3: cuidado de ninos. */
+  heroCuidadoNinos: foto('1585183575305-750ab15467b6', 900, 700),
   /** Seccion "sobre nosotros": acuerdo entre dos personas. */
   about: foto('1521791136064-7986c2920216', 800, 600),
   /** Cabecera de la busqueda de empleo. */

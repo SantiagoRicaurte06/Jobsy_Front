@@ -20,6 +20,7 @@ export class ReportCenterPage implements OnInit {
   readonly loading = signal(true);
   readonly enviando = signal(false);
   readonly enviado = signal(false);
+  readonly error = signal<string | null>(null)
 
   /** `tipo` viaja como texto libre: asi lo define Report en el backend. */
   readonly tipo = signal('Incidencia');
@@ -57,6 +58,8 @@ export class ReportCenterPage implements OnInit {
     if (!this.asunto() || !this.descripcion()) return;
 
     this.enviando.set(true);
+    this.error.set(null)
+
     this.reportService
       .create({ tipo: this.tipo(), asunto: this.asunto(), descripcion: this.descripcion() })
       .subscribe((nuevo) => {
