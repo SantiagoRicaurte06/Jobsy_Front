@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-admin-analytics',
   standalone: true,
-  imports: [BarChartComponent],
+  imports: [IconComponent, BarChartComponent],
   templateUrl: './analiticas.html',
   styleUrl: './analiticas.scss',
 })

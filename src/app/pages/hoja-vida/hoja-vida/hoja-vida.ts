@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ResumeService } from '../../../core/services';
 import { Resume } from '../../../core/models';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 /** Los sub-objetos de Resume son anonimos, asi que los tipamos aqui. */
 type Experiencia = Resume['experiencias'][number];
@@ -11,7 +12,7 @@ type Estudio = Resume['educacion'][number];
 @Component({
   selector: 'jobsy-resume',
   standalone: true,
-  imports: [FormsModule, LoadingSpinnerComponent],
+  imports: [IconComponent, FormsModule, LoadingSpinnerComponent],
   templateUrl: './hoja-vida.html',
   styleUrl: './hoja-vida.scss',
 })

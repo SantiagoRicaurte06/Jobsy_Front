@@ -9,7 +9,7 @@
   </header>
 
   @if (aviso()) {
-    <p class="admin-categorias__aviso" role="status">&#10004; {{ aviso() }}</p>
+    <p class="admin-categorias__aviso" role="status"><jobsy-icon name="check" /> {{ aviso() }}</p>
   }
 
   <div class="admin-categorias__grid">
@@ -48,7 +48,7 @@
         <ul>
           @for (cat of categories(); track cat.id) {
             <li>
-              <span class="admin-categorias__icon" aria-hidden="true">&#128193;</span>
+              <span class="admin-categorias__icon" aria-hidden="true"><jobsy-icon name="folder" /></span>
 
               @if (editandoId() === cat.id) {
                 <!-- Modo edicion en linea -->

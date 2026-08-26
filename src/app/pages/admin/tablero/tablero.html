@@ -13,7 +13,7 @@
       </div>
 
       <div class="admin-tablero__actions">
-        <button type="button" class="boton_simple boton_chico">&#11015; Exportar</button>
+        <button type="button" class="boton_simple boton_chico"><jobsy-icon name="download" /> Exportar</button>
         <button type="button" class="boton_principal boton_chico">+ Nuevo Producto</button>
       </div>
     </header>
@@ -21,7 +21,7 @@
     <!-- KPIs -->
     <div class="admin-tablero__kpis">
       <div class="admin-tablero__kpi tarjeta">
-        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#128176;</span>
+        <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="banknote" /></span>
         <span class="admin-tablero__kpi-delta">+18%</span>
         <strong>{{ stats()!.ventasMes | cop }}</strong>
         <span class="admin-tablero__kpi-label">Ventas este mes (COP)</span>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="admin-tablero__kpi tarjeta">
-        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#128230;</span>
+        <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="package" /></span>
         <span class="admin-tablero__kpi-delta">+24</span>
         <strong>{{ stats()!.pedidosMes }}</strong>
         <span class="admin-tablero__kpi-label">Pedidos este mes</span>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="admin-tablero__kpi tarjeta">
-        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#128100;</span>
+        <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="user" /></span>
         <span class="admin-tablero__kpi-delta">+12</span>
         <strong>{{ stats()!.clientesRegistrados }}</strong>
         <span class="admin-tablero__kpi-label">Clientes registrados</span>
@@ -45,7 +45,7 @@
       </div>
 
       <div class="admin-tablero__kpi tarjeta">
-        <span class="admin-tablero__kpi-icon" aria-hidden="true">&#11088;</span>
+        <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="star" /></span>
         <span class="admin-tablero__kpi-delta">+0.2</span>
         <strong>{{ stats()!.calificacionPromedio }}</strong>
         <span class="admin-tablero__kpi-label">Calificacion promedio</span>
@@ -59,7 +59,7 @@
         <!-- Grafico de ventas -->
         <section class="tarjeta admin-tablero__panel">
           <div class="admin-tablero__panel-head">
-            <h2>&#128200; Ventas por mes &mdash; 2026</h2>
+            <h2><jobsy-icon name="trending-up" /> Ventas por mes &mdash; 2026</h2>
             <span class="admin-tablero__year">2026</span>
           </div>
 
@@ -69,8 +69,8 @@
         <!-- Productos mas vendidos -->
         <section class="tarjeta admin-tablero__panel">
           <div class="admin-tablero__panel-head">
-            <h2>&#128722; Catalogo de la tienda</h2>
-            <a routerLink="/admin/productos">Gestionar &#8594;</a>
+            <h2><jobsy-icon name="shopping-cart" /> Catalogo de la tienda</h2>
+            <a routerLink="/admin/productos">Gestionar <jobsy-icon name="arrow-right" /></a>
           </div>
 
           <div class="admin-tablero__table-wrap">
@@ -90,7 +90,7 @@
                   <tr>
                     <td>
                       <div class="admin-tablero__product">
-                        <span class="admin-tablero__product-icon" aria-hidden="true">&#129529;</span>
+                        <span class="admin-tablero__product-icon" aria-hidden="true"><jobsy-icon name="sparkles" /></span>
                         <div>
                           <strong>{{ p.nombre }}</strong>
                           <span class="texto_mini texto_gris">{{ p.sku }}</span>
@@ -116,7 +116,7 @@
       <div class="admin-tablero__side">
         <!-- Resumen rapido -->
         <section class="tarjeta admin-tablero__panel">
-          <h2 class="admin-tablero__panel-title">&#9889; Resumen rapido</h2>
+          <h2 class="admin-tablero__panel-title"><jobsy-icon name="zap" /> Resumen rapido</h2>
 
           <div class="admin-tablero__quick">
             @for (r of resumen(); track r.label) {
@@ -133,8 +133,8 @@
         <!-- Pedidos recientes -->
         <section class="tarjeta admin-tablero__panel">
           <div class="admin-tablero__panel-head">
-            <h2>&#128203; Pedidos recientes</h2>
-            <a routerLink="/app/cuenta">Ver todos &#8594;</a>
+            <h2><jobsy-icon name="clipboard-list" /> Pedidos recientes</h2>
+            <a routerLink="/app/cuenta">Ver todos <jobsy-icon name="arrow-right" /></a>
           </div>
 
           <ul class="admin-tablero__orders">
@@ -156,12 +156,12 @@
 
         <!-- Actividad reciente -->
         <section class="tarjeta admin-tablero__panel">
-          <h2 class="admin-tablero__panel-title">&#128276; Actividad reciente</h2>
+          <h2 class="admin-tablero__panel-title"><jobsy-icon name="bell" /> Actividad reciente</h2>
 
           <ul class="admin-tablero__activity">
             @for (a of actividad; track a.text) {
               <li>
-                <span class="admin-tablero__activity-icon" aria-hidden="true">{{ a.icon }}</span>
+                <span class="admin-tablero__activity-icon" aria-hidden="true"><jobsy-icon [name]="a.icon" /></span>
                 <div>
                   <p>{{ a.text }}</p>
                   <span class="texto_mini texto_gris">{{ a.time }}</span>

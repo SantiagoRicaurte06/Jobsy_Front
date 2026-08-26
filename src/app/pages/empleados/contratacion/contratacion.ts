@@ -6,11 +6,12 @@ import { Employee, WorkModality } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-hiring',
   standalone: true,
-  imports: [FormsModule, CopPipe, StepProgressComponent, LoadingSpinnerComponent],
+  imports: [IconComponent, FormsModule, CopPipe, StepProgressComponent, LoadingSpinnerComponent],
   templateUrl: './contratacion.html',
   styleUrl: './contratacion.scss',
 })

@@ -40,7 +40,7 @@
 
       <ul class="caracteristicas_plan_cuenta">
         @for (f of plan.beneficios; track f ) {
-          <li>&#10004; {{ f }}</li>
+          <li><jobsy-icon name="check" /> {{ f }}</li>
         }
       </ul>
       @if (esActual(plan.id)) {

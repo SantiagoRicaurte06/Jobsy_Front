@@ -104,7 +104,7 @@
 <section class="contenedor seccion">
   <div class="encabezado_seccion">
     <h2>Trabajos Disponibles</h2>
-    <a routerLink="/empleos" class="enlace_seccion">Ver todos &#8594;</a>
+    <a routerLink="/empleos" class="enlace_seccion">Ver todos <jobsy-icon name="arrow-right" /></a>
   </div>
 
   @if (loading()) {
@@ -122,7 +122,7 @@
 <section class="contenedor seccion">
   <div class="encabezado_seccion">
     <h2>Empleados Destacados</h2>
-    <a routerLink="/empleados" class="enlace_seccion">Ver todos &#8594;</a>
+    <a routerLink="/empleados" class="enlace_seccion">Ver todos <jobsy-icon name="arrow-right" /></a>
   </div>
 
   <div class="rejilla_inicio">
@@ -153,7 +153,7 @@
       <ul class="ventajas_nosotros">
         @for (b of benefits; track b.title) {
           <li>
-            <span aria-hidden="true">{{ b.icon }}</span>
+            <span aria-hidden="true"><jobsy-icon [name]="b.icon" /></span>
             {{ b.title }}
           </li>
         }

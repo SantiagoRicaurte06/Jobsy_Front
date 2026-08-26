@@ -2,12 +2,12 @@
   @if (loading()) {
     <jobsy-loading-spinner />
   } @else if (!employee()) {
-    <jobsy-empty-state icon="&#128533;" title="Perfil no encontrado">
+    <jobsy-empty-state icon="frown" title="Perfil no encontrado">
       <a routerLink="/empleados" class="boton_principal">Ver otros empleados</a>
     </jobsy-empty-state>
   } @else {
     <nav class="migas_detalle_empleado">
-      <a routerLink="/empleados">&#8592; Volver a empleados</a>
+      <a routerLink="/empleados"><jobsy-icon name="arrow-left" /> Volver a empleados</a>
     </nav>
 
     <div class="rejilla_detalle_empleado">
@@ -26,7 +26,7 @@
             <h1 class="nombre_detalle_empleado">{{ employee()!.nombre }}</h1>
 
             <div class="pildoras_detalle_empleado">
-              @if (employee()!.verificado) { <span class="pildora_exito">&#10004; Verificado</span> }
+              @if (employee()!.verificado) { <span class="pildora_exito"><jobsy-icon name="check" /> Verificado</span> }
               @if (employee()!.disponible) { <span class="pildora_info">Disponible</span> }
             </div>
 
@@ -34,7 +34,7 @@
               [value]="employee()!.calificacion"
               [reviews]="employee()!.totalServicios" />
 
-            <p class="ciudad_detalle_empleado">&#128205; {{ employee()!.ciudad }}</p>
+            <p class="ciudad_detalle_empleado"><jobsy-icon name="map-pin" /> {{ employee()!.ciudad }}</p>
           </div>
         </header>
 
@@ -111,7 +111,7 @@
           Solicitar contratacion
         </a>
         <a routerLink="/agendar" class="boton_secundario boton_ancho">Agendar horario</a>
-        <button type="button" class="boton_simple boton_ancho">&#9825; Guardar perfil</button>
+        <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar perfil</button>
 
         <p class="nota_detalle_empleado">
           Todos los pagos y acuerdos se gestionan dentro de Jobsy para tu seguridad.

@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { RegistrationService } from '../../../core/services';
 import { UserRole } from '../../../core/models';
 import { LogoComponent } from '../../../shared/components/logo/logo';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-select-role',
   standalone: true,
-  imports: [LogoComponent],
+  imports: [IconComponent, LogoComponent],
   templateUrl: './elegir-rol.html',
   styleUrl: './elegir-rol.scss',
 })
@@ -21,14 +22,14 @@ export class SelectRolePage {
   readonly roles: { value: UserRole; icon: string; title: string; text: string; perks: string[] }[] = [
     {
       value: 'empleado',
-      icon: '\u{1F9F9}',
+      icon: 'sparkles',
       title: 'Busco trabajo',
       text: 'Soy Profesional Del Hogar Y Quiero Recibir Ofertas.',
       perks: ['Perfil verificado', 'Postulaciones ilimitadas', 'Hoja de vida en linea'],
     },
     {
       value: 'empleador',
-      icon: '\u{1F3E0}',
+      icon: 'house',
       title: 'Busco empleado',
       text: 'Necesito Contratar Personal Para Mi Hogar.',
       perks: ['Publicar ofertas', 'Perfiles verificados', 'Agendar horarios'],

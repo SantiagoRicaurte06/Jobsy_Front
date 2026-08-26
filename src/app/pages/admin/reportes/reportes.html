@@ -7,7 +7,7 @@
   </header>
 
   @if (aviso()) {
-    <p class="admin-reportes__aviso" role="status">&#10004; {{ aviso() }}</p>
+    <p class="admin-reportes__aviso" role="status"><jobsy-icon name="check" /> {{ aviso() }}</p>
   }
 
   <!-- Resumen -->
@@ -40,13 +40,13 @@
     </nav>
 
     @if (visibles().length === 0) {
-      <jobsy-empty-state icon="&#128203;" title="Sin reportes"
+      <jobsy-empty-state icon="clipboard-list" title="Sin reportes"
         message="No hay reportes con ese estado." />
     } @else {
       <ul class="admin-reportes__list">
         @for (r of visibles(); track r.id) {
           <li class="admin-reportes__item">
-            <span class="admin-reportes__icon" aria-hidden="true">{{ iconoTipo(r.tipo) }}</span>
+            <span class="admin-reportes__icon" aria-hidden="true"><jobsy-icon [name]="iconoTipo(r.tipo)" /></span>
 
             <div class="admin-reportes__info">
               <div class="admin-reportes__info-head">
