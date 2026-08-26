@@ -4,11 +4,12 @@ import { ProfileService } from '../../../core/services';
 import { User } from '../../../core/models';
 import { RatingStarsComponent } from '../../../shared/components/rating-stars/rating-stars';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-profile',
   standalone: true,
-  imports: [RouterLink, RatingStarsComponent, LoadingSpinnerComponent],
+  imports: [IconComponent, RouterLink, RatingStarsComponent, LoadingSpinnerComponent],
   templateUrl: './perfil.html',
   styleUrl: './perfil.scss',
 })

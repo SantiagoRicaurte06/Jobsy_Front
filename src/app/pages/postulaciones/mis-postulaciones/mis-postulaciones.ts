@@ -5,6 +5,7 @@ import { Application, Job, ApplicationStatus } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 /** Postulacion enriquecida con los datos de su oferta. */
 interface ApplicationRow {
@@ -29,7 +30,7 @@ const STATUS_CLASS: Record<ApplicationStatus, string> = {
 @Component({
   selector: 'jobsy-my-applications',
   standalone: true,
-  imports: [RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
   templateUrl: './mis-postulaciones.html',
   styleUrl: './mis-postulaciones.scss',
 })

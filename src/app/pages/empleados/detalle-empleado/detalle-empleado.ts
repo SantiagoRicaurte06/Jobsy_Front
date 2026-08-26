@@ -5,11 +5,12 @@ import { Employee } from '../../../core/models';
 import { RatingStarsComponent } from '../../../shared/components/rating-stars/rating-stars';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-employee-detail',
   standalone: true,
-  imports: [RouterLink, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent],
   templateUrl: './detalle-empleado.html',
   styleUrl: './detalle-empleado.scss',
 })

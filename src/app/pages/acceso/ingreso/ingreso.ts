@@ -3,11 +3,12 @@ import { LogoComponent } from '../../../shared/components/logo/logo';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-login',
   standalone: true,
-  imports: [FormsModule, LogoComponent, RouterLink],
+  imports: [IconComponent, FormsModule, LogoComponent, RouterLink],
   templateUrl: './ingreso.html',
   styleUrl: './ingreso.scss',
 })

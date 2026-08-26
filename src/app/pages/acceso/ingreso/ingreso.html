@@ -9,7 +9,7 @@
     <div class="grupo_campo">
       <label class="etiqueta" for="usuario">Usuario o correo electronico</label>
       <div class="campo_acceso">
-        <span class="icono_acceso" aria-hidden="true">&#128100;</span>
+        <span class="icono_acceso" aria-hidden="true"><jobsy-icon name="user" /></span>
         <input
           id="usuario"
           type="text"
@@ -26,7 +26,7 @@
     <div class="grupo_campo">
       <label for="password" class="etiqueta">Contrasena</label>
       <div class="campo_acceso">
-        <span class="icono_acceso" aria-hidden="true">&#128274;</span>
+        <span class="icono_acceso" aria-hidden="true"><jobsy-icon name="lock" /></span>
         <input
           id="password"
           [type]="showPassword() ? 'text' : 'password'"
@@ -44,7 +44,7 @@
           (click)="togglePassword()"
           [attr.aria-label]="showPassword() ? 'Ocultar contrasena' : 'Mostrar contrasena'"
         >
-          &#128065;
+          <jobsy-icon [name]="showPassword() ? 'eye-off' : 'eye'" />
         </button>
       </div>
     </div>

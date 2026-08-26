@@ -9,7 +9,7 @@
       </button>
     </div>
     @if (guardado()) {
-      <p class="guardado_hoja_vida" role="status">&#10004; Hoja de vida actualizada.</p>
+      <p class="guardado_hoja_vida" role="status"><jobsy-icon name="check" /> Hoja de vida actualizada.</p>
     }
 
     <!-- ---- Resumen profesional ---- -->
@@ -132,7 +132,7 @@
         @for (h of habilidades(); track h) {
           <li class="habilidad_hoja_vida">
             {{ h }}
-            <button type="button" (click)="quitarHabilidad(h)" [attr.aria-label]="'Quitar ' + h">&#10005;</button>
+            <button type="button" (click)="quitarHabilidad(h)" [attr.aria-label]="'Quitar ' + h"><jobsy-icon name="x" /></button>
           </li>
         }
       </ul>

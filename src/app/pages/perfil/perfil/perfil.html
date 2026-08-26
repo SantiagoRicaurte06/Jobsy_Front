@@ -23,13 +23,13 @@
         <div class="perfil__badges">
           <span class="pildora_info">{{ user()?.rol }}</span>
           @if (user()?.verificado) {
-            <span class="pildora_exito">&#10004; Verificado</span>
+            <span class="pildora_exito"><jobsy-icon name="check" /> Verificado</span>
           }
         </div>
 
         <jobsy-rating-stars [value]="calificacion" [reviews]="servicios" />
 
-        <p class="perfil__city">&#128205; {{ user()?.ciudad }}</p>
+        <p class="perfil__city"><jobsy-icon name="map-pin" /> {{ user()?.ciudad }}</p>
       </div>
 
       <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico">Cambiar foto</a>
@@ -81,7 +81,7 @@
     <!-- Enlaces relacionados -->
     <nav class="perfil__links">
       <a routerLink="/app/hoja-de-vida" class="tarjeta">
-        <span aria-hidden="true">&#128196;</span>
+        <span aria-hidden="true"><jobsy-icon name="file-text" /></span>
         <div>
           <strong>Hoja de vida</strong>
           <span>Actualiza tu experiencia y estudios</span>
@@ -89,7 +89,7 @@
       </a>
 
       <a routerLink="/app/configuracion" class="tarjeta">
-        <span aria-hidden="true">&#9881;</span>
+        <span aria-hidden="true"><jobsy-icon name="settings" /></span>
         <div>
           <strong>Configuracion</strong>
           <span>Notificaciones, privacidad y seguridad</span>

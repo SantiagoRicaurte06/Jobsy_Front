@@ -8,7 +8,7 @@
         <nav class="menu_marco_privado">
           @for (item of menu; track item.path) {
             <a [routerLink]="item.path" routerLinkActive="is-active">
-              <span class="icono_marco_privado" aria-hidden="true">{{ item.icon }}</span>
+              <span class="icono_marco_privado" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
               {{ item.label }}
             </a>
           }

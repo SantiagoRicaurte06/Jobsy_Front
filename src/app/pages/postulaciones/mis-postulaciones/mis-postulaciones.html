@@ -20,7 +20,7 @@
   } @else if (visibles().length === 0) {
     <div class="tarjeta">
       <jobsy-empty-state
-        icon="&#128203;"
+        icon="clipboard-list"
         title="Sin postulaciones"
         message="cuando te postules a una oferta, aparecera aqui.">
         <a routerLink="/empleos" class="boton_principal">Buscar empleos</a>
@@ -30,7 +30,7 @@
     <ul class="lista_mis_postulaciones">
       @for (row of visibles(); track row.application.id) {
         <li class="elemento_mis_postulaciones tarjeta">
-          <div class="imagen_mis_postulaciones" aria-hidden="true">&#127968;</div>
+          <div class="imagen_mis_postulaciones" aria-hidden="true"><jobsy-icon name="house" /></div>
 
           <div class="info_mis_postulaciones">
             <h2>{{ row.job?.titulo ?? 'Oferta' }}</h2>

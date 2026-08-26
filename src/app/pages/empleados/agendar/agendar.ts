@@ -1,5 +1,6 @@
 import { Component, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 interface Slot {
   hora: string;
@@ -9,7 +10,7 @@ interface Slot {
 @Component({
   selector: 'jobsy-schedule',
   standalone: true,
-  imports: [FormsModule],
+  imports: [IconComponent, FormsModule],
   templateUrl: './agendar.html',
   styleUrl: './agendar.scss',
 })
