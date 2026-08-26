@@ -4,12 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistrationService, AuthService } from '../../../core/services';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
-import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-step-location',
   standalone: true,
-  imports: [IconComponent, FormsModule, StepProgressComponent],
+  imports: [FormsModule, StepProgressComponent],
   templateUrl: './paso-ubicacion.html',
   styleUrl: './paso-ubicacion.scss',
 })
@@ -19,6 +18,7 @@ export class StepLocationPage {
   private router = inject(Router);
 
   readonly steps = this.registration.steps;
+  readonly rol = this.registration.rol;
 
   readonly ciudad = signal(this.registration.draft().ciudad || 'Yopal');
   readonly barrio = signal(this.registration.draft().barrio);
@@ -40,7 +40,8 @@ export class StepLocationPage {
   }
 
   back(): void {
-    this.router.navigate(['/registro/paso-2']);
+    const anterior = this.rol() === 'empleador' ? '/registro/paso-1' : '/registro/paso-2';
+    this.router.navigate([anterior]);
   }
 
   finish(): void {

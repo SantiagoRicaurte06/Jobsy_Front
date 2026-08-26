@@ -49,7 +49,7 @@
     font-size: v.$font-size-sm;
   }
 
-  span {
+  > div > span {
     font-size: v.$font-size-xs;
     color: v.$color-text-muted;
   }

@@ -43,6 +43,8 @@ export class StepPersonalPage {
       fechaNacimiento: this.fechaNacimiento(),
       documento: this.documento(),
     });
-    this.router.navigate(['/registro/paso-2']);
+
+    const siguiente = this.registration.rol() === 'empleador' ? '/registro/paso-3' : '/registro/paso-2';
+    this.router.navigate([siguiente]);
   }
 }
