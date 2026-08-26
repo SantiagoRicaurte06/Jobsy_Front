@@ -1,9 +1,10 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AdminStore } from '../../../core/services';
-import { Report, ReportStatus } from '../../../core/models';
+import { ReportService } from '../../../core/services';
+import { ReportStatus } from '../../../core/models';
 import { ModalComponent } from '../../../shared/components/modal/modal';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 const ETIQUETA: Record<ReportStatus, string> = {
   abierto: 'Abierto',
@@ -15,23 +16,26 @@ const ETIQUETA: Record<ReportStatus, string> = {
 @Component({
   selector: 'jobsy-admin-reports',
   standalone: true,
-  imports: [FormsModule, ModalComponent, EmptyStateComponent],
+  imports: [FormsModule, ModalComponent, EmptyStateComponent, IconComponent],
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })
 export class AdminReportsPage {
-  private store = inject(AdminStore);
+  private reportService = inject(ReportService);
 
-  readonly reports = this.store.reports;
-  readonly abiertos = this.store.reportesAbiertos;
-  readonly enProceso = this.store.reportesEnProceso;
-  readonly resueltos = this.store.reportesResueltos;
+  readonly reports = this.reportService.reports;
+  readonly abiertos = this.reportService.reportesAbiertos;
+  readonly enProceso = this.reportService.reportesEnProceso;
+  readonly resueltos = this.reportService.reportesResueltos;
 
   readonly filtro = signal<ReportStatus | 'todos'>('todos');
   readonly aviso = signal('');
 
-  /** Reporte abierto en el panel de detalle. */
-  readonly seleccionado = signal<Report | null>(null);
+  /** Reporte abierto en el panel de detalle (por id, para que el hilo se refresque). */
+  readonly seleccionadoId = signal<string | null>(null);
+  readonly seleccionado = computed(
+    () => this.reports().find((r) => r.id === this.seleccionadoId()) ?? null,
+  );
   readonly respuesta = signal('');
 
   readonly estados: ReportStatus[] = ['abierto', 'en_proceso', 'resuelto', 'cerrado'];
@@ -55,23 +59,27 @@ export class AdminReportsPage {
     return [...lista].sort((a, b) => orden[a.estado] - orden[b.estado]);
   });
 
-  abrir(r: Report): void {
-    this.seleccionado.set(r);
+  abrir(id: string): void {
+    this.seleccionadoId.set(id);
     this.respuesta.set('');
   }
 
   cerrarDetalle(): void {
-    this.seleccionado.set(null);
+    this.seleccionadoId.set(null);
   }
 
-  cambiarEstado(r: Report, estado: ReportStatus): void {
-    this.store.setReportStatus(r.id, estado);
-    this.avisar(`"${r.asunto}" marcado como ${ETIQUETA[estado].toLowerCase()}.`);
+  cambiarEstado(id: string, estado: ReportStatus): void {
+    this.reportService.setStatus(id, estado);
+  }
 
-    // Si el detalle esta abierto, refrescamos su copia.
-    if (this.seleccionado()?.id === r.id) {
-      this.seleccionado.set({ ...r, estado });
-    }
+  /** Envia la respuesta del agente al hilo del usuario. */
+  responder(): void {
+    const r = this.seleccionado();
+    if (!r || !this.respuesta().trim()) return;
+
+    this.reportService.addSupportMessage(r.id, this.respuesta());
+    this.respuesta.set('');
+    this.avisar('Respuesta enviada al usuario.');
   }
 
   /** Marca como resuelto y cierra el detalle. */
@@ -79,15 +87,15 @@ export class AdminReportsPage {
     const r = this.seleccionado();
     if (!r) return;
 
-    this.store.setReportStatus(r.id, 'resuelto');
+    this.reportService.setStatus(r.id, 'resuelto');
     this.avisar(`"${r.asunto}" resuelto.`);
-    this.seleccionado.set(null);
+    this.seleccionadoId.set(null);
   }
 
-  eliminar(r: Report): void {
-    this.store.deleteReport(r.id);
+  eliminar(id: string, asunto: string): void {
+    this.reportService.deleteReport(id);
     this.avisar('Reporte eliminado.');
-    if (this.seleccionado()?.id === r.id) this.seleccionado.set(null);
+    if (this.seleccionadoId() === id) this.seleccionadoId.set(null);
   }
 
   etiqueta(estado: ReportStatus): string {
@@ -103,10 +111,20 @@ export class AdminReportsPage {
 
   iconoTipo(tipo: string): string {
     const t = tipo.toLowerCase();
-    if (t.includes('pago')) return '\u{1F4B3}';
-    if (t.includes('usuario')) return '\u{1F6A9}';
-    if (t.includes('sugerencia')) return '\u{1F4A1}';
-    return '\u{1F41B}';
+    if (t.includes('pago')) return 'credit-card';
+    if (t.includes('usuario')) return 'flag';
+    if (t.includes('sugerencia')) return 'lightbulb';
+    return 'bug';
+  }
+
+  /** "2026-03-04T10:02:00" -> "4 mar, 10:02"; "2026-03-04" -> "4 mar". */
+  cuando(fecha: string): string {
+    const d = new Date(fecha);
+    if (isNaN(d.getTime())) return fecha;
+    const opts: Intl.DateTimeFormatOptions = fecha.includes('T')
+      ? { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }
+      : { day: 'numeric', month: 'short' };
+    return d.toLocaleString('es-CO', opts);
   }
 
   private avisar(texto: string): void {

@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AdminService, AdminStats, AdminStore } from '../../../core/services';
+import { AdminService, AdminStats, AdminStore, ReportService } from '../../../core/services';
 import { Order } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
@@ -16,6 +16,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 export class AdminDashboardPage implements OnInit {
   private adminService = inject(AdminService);
   private store = inject(AdminStore);
+  private reportService = inject(ReportService);
 
   readonly stats = signal<AdminStats | undefined>(undefined);
   readonly recentOrders = signal<Order[]>([]);
@@ -26,7 +27,7 @@ export class AdminDashboardPage implements OnInit {
   readonly totalProductos = this.store.totalProductos;
   readonly stockCritico = this.store.stockCritico;
   readonly valorInventario = this.store.valorInventario;
-  readonly reportesAbiertos = this.store.reportesAbiertos;
+  readonly reportesAbiertos = this.reportService.reportesAbiertos;
   readonly porReponer = this.store.porReponer;
 
   /** TEMPORAL: serie de ventas de ejemplo. */

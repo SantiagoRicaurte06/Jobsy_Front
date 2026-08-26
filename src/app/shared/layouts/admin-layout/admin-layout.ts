@@ -1,6 +1,6 @@
 import { Component, inject, computed } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { AuthService, AdminStore } from '../../../core/services';
+import { AuthService, AdminStore, ReportService } from '../../../core/services';
 import { LogoComponent } from '../../components/logo/logo';
 
 /** Layout del panel de administracion: sidebar azul oscuro + contenido. */
@@ -15,6 +15,7 @@ export class AdminLayoutComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
   private store = inject(AdminStore);
+  private reportService = inject(ReportService);
 
   readonly user = this.auth.user;
 
@@ -38,7 +39,7 @@ export class AdminLayoutComponent {
     {
       title: 'Soporte',
       items: [
-        { path: '/admin/reportes', label: 'Reportes', icon: '\u{1F6A9}', badge: this.store.reportesAbiertos() || null },
+        { path: '/admin/reportes', label: 'Reportes', icon: '\u{1F6A9}', badge: this.reportService.reportesAbiertos() || null },
       ],
     },
   ]);

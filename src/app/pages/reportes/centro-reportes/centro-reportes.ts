@@ -1,35 +1,50 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ReportService } from '../../../core/services';
 import { Report } from '../../../core/models';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-report-center',
   standalone: true,
-  imports: [FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [FormsModule, RouterLink, IconComponent],
   templateUrl: './centro-reportes.html',
   styleUrl: './centro-reportes.scss',
 })
-export class ReportCenterPage implements OnInit {
+export class ReportCenterPage {
   private reportService = inject(ReportService);
 
-  readonly reports = signal<Report[]>([]);
-  readonly loading = signal(true);
+  /** Lista reactiva de reportes del usuario (con su conversacion). */
+  readonly reports = this.reportService.reports;
+
   readonly enviando = signal(false);
-  readonly enviado = signal(false);
 
   /** `tipo` viaja como texto libre: asi lo define Report en el backend. */
   readonly tipo = signal('Incidencia');
   readonly asunto = signal('');
   readonly descripcion = signal('');
 
+  // ---- Conversacion ----
+  readonly seleccionadoId = signal<string | null>(null);
+  readonly nuevoMensaje = signal('');
+
+  /** Reporte abierto en el chat; se recalcula solo cuando llegan mensajes. */
+  readonly seleccionado = computed(
+    () => this.reports().find((r) => r.id === this.seleccionadoId()) ?? null,
+  );
+
+  /** Solo se puede escribir en reportes abiertos o en proceso. */
+  readonly puedeChatear = computed(() => {
+    const e = this.seleccionado()?.estado;
+    return e === 'abierto' || e === 'en_proceso';
+  });
+
   readonly tipos = [
-    { value: 'Incidencia', icon: '\u{1F41B}', label: 'Problema tecnico', text: 'Algo no funciona en la plataforma.' },
-    { value: 'Usuario', icon: '\u{1F6A9}', label: 'Reportar usuario', text: 'Comportamiento inadecuado.' },
-    { value: 'Pago', icon: '\u{1F4B3}', label: 'Problema de pago', text: 'Cobros o transferencias.' },
-    { value: 'Sugerencia', icon: '\u{1F4A1}', label: 'Sugerencia', text: 'Ideas para mejorar Jobsy.' },
+    { value: 'Incidencia', icon: 'bug', label: 'Problema tecnico', text: 'Algo no funciona en la plataforma.' },
+    { value: 'Usuario', icon: 'flag', label: 'Reportar usuario', text: 'Comportamiento inadecuado.' },
+    { value: 'Pago', icon: 'credit-card', label: 'Problema de pago', text: 'Cobros o transferencias.' },
+    { value: 'Sugerencia', icon: 'lightbulb', label: 'Sugerencia', text: 'Ideas para mejorar Jobsy.' },
   ];
 
   readonly faqs = [
@@ -41,36 +56,66 @@ export class ReportCenterPage implements OnInit {
 
   readonly faqAbierta = signal<number | null>(null);
 
-  ngOnInit(): void {
-    this.reportService.list().subscribe((r) => {
-      this.reports.set(r);
-      this.loading.set(false);
-    });
-  }
-
   toggleFaq(i: number): void {
     this.faqAbierta.update((actual) => (actual === i ? null : i));
   }
 
+  /** Crea el reporte y abre su conversacion. */
   enviar(): void {
     if (!this.asunto() || !this.descripcion()) return;
 
     this.enviando.set(true);
-    this.reportService
-      .create({ tipo: this.tipo(), asunto: this.asunto(), descripcion: this.descripcion() })
-      .subscribe((nuevo) => {
-        this.reports.update((list) => [nuevo, ...list]);
-        this.asunto.set('');
-        this.descripcion.set('');
-        this.enviando.set(false);
-        this.enviado.set(true);
-        setTimeout(() => this.enviado.set(false), 3000);
-      });
+    const nuevo = this.reportService.create({
+      tipo: this.tipo(),
+      asunto: this.asunto(),
+      descripcion: this.descripcion(),
+    });
+
+    this.asunto.set('');
+    this.descripcion.set('');
+    this.enviando.set(false);
+    this.seleccionadoId.set(nuevo.id);
+  }
+
+  seleccionar(id: string): void {
+    this.seleccionadoId.set(id);
+  }
+
+  volver(): void {
+    this.seleccionadoId.set(null);
+  }
+
+  enviarMensaje(): void {
+    const r = this.seleccionado();
+    if (!r) return;
+
+    const texto = this.nuevoMensaje();
+    if (!texto.trim()) return;
+
+    this.reportService.sendMessage(r.id, texto);
+    this.nuevoMensaje.set('');
+  }
+
+  /** Ultimo mensaje del hilo, para la vista previa en la lista. */
+  ultimoMensaje(r: Report): string {
+    const m = r.mensajes;
+    return m && m.length ? m[m.length - 1].texto : r.descripcion;
   }
 
   badgeClass(estado: string): string {
     if (estado === 'resuelto') return 'pildora_exito';
     if (estado === 'en_proceso') return 'pildora_info';
-    return 'pildora_aviso';
+    if (estado === 'cerrado') return 'pildora_aviso';
+    return 'pildora_error';
+  }
+
+  /** "2026-03-04T10:02:00" -> "4 mar, 10:02"; "2026-03-04" -> "4 mar". */
+  cuando(fecha: string): string {
+    const d = new Date(fecha);
+    if (isNaN(d.getTime())) return fecha;
+    const opts: Intl.DateTimeFormatOptions = fecha.includes('T')
+      ? { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }
+      : { day: 'numeric', month: 'short' };
+    return d.toLocaleString('es-CO', opts);
   }
 }
