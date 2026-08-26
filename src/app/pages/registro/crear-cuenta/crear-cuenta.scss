@@ -13,6 +13,10 @@
     0 24px 48px rgba(0, 0, 0, 0.06);
 }
 
+.marca_crear_cuenta {
+  &:hover { text-decoration: none; }
+}
+
 .titulo_crear_cuenta {
   margin: v.$space-5 0 v.$space-2;
   font-size: v.$font-size-xl; // igualado a .titulo_acceso para consistencia entre pantallas
