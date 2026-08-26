@@ -1,0 +1,101 @@
+<!-- ============ BANNER ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Soporte</span>
+    <h1 class="titulo_banner">Contacto</h1>
+    <p class="texto_banner">Cuentanos en que podemos ayudarte y te respondemos lo antes posible.</p>
+  </div>
+</section>
+
+<!-- ============ CANALES + FORMULARIO ============ -->
+<section class="contenedor seccion">
+  <div class="grid_contacto">
+    <div class="columna_canales">
+      @for (canal of canales; track canal.title) {
+        <div class="tarjeta tarjeta_canal">
+          <span class="icono_valor" aria-hidden="true"><jobsy-icon [name]="canal.icon" /></span>
+          <div>
+            <h3>{{ canal.title }}</h3>
+            <p class="dato_canal">{{ canal.text }}</p>
+            <p class="texto_mini texto_gris">{{ canal.nota }}</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="tarjeta tarjeta_formulario_contacto">
+      @if (enviado()) {
+        <div class="confirmacion_contacto">
+          <span class="icono_confirmacion" aria-hidden="true"><jobsy-icon name="circle-check" /></span>
+          <h2>Mensaje enviado</h2>
+          <p class="texto_gris">Gracias por escribirnos. Nuestro equipo te respondera muy pronto.</p>
+          <button type="button" class="boton_borde" (click)="enviado.set(false)">Enviar otro mensaje</button>
+        </div>
+      } @else {
+        <h2 class="titulo_formulario_contacto">Envianos un mensaje</h2>
+
+        <form (ngSubmit)="enviar()">
+          <div class="grupo_campo">
+            <label class="etiqueta" for="nombre">Nombre completo</label>
+            <input
+              id="nombre"
+              type="text"
+              class="campo"
+              placeholder="Escribe tu nombre"
+              [ngModel]="nombre()"
+              (ngModelChange)="nombre.set($event)"
+              name="nombre"
+              required />
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="correo">Correo electronico</label>
+            <input
+              id="correo"
+              type="email"
+              class="campo"
+              placeholder="tu@correo.com"
+              [ngModel]="correo()"
+              (ngModelChange)="correo.set($event)"
+              name="correo"
+              required />
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="motivo">Motivo</label>
+            <select
+              id="motivo"
+              class="lista"
+              [ngModel]="motivo()"
+              (ngModelChange)="motivo.set($event)"
+              name="motivo">
+              @for (m of motivos; track m) {
+                <option [value]="m">{{ m }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="mensaje">Mensaje</label>
+            <textarea
+              id="mensaje"
+              class="area_texto"
+              placeholder="Cuentanos los detalles..."
+              [ngModel]="mensaje()"
+              (ngModelChange)="mensaje.set($event)"
+              name="mensaje"
+              required></textarea>
+          </div>
+
+          <button type="submit" class="boton_principal boton_ancho" [disabled]="enviando()">
+            @if (enviando()) {
+              Enviando...
+            } @else {
+              <jobsy-icon name="mail" /> Enviar mensaje
+            }
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>
