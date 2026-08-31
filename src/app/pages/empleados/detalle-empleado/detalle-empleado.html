@@ -58,36 +58,39 @@
         </section>
 
         <section class="seccion_detalle_empleado">
-          <h2>Resenas ({{ reviews().length }})</h2>
+          <h2>Resenas ({{ resenas().length }})</h2>
 
-          <form class="formulario_resena_detalle_empleado" (submit)="enviarResena($event)">
-            <p class="etiqueta_resena_detalle_empleado">Deja tu calificacion</p>
+          @if (isLoggedIn()) {
+            <form class="formulario_resena_detalle_empleado" (submit)="enviarResena($event)">
+              <p class="etiqueta_resena_detalle_empleado">Deja tu calificacion</p>
 
-            <jobsy-rating-stars
-              [value]="nuevaCalificacion()"
-              [editable]="true"
-              [showValue]="false"
-              (valueChange)="nuevaCalificacion.set($event)" />
+              <div class="estrellas_picker_detalle_empleado" role="radiogroup"
+                aria-label="Calificacion en estrellas">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <button type="button" class="estrella_picker_detalle_empleado"
+                    [class.is-active]="star <= nuevaCalificacion()"
+                    (click)="setCalificacion(star)"
+                    [attr.aria-label]="star + ' estrellas'">&#9733;</button>
+                }
+              </div>
 
-            <textarea
-              class="campo_resena_detalle_empleado"
-              rows="3"
-              placeholder="Cuenta como te fue con esta persona (opcional)"
-              [value]="nuevoComentario()"
-              (input)="nuevoComentario.set($any($event.target).value)"
-            ></textarea>
+              <textarea class="campo_resena_detalle_empleado" rows="3"
+                placeholder="Cuenta como te fue con esta persona (opcional)"
+                [value]="nuevoComentario()"
+                (input)="nuevoComentario.set($any($event.target).value)"></textarea>
 
-            <button
-              type="submit"
-              class="boton_principal"
-              [disabled]="nuevaCalificacion() === 0"
-            >
-              Publicar resena
-            </button>
-          </form>
+              <button type="submit" class="boton_principal" [disabled]="nuevaCalificacion() === 0">
+                Publicar resena
+              </button>
+            </form>
+          } @else {
+            <p class="aviso_resena_detalle_empleado">
+              <a routerLink="/auth/login">Inicia sesion</a> para dejar tu calificacion.
+            </p>
+          }
 
           <ul class="resenas_detalle_empleado">
-            @for (review of reviews(); track $index) {
+            @for (review of resenas(); track $index) {
               <li class="resena_detalle_empleado">
                 <div class="encabezado_resena_detalle_empleado">
                   <strong>{{ review.autor }}</strong>

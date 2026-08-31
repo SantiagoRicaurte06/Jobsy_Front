@@ -1,0 +1,33 @@
+<!-- ============ BANNER ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Legal</span>
+    <h1 class="titulo_banner">Politica de Privacidad</h1>
+    <p class="texto_banner">Ultima actualizacion: {{ actualizado }}</p>
+  </div>
+</section>
+
+<!-- ============ CONTENIDO ============ -->
+<section class="contenedor seccion">
+  <div class="grid_legal">
+    <nav class="indice_legal" aria-label="Indice del documento">
+      <span class="titulo_indice">Contenido</span>
+      <ul>
+        @for (s of secciones; track s.id) {
+          <li><a [href]="'#' + s.id">{{ s.titulo }}</a></li>
+        }
+      </ul>
+    </nav>
+
+    <div class="cuerpo_legal">
+      @for (s of secciones; track s.id) {
+        <article [id]="s.id" class="bloque_legal">
+          <h2>{{ s.titulo }}</h2>
+          @for (p of s.parrafos; track p) {
+            <p>{{ p }}</p>
+          }
+        </article>
+      }
+    </div>
+  </div>
+</section>

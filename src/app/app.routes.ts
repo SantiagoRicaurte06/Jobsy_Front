@@ -129,6 +129,59 @@ export const routes: Routes = [
           },
         ],
       },
+
+      // ---- Empresa ----
+      {
+        path: 'empresa/sobre-nosotros',
+        loadComponent: () =>
+          import('./pages/empresa/sobre-nosotros/sobre-nosotros').then((m) => m.AboutPage),
+        title: 'Sobre Nosotros — Jobsy',
+      },
+      {
+        path: 'empresa/blog',
+        loadComponent: () => import('./pages/empresa/blog/blog').then((m) => m.BlogPage),
+        title: 'Blog — Jobsy',
+      },
+      {
+        path: 'empresa/trabaja-con-nosotros',
+        loadComponent: () =>
+          import('./pages/empresa/trabaja-con-nosotros/trabaja-con-nosotros').then(
+            (m) => m.CareersPage,
+          ),
+        title: 'Trabaja con Nosotros — Jobsy',
+      },
+      {
+        path: 'empresa/prensa',
+        loadComponent: () => import('./pages/empresa/prensa/prensa').then((m) => m.PressPage),
+        title: 'Prensa — Jobsy',
+      },
+
+      // ---- Soporte ----
+      {
+        path: 'soporte/centro-ayuda',
+        loadComponent: () =>
+          import('./pages/soporte/centro-ayuda/centro-ayuda').then((m) => m.HelpCenterPage),
+        title: 'Centro de Ayuda — Jobsy',
+      },
+      {
+        path: 'soporte/contacto',
+        loadComponent: () =>
+          import('./pages/soporte/contacto/contacto').then((m) => m.ContactPage),
+        title: 'Contacto — Jobsy',
+      },
+
+      // ---- Legal ----
+      {
+        path: 'legal/terminos',
+        loadComponent: () => import('./pages/legal/terminos/terminos').then((m) => m.TermsPage),
+        title: 'Terminos y Condiciones — Jobsy',
+      },
+      {
+        path: 'legal/privacidad',
+        loadComponent: () =>
+          import('./pages/legal/privacidad/privacidad').then((m) => m.PrivacyPage),
+        title: 'Politica de Privacidad — Jobsy',
+      },
     ],
   },
 

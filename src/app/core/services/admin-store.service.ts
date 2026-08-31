@@ -1,37 +1,12 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
-import { Product, Category, Report, ReportStatus } from '../models';
+import { Product, Category } from '../models';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../../mocks';
 
 const STORAGE_KEY = 'jobsy_admin_data';
 
-/** Reportes de arranque. TEMPORAL: los servira Soporte_API. */
-const SEED_REPORTS: Report[] = [
-  {
-    id: 'r1', tipo: 'Pago', asunto: 'Problema con un pago',
-    descripcion: 'Pague un servicio el martes y el cobro se duplico en mi tarjeta.',
-    estado: 'abierto', reportanteId: 'Martha C.', fecha: '2026-03-04',
-  },
-  {
-    id: 'r2', tipo: 'Sugerencia', asunto: 'Filtro por barrio',
-    descripcion: 'Seria util poder filtrar las ofertas por barrio y no solo por ciudad.',
-    estado: 'en_proceso', reportanteId: 'Pedro Gomez', fecha: '2026-03-02',
-  },
-  {
-    id: 'r3', tipo: 'Usuario', asunto: 'Empleador no responde',
-    descripcion: 'Me aceptaron la postulacion pero el empleador no contesta hace 5 dias.',
-    estado: 'abierto', reportanteId: 'Carmen E.', fecha: '2026-03-05',
-  },
-  {
-    id: 'r4', tipo: 'Incidencia', asunto: 'No carga la hoja de vida',
-    descripcion: 'Al subir el PDF de mi hoja de vida la pagina se queda cargando.',
-    estado: 'resuelto', reportanteId: 'Jose Luis R.', fecha: '2026-02-27',
-  },
-];
-
 interface AdminData {
   products: Product[];
   categories: Category[];
-  reports: Report[];
 }
 
 /**
@@ -48,11 +23,9 @@ interface AdminData {
 export class AdminStore {
   private _products = signal<Product[]>([]);
   private _categories = signal<Category[]>([]);
-  private _reports = signal<Report[]>([]);
 
   readonly products = this._products.asReadonly();
   readonly categories = this._categories.asReadonly();
-  readonly reports = this._reports.asReadonly();
 
   // ---- Metricas derivadas: se recalculan solas al editar ----
   readonly totalProductos = computed(() => this._products().length);
@@ -70,16 +43,6 @@ export class AdminStore {
     () => this._products().filter((p) => p.stock > 2 && p.stock <= 10).length,
   );
 
-  readonly reportesAbiertos = computed(
-    () => this._reports().filter((r) => r.estado === 'abierto').length,
-  );
-  readonly reportesEnProceso = computed(
-    () => this._reports().filter((r) => r.estado === 'en_proceso').length,
-  );
-  readonly reportesResueltos = computed(
-    () => this._reports().filter((r) => r.estado === 'resuelto').length,
-  );
-
   /** Productos ordenados de menor a mayor stock: los que urge reponer. */
   readonly porReponer = computed(() =>
     [...this._products()].sort((a, b) => a.stock - b.stock).slice(0, 5),
@@ -93,7 +56,6 @@ export class AdminStore {
       const data: AdminData = {
         products: this._products(),
         categories: this._categories(),
-        reports: this._reports(),
       };
       this.almacen?.setItem(STORAGE_KEY, JSON.stringify(data));
     });
@@ -171,17 +133,6 @@ export class AdminStore {
   }
 
   // ============================================================
-  //  Reportes
-  // ============================================================
-  setReportStatus(id: string, estado: ReportStatus): void {
-    this._reports.update((list) => list.map((r) => (r.id === id ? { ...r, estado } : r)));
-  }
-
-  deleteReport(id: string): void {
-    this._reports.update((list) => list.filter((r) => r.id !== id));
-  }
-
-  // ============================================================
   //  Utilidades
   // ============================================================
 
@@ -189,7 +140,6 @@ export class AdminStore {
   reset(): void {
     this._products.set(structuredClone(MOCK_PRODUCTS));
     this._categories.set(structuredClone(MOCK_CATEGORIES));
-    this._reports.set(structuredClone(SEED_REPORTS));
     this.recalcularConteos();
   }
 
@@ -226,7 +176,6 @@ export class AdminStore {
         const data = JSON.parse(guardado) as AdminData;
         this._products.set(data.products ?? []);
         this._categories.set(data.categories ?? []);
-        this._reports.set(data.reports ?? []);
         return;
       }
     } catch {

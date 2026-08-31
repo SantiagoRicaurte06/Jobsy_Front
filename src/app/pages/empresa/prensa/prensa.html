@@ -1,0 +1,66 @@
+<!-- ============ BANNER ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Empresa</span>
+    <h1 class="titulo_banner">Prensa</h1>
+    <p class="texto_banner">
+      Recursos de marca y contacto directo para periodistas y medios de comunicacion.
+    </p>
+  </div>
+</section>
+
+<!-- ============ KIT DE PRENSA ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion_centrado">
+    <span class="pildora_info">Kit de prensa</span>
+    <h2 class="titulo_seccion">Todo lo que necesitas para hablar de Jobsy</h2>
+  </div>
+
+  <div class="rejilla_kit">
+    @for (item of kit; track item.title) {
+      <div class="tarjeta tarjeta_kit">
+        <span class="icono_valor" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
+        <div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+        </div>
+        <button type="button" class="boton_simple boton_chico">
+          <jobsy-icon name="download" /> Descargar
+        </button>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ MENCIONES ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion">
+    <h2>Jobsy en los medios</h2>
+  </div>
+
+  <div class="lista_menciones">
+    @for (m of menciones; track m.titulo) {
+      <div class="tarjeta fila_mencion">
+        <div>
+          <span class="pildora_naranja">{{ m.medio }}</span>
+          <h3 class="titulo_mencion">{{ m.titulo }}</h3>
+          <span class="texto_chico texto_gris">{{ m.fecha }}</span>
+        </div>
+        <jobsy-icon name="arrow-right" />
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ CONTACTO DE PRENSA ============ -->
+<section class="llamada_institucional">
+  <div class="interior_llamada_institucional">
+    <div>
+      <h2>&iquest;Trabajas en un medio de comunicacion?</h2>
+      <p>Escribenos para entrevistas, datos de la plataforma o material adicional.</p>
+    </div>
+    <div class="acciones_llamada_institucional">
+      <a href="mailto:prensa@jobsy.co" class="boton_principal"><jobsy-icon name="mail" /> prensa&#64;jobsy.co</a>
+    </div>
+  </div>
+</section>
