@@ -33,6 +33,7 @@ export class LoginSuccessPage implements OnInit, OnDestroy {
 
   go(): void {
     clearInterval(this.timer);
-    this.router.navigate(['/app/inicio']);
+    // Los administradores van al panel; el resto, a su area de usuario.
+    this.router.navigateByUrl(this.auth.homeUrl());
   }
 }

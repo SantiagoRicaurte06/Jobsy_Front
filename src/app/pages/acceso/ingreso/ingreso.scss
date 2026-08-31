@@ -20,6 +20,10 @@
   margin-bottom: v.$space-6;
 }
 
+.marca_acceso {
+  &:hover { text-decoration: none; }
+}
+
 .titulo_acceso {
   margin: v.$space-5 0 v.$space-2;
   font-size: v.$font-size-xl;
