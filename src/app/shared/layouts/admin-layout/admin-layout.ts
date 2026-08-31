@@ -40,7 +40,7 @@ export class AdminLayoutComponent {
     {
       title: 'Soporte',
       items: [
-        { path: '/admin/reportes', label: 'Reportes', icon: 'flag', badge: this.store.reportesAbiertos() || null },
+        { path: '/admin/reportes', label: 'Reportes', icon: 'flag', badge: this.reportService.reportesAbiertos() || null },
       ],
     },
   ]);
