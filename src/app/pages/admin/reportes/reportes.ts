@@ -117,6 +117,16 @@ export class AdminReportsPage {
     return 'bug';
   }
 
+  /** "2026-03-04T10:02:00" -> "4 mar, 10:02"; "2026-03-04" -> "4 mar". */
+  cuando(fecha: string): string {
+    const d = new Date(fecha);
+    if (isNaN(d.getTime())) return fecha;
+    const opts: Intl.DateTimeFormatOptions = fecha.includes('T')
+      ? { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }
+      : { day: 'numeric', month: 'short' };
+    return d.toLocaleString('es-CO', opts);
+  }
+
   private avisar(texto: string): void {
     this.aviso.set(texto);
     setTimeout(() => this.aviso.set(''), 2800);
