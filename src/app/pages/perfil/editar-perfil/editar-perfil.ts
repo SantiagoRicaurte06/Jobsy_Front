@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ProfileService } from '../../../core/services';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-edit-profile',
   standalone: true,
-  imports: [FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [IconComponent, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './editar-perfil.html',
   styleUrl: './editar-perfil.scss',
 })

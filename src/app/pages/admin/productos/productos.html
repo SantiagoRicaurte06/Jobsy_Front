@@ -11,7 +11,7 @@
   </header>
 
   @if (aviso()) {
-    <p class="admin-productos__aviso" role="status">&#10004; {{ aviso() }}</p>
+    <p class="admin-productos__aviso" role="status"><jobsy-icon name="check" /> {{ aviso() }}</p>
   }
 
   <div class="tarjeta admin-productos__panel">
@@ -33,7 +33,7 @@
     </div>
 
     @if (visibles().length === 0) {
-      <jobsy-empty-state icon="&#128230;" title="Sin resultados"
+      <jobsy-empty-state icon="package" title="Sin resultados"
         message="Ningun producto coincide con el filtro.">
         <button type="button" class="boton_principal" (click)="nuevo()">Crear producto</button>
       </jobsy-empty-state>
@@ -58,7 +58,7 @@
                     @if (p.imagenUrl) {
                       <img [src]="p.imagenUrl" [alt]="p.nombre" class="admin-productos__thumb" />
                     } @else {
-                      <span class="admin-productos__icon" aria-hidden="true">&#129529;</span>
+                      <span class="admin-productos__icon" aria-hidden="true"><jobsy-icon name="sparkles" /></span>
                     }
                     <div>
                       <strong>{{ p.nombre }}</strong>

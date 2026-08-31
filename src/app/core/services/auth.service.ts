@@ -20,6 +20,10 @@ export class AuthService {
   readonly user = this._user.asReadonly();
   readonly isLoggedIn = computed(() => this._user() !== null);
   readonly role = computed<UserRole | null>(() => this._user()?.rol ?? null);
+  readonly isAdmin = computed(() => this.role() === 'admin');
+
+  /** Area a la que se dirige cada usuario tras iniciar sesion, segun su rol. */
+  readonly homeUrl = computed(() => (this.isAdmin() ? '/admin/dashboard' : '/app/inicio'));
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     if (environment.useMocks) {

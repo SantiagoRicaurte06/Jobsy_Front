@@ -1,0 +1,62 @@
+<!-- ============ BANNER ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Empresa</span>
+    <h1 class="titulo_banner">Blog de Jobsy</h1>
+    <p class="texto_banner">
+      Consejos practicos para contratar y trabajar en el hogar, y novedades de la plataforma.
+    </p>
+  </div>
+</section>
+
+<!-- ============ FILTROS + POSTS ============ -->
+<section class="contenedor seccion">
+  <ul class="filtros_blog">
+    @for (cat of categorias; track cat) {
+      <li>
+        <button
+          type="button"
+          class="ficha_blog"
+          [class.is-active]="categoriaActiva() === cat"
+          (click)="setCategoria(cat)">
+          {{ cat }}
+        </button>
+      </li>
+    }
+  </ul>
+
+  <div class="rejilla_blog">
+    @for (post of postsFiltrados(); track post.id) {
+      <article class="tarjeta tarjeta_post">
+        <img class="foto_post" [src]="post.imagen" [alt]="post.titulo" loading="lazy" />
+        <div class="cuerpo_post">
+          <span class="pildora_naranja">{{ post.categoria }}</span>
+          <h2 class="titulo_post">{{ post.titulo }}</h2>
+          <p class="resumen_post">{{ post.resumen }}</p>
+          <div class="meta_post">
+            <span><jobsy-icon name="calendar" /> {{ post.fecha }}</span>
+            <span><jobsy-icon name="clock" /> {{ post.minutos }} min de lectura</span>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+
+  @if (postsFiltrados().length === 0) {
+    <p class="texto_gris">No hay articulos en esta categoria todavia.</p>
+  }
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="llamada_institucional">
+  <div class="interior_llamada_institucional">
+    <div>
+      <h2>No te pierdas ningun articulo</h2>
+      <p>Suscribete y recibe una nota al mes con consejos y novedades de Jobsy.</p>
+    </div>
+    <form class="form_newsletter" (submit)="$event.preventDefault()">
+      <input type="email" class="campo" placeholder="tu@correo.com" aria-label="Correo electronico" required />
+      <button type="submit" class="boton_principal">Suscribirme</button>
+    </form>
+  </div>
+</section>

@@ -7,7 +7,7 @@
       <nav class="pago__methods">
         @for (method of methods; track method.path) {
           <a [routerLink]="method.path" routerLinkActive="is-active" class="pago__method">
-            <span aria-hidden="true">{{ method.icon }}</span>
+            <span aria-hidden="true"><jobsy-icon [name]="method.icon" /></span>
             {{ method.label }}
           </a>
         }
@@ -41,7 +41,7 @@
         </div>
       </dl>
 
-      <a routerLink="/tienda/carrito" class="pago__back">&#8592; Volver al carrito</a>
+      <a routerLink="/tienda/carrito" class="pago__back"><jobsy-icon name="arrow-left" /> Volver al carrito</a>
     </aside>
   </div>
 </div>

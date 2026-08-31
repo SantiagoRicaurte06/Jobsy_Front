@@ -1,6 +1,8 @@
 <div class="recuperar tarjeta">
   <header class="recuperar__head">
-    <jobsy-logo variant="color" size="chico" />
+    <a routerLink="/" class="recuperar__marca" aria-label="Ir al inicio">
+      <jobsy-logo variant="color" size="chico" />
+    </a>
     <h1 class="recuperar__title">Restablecer contrasena</h1>
     <p class="recuperar__subtitle">
       Escribe tu correo y te enviaremos un enlace para crear una nueva contrasena.
@@ -28,6 +30,6 @@
   </form>
 
   <p class="recuperar__back">
-    <a routerLink="/auth/login">&#8592; Volver a iniciar sesion</a>
+    <a routerLink="/auth/login"><jobsy-icon name="arrow-left" /> Volver a iniciar sesion</a>
   </p>
 </div>

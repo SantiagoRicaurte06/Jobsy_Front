@@ -5,6 +5,7 @@ import { Product, ProductStatus } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { ModalComponent } from '../../../shared/components/modal/modal';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 /** Valores del formulario de producto. */
 interface ProductForm {
@@ -26,7 +27,7 @@ const VACIO: ProductForm = {
 @Component({
   selector: 'jobsy-admin-products',
   standalone: true,
-  imports: [FormsModule, CopPipe, ModalComponent, EmptyStateComponent],
+  imports: [IconComponent, FormsModule, CopPipe, ModalComponent, EmptyStateComponent],
   templateUrl: './productos.html',
   styleUrl: './productos.scss',
 })

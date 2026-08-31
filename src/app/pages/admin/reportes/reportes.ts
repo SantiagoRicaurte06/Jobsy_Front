@@ -4,6 +4,7 @@ import { AdminStore } from '../../../core/services';
 import { Report, ReportStatus } from '../../../core/models';
 import { ModalComponent } from '../../../shared/components/modal/modal';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 const ETIQUETA: Record<ReportStatus, string> = {
   abierto: 'Abierto',
@@ -15,7 +16,7 @@ const ETIQUETA: Record<ReportStatus, string> = {
 @Component({
   selector: 'jobsy-admin-reports',
   standalone: true,
-  imports: [FormsModule, ModalComponent, EmptyStateComponent],
+  imports: [IconComponent, FormsModule, ModalComponent, EmptyStateComponent],
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })
@@ -103,10 +104,10 @@ export class AdminReportsPage {
 
   iconoTipo(tipo: string): string {
     const t = tipo.toLowerCase();
-    if (t.includes('pago')) return '\u{1F4B3}';
-    if (t.includes('usuario')) return '\u{1F6A9}';
-    if (t.includes('sugerencia')) return '\u{1F4A1}';
-    return '\u{1F41B}';
+    if (t.includes('pago')) return 'credit-card';
+    if (t.includes('usuario')) return 'flag';
+    if (t.includes('sugerencia')) return 'lightbulb';
+    return 'bug';
   }
 
   private avisar(texto: string): void {

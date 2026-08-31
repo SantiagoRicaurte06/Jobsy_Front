@@ -6,11 +6,12 @@ import { Job } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-apply-wizard',
   standalone: true,
-  imports: [FormsModule, RouterLink, CopPipe, StepProgressComponent, LoadingSpinnerComponent],
+  imports: [IconComponent, FormsModule, RouterLink, CopPipe, StepProgressComponent, LoadingSpinnerComponent],
   templateUrl: './asistente-postulacion.html',
   styleUrl: './asistente-postulacion.scss',
 })

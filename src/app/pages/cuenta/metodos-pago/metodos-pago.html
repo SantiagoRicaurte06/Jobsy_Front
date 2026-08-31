@@ -22,7 +22,7 @@
       <ul class="lista_metodos_pago">
         @for (m of methods(); track m.id) {
           <li class="elemento_metodos_pago">
-            <span class="icono_metodos_pago" aria-hidden="true">{{ m.icono }}</span>
+            <span class="icono_metodos_pago" aria-hidden="true"><jobsy-icon [name]="m.icono" /></span>
 
             <div class="info_metodos_pago">
               <strong>{{ m.titulo }}</strong>
@@ -46,7 +46,7 @@
     }
 
     <p class="nota_metodos_pago">
-      &#128274; Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el numero completo de tu tarjeta.
+      <jobsy-icon name="lock" /> Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el numero completo de tu tarjeta.
     </p>
   </section>
 </div>

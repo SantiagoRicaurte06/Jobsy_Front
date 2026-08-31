@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { ReportService } from '../../../core/services';
 import { Report } from '../../../core/models';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-report-center',
   standalone: true,
-  imports: [FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [IconComponent, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './centro-reportes.html',
   styleUrl: './centro-reportes.scss',
 })
@@ -19,6 +20,7 @@ export class ReportCenterPage implements OnInit {
   readonly loading = signal(true);
   readonly enviando = signal(false);
   readonly enviado = signal(false);
+  readonly error = signal<string | null>(null)
 
   /** `tipo` viaja como texto libre: asi lo define Report en el backend. */
   readonly tipo = signal('Incidencia');
@@ -26,10 +28,10 @@ export class ReportCenterPage implements OnInit {
   readonly descripcion = signal('');
 
   readonly tipos = [
-    { value: 'Incidencia', icon: '\u{1F41B}', label: 'Problema tecnico', text: 'Algo no funciona en la plataforma.' },
-    { value: 'Usuario', icon: '\u{1F6A9}', label: 'Reportar usuario', text: 'Comportamiento inadecuado.' },
-    { value: 'Pago', icon: '\u{1F4B3}', label: 'Problema de pago', text: 'Cobros o transferencias.' },
-    { value: 'Sugerencia', icon: '\u{1F4A1}', label: 'Sugerencia', text: 'Ideas para mejorar Jobsy.' },
+    { value: 'Incidencia', icon: 'bug', label: 'Problema tecnico', text: 'Algo no funciona en la plataforma.' },
+    { value: 'Usuario', icon: 'flag', label: 'Reportar usuario', text: 'Comportamiento inadecuado.' },
+    { value: 'Pago', icon: 'credit-card', label: 'Problema de pago', text: 'Cobros o transferencias.' },
+    { value: 'Sugerencia', icon: 'lightbulb', label: 'Sugerencia', text: 'Ideas para mejorar Jobsy.' },
   ];
 
   readonly faqs = [
@@ -56,6 +58,8 @@ export class ReportCenterPage implements OnInit {
     if (!this.asunto() || !this.descripcion()) return;
 
     this.enviando.set(true);
+    this.error.set(null)
+
     this.reportService
       .create({ tipo: this.tipo(), asunto: this.asunto(), descripcion: this.descripcion() })
       .subscribe((nuevo) => {

@@ -1,11 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ProfileService } from '../../../core/services';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-upload-photo',
   standalone: true,
-  imports: [RouterLink],
+  imports: [IconComponent, RouterLink],
   templateUrl: './subir-foto.html',
   styleUrl: './subir-foto.scss',
 })

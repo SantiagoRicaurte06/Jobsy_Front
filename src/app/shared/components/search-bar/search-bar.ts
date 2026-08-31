@@ -1,11 +1,12 @@
 import { Component, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IconComponent } from '../icon/icon';
 
 /** Barra de busqueda con ciudad opcional. */
 @Component({
   selector: 'jobsy-search-bar',
   standalone: true,
-  imports: [FormsModule],
+  imports: [IconComponent, FormsModule],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
 })

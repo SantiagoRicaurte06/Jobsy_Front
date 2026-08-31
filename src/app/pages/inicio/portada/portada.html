@@ -23,11 +23,46 @@
     </div>
 
     <div class="media_portada">
-      <img
-        class="foto_portada"
-        [src]="images.hero"
-        alt="Profesional del hogar limpiando una vivienda"
-        loading="eager" />
+      <div class="carrusel_portada">
+        <div class="carrusel_portada__pista">
+          @for (slide of heroSlides; track slide.src; let i = $index) {
+            <img
+              class="foto_portada carrusel_portada__foto"
+              [class.carrusel_portada__foto--activa]="i === slideActual()"
+              [src]="slide.src"
+              [alt]="slide.alt"
+              [attr.loading]="i === 0 ? 'eager' : 'lazy'" />
+          }
+        </div>
+
+        <button
+          type="button"
+          class="carrusel_portada__flecha carrusel_portada__flecha--izq"
+          (click)="anteriorSlide()"
+          aria-label="Imagen anterior">
+          &#10094;
+        </button>
+
+        <button
+          type="button"
+          class="carrusel_portada__flecha carrusel_portada__flecha--der"
+          (click)="siguienteSlide()"
+          aria-label="Siguiente imagen">
+          &#10095;
+        </button>
+
+        <div class="carrusel_portada__puntos">
+          @for (slide of heroSlides; track slide.src; let i = $index) {
+            <button
+              type="button"
+              class="carrusel_portada__punto"
+              [class.carrusel_portada__punto--activo]="i === slideActual()"
+              (click)="irASlide(i)"
+              [attr.aria-label]="'Ir a imagen ' + (i + 1)">
+            </button>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -69,7 +104,7 @@
 <section class="contenedor seccion">
   <div class="encabezado_seccion">
     <h2>Trabajos Disponibles</h2>
-    <a routerLink="/empleos" class="enlace_seccion">Ver todos &#8594;</a>
+    <a routerLink="/empleos" class="enlace_seccion">Ver todos <jobsy-icon name="arrow-right" /></a>
   </div>
 
   @if (loading()) {
@@ -87,7 +122,7 @@
 <section class="contenedor seccion">
   <div class="encabezado_seccion">
     <h2>Empleados Destacados</h2>
-    <a routerLink="/empleados" class="enlace_seccion">Ver todos &#8594;</a>
+    <a routerLink="/empleados" class="enlace_seccion">Ver todos <jobsy-icon name="arrow-right" /></a>
   </div>
 
   <div class="rejilla_inicio">
@@ -118,7 +153,7 @@
       <ul class="ventajas_nosotros">
         @for (b of benefits; track b.title) {
           <li>
-            <span aria-hidden="true">{{ b.icon }}</span>
+            <span aria-hidden="true"><jobsy-icon [name]="b.icon" /></span>
             {{ b.title }}
           </li>
         }

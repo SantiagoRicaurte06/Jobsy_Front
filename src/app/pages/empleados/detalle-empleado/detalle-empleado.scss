@@ -79,6 +79,41 @@
   gap: v.$space-2;
 }
 
+// ---- Formulario "deja tu resena" ----
+.formulario_resena_detalle_empleado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: v.$space-3;
+  padding: v.$space-4;
+  margin-bottom: v.$space-4;
+  background: v.$color-bg;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+}
+
+.etiqueta_resena_detalle_empleado {
+  margin: 0;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+}
+
+.campo_resena_detalle_empleado {
+  width: 100%;
+  padding: v.$space-3;
+  border: 1px solid v.$color-border-strong;
+  border-radius: v.$radius-sm;
+  background: v.$color-surface;
+  font-family: inherit;
+  font-size: v.$font-size-sm;
+  resize: vertical;
+
+  &:focus-visible {
+    outline: 2px solid v.$color-primary-light;
+    outline-offset: 1px;
+  }
+}
+
 // ---- Resenas ----
 .resenas_detalle_empleado {
   display: flex;
