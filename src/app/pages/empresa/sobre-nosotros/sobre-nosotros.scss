@@ -1,0 +1,99 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ---- Historia + Mision/Vision ----
+.grid_historia {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: v.$space-6;
+  align-items: start;
+
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tarjeta_mision {
+  padding: v.$space-5;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    margin: 0 0 v.$space-2;
+    font-size: v.$font-size-base;
+    color: v.$color-primary;
+  }
+
+  p {
+    margin: 0 0 v.$space-5;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    line-height: 1.6;
+  }
+
+  h3:last-of-type { margin-top: 0; }
+  p:last-of-type { margin-bottom: 0; }
+}
+
+// ---- Valores ----
+.rejilla_valores {
+  @include m.grid-cards(240px);
+}
+
+.tarjeta_valor {
+  padding: v.$space-5;
+  text-align: left;
+
+  h3 {
+    margin: v.$space-3 0 v.$space-2;
+    font-size: v.$font-size-base;
+  }
+
+  p {
+    margin: 0;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    line-height: 1.6;
+  }
+}
+
+.icono_valor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: v.$radius-md;
+  background: v.$color-primary-pale;
+  color: v.$color-primary;
+  font-size: v.$font-size-lg;
+}
+
+// ---- Equipo ----
+.rejilla_equipo {
+  @include m.grid-cards(200px);
+}
+
+.tarjeta_persona {
+  padding: v.$space-5;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: v.$space-1;
+}
+
+.avatar_persona {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: v.$space-2;
+  border-radius: 50%;
+  background: v.$gradient-hero;
+  color: v.$color-text-invert;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+}
