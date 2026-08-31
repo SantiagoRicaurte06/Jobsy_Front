@@ -4,7 +4,7 @@
     @if (job().imagenUrl) {
       <img [src]="job().imagenUrl" [alt]="job().titulo" />
     } @else {
-      <div class="reserva_tarjeta_empleo" aria-hidden="true">&#127968;</div>
+      <div class="reserva_tarjeta_empleo" aria-hidden="true"><jobsy-icon name="house" /></div>
     }
 
     @if (job().esNuevo) {
@@ -28,11 +28,11 @@
 
     <dl class="detalles_tarjeta_empleo">
       <div>
-        <dt aria-hidden="true">&#128337;</dt>
+        <dt aria-hidden="true"><jobsy-icon name="clock" /></dt>
         <dd><strong>Horario:</strong> {{ job().horario }}</dd>
       </div>
       <div>
-        <dt aria-hidden="true">&#128205;</dt>
+        <dt aria-hidden="true"><jobsy-icon name="map-pin" /></dt>
         <dd><strong>Direccion:</strong> {{ job().direccion }}, {{ job().ciudad }}</dd>
       </div>
     </dl>

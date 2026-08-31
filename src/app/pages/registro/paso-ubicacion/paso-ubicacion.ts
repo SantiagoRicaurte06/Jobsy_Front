@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistrationService, AuthService } from '../../../core/services';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-step-location',
   standalone: true,
-  imports: [FormsModule, StepProgressComponent],
+  imports: [IconComponent, FormsModule, StepProgressComponent],
   templateUrl: './paso-ubicacion.html',
   styleUrl: './paso-ubicacion.scss',
 })

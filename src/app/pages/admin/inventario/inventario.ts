@@ -4,13 +4,14 @@ import { AdminStore } from '../../../core/services';
 import { Product } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { ModalComponent } from '../../../shared/components/modal/modal';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 type StockFilter = 'todos' | 'critico' | 'bajo' | 'ok';
 
 @Component({
   selector: 'jobsy-admin-inventory',
   standalone: true,
-  imports: [FormsModule, CopPipe, ModalComponent],
+  imports: [IconComponent, FormsModule, CopPipe, ModalComponent],
   templateUrl: './inventario.html',
   styleUrl: './inventario.scss',
 })

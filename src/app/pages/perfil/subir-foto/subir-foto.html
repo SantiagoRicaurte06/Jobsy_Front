@@ -14,7 +14,7 @@
       @if (preview()) {
         <img [src]="preview()" alt="Vista previa de tu foto" class="subir-foto__preview" />
       } @else {
-        <span class="subir-foto__icon" aria-hidden="true">&#128247;</span>
+        <span class="subir-foto__icon" aria-hidden="true"><jobsy-icon name="camera" /></span>
         <p class="texto_chico texto_gris">Arrastra tu foto aqui o seleccionala</p>
       }
 
@@ -29,9 +29,9 @@
     }
 
     <ul class="subir-foto__tips">
-      <li>&#10004; Formatos JPG o PNG</li>
-      <li>&#10004; Tamano maximo 2 MB</li>
-      <li>&#10004; Preferiblemente cuadrada (1:1)</li>
+      <li><jobsy-icon name="check" /> Formatos JPG o PNG</li>
+      <li><jobsy-icon name="check" /> Tamano maximo 2 MB</li>
+      <li><jobsy-icon name="check" /> Preferiblemente cuadrada (1:1)</li>
     </ul>
 
     <footer class="subir-foto__actions">

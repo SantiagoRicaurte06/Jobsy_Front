@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { IconComponent } from '../icon/icon';
 
 /**
  * Dialogo modal. El contenido se proyecta con ng-content.
@@ -7,7 +8,7 @@ import { Component, input, output } from '@angular/core';
 @Component({
   selector: 'jobsy-modal',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './modal.html',
   styleUrl: './modal.scss',
 })

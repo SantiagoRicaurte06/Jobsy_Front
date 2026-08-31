@@ -7,7 +7,7 @@
   </header>
 
   @if (aviso()) {
-    <p class="admin-inventario__aviso" role="status">&#10004; {{ aviso() }}</p>
+    <p class="admin-inventario__aviso" role="status"><jobsy-icon name="check" /> {{ aviso() }}</p>
   }
 
   <!-- Resumen -->
@@ -49,7 +49,7 @@
           @if (p.imagenUrl) {
             <img [src]="p.imagenUrl" [alt]="p.nombre" class="admin-inventario__thumb" />
           } @else {
-            <span class="admin-inventario__icon" aria-hidden="true">&#129529;</span>
+            <span class="admin-inventario__icon" aria-hidden="true"><jobsy-icon name="sparkles" /></span>
           }
 
           <div class="admin-inventario__info">

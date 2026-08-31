@@ -4,9 +4,9 @@
     <p class="tienda-portada__text">Productos profesionales para empleadores y empleados del hogar</p>
 
     <ul class="tienda-portada__perks">
-      <li>&#128666; Pago 100% seguro</li>
-      <li>&#9989; Envio rapido garantizado</li>
-      <li>&#11088; Marca lider verificada</li>
+      <li><jobsy-icon name="truck" /> Pago 100% seguro</li>
+      <li><jobsy-icon name="circle-check" /> Envio rapido garantizado</li>
+      <li><jobsy-icon name="star" /> Marca lider verificada</li>
     </ul>
   </div>
 </section>
@@ -40,9 +40,9 @@
       <div class="tienda__trust">
         <h3>Compra con confianza</h3>
         <ul>
-          <li><span>&#128179;</span> Pago seguro</li>
-          <li><span>&#128230;</span> Envio confiable</li>
-          <li><span>&#8635;</span> Devoluciones</li>
+          <li><span><jobsy-icon name="credit-card" /></span> Pago seguro</li>
+          <li><span><jobsy-icon name="package" /></span> Envio confiable</li>
+          <li><span><jobsy-icon name="rotate-cw" /></span> Devoluciones</li>
         </ul>
       </div>
     </aside>
@@ -62,7 +62,7 @@
       @if (loading()) {
         <jobsy-loading-spinner label="Cargando productos..." />
       } @else if (products().length === 0) {
-        <jobsy-empty-state icon="&#128230;" title="Sin productos" message="No hay productos en esta categoria." />
+        <jobsy-empty-state icon="package" title="Sin productos" message="No hay productos en esta categoria." />
       } @else {
         <div class="tienda__grid">
           @for (product of products(); track product.id) {
@@ -70,7 +70,7 @@
               <jobsy-product-card [product]="product" (agregar)="agregar($event)" />
 
               @if (added() === product.id) {
-                <p class="tienda__added">&#10004; Agregado al carrito</p>
+                <p class="tienda__added"><jobsy-icon name="check" /> Agregado al carrito</p>
               }
             </div>
           }

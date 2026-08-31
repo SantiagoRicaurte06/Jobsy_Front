@@ -7,11 +7,12 @@ import { FilterPanelComponent } from '../../../shared/components/filter-panel/fi
 import { PaginationComponent } from '../../../shared/components/pagination/pagination';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-job-search',
   standalone: true,
-  imports: [
+  imports: [IconComponent, 
     RouterLink,
     JobCardComponent,
     FilterPanelComponent,

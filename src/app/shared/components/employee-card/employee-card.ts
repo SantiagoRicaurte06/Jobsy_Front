@@ -2,11 +2,12 @@ import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Employee } from '../../../core/models';
 import { RatingStarsComponent } from '../rating-stars/rating-stars';
+import { IconComponent } from '../icon/icon';
 
 @Component({
   selector: 'jobsy-employee-card',
   standalone: true,
-  imports: [RouterLink, RatingStarsComponent],
+  imports: [IconComponent, RouterLink, RatingStarsComponent],
   templateUrl: './employee-card.html',
   styleUrl: './employee-card.scss',
 })

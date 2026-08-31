@@ -1,21 +1,23 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AdminService, AdminStats, AdminStore } from '../../../core/services';
+import { AdminService, AdminStats, AdminStore, ReportService } from '../../../core/services';
 import { Order } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-admin-dashboard',
   standalone: true,
-  imports: [RouterLink, CopPipe, BarChartComponent, LoadingSpinnerComponent],
+  imports: [IconComponent, RouterLink, CopPipe, BarChartComponent, LoadingSpinnerComponent],
   templateUrl: './tablero.html',
   styleUrl: './tablero.scss',
 })
 export class AdminDashboardPage implements OnInit {
   private adminService = inject(AdminService);
   private store = inject(AdminStore);
+  private reportService = inject(ReportService);
 
   readonly stats = signal<AdminStats | undefined>(undefined);
   readonly recentOrders = signal<Order[]>([]);
@@ -26,7 +28,7 @@ export class AdminDashboardPage implements OnInit {
   readonly totalProductos = this.store.totalProductos;
   readonly stockCritico = this.store.stockCritico;
   readonly valorInventario = this.store.valorInventario;
-  readonly reportesAbiertos = this.store.reportesAbiertos;
+  readonly reportesAbiertos = this.reportService.reportesAbiertos;
   readonly porReponer = this.store.porReponer;
 
   /** TEMPORAL: serie de ventas de ejemplo. */
@@ -50,11 +52,11 @@ export class AdminDashboardPage implements OnInit {
   ]);
 
   readonly actividad = [
-    { icon: '\u{2705}', text: 'Nueva postulacion de Maria Gonzalez en Casa Familiar Grande', time: 'Hace 5 min' },
-    { icon: '\u{1F4E6}', text: 'Pedido #PED-0147 enviado - Kit de Limpieza Profesional', time: 'Hace 22 min' },
-    { icon: '\u{26A0}', text: 'Stock bajo en Guantes Industriales x5 - quedan 2 unidades', time: 'Hace 1 hora' },
-    { icon: '\u{1F464}', text: 'Nuevo cliente registrado: Pedro Gomez - Yopal, Casanare', time: 'Hace 2 horas' },
-    { icon: '\u{2B50}', text: 'Martha C. recibio una nueva resena de 5 estrellas', time: 'Hace 3 horas' },
+    { icon: 'circle-check', text: 'Nueva postulacion de Maria Gonzalez en Casa Familiar Grande', time: 'Hace 5 min' },
+    { icon: 'package', text: 'Pedido #PED-0147 enviado - Kit de Limpieza Profesional', time: 'Hace 22 min' },
+    { icon: 'triangle-alert', text: 'Stock bajo en Guantes Industriales x5 - quedan 2 unidades', time: 'Hace 1 hora' },
+    { icon: 'user', text: 'Nuevo cliente registrado: Pedro Gomez - Yopal, Casanare', time: 'Hace 2 horas' },
+    { icon: 'star', text: 'Martha C. recibio una nueva resena de 5 estrellas', time: 'Hace 3 horas' },
   ];
 
   ngOnInit(): void {

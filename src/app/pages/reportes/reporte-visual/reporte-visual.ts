@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-visual-report',
   standalone: true,
-  imports: [RouterLink, BarChartComponent],
+  imports: [IconComponent, RouterLink, BarChartComponent],
   templateUrl: './reporte-visual.html',
   styleUrl: './reporte-visual.scss',
 })

@@ -1,13 +1,14 @@
 import { Component, inject, computed } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { AuthService, AdminStore } from '../../../core/services';
+import { AuthService, AdminStore, ReportService } from '../../../core/services';
 import { LogoComponent } from '../../components/logo/logo';
+import { IconComponent } from '../../components/icon/icon';
 
 /** Layout del panel de administracion: sidebar azul oscuro + contenido. */
 @Component({
   selector: 'jobsy-admin-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, LogoComponent],
+  imports: [IconComponent, RouterOutlet, RouterLink, RouterLinkActive, LogoComponent],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.scss',
 })
@@ -15,6 +16,7 @@ export class AdminLayoutComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
   private store = inject(AdminStore);
+  private reportService = inject(ReportService);
 
   readonly user = this.auth.user;
 
@@ -23,22 +25,22 @@ export class AdminLayoutComponent {
     {
       title: 'Principal',
       items: [
-        { path: '/admin/dashboard', label: 'Dashboard', icon: '\u{1F4CA}', badge: null },
-        { path: '/admin/analiticas', label: 'Analiticas', icon: '\u{1F4C8}', badge: null },
+        { path: '/admin/dashboard', label: 'Dashboard', icon: 'chart-column', badge: null },
+        { path: '/admin/analiticas', label: 'Analiticas', icon: 'trending-up', badge: null },
       ],
     },
     {
       title: 'Tienda',
       items: [
-        { path: '/admin/productos', label: 'Productos', icon: '\u{1F4E6}', badge: this.store.totalProductos() },
-        { path: '/admin/categorias', label: 'Categorias', icon: '\u{1F5C2}', badge: null },
-        { path: '/admin/inventario', label: 'Inventario', icon: '\u{1F4CB}', badge: this.store.stockCritico() || null },
+        { path: '/admin/productos', label: 'Productos', icon: 'package', badge: this.store.totalProductos() },
+        { path: '/admin/categorias', label: 'Categorias', icon: 'folder', badge: null },
+        { path: '/admin/inventario', label: 'Inventario', icon: 'clipboard-list', badge: this.store.stockCritico() || null },
       ],
     },
     {
       title: 'Soporte',
       items: [
-        { path: '/admin/reportes', label: 'Reportes', icon: '\u{1F6A9}', badge: this.store.reportesAbiertos() || null },
+        { path: '/admin/reportes', label: 'Reportes', icon: 'flag', badge: this.store.reportesAbiertos() || null },
       ],
     },
   ]);

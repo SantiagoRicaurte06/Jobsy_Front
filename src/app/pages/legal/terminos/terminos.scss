@@ -1,0 +1,6 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// El estilo de este documento vive en las clases globales
+// `.grid_legal`, `.indice_legal`, `.cuerpo_legal` y `.bloque_legal`
+// (src/styles.scss), compartidas con la pagina de Privacidad.

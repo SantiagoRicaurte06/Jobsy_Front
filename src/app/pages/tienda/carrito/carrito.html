@@ -4,7 +4,7 @@
   @if (cart.isEmpty()) {
     <div class="tarjeta">
       <jobsy-empty-state
-        icon="&#128722;"
+        icon="shopping-cart"
         title="Tu carrito esta vacio"
         message="Agrega productos de la tienda para continuar con tu compra.">
         <a routerLink="/tienda" class="boton_principal">Ir a la tienda</a>
@@ -16,7 +16,7 @@
       <div class="carrito__items tarjeta">
         @for (item of cart.items(); track item.product.id) {
           <article class="carrito__item">
-            <div class="carrito__item-media" aria-hidden="true">&#129529;</div>
+            <div class="carrito__item-media" aria-hidden="true"><jobsy-icon name="sparkles" /></div>
 
             <div class="carrito__item-info">
               <h2>
@@ -46,7 +46,7 @@
         }
 
         <footer class="carrito__items-foot">
-          <a routerLink="/tienda" class="boton_simple boton_chico">&#8592; Seguir comprando</a>
+          <a routerLink="/tienda" class="boton_simple boton_chico"><jobsy-icon name="arrow-left" /> Seguir comprando</a>
           <button type="button" class="carrito__clear" (click)="cart.clear()">Vaciar carrito</button>
         </footer>
       </div>
@@ -73,7 +73,7 @@
         <a routerLink="/tienda/checkout" class="boton_principal boton_ancho">Ir a pagar</a>
 
         <p class="carrito__note">
-          &#128274; Pago seguro. Aceptamos PSE, tarjeta, billetera digital y saldo Jobsy.
+          <jobsy-icon name="lock" /> Pago seguro. Aceptamos PSE, tarjeta, billetera digital y saldo Jobsy.
         </p>
       </aside>
     </div>

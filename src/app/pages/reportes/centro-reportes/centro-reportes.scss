@@ -65,6 +65,11 @@
     }
   }
 
+  &__type-icon {
+    font-size: v.$font-size-xl;
+    color: v.$color-primary;
+  }
+
   &__type-text {
     font-size: v.$font-size-xs;
     color: v.$color-text-muted;
@@ -106,6 +111,26 @@
     font-size: v.$font-size-sm;
   }
 
+  // Cada reporte de la lista es un boton clicable que abre el chat.
+  &__report {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover strong { color: v.$color-primary; }
+  }
+
+  &__preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   // ---- FAQ ----
   &__faq {
     button {
@@ -134,5 +159,126 @@
       color: v.$color-text-muted;
       line-height: 1.6;
     }
+  }
+}
+
+// ============================================================
+//  Chat de un reporte
+// ============================================================
+.chat {
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    padding-bottom: v.$space-3;
+    margin-bottom: v.$space-3;
+    border-bottom: 1px solid v.$color-border;
+  }
+
+  &__back {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: v.$color-bg;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-lg;
+    line-height: 1;
+    color: v.$color-text;
+    cursor: pointer;
+
+    &:hover { border-color: v.$color-primary-light; color: v.$color-primary; }
+  }
+
+  &__head-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: v.$space-2;
+    flex: 1;
+    min-width: 0;
+    font-size: v.$font-size-sm;
+
+    strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  }
+
+  &__messages {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-3;
+    flex: 1;
+    min-height: 180px;
+    overflow-y: auto;
+    padding-bottom: v.$space-3;
+  }
+
+  &__msg {
+    display: flex;
+    justify-content: flex-start;
+    // Anula el borde/padding heredado de .centro-reportes__history li
+    padding: 0 !important;
+    border: none !important;
+
+    &.is-user { justify-content: flex-end; }
+  }
+
+  &__bubble {
+    max-width: 82%;
+    padding: v.$space-2 v.$space-3;
+    background: v.$color-bg;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-lg;
+    font-size: v.$font-size-sm;
+
+    p { margin: 0 !important; line-height: 1.5; }
+  }
+
+  &__msg.is-user &__bubble {
+    background: v.$color-primary;
+    border-color: v.$color-primary;
+    color: v.$color-text-invert;
+  }
+
+  &__author {
+    display: block;
+    margin-bottom: 2px;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-primary;
+  }
+
+  &__time {
+    display: block;
+    margin-top: 2px;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    text-align: right;
+  }
+
+  &__msg.is-user &__time { color: rgba(255, 255, 255, 0.75); }
+
+  &__composer {
+    display: flex;
+    gap: v.$space-2;
+    padding-top: v.$space-3;
+    border-top: 1px solid v.$color-border;
+
+    .campo { flex: 1; }
+  }
+
+  &__closed {
+    padding: v.$space-3;
+    margin-top: v.$space-3;
+    background: v.$color-bg;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    text-align: center;
   }
 }

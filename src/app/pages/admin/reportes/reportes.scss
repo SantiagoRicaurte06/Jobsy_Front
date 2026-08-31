@@ -108,6 +108,8 @@
     height: 40px;
     background: v.$color-bg;
     border-radius: v.$radius-md;
+    font-size: v.$font-size-lg;
+    color: v.$color-primary;
   }
 
   &__info {
@@ -208,5 +210,61 @@
     margin-top: v.$space-5;
     padding-top: v.$space-4;
     border-top: 1px solid v.$color-border;
+  }
+}
+
+// ============================================================
+//  Hilo de conversacion en el modal de detalle
+// ============================================================
+.admin-reportes__chat-title {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-base;
+}
+
+.admin-chat {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-2;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: v.$space-4;
+  padding-right: v.$space-1;
+
+  &__msg {
+    display: flex;
+    justify-content: flex-start;
+
+    // El soporte (nosotros) a la derecha; el usuario a la izquierda.
+    &.is-support { justify-content: flex-end; }
+  }
+
+  &__bubble {
+    max-width: 82%;
+    padding: v.$space-2 v.$space-3;
+    background: v.$color-bg;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-lg;
+
+    p { margin: v.$space-1 0 0; font-size: v.$font-size-sm; line-height: 1.5; }
+  }
+
+  &__msg.is-support &__bubble {
+    background: v.$color-primary;
+    border-color: v.$color-primary;
+    color: v.$color-text-invert;
+  }
+
+  &__author {
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    opacity: 0.85;
+  }
+
+  &__time {
+    display: block;
+    margin-top: 2px;
+    font-size: v.$font-size-xs;
+    opacity: 0.7;
+    text-align: right;
   }
 }

@@ -2,12 +2,12 @@
   @if (loading()) {
     <jobsy-loading-spinner />
   } @else if (!product()) {
-    <jobsy-empty-state icon="&#128230;" title="Producto no encontrado">
+    <jobsy-empty-state icon="package" title="Producto no encontrado">
       <a routerLink="/tienda" class="boton_principal">Volver a la tienda</a>
     </jobsy-empty-state>
   } @else {
     <nav class="detalle-producto__crumbs">
-      <a routerLink="/tienda">&#8592; Volver a la tienda</a>
+      <a routerLink="/tienda"><jobsy-icon name="arrow-left" /> Volver a la tienda</a>
     </nav>
 
     <div class="detalle-producto__grid">
@@ -16,7 +16,7 @@
         @if (product()!.imagenUrl) {
           <img [src]="product()!.imagenUrl" [alt]="product()!.nombre" />
         } @else {
-          <span aria-hidden="true">&#129529;</span>
+          <span aria-hidden="true"><jobsy-icon name="sparkles" /></span>
         }
       </div>
 
@@ -31,7 +31,7 @@
 
         <p class="detalle-producto__stock">
           @if (product()!.stock > 5) {
-            <span class="pildora_exito">&#10004; En stock ({{ product()!.stock }} unidades)</span>
+            <span class="pildora_exito"><jobsy-icon name="check" /> En stock ({{ product()!.stock }} unidades)</span>
           } @else if (product()!.stock > 0) {
             <span class="pildora_aviso">Quedan solo {{ product()!.stock }}</span>
           } @else {
@@ -87,7 +87,7 @@
           @if (mostrarFormulario()) {
             Cancelar reseña
           } @else {
-            &#9998; Escribir una reseña
+            <jobsy-icon name="square-pen" /> Escribir una reseña
           }
         </button>
       </div>
@@ -118,7 +118,7 @@
       <!-- Mensaje de éxito al publicar -->
       @if (mensajeExito()) {
         <div class="detalle-producto__alert detalle-producto__alert--success">
-          <span>&#10004;</span>
+          <span><jobsy-icon name="check" /></span>
           <p>{{ mensajeExito() }}</p>
         </div>
       }
@@ -131,7 +131,7 @@
 
           @if (mensajeError()) {
             <div class="detalle-producto__alert detalle-producto__alert--error">
-              <span>&#9888;</span>
+              <span><jobsy-icon name="triangle-alert" /></span>
               <p>{{ mensajeError() }}</p>
             </div>
           }
@@ -242,7 +242,7 @@
                     (change)="onFotosSeleccionadas($event)"
                     class="detalle-producto__file-input"
                   />
-                  <span class="detalle-producto__upload-icon">&#128247;</span>
+                  <span class="detalle-producto__upload-icon"><jobsy-icon name="camera" /></span>
                   <span class="detalle-producto__upload-text">Subir fotos desde tu dispositivo</span>
                   <span class="detalle-producto__upload-limit">({{ 4 - nuevasFotos.length }} disponibles)</span>
                 </label>
@@ -283,7 +283,7 @@
 
         @if (reviews().length === 0) {
           <div class="detalle-producto__no-reviews tarjeta">
-            <span class="detalle-producto__no-reviews-icon">&#128172;</span>
+            <span class="detalle-producto__no-reviews-icon"><jobsy-icon name="message-circle" /></span>
             <h4>Aún no hay reseñas para este producto</h4>
             <p>Sé el primero en compartir tu experiencia y ayudar a otros usuarios.</p>
             <button type="button" class="boton_principal" (click)="toggleFormulario()">
@@ -304,7 +304,7 @@
                         <strong class="detalle-producto__author-name">{{ rev.autor }}</strong>
                         @if (rev.verificado) {
                           <span class="pildora_exito detalle-producto__verified-badge">
-                            &#10004; Compra verificada
+                            <jobsy-icon name="check" /> Compra verificada
                           </span>
                         }
                       </div>

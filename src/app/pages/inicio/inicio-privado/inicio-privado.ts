@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { AuthService, JobService, ApplicationService } from '../../../core/services';
 import { Job, Application } from '../../../core/models';
 import { JobCardComponent } from '../../../shared/components/job-card/job-card';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-home-logged',
   standalone: true,
-  imports: [RouterLink, JobCardComponent],
+  imports: [IconComponent, RouterLink, JobCardComponent],
   templateUrl: './inicio-privado.html',
   styleUrl: './inicio-privado.scss',
 })
@@ -22,10 +23,10 @@ export class HomeLoggedPage implements OnInit {
 
   /** Accesos rapidos del panel. */
   readonly shortcuts = [
-    { icon: '\u{1F50D}', label: 'Buscar empleo', path: '/empleos' },
-    { icon: '\u{1F4C4}', label: 'Mi hoja de vida', path: '/app/hoja-de-vida' },
-    { icon: '\u{1F464}', label: 'Mi perfil', path: '/app/perfil' },
-    { icon: '\u{1F6D2}', label: 'Tienda', path: '/tienda' },
+    { icon: 'search', label: 'Buscar empleo', path: '/empleos' },
+    { icon: 'file-text', label: 'Mi hoja de vida', path: '/app/hoja-de-vida' },
+    { icon: 'user', label: 'Mi perfil', path: '/app/perfil' },
+    { icon: 'shopping-cart', label: 'Tienda', path: '/tienda' },
   ];
 
   ngOnInit(): void {

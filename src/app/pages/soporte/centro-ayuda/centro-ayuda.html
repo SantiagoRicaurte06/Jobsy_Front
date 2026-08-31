@@ -1,0 +1,81 @@
+<!-- ============ BANNER + BUSCADOR ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Soporte</span>
+    <h1 class="titulo_banner">Centro de Ayuda</h1>
+    <p class="texto_banner">Encuentra respuestas rapidas sobre empleos, pagos, tu cuenta y la tienda.</p>
+
+    <div class="buscador_ayuda">
+      <jobsy-icon name="search" />
+      <input
+        type="search"
+        class="campo_buscador_ayuda"
+        placeholder="Busca por palabra clave, por ejemplo: pago, postulacion..."
+        [ngModel]="termino()"
+        (ngModelChange)="termino.set($event)"
+        aria-label="Buscar en el centro de ayuda" />
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATEGORIAS ============ -->
+<section class="contenedor seccion">
+  <div class="rejilla_categorias_ayuda">
+    @for (cat of categorias; track cat.title) {
+      <button
+        type="button"
+        class="tarjeta tarjeta_categoria_ayuda"
+        [class.is-active]="categoriaSeleccionada() === cat.title"
+        (click)="filtrarPorCategoria(cat.title)">
+        <span class="icono_valor" aria-hidden="true"><jobsy-icon [name]="cat.icon" /></span>
+        <div>
+          <strong>{{ cat.title }}</strong>
+          <span class="texto_chico texto_gris">{{ cat.text }}</span>
+        </div>
+      </button>
+    }
+  </div>
+</section>
+
+<!-- ============ PREGUNTAS FRECUENTES ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion">
+    <h2>Preguntas frecuentes</h2>
+    @if (categoriaSeleccionada()) {
+      <button type="button" class="boton_simple boton_chico" (click)="filtrarPorCategoria(categoriaSeleccionada()!)">
+        Quitar filtro: {{ categoriaSeleccionada() }}
+      </button>
+    }
+  </div>
+
+  @if (faqsFiltradas().length === 0) {
+    <jobsy-empty-state icon="frown" title="No encontramos resultados" message="Intenta con otra palabra clave o revisa las categorias de arriba." />
+  } @else {
+    <div class="lista_faq">
+      @for (faq of faqsFiltradas(); track faq.pregunta; let i = $index) {
+        <div class="item_faq" [class.item_faq--abierto]="abierta() === i">
+          <button type="button" class="pregunta_faq" (click)="toggle(i)" [attr.aria-expanded]="abierta() === i">
+            <span>{{ faq.pregunta }}</span>
+            <jobsy-icon [name]="abierta() === i ? 'chevron-up' : 'chevron-down'" />
+          </button>
+          @if (abierta() === i) {
+            <p class="respuesta_faq">{{ faq.respuesta }}</p>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>
+
+<!-- ============ LLAMADA FINAL ============ -->
+<section class="llamada_institucional">
+  <div class="interior_llamada_institucional">
+    <div>
+      <h2>&iquest;No encontraste lo que buscabas?</h2>
+      <p>Nuestro equipo de soporte responde en menos de 24 horas habiles.</p>
+    </div>
+    <div class="acciones_llamada_institucional">
+      <a routerLink="/soporte/contacto" class="boton_principal"><jobsy-icon name="message-circle" /> Contactar soporte</a>
+    </div>
+  </div>
+</section>

@@ -2,6 +2,7 @@ import { Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Job, JobSize } from '../../../core/models';
 import { CopPipe } from '../../pipes';
+import { IconComponent } from '../icon/icon';
 
 const SIZE_LABEL: Record<JobSize, string> = {
   pequeno: 'Pequeno',
@@ -14,7 +15,7 @@ const SIZE_LABEL: Record<JobSize, string> = {
 @Component({
   selector: 'jobsy-job-card',
   standalone: true,
-  imports: [RouterLink, CopPipe],
+  imports: [IconComponent, RouterLink, CopPipe],
   templateUrl: './job-card.html',
   styleUrl: './job-card.scss',
 })
