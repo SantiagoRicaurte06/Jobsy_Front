@@ -2,12 +2,12 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ApiService } from './api.service';
+import { StorageService, StorageKeys } from './storage.service';
 import { environment } from '../../../environments/environment';
 import { User, LoginRequest, LoginResponse, RegisterRequest, UserRole } from '../models';
 import { RegistrationDraft, UsuarioRegistrado } from './registration.service';
 import { MOCK_USERS, mockResponse } from '../../mocks';
 
-const STORAGE_KEY = 'jobsy_session';
 /** "Base de datos" simulada de registros; persiste en localStorage como JSON. */
 const USUARIOS_KEY = 'jobsy_usuarios';
 
@@ -15,6 +15,7 @@ const USUARIOS_KEY = 'jobsy_usuarios';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private api = inject(ApiService);
+  private storage = inject(StorageService);
 
   private _user = signal<User | null>(this.restore());
   readonly user = this._user.asReadonly();
@@ -96,22 +97,20 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(STORAGE_KEY);
+    this.storage.remove(StorageKeys.session);
     this._user.set(null);
   }
 
   get token(): string | null {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as LoginResponse).token : null;
+    return this.storage.get<LoginResponse>(StorageKeys.session)?.token ?? null;
   }
 
   private persist(res: LoginResponse): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(res));
+    this.storage.set(StorageKeys.session, res);
     this._user.set(res.user);
   }
 
   private restore(): User | null {
-    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
-    return raw ? (JSON.parse(raw) as LoginResponse).user : null;
+    return this.storage.get<LoginResponse>(StorageKeys.session)?.user ?? null;
   }
 }
