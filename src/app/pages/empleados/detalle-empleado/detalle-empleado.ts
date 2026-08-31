@@ -31,7 +31,7 @@ export class EmployeeDetailPage implements OnInit {
     { autor: 'Familia Rodriguez', estrellas: 5, texto: 'Excelente trabajo, muy puntual y detallista.', fecha: 'Hace 2 semanas' },
     { autor: 'Pedro G.', estrellas: 5, texto: 'Dejo la casa impecable. La volveria a contratar.', fecha: 'Hace 1 mes' },
     { autor: 'Ana M.', estrellas: 4, texto: 'Muy buena actitud y cumplida con los horarios.', fecha: 'Hace 2 meses' },
-  ]);
+  ];
 
   // ---- Formulario "deja tu resena" ----
   readonly nuevaCalificacion = signal(0);
@@ -42,10 +42,6 @@ export class EmployeeDetailPage implements OnInit {
 
   /** Lista completa que se muestra: primero las nuevas, luego las de ejemplo. */
   readonly resenas = computed(() => [...this.savedReviews(), ...this.seedReviews]);
-
-  // ---- Formulario "deja tu calificacion" ----
-  readonly nuevaCalificacion = signal(0);
-  readonly nuevoComentario = signal('');
 
   ngOnInit(): void {
     this.employeeService.getById(this.id()).subscribe((e) => {
@@ -77,28 +73,6 @@ export class EmployeeDetailPage implements OnInit {
 
     this.employeeService.addReview(this.id(), review);
     this.savedReviews.update((list) => [review, ...list]);
-
-    this.nuevaCalificacion.set(0);
-    this.nuevoComentario.set('');
-  }
-
-  /**
-   * Publica la resena del usuario.
-   * TEMPORAL: la agrega en memoria; falta el POST real a Usuarios_Api.
-   */
-  enviarResena(event: Event): void {
-    event.preventDefault();
-    if (this.nuevaCalificacion() === 0) return;
-
-    this.reviews.update((lista) => [
-      {
-        autor: 'Tu',
-        estrellas: this.nuevaCalificacion(),
-        texto: this.nuevoComentario().trim() || 'Sin comentario.',
-        fecha: 'Ahora',
-      },
-      ...lista,
-    ]);
 
     this.nuevaCalificacion.set(0);
     this.nuevoComentario.set('');
