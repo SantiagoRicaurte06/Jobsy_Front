@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { JobService, EmployeeService, CartService } from '../../../core/services';
 import { Job, Employee } from '../../../core/models';
@@ -7,6 +7,7 @@ import { JobCardComponent } from '../../../shared/components/job-card/job-card';
 import { EmployeeCardComponent } from '../../../shared/components/employee-card/employee-card';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-landing',
@@ -17,11 +18,12 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
     EmployeeCardComponent,
     SearchBarComponent,
     LoadingSpinnerComponent,
+    IconComponent,
   ],
   templateUrl: './portada.html',
   styleUrl: './portada.scss',
 })
-export class LandingPage implements OnInit {
+export class LandingPage implements OnInit, OnDestroy {
   private jobService = inject(JobService);
   private employeeService = inject(EmployeeService);
   private router = inject(Router);
@@ -55,11 +57,21 @@ export class LandingPage implements OnInit {
   ]);
 
   readonly benefits = [
-    { icon: '✅', title: 'Empleados verificados' },
-    { icon: '\u{1F3E0}', title: 'Edificaciones reales' },
-    { icon: '⚡', title: 'Contratacion rapida' },
-    { icon: '\u{1F6E1}', title: 'Soporte confiable' },
+    { icon: 'circle-check', title: 'Empleados verificados' },
+    { icon: 'house', title: 'Edificaciones reales' },
+    { icon: 'zap', title: 'Contratacion rapida' },
+    { icon: 'shield', title: 'Soporte confiable' },
   ];
+
+  /** Imagenes del carrusel del hero: limpieza, jardineria y cuidado de ninos. */
+  readonly heroSlides = [
+    { src: this.images.hero, alt: 'Profesional del hogar limpiando una vivienda' },
+    { src: this.images.heroJardineria, alt: 'Profesional del hogar en labores de jardineria' },
+    { src: this.images.heroCuidadoNinos, alt: 'Profesional del hogar en labores de cuidado de ninos' },
+  ];
+
+  readonly slideActual = signal(0);
+  private carruselTimer?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {
     this.jobService.featured(6).subscribe((jobs) => {
@@ -73,6 +85,25 @@ export class LandingPage implements OnInit {
     // franja de cifras debe reflejar el catalogo completo.
     this.jobService.list({}, 1, 1).subscribe((res) => this.totalEmpleos.set(res.total));
     this.employeeService.list('', 1, 1).subscribe((res) => this.totalEmpleados.set(res.total));
+
+    this.carruselTimer = setInterval(() => this.siguienteSlide(), 5000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.carruselTimer) clearInterval(this.carruselTimer);
+  }
+
+  siguienteSlide(): void {
+    this.slideActual.set((this.slideActual() + 1) % this.heroSlides.length);
+  }
+
+  anteriorSlide(): void {
+    const total = this.heroSlides.length;
+    this.slideActual.set((this.slideActual() - 1 + total) % total);
+  }
+
+  irASlide(i: number): void {
+    this.slideActual.set(i);
   }
 
   buscar(event: { termino: string; ciudad: string }): void {

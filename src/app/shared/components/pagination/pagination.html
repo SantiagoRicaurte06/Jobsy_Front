@@ -6,7 +6,7 @@
       [disabled]="!canPrev()"
       (click)="go(page() - 1)"
       aria-label="Pagina anterior">
-      &#8249;
+      <jobsy-icon name="chevron-left" />
     </button>
 
     @for (p of pages(); track p) {
@@ -26,7 +26,7 @@
       [disabled]="!canNext()"
       (click)="go(page() + 1)"
       aria-label="Pagina siguiente">
-      &#8250;
+      <jobsy-icon name="chevron-right" />
     </button>
   </nav>
 }

@@ -3,14 +3,14 @@
     <jobsy-loading-spinner />
   } @else if (!job()) {
     <jobsy-empty-state
-      icon="&#128533;"
+      icon="frown"
       title="Oferta no encontrada"
       message="Es posible que ya no este disponible.">
       <a routerLink="/empleos" class="boton_principal">Ver otras ofertas</a>
     </jobsy-empty-state>
   } @else {
     <nav class="migas_detalle_empleo">
-      <a routerLink="/empleos">&#8592; Volver a empleos</a>
+      <a routerLink="/empleos"><jobsy-icon name="arrow-left" /> Volver a empleos</a>
     </nav>
 
     <div class="rejilla_detalle_empleo">
@@ -20,7 +20,7 @@
           @if (job()!.imagenUrl) {
             <img [src]="job()!.imagenUrl" [alt]="job()!.titulo" />
           } @else {
-            <span aria-hidden="true">&#127968;</span>
+            <span aria-hidden="true"><jobsy-icon name="house" /></span>
           }
         </div>
 
@@ -60,7 +60,7 @@
             <h2>Tareas del puesto</h2>
             <ul class="lista_detalle_empleo">
               @for (tag of job()!.etiquetas; track tag) {
-                <li>&#10004; {{ tag }}</li>
+                <li><jobsy-icon name="check" /> {{ tag }}</li>
               }
             </ul>
           </section>
@@ -85,7 +85,7 @@
           <a [routerLink]="['/empleos', job()!.id, 'postularme']" class="boton_principal boton_ancho">
             Postularme
           </a>
-          <button type="button" class="boton_simple boton_ancho">&#9825; Guardar oferta</button>
+          <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar oferta</button>
 
           <p class="nota_detalle_empleo">
             Al postularte, el empleador vera tu perfil y tu hoja de vida.

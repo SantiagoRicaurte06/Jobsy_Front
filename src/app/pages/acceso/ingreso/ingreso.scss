@@ -2,8 +2,14 @@
 
 .acceso {
   width: 100%;
-  max-width: 400px;
-  padding: v.$space-6;
+  max-width: 460px;
+  padding: v.$space-7 v.$space-8;
+  border-top: 4px solid v.$color-accent;
+  border-radius: v.$radius-lg;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.10),
+    0 24px 48px rgba(0, 0, 0, 0.06);
 }
 
 .encabezado_acceso {
@@ -11,12 +17,16 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: v.$space-5;
+  margin-bottom: v.$space-6;
+}
+
+.marca_acceso {
+  &:hover { text-decoration: none; }
 }
 
 .titulo_acceso {
-  margin: v.$space-4 0 v.$space-1;
-  font-size: v.$font-size-lg;
+  margin: v.$space-5 0 v.$space-2;
+  font-size: v.$font-size-xl;
 }
 
 .subtitulo_acceso {
@@ -25,21 +35,70 @@
   color: v.$color-primary-light;
 }
 
+.grupo_campo {
+  margin-bottom: v.$space-5;
+}
+
+.etiqueta {
+  display: block;
+  margin-bottom: v.$space-2;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-muted;
+  text-transform: uppercase;
+}
+
 .campo_acceso {
   position: relative;
+  display: flex;
+  align-items: center;
+  background: v.$color-bg;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+  padding-left: v.$space-3;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
+  &:focus-within {
+    border-color: v.$color-primary;
+    box-shadow: 0 0 0 3px rgba(v.$color-primary, 0.15);
+  }
+
+  &:has(.ojo_acceso) .campo {
+    padding-right: v.$space-8;
+  }
+
+  // Esta regla es compartida: aplica tanto al input de usuario como al de contraseña,
+  // porque ambos usan la misma clase .campo en tu HTML.
   .campo {
-    padding-left: v.$space-7;
-    background: v.$color-bg;
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: v.$space-4 v.$space-3 v.$space-4 v.$space-2;
+    background: transparent;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    &:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
   }
 }
 
 .icono_acceso {
-  position: absolute;
-  top: 50%;
-  left: v.$space-3;
-  transform: translateY(-50%);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   font-size: v.$font-size-sm;
+  line-height: 1;
   opacity: 0.5;
   pointer-events: none;
 }
@@ -47,13 +106,15 @@
 .ojo_acceso {
   position: absolute;
   top: 50%;
-  right: v.$space-2;
+  right: v.$space-3;
   transform: translateY(-50%);
   padding: v.$space-1;
   background: transparent;
   border: none;
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: pointer;
+  font-size: v.$font-size-lg;
+  line-height: 1;
 
   &:hover { opacity: 0.9; }
 }
@@ -64,11 +125,11 @@
   font-size: v.$font-size-xs;
 }
 
-.error_acceso { margin-bottom: v.$space-3;}
+.error_acceso { margin-bottom: v.$space-3; }
 
 .separador_acceso {
   position: relative;
-  margin: v.$space-4 0;
+  margin: v.$space-5 0;
   text-align: center;
 
   &::before {
@@ -101,5 +162,5 @@
   font-size: v.$font-size-xs;
   color: v.$color-text-muted;
 
-  a { font-weight: v.$font-weight-semibold;}
+  a { font-weight: v.$font-weight-semibold; }
 }

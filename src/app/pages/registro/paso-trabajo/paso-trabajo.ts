@@ -5,11 +5,12 @@ import { Router } from "@angular/router";
 import { RegistrationService } from "../../../core/services";
 import { WorkModality } from "../../../core/models";
 import { StepProgressComponent } from "../../../shared/components/step-progress/step-progress";
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-step-work',
   standalone: true,
-  imports: [FormsModule, StepProgressComponent],
+  imports: [IconComponent, FormsModule, StepProgressComponent],
   templateUrl: './paso-trabajo.html',
   styleUrl: './paso-trabajo.scss'
 })
@@ -25,10 +26,10 @@ export class StepWorkPage {
   readonly error = signal('');
 
   readonly opcionesModalidad: { value: WorkModality; icon: string; label: string; text: string }[] = [
-    { value: 'por_horas', icon: '\u{23F1}', label: 'Por horas', text: 'Trabajos puntuales de pocas horas.' },
-    { value: 'jornada_completa', icon: '\u{1F4C5}', label: 'Jornada completa', text: 'Dias completos de trabajo.' },
-    { value: 'fin_de_semana', icon: '\u{1F31E}', label: 'Fin de semana', text: 'Solo sabados y domingos.' },
-    { value: 'presencial', icon: '\u{1F3E1}', label: 'Presencial fijo', text: 'Contrato estable en un hogar.' },
+    { value: 'por_horas', icon: 'timer', label: 'Por horas', text: 'Trabajos puntuales de pocas horas.' },
+    { value: 'jornada_completa', icon: 'calendar', label: 'Jornada completa', text: 'Dias completos de trabajo.' },
+    { value: 'fin_de_semana', icon: 'sun', label: 'Fin de semana', text: 'Solo sabados y domingos.' },
+    { value: 'presencial', icon: 'house', label: 'Presencial fijo', text: 'Contrato estable en un hogar.' },
   ];
 
   readonly opcionesEspecialidad = [

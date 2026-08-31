@@ -8,7 +8,8 @@ import { ICONS } from './icons';
  * Hereda color y tamano del texto que lo rodea; para agrandarlo basta con
  * subir el `font-size` (o `width`/`height`) desde el CSS del contenedor.
  *
- *   <jobsy-icon name="bug" />
+ *   <jobsy-icon name="map-pin" />
+ *   <jobsy-icon name="frown" label="Sin resultados" />  <!-- con etiqueta accesible -->
  */
 @Component({
   selector: 'jobsy-icon',

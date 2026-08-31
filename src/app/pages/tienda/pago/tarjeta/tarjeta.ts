@@ -2,11 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderService, CartService } from '../../../../core/services';
+import { IconComponent } from '../../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-card',
   standalone: true,
-  imports: [FormsModule],
+  imports: [IconComponent, FormsModule],
   templateUrl: './tarjeta.html',
   styleUrl: './tarjeta.scss',
 })

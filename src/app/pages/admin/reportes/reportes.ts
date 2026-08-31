@@ -16,7 +16,7 @@ const ETIQUETA: Record<ReportStatus, string> = {
 @Component({
   selector: 'jobsy-admin-reports',
   standalone: true,
-  imports: [FormsModule, ModalComponent, EmptyStateComponent, IconComponent],
+  imports: [IconComponent, FormsModule, ModalComponent, EmptyStateComponent],
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })
@@ -115,16 +115,6 @@ export class AdminReportsPage {
     if (t.includes('usuario')) return 'flag';
     if (t.includes('sugerencia')) return 'lightbulb';
     return 'bug';
-  }
-
-  /** "2026-03-04T10:02:00" -> "4 mar, 10:02"; "2026-03-04" -> "4 mar". */
-  cuando(fecha: string): string {
-    const d = new Date(fecha);
-    if (isNaN(d.getTime())) return fecha;
-    const opts: Intl.DateTimeFormatOptions = fecha.includes('T')
-      ? { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }
-      : { day: 'numeric', month: 'short' };
-    return d.toLocaleString('es-CO', opts);
   }
 
   private avisar(texto: string): void {

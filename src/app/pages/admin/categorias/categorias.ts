@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { AdminStore } from '../../../core/services';
 import { Category } from '../../../core/models';
 import { ModalComponent } from '../../../shared/components/modal/modal';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-admin-categories',
   standalone: true,
-  imports: [FormsModule, ModalComponent],
+  imports: [IconComponent, FormsModule, ModalComponent],
   templateUrl: './categorias.html',
   styleUrl: './categorias.scss',
 })

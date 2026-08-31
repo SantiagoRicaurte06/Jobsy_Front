@@ -3,11 +3,12 @@ import { SubscriptionService } from '../../../core/services';
 import { Plan, Subscription } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-account-plan',
   standalone: true,
-  imports: [CopPipe, LoadingSpinnerComponent],
+  imports: [IconComponent, CopPipe, LoadingSpinnerComponent],
   templateUrl: './plan.html',
   styleUrl: './plan.scss',
 })

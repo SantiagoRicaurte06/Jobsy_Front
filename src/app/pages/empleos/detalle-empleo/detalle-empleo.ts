@@ -5,11 +5,12 @@ import { Job } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-job-detail',
   standalone: true,
-  imports: [RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
   templateUrl: './detalle-empleo.html',
   styleUrl: './detalle-empleo.scss',
 })

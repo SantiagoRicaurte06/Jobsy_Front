@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 interface SavedMethod {
   id: string;
@@ -12,7 +13,7 @@ interface SavedMethod {
 @Component({
   selector: 'jobsy-payment-methods',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './metodos-pago.html',
   styleUrl: './metodos-pago.scss',
 })
@@ -22,7 +23,7 @@ export class PaymentMethodsPage {
     {
       id: 'pm-1',
       tipo: 'tarjeta',
-      icono: '\u{1F4B3}',
+      icono: 'credit-card',
       titulo: 'Visa terminada en 4242',
       detalle: 'Vence 08/2029',
       principal: true,
@@ -30,7 +31,7 @@ export class PaymentMethodsPage {
     {
       id: 'pm-2',
       tipo: 'billetera',
-      icono: '\u{1F4F1}',
+      icono: 'smartphone',
       titulo: 'Nequi',
       detalle: '300 *** 4567',
       principal: false,
@@ -38,7 +39,7 @@ export class PaymentMethodsPage {
     {
       id: 'pm-3',
       tipo: 'banco',
-      icono: '\u{1F3E6}',
+      icono: 'landmark',
       titulo: 'Bancolombia',
       detalle: 'Cuenta de ahorros *** 8891',
       principal: false,

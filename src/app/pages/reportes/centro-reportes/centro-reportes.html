@@ -8,7 +8,11 @@
     <!-- ---- Nuevo reporte ---- -->
     <section class="centro-reportes__form tarjeta">
       <h2>Crear un reporte</h2>
-      <p class="centro-reportes__hint">Cuentanos que ocurrio y sigue la conversacion con soporte aqui mismo.</p>
+      <p class="centro-reportes__hint">Cuentanos que ocurrio y te responderemos en menos de 48 horas.</p>
+
+      @if (enviado()) {
+        <p class="centro-reportes__sent" role="status"><jobsy-icon name="check" /> Reporte enviado. Te contactaremos pronto.</p>
+      }
 
       <form (ngSubmit)="enviar()">
         <div class="grupo_campo">
@@ -18,7 +22,7 @@
               <button type="button" class="centro-reportes__type"
                 [class.is-selected]="tipo() === t.value"
                 (click)="tipo.set(t.value)">
-                <span class="centro-reportes__type-icon" aria-hidden="true"><jobsy-icon [name]="t.icon" /></span>
+                <span aria-hidden="true"><jobsy-icon [name]="t.icon" /></span>
                 <strong>{{ t.label }}</strong>
                 <span class="centro-reportes__type-text">{{ t.text }}</span>
               </button>

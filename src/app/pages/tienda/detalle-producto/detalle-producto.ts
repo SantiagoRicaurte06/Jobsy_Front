@@ -8,11 +8,12 @@ import { CopPipe } from '../../../shared/pipes';
 import { RatingStarsComponent } from '../../../shared/components/rating-stars/rating-stars';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-product-detail',
   standalone: true,
-  imports: [RouterLink, FormsModule, DatePipe, CopPipe, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, FormsModule, DatePipe, CopPipe, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent],
   templateUrl: './detalle-producto.html',
   styleUrl: './detalle-producto.scss',
 })

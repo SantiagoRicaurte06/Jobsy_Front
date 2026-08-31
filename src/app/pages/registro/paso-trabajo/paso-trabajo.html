@@ -18,7 +18,7 @@
             [class.is-selected]="modalidades().includes(op.value)"
             [attr.aria-pressed]="modalidades().includes(op.value)"
             (click)="toggleModalidad(op.value)">
-            <span class="paso-trabajo__icon" aria-hidden="true">{{ op.icon }}</span>
+            <span class="paso-trabajo__icon" aria-hidden="true"><jobsy-icon [name]="op.icon" /></span>
             <strong>{{ op.label }}</strong>
             <span class="paso-trabajo__option-text">{{ op.text }}</span>
           </button>

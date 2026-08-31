@@ -2,11 +2,12 @@ import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services';
 import { LogoComponent } from '../../../shared/components/logo/logo';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-login-success',
   standalone: true,
-  imports: [RouterLink, LogoComponent],
+  imports: [IconComponent, RouterLink, LogoComponent],
   templateUrl: './ingreso-exitoso.html',
   styleUrl: './ingreso-exitoso.scss',
 })
@@ -32,6 +33,7 @@ export class LoginSuccessPage implements OnInit, OnDestroy {
 
   go(): void {
     clearInterval(this.timer);
-    this.router.navigate(['/app/inicio']);
+    // Los administradores van al panel; el resto, a su area de usuario.
+    this.router.navigateByUrl(this.auth.homeUrl());
   }
 }

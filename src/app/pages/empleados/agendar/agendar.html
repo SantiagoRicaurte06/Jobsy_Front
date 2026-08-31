@@ -4,7 +4,7 @@
 
   @if (confirmado()) {
     <div class="agenda__done tarjeta">
-      <span aria-hidden="true">&#10004;</span>
+      <span aria-hidden="true"><jobsy-icon name="check" /></span>
       <h2>Horario agendado</h2>
       <p>
         Reservaste el dia <strong>{{ diaSeleccionado() }}</strong> de {{ nombreMes() }},
@@ -17,9 +17,9 @@
       <!-- ---- Calendario ---- -->
       <div class="agenda__calendar tarjeta">
         <header class="agenda__cal-head">
-          <button type="button" (click)="cambiarMes(-1)" aria-label="Mes anterior">&#8249;</button>
+          <button type="button" (click)="cambiarMes(-1)" aria-label="Mes anterior"><jobsy-icon name="chevron-left" /></button>
           <strong>{{ nombreMes() }}</strong>
-          <button type="button" (click)="cambiarMes(1)" aria-label="Mes siguiente">&#8250;</button>
+          <button type="button" (click)="cambiarMes(1)" aria-label="Mes siguiente"><jobsy-icon name="chevron-right" /></button>
         </header>
 
         <div class="agenda__weekdays">

@@ -7,8 +7,8 @@
     </div>
 
     <div class="acciones_portada_empleos">
-      <a routerLink="/app/hoja-de-vida" class="boton_principal">&#128228; Subir CV</a>
-      <a routerLink="/app/mis-postulaciones" class="boton_secundario">&#128203; Ver mis Postulaciones</a>
+      <a routerLink="/app/hoja-de-vida" class="boton_principal"><jobsy-icon name="upload" /> Subir CV</a>
+      <a routerLink="/app/mis-postulaciones" class="boton_secundario"><jobsy-icon name="clipboard-list" /> Ver mis Postulaciones</a>
     </div>
   </div>
 </section>
@@ -24,7 +24,7 @@
     </div>
 
     <button type="button" class="boton_secundario boton_chico" (click)="toggleFilters()">
-      &#9776; Filtros
+      <jobsy-icon name="menu" /> Filtros
     </button>
   </div>
 
@@ -38,7 +38,7 @@
         <jobsy-loading-spinner label="Buscando empleos..." />
       } @else if (jobs().length === 0) {
         <jobsy-empty-state
-          icon="&#128269;"
+          icon="search"
           title="No encontramos ofertas"
           message="Prueba a cambiar los filtros o amplia tu busqueda a otras zonas." />
       } @else {

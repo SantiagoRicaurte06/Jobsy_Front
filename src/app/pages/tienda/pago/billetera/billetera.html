@@ -2,7 +2,7 @@
   <h2 class="billetera__title">Billetera digital</h2>
   <p class="billetera__subtitle">Recibiras una notificacion en tu app para aprobar el pago.</p>
 
-  <p class="billetera__demo">&#9888; Modo demostracion: no se envia ninguna solicitud real.</p>
+  <p class="billetera__demo"><jobsy-icon name="triangle-alert" /> Modo demostracion: no se envia ninguna solicitud real.</p>
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
@@ -12,7 +12,7 @@
           <button type="button" class="billetera__option"
             [class.is-selected]="billetera() === b.value"
             (click)="billetera.set(b.value)">
-            <span aria-hidden="true">{{ b.icon }}</span>
+            <span class="billetera__dot" [style.background]="b.color" aria-hidden="true"></span>
             {{ b.label }}
           </button>
         }

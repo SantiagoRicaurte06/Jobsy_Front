@@ -2,11 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderService, CartService } from '../../../../core/services';
+import { IconComponent } from '../../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-digital-wallet',
   standalone: true,
-  imports: [FormsModule],
+  imports: [IconComponent, FormsModule],
   templateUrl: './billetera.html',
   styleUrl: './billetera.scss',
 })
@@ -19,11 +20,12 @@ export class DigitalWalletPage {
   readonly telefono = signal('');
   readonly procesando = signal(false);
 
+  /** Cada billetera se distingue por su color de marca (punto de color). */
   readonly billeteras = [
-    { value: 'nequi', icon: '\u{1F49C}', label: 'Nequi' },
-    { value: 'daviplata', icon: '\u{1F534}', label: 'Daviplata' },
-    { value: 'movii', icon: '\u{1F7E1}', label: 'Movii' },
-    { value: 'dale', icon: '\u{1F535}', label: 'Dale!' },
+    { value: 'nequi', color: '#8B5CF6', label: 'Nequi' },
+    { value: 'daviplata', color: '#E30613', label: 'Daviplata' },
+    { value: 'movii', color: '#FFD100', label: 'Movii' },
+    { value: 'dale', color: '#0047BB', label: 'Dale!' },
   ];
 
   pagar(): void {
