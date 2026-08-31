@@ -44,33 +44,77 @@
         </div>
 
         <button type="submit" class="boton_principal boton_ancho" [disabled]="enviando()">
-          {{ enviando() ? 'Enviando...' : 'Enviar reporte' }}
+          {{ enviando() ? 'Creando...' : 'Crear reporte' }}
         </button>
       </form>
     </section>
 
-    <!-- ---- Historial y ayuda ---- -->
+    <!-- ---- Historial / conversacion y ayuda ---- -->
     <div class="centro-reportes__side">
       <section class="tarjeta centro-reportes__history">
-        <h2>Mis reportes</h2>
+        @if (seleccionado(); as r) {
+          <!-- ===== Conversacion ===== -->
+          <div class="chat">
+            <header class="chat__head">
+              <button type="button" class="chat__back" (click)="volver()" aria-label="Volver a mis reportes">
+                &#8249;
+              </button>
+              <div class="chat__head-info">
+                <strong>{{ r.asunto }}</strong>
+                <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
+              </div>
+            </header>
 
-        @if (loading()) {
-          <jobsy-loading-spinner />
-        } @else if (reports().length === 0) {
-          <p class="centro-reportes__empty">Aun no has creado reportes.</p>
-        } @else {
-          <ul>
-            @for (r of reports(); track r.id) {
-              <li>
-                <div class="centro-reportes__report-head">
-                  <strong>{{ r.asunto }}</strong>
-                  <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
-                </div>
-                <p class="texto_mini texto_gris">{{ r.descripcion }}</p>
-                <span class="texto_mini texto_gris">{{ r.fecha }}</span>
-              </li>
+            <ul class="chat__messages">
+              @for (m of r.mensajes ?? []; track $index) {
+                <li class="chat__msg" [class.is-user]="m.autor === 'usuario'">
+                  <div class="chat__bubble">
+                    @if (m.autor === 'soporte') {
+                      <span class="chat__author">Soporte Jobsy</span>
+                    }
+                    <p>{{ m.texto }}</p>
+                    <span class="chat__time">{{ cuando(m.fecha) }}</span>
+                  </div>
+                </li>
+              }
+            </ul>
+
+            @if (puedeChatear()) {
+              <form class="chat__composer" (ngSubmit)="enviarMensaje()">
+                <input class="campo" placeholder="Escribe un mensaje..." autocomplete="off"
+                  [ngModel]="nuevoMensaje()" (ngModelChange)="nuevoMensaje.set($event)" name="mensaje" />
+                <button type="submit" class="boton_principal boton_chico" [disabled]="!nuevoMensaje().trim()">
+                  Enviar
+                </button>
+              </form>
+            } @else {
+              <p class="chat__closed">
+                Este reporte esta {{ r.estado }}. No se pueden enviar mas mensajes.
+              </p>
             }
-          </ul>
+          </div>
+        } @else {
+          <!-- ===== Lista de reportes ===== -->
+          <h2>Mis reportes</h2>
+
+          @if (reports().length === 0) {
+            <p class="centro-reportes__empty">Aun no has creado reportes.</p>
+          } @else {
+            <ul class="centro-reportes__list">
+              @for (r of reports(); track r.id) {
+                <li>
+                  <button type="button" class="centro-reportes__report" (click)="seleccionar(r.id)">
+                    <div class="centro-reportes__report-head">
+                      <strong>{{ r.asunto }}</strong>
+                      <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
+                    </div>
+                    <p class="texto_mini texto_gris centro-reportes__preview">{{ ultimoMensaje(r) }}</p>
+                    <span class="texto_mini texto_gris">{{ cuando(r.fecha) }} &middot; Abrir chat &rsaquo;</span>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
         }
       </section>
 
