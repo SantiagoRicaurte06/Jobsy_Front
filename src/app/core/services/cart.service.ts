@@ -1,12 +1,15 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Product, CartItem } from '../models';
+import { StorageService, StorageKeys } from './storage.service';
 
 const ENVIO_FIJO = 8000;
 
 /** Carrito de compras — estado local del cliente (Tienda_APi al confirmar). */
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  private _items = signal<CartItem[]>([]);
+  private storage = inject(StorageService);
+
+  private _items = signal<CartItem[]>(this.storage.get<CartItem[]>(StorageKeys.cart, []));
 
   readonly items = this._items.asReadonly();
   readonly count = computed(() => this._items().reduce((n, i) => n + i.cantidad, 0));
@@ -14,6 +17,11 @@ export class CartService {
   readonly envio = computed(() => (this._items().length ? ENVIO_FIJO : 0));
   readonly total = computed(() => this.subtotal() + this.envio());
   readonly isEmpty = computed(() => this._items().length === 0);
+
+  constructor() {
+    // Persiste el carrito en localStorage ante cualquier cambio.
+    effect(() => this.storage.set(StorageKeys.cart, this._items()));
+  }
 
   add(product: Product, cantidad = 1): void {
     this._items.update((items) => {

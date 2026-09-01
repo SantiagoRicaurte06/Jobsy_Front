@@ -69,13 +69,20 @@ export class ReportCenterPage {
     this.enviando.set(true);
     this.error.set(null);
 
-    this.reportService.create({ tipo: this.tipo(), asunto: this.asunto(), descripcion: this.descripcion() });
+    // ReportService.create() ya agrega el reporte a la lista y lo persiste.
+    const nuevo = this.reportService.create({
+      tipo: this.tipo(),
+      asunto: this.asunto(),
+      descripcion: this.descripcion(),
+    });
 
     this.asunto.set('');
     this.descripcion.set('');
     this.enviando.set(false);
     this.enviado.set(true);
     setTimeout(() => this.enviado.set(false), 3000);
+
+    this.seleccionadoId.set(nuevo.id);
   }
 
   /** Abre la conversacion de un reporte. */
@@ -83,12 +90,12 @@ export class ReportCenterPage {
     this.seleccionadoId.set(id);
   }
 
-  /** Vuelve del chat a la lista de reportes. */
+  /** Cierra la conversacion y vuelve al listado. */
   volver(): void {
     this.seleccionadoId.set(null);
   }
 
-  /** Envia un mensaje del usuario en el reporte abierto. */
+  /** Envia el mensaje escrito en el chat del reporte abierto. */
   enviarMensaje(): void {
     const id = this.seleccionadoId();
     const texto = this.nuevoMensaje().trim();
@@ -98,10 +105,9 @@ export class ReportCenterPage {
     this.nuevoMensaje.set('');
   }
 
-  /** Texto del ultimo mensaje del hilo, para la vista previa en la lista. */
+  /** Texto del ultimo mensaje del hilo, para la vista previa del listado. */
   ultimoMensaje(r: Report): string {
-    const mensajes = r.mensajes ?? [];
-    return mensajes.length ? mensajes[mensajes.length - 1].texto : r.descripcion;
+    return r.mensajes?.at(-1)?.texto ?? r.descripcion;
   }
 
   badgeClass(estado: string): string {
