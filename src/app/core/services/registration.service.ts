@@ -52,8 +52,12 @@ export class RegistrationService {
   readonly draft = this._draft.asReadonly();
   readonly rol = computed(() => this._draft().rol);
 
-  /** Pasos visibles en la barra de progreso. */
-  readonly steps = ['Datos personales', 'Modalidad de trabajo', 'Ubicacion y foto'];
+  /** Pasos visibles en la barra de progreso. El empleador no elige modalidad de trabajo. */
+  readonly steps = computed(() =>
+    this.rol() === 'empleador'
+      ? ['Datos personales', 'Ubicacion y foto']
+      : ['Datos personales', 'Modalidad de trabajo', 'Ubicacion y foto']
+  );
 
   patch(partial: Partial<RegistrationDraft>): void {
     this._draft.update((d) => ({ ...d, ...partial }));

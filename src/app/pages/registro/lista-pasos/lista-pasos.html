@@ -4,17 +4,17 @@
     <jobsy-logo variant="color" size="grande" />
     <h1 class="titulo_lista_pasos"> YA CASI ESTAMOS </h1>
     <p class="subtitulo_lista_pasos">
-      Necesitamos Tres Datos Mas Para Completar Tu Perfil
+      Necesitamos {{ cantidadTexto() }} Datos Mas Para Completar Tu Perfil
       @if(rol() === 'empleado') { de empleo } @else { de empleador}.
       Te Toma Menos De Tres Minutos
     </p>
   </header>
 
     <ol class="elementos_lista_pasos">
-    @for (item of items; track item.title; let i = $index) {
+    @for (item of items(); track item.title; let i = $index) {
       <li class="elemento_lista_pasos">
         <span class="numero_lista_pasos">{{ i + 1 }}</span>
-        <span class="icono_lista_pasos" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
+        <span class="icono_lista_pasos" aria-hidden="true">{{ item.icon }}</span>
         <div>
           <strong>{{ item.title }}</strong>
           <span>{{ item.text }}</span>

@@ -3,13 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ReportService } from '../../../core/services';
 import { Report } from '../../../core/models';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-report-center',
   standalone: true,
-  imports: [IconComponent, FormsModule, RouterLink, LoadingSpinnerComponent],
+  imports: [IconComponent, FormsModule, RouterLink],
   templateUrl: './centro-reportes.html',
   styleUrl: './centro-reportes.scss',
 })
@@ -68,18 +67,47 @@ export class ReportCenterPage {
     if (!this.asunto() || !this.descripcion()) return;
 
     this.enviando.set(true);
-    this.error.set(null)
+    this.error.set(null);
 
-    this.reportService
-      .create({ tipo: this.tipo(), asunto: this.asunto(), descripcion: this.descripcion() })
-      .subscribe((nuevo) => {
-        this.reports.update((list) => [nuevo, ...list]);
-        this.asunto.set('');
-        this.descripcion.set('');
-        this.enviando.set(false);
-        this.enviado.set(true);
-        setTimeout(() => this.enviado.set(false), 3000);
-      });
+    // ReportService.create() ya agrega el reporte a la lista y lo persiste.
+    const nuevo = this.reportService.create({
+      tipo: this.tipo(),
+      asunto: this.asunto(),
+      descripcion: this.descripcion(),
+    });
+
+    this.asunto.set('');
+    this.descripcion.set('');
+    this.enviando.set(false);
+    this.enviado.set(true);
+    setTimeout(() => this.enviado.set(false), 3000);
+
+    this.seleccionadoId.set(nuevo.id);
+  }
+
+  /** Abre la conversacion de un reporte. */
+  seleccionar(id: string): void {
+    this.seleccionadoId.set(id);
+  }
+
+  /** Cierra la conversacion y vuelve al listado. */
+  volver(): void {
+    this.seleccionadoId.set(null);
+  }
+
+  /** Envia el mensaje escrito en el chat del reporte abierto. */
+  enviarMensaje(): void {
+    const id = this.seleccionadoId();
+    const texto = this.nuevoMensaje().trim();
+    if (!id || !texto) return;
+
+    this.reportService.sendMessage(id, texto);
+    this.nuevoMensaje.set('');
+  }
+
+  /** Texto del ultimo mensaje del hilo, para la vista previa del listado. */
+  ultimoMensaje(r: Report): string {
+    return r.mensajes?.at(-1)?.texto ?? r.descripcion;
   }
 
   badgeClass(estado: string): string {
