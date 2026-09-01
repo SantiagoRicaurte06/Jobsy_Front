@@ -1,0 +1,85 @@
+<section class="analiticas">
+  <header class="encabezado_analiticas">
+    <div>
+      <h1 class="titulo_analiticas">Analiticas</h1>
+      <p class="subtitulo_analiticas">Metricas generales de la plataforma</p>
+    </div>
+
+    <nav class="periodos_analiticas">
+      @for (p of periodos; track p.value) {
+        <button type="button"
+          [class.is-active]="periodo() === p.value"
+          (click)="periodo.set(p.value)">
+          {{ p.label }}
+        </button>
+      }
+    </nav>
+  </header>
+
+  <!-- Metricas -->
+  <div class="metricas_analiticas">
+    @for (m of metricas; track m.label) {
+      <div class="metrica_analiticas tarjeta">
+        <span class="etiqueta_metrica_analiticas">{{ m.label }}</span>
+        <strong class="valor_metrica_analiticas">{{ m.value }}</strong>
+        <span class="delta_metrica_analiticas"><jobsy-icon name="chevron-up" /> {{ m.delta }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="rejilla_analiticas">
+    <!-- Graficos -->
+    <section class="tarjeta panel_analiticas">
+      <h2>Usuarios nuevos por semana</h2>
+      <jobsy-bar-chart [data]="usuariosNuevos" unit="usuarios" />
+    </section>
+
+    <section class="tarjeta panel_analiticas">
+      <h2>Contrataciones por mes</h2>
+      <jobsy-bar-chart [data]="contrataciones" unit="contrataciones" />
+    </section>
+
+    <!-- Distribucion por ciudad -->
+    <section class="tarjeta panel_analiticas">
+      <h2>Usuarios por ciudad</h2>
+
+      <ul class="ciudades_analiticas">
+        @for (c of ciudades; track c.nombre) {
+          <li>
+            <div class="encabezado_ciudad_analiticas">
+              <span>{{ c.nombre }}</span>
+              <strong>{{ c.usuarios }}</strong>
+            </div>
+            <div class="medidor_analiticas">
+              <span [style.width.%]="c.porcentaje"></span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <!-- Top empleados -->
+    <section class="tarjeta panel_analiticas">
+      <h2>Top empleados</h2>
+
+      <ul class="destacados_analiticas">
+        @for (e of topEmpleados; track e.nombre; let i = $index) {
+          <li>
+            <span class="puesto_analiticas">{{ i + 1 }}</span>
+            <span class="avatar_analiticas">{{ e.nombre.charAt(0) }}</span>
+
+            <div class="info_destacado_analiticas">
+              <strong>{{ e.nombre }}</strong>
+              <span class="texto_mini texto_gris">Empleado de hogar &middot; {{ e.zona }}</span>
+            </div>
+
+            <div class="derecha_destacado_analiticas">
+              <strong>&#9733; {{ e.calificacion.toFixed(1) }}</strong>
+              <span class="texto_mini texto_gris">{{ e.servicios }} servicios</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>

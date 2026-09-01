@@ -1,0 +1,141 @@
+<section class="hoja_vida">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else {
+    <div class="encabezado_seccion">
+      <h1>Hoja de vida</h1>
+      <button type="button" class="boton_principal boton_chico" [disabled]="saving()" (click)="guardar()">
+        {{ saving() ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+    </div>
+    @if (guardado()) {
+      <p class="guardado_hoja_vida" role="status"><jobsy-icon name="check" /> Hoja de vida actualizada.</p>
+    }
+
+    <!-- ---- Resumen profesional ---- -->
+    <section class="bloque_hoja_vida tarjeta">
+      <h2>Resumen profesional</h2>
+      <p class="ayuda_hoja_vida">Un parrafo corto que aparece al inicio de tu hoja de vida.</p>
+
+      <textarea class="area_texto"
+        placeholder="Ej: Profesional del hogar con 6 anos de experiencia en limpieza profunda y cocina."
+        [ngModel]="resumenProfesional()" (ngModelChange)="resumenProfesional.set($event)" name="resumen"></textarea>
+    </section>
+
+    <!-- ---- Experiencia ---- -->
+    <section class="bloque_hoja_vida tarjeta">
+      <div class="encabezado_bloque_hoja_vida">
+        <h2>Experiencia laboral</h2>
+        <button type="button" class="boton_simple boton_chico" (click)="agregarExperiencia()">+ Agregar</button>
+      </div>
+
+      @if (experiencias().length === 0) {
+        <p class="vacio_hoja_vida">Aun no has agregado experiencia laboral.</p>
+      }
+
+      @for (exp of experiencias(); track $index; let i = $index) {
+        <div class="entrada_hoja_vida">
+          <div class="encabezado_entrada_hoja_vida">
+            <span class="numero_entrada_hoja_vida">{{ i + 1 }}</span>
+            <button type="button" class="quitar_hoja_vida" (click)="quitarExperiencia(i)">Eliminar</button>
+          </div>
+
+          <div class="fila_hoja_vida">
+            <div class="grupo_campo">
+              <label class="etiqueta">Cargo</label>
+              <input type="text" class="campo" placeholder="Empleada de hogar"
+                [(ngModel)]="exp.cargo" [name]="'cargo' + i" />
+            </div>
+
+            <div class="grupo_campo">
+              <label class="etiqueta">Empleador</label>
+              <input type="text" class="campo" placeholder="Familia Rodriguez"
+                [(ngModel)]="exp.empresa" [name]="'empresa' + i" />
+            </div>
+          </div>
+
+          <div class="fila_hoja_vida">
+            <div class="grupo_campo">
+              <label class="etiqueta">Desde</label>
+              <input type="month" class="campo" [(ngModel)]="exp.desde" [name]="'desde' + i" />
+            </div>
+
+            <div class="grupo_campo">
+              <label class="etiqueta">Hasta</label>
+              <input type="month" class="campo" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
+            </div>
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta">Descripcion</label>
+            <textarea class="area_texto" placeholder="Tareas principales que realizabas."
+              [(ngModel)]="exp.descripcion" [name]="'desc' + i"></textarea>
+          </div>
+        </div>
+      }
+    </section>
+
+    <!-- ---- Estudios ---- -->
+    <section class="bloque_hoja_vida tarjeta">
+      <div class="encabezado_bloque_hoja_vida">
+        <h2>Formacion academica</h2>
+        <button type="button" class="boton_simple boton_chico" (click)="agregarEstudio()">+ Agregar</button>
+      </div>
+
+      @if (educacion().length === 0) {
+        <p class="vacio_hoja_vida">Aun no has agregado estudios.</p>
+      }
+
+      @for (est of educacion(); track $index; let i = $index) {
+        <div class="entrada_hoja_vida">
+          <div class="encabezado_entrada_hoja_vida">
+            <span class="numero_entrada_hoja_vida">{{ i + 1 }}</span>
+            <button type="button" class="quitar_hoja_vida" (click)="quitarEstudio(i)">Eliminar</button>
+          </div>
+
+          <div class="fila_hoja_vida fila_hoja_vida_tres">
+            <div class="grupo_campo">
+              <label class="etiqueta">Titulo</label>
+              <input type="text" class="campo" placeholder="Bachiller academico"
+                [(ngModel)]="est.titulo" [name]="'titulo' + i" />
+            </div>
+
+            <div class="grupo_campo">
+              <label class="etiqueta">Institucion</label>
+              <input type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
+                [(ngModel)]="est.institucion" [name]="'inst' + i" />
+            </div>
+
+            <div class="grupo_campo">
+              <label class="etiqueta">Ano</label>
+              <input type="text" class="campo" placeholder="2018"
+                [(ngModel)]="est.ano" [name]="'ano' + i" />
+            </div>
+          </div>
+        </div>
+      }
+    </section>
+
+    <!-- ---- Habilidades ---- -->
+    <section class="bloque_hoja_vida tarjeta">
+      <h2>Habilidades</h2>
+      <p class="ayuda_hoja_vida">Agrega las habilidades que te diferencian.</p>
+
+      <div class="agregar_habilidad_hoja_vida">
+        <input type="text" class="campo" placeholder="Ej: Manejo de quimicos de aseo"
+          [ngModel]="nuevaHabilidad()" (ngModelChange)="nuevaHabilidad.set($event)" name="nuevaHabilidad"
+          (keydown.enter)="$event.preventDefault(); agregarHabilidad()" />
+        <button type="button" class="boton_secundario" (click)="agregarHabilidad()">Agregar</button>
+      </div>
+
+      <ul class="habilidades_hoja_vida">
+        @for (h of habilidades(); track h) {
+          <li class="habilidad_hoja_vida">
+            {{ h }}
+            <button type="button" (click)="quitarHabilidad(h)" [attr.aria-label]="'Quitar ' + h"><jobsy-icon name="x" /></button>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</section>

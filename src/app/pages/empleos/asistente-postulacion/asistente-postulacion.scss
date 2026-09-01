@@ -1,0 +1,126 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.asistente_postulacion {
+  padding-block: v.$space-6;
+}
+
+.tarjeta_asistente_postulacion {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: v.$space-6;
+}
+
+.titulo_asistente_postulacion {
+  margin: 0 0 v.$space-1;
+  font-size: v.$font-size-lg;
+}
+
+.subtitulo_asistente_postulacion {
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
+
+// ---- Resumen de la oferta (paso 1) ----
+.empleo_asistente_postulacion {
+  display: flex;
+  gap: v.$space-4;
+  padding: v.$space-4;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+
+  h2 { margin: 0 0 v.$space-1; font-size: v.$font-size-base; }
+  p { margin: 0 0 v.$space-1; }
+}
+
+.imagen_empleo_asistente_postulacion {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  background: v.$color-primary-pale;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-2xl;
+}
+
+// ---- Dias de la semana ----
+.dias_asistente_postulacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+.dia_asistente_postulacion {
+  width: 52px;
+  padding: v.$space-2;
+  background: v.$color-surface;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+  font-family: inherit;
+  font-size: v.$font-size-xs;
+  cursor: pointer;
+  transition: all v.$transition-fast;
+
+  &:hover { border-color: v.$color-primary-light; }
+
+  &.is-selected {
+    background: v.$color-accent;
+    border-color: v.$color-accent;
+    color: v.$color-text-invert;
+    font-weight: v.$font-weight-semibold;
+  }
+}
+
+.fila_asistente_postulacion {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-3;
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+// ---- Resumen final ----
+.resumen_asistente_postulacion {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-4;
+  margin: 0 0 v.$space-4;
+  padding: v.$space-4;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+
+  dt {
+    margin-bottom: v.$space-1;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: v.$color-text-muted;
+  }
+
+  dd { margin: 0; font-size: v.$font-size-sm; }
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+.resumen_completo_asistente_postulacion { grid-column: 1 / -1; }
+
+.terminos_asistente_postulacion {
+  align-items: flex-start;
+  margin-bottom: v.$space-4;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+
+  input { margin-top: 2px; }
+}
+
+.acciones_asistente_postulacion {
+  display: flex;
+  justify-content: space-between;
+  gap: v.$space-3;
+  margin-top: v.$space-5;
+  padding-top: v.$space-5;
+  border-top: 1px solid v.$color-border;
+}

@@ -1,0 +1,105 @@
+<div class="contenedor publicar-oferta">
+  <div class="publicar-oferta__card tarjeta">
+    <h1 class="publicar-oferta__title">Publicar una oferta</h1>
+    <p class="publicar-oferta__subtitle">
+      Describe el trabajo que necesitas. Los empleados cercanos podran postularse.
+    </p>
+
+    <form (ngSubmit)="submit()">
+      <div class="grupo_campo">
+        <label class="etiqueta" for="titulo">Titulo de la oferta</label>
+        <input id="titulo" type="text" class="campo" placeholder="Ej: Casa Familiar Grande (Villa)"
+          [ngModel]="titulo()" (ngModelChange)="titulo.set($event)" name="titulo" />
+      </div>
+
+      <!-- Tamano de la vivienda -->
+      <div class="grupo_campo">
+        <label class="etiqueta">Tamano de la vivienda</label>
+        <div class="publicar-oferta__options">
+          @for (t of tamanos; track t.value) {
+            <button type="button" class="publicar-oferta__option"
+              [class.is-selected]="tamano() === t.value"
+              (click)="tamano.set(t.value)">
+              {{ t.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Modalidad -->
+      <div class="grupo_campo">
+        <label class="etiqueta">Modalidad</label>
+        <div class="publicar-oferta__options">
+          @for (mo of modalidades; track mo.value) {
+            <button type="button" class="publicar-oferta__option"
+              [class.is-selected]="modalidad() === mo.value"
+              (click)="modalidad.set(mo.value)">
+              {{ mo.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="publicar-oferta__row">
+        <div class="grupo_campo">
+          <label class="etiqueta" for="precio">Precio por hora (COP)</label>
+          <input id="precio" type="number" class="campo" placeholder="30000"
+            [ngModel]="precioHora()" (ngModelChange)="precioHora.set($event)" name="precio" />
+        </div>
+
+        <div class="grupo_campo">
+          <label class="etiqueta" for="ciudad">Ciudad</label>
+          <select id="ciudad" class="lista"
+            [ngModel]="ciudad()" (ngModelChange)="ciudad.set($event)" name="ciudad">
+            @for (c of ciudades; track c) { <option [value]="c">{{ c }}</option> }
+          </select>
+        </div>
+      </div>
+
+      <div class="grupo_campo">
+        <label class="etiqueta" for="horario">Horario</label>
+        <input id="horario" type="text" class="campo"
+          placeholder="Ej: Sabados 8:00 am - 4:00 pm"
+          [ngModel]="horario()" (ngModelChange)="horario.set($event)" name="horario" />
+      </div>
+
+      <div class="grupo_campo">
+        <label class="etiqueta" for="direccion">Direccion</label>
+        <input id="direccion" type="text" class="campo" placeholder="Calle 7 #33, Via Sirivana"
+          [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
+        <p class="ayuda">La direccion exacta solo se comparte al confirmar la contratacion.</p>
+      </div>
+
+      <!-- Tareas -->
+      <div class="grupo_campo">
+        <label class="etiqueta">Tareas incluidas</label>
+        <ul class="publicar-oferta__chips">
+          @for (t of tareas; track t) {
+            <li>
+              <button type="button" class="publicar-oferta__chip"
+                [class.is-selected]="etiquetas().includes(t)"
+                (click)="toggleTarea(t)">
+                {{ t }}
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="grupo_campo">
+        <label class="etiqueta" for="descripcion">Descripcion adicional</label>
+        <textarea id="descripcion" class="area_texto"
+          placeholder="Detalles del hogar, numero de habitaciones, mascotas, etc."
+          [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+      </div>
+
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+
+      <button type="submit" class="boton_principal boton_ancho" [disabled]="saving()">
+        {{ saving() ? 'Publicando...' : 'Publicar oferta' }}
+      </button>
+    </form>
+  </div>
+</div>

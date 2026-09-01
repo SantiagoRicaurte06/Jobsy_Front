@@ -1,0 +1,135 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.guardado_hoja_vida {
+  padding: v.$space-3 v.$space-4;
+  margin-bottom: v.$space-4;
+  background: v.$color-success-pale;
+  border-radius: v.$radius-md;
+  color: v.$color-success;
+  font-size: v.$font-size-sm;
+}
+
+// ---- Bloques ----
+.bloque_hoja_vida {
+  padding: v.$space-5;
+  margin-bottom: v.$space-4;
+
+  h2 {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-base;
+  }
+}
+
+.encabezado_bloque_hoja_vida {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  margin-bottom: v.$space-4;
+
+  h2 { margin: 0; }
+}
+
+.ayuda_hoja_vida {
+  margin: 0 0 v.$space-4;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
+
+.vacio_hoja_vida {
+  padding: v.$space-4;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+  text-align: center;
+}
+
+// ---- Entradas repetibles ----
+.entrada_hoja_vida {
+  padding: v.$space-4;
+  margin-bottom: v.$space-3;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+}
+
+.encabezado_entrada_hoja_vida {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: v.$space-3;
+}
+
+.numero_entrada_hoja_vida {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  background: v.$color-primary-light;
+  border-radius: 50%;
+  color: v.$color-text-invert;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+}
+
+.quitar_hoja_vida {
+  padding: 0;
+  background: none;
+  border: none;
+  color: v.$color-danger;
+  font-family: inherit;
+  font-size: v.$font-size-xs;
+  cursor: pointer;
+
+  &:hover { text-decoration: underline; }
+}
+
+.fila_hoja_vida {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-3;
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+.fila_hoja_vida_tres {
+  grid-template-columns: 2fr 2fr 1fr;
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+// ---- Habilidades ----
+.agregar_habilidad_hoja_vida {
+  display: flex;
+  gap: v.$space-2;
+  margin-bottom: v.$space-4;
+}
+
+.habilidades_hoja_vida {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+.habilidad_hoja_vida {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-2 v.$space-3;
+  background: v.$color-primary-bg;
+  border-radius: v.$radius-pill;
+  font-size: v.$font-size-xs;
+  color: v.$color-primary;
+
+  button {
+    padding: 0;
+    background: none;
+    border: none;
+    color: v.$color-primary;
+    cursor: pointer;
+    opacity: 0.6;
+
+    &:hover { opacity: 1; }
+  }
+}

@@ -1,4 +1,40 @@
-<!-- TODO: maquetar rating-stars -->
-<div class="rating-stars">
-  <p>rating-stars</p>
+<div class="estrellas" [class.es_editable]="editable()">
+  @if (editable()) {
+    <span
+      class="iconos_estrellas"
+      role="radiogroup"
+      aria-label="Calificar de 1 a 5 estrellas"
+      (mouseleave)="clearPreview()"
+    >
+      @for (filled of stars(); track $index) {
+        <button
+          type="button"
+          class="estrella boton_estrella"
+          [class.is-filled]="filled"
+          role="radio"
+          [attr.aria-checked]="value() === $index + 1"
+          [attr.aria-label]="$index + 1 + ' de 5'"
+          (click)="setRating($index + 1)"
+          (mouseenter)="previewRating($index + 1)"
+          (focus)="previewRating($index + 1)"
+        >
+          &#9733;
+        </button>
+      }
+    </span>
+  } @else {
+    <span class="iconos_estrellas" [attr.aria-label]="'Calificacion ' + value() + ' de 5'">
+      @for (filled of stars(); track $index) {
+        <span class="estrella" [class.is-filled]="filled">&#9733;</span>
+      }
+    </span>
+  }
+
+  @if (showValue()) {
+    <strong class="valor_estrellas">{{ value().toFixed(1) }}</strong>
+  }
+
+  @if (reviews() !== null) {
+    <span class="resenas_estrellas">({{ reviews() }})</span>
+  }
 </div>

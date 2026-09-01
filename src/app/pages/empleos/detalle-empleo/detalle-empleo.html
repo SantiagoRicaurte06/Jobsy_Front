@@ -1,0 +1,106 @@
+<div class="contenedor detalle_empleo">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (!job()) {
+    <jobsy-empty-state
+      icon="frown"
+      title="Oferta no encontrada"
+      message="Es posible que ya no este disponible.">
+      <a routerLink="/empleos" class="boton_principal">Ver otras ofertas</a>
+    </jobsy-empty-state>
+  } @else {
+    <nav class="migas_detalle_empleo">
+      <a routerLink="/empleos"><jobsy-icon name="arrow-left" /> Volver a empleos</a>
+    </nav>
+
+    <div class="rejilla_detalle_empleo">
+      <!-- ---- Columna principal ---- -->
+      <article class="principal_detalle_empleo tarjeta">
+        <div class="imagen_detalle_empleo">
+          @if (job()!.imagenUrl) {
+            <img [src]="job()!.imagenUrl" [alt]="job()!.titulo" />
+          } @else {
+            <span aria-hidden="true"><jobsy-icon name="house" /></span>
+          }
+        </div>
+
+        <div class="cuerpo_detalle_empleo">
+          <div class="etiquetas_detalle_empleo">
+            @if (job()!.esNuevo) { <span class="pildora_naranja">Nuevo</span> }
+            <span class="pildora_info">{{ job()!.tamano }}</span>
+          </div>
+
+          <h1 class="titulo_detalle_empleo">{{ job()!.titulo }}</h1>
+
+          <p class="precio_detalle_empleo">
+            <span class="precio">{{ job()!.precioHora | cop }} / hora</span>
+            <span class="texto_mini texto_gris">aprox.</span>
+          </p>
+
+          <dl class="datos_detalle_empleo">
+            <div>
+              <dt>Horario</dt>
+              <dd>{{ job()!.horario }}</dd>
+            </div>
+            <div>
+              <dt>Direccion</dt>
+              <dd>{{ job()!.direccion }}, {{ job()!.ciudad }}</dd>
+            </div>
+            <div>
+              <dt>Modalidad</dt>
+              <dd>{{ job()!.modalidad }}</dd>
+            </div>
+            <div>
+              <dt>Publicado</dt>
+              <dd>{{ job()!.fechaPublicacion }}</dd>
+            </div>
+          </dl>
+
+          <section class="seccion_detalle_empleo">
+            <h2>Tareas del puesto</h2>
+            <ul class="lista_detalle_empleo">
+              @for (tag of job()!.etiquetas; track tag) {
+                <li><jobsy-icon name="check" /> {{ tag }}</li>
+              }
+            </ul>
+          </section>
+
+          <section class="seccion_detalle_empleo">
+            <h2>Sobre esta vivienda</h2>
+            <p class="texto_chico texto_gris">
+              Vivienda de tamano {{ job()!.tamano }} ubicada en {{ job()!.ciudad }}.
+              El empleador busca una persona responsable y con experiencia comprobable.
+              El pago se acuerda por hora y se liquida a traves de Jobsy.
+            </p>
+          </section>
+        </div>
+      </article>
+
+      <!-- ---- Panel lateral ---- -->
+      <aside class="lateral_detalle_empleo">
+        <div class="llamada_detalle_empleo tarjeta">
+          <p class="precio_llamada_detalle_empleo precio">{{ job()!.precioHora | cop }}</p>
+          <p class="texto_mini texto_gris">por hora, aproximadamente</p>
+
+          <a [routerLink]="['/empleos', job()!.id, 'postularme']" class="boton_principal boton_ancho">
+            Postularme
+          </a>
+          <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar oferta</button>
+
+          <p class="nota_detalle_empleo">
+            Al postularte, el empleador vera tu perfil y tu hoja de vida.
+          </p>
+        </div>
+
+        <div class="seguridad_detalle_empleo tarjeta">
+          <h3>Consejos de seguridad</h3>
+          <ul>
+            <li>Nunca pagues por postularte.</li>
+            <li>Acuerda los pagos dentro de Jobsy.</li>
+            <li>Reporta cualquier oferta sospechosa.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  }
+</div>

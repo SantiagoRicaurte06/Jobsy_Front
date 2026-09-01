@@ -1,0 +1,39 @@
+@use 'variables' as v;
+
+.no_encontrado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  padding: v.$space-6;
+  background: v.$gradient-login;
+}
+
+.codigo_no_encontrado {
+  margin: v.$space-5 0 0;
+  font-size: v.$font-size-4xl;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-primary;
+  line-height: 1;
+}
+
+.titulo_no_encontrado {
+  margin: v.$space-3 0 v.$space-2;
+  font-size: v.$font-size-xl;
+}
+
+.texto_no_encontrado {
+  max-width: 44ch;
+  margin: 0 0 v.$space-5;
+  color: v.$color-text-muted;
+  font-size: v.$font-size-sm;
+}
+
+.acciones_no_encontrado {
+  display: flex;
+  gap: v.$space-3;
+  flex-wrap: wrap;
+  justify-content: center;
+}

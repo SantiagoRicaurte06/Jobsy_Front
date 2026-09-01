@@ -1,0 +1,125 @@
+<div class="contenedor detalle_empleado">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (!employee()) {
+    <jobsy-empty-state icon="frown" title="Perfil no encontrado">
+      <a routerLink="/empleados" class="boton_principal">Ver otros empleados</a>
+    </jobsy-empty-state>
+  } @else {
+    <nav class="migas_detalle_empleado">
+      <a routerLink="/empleados"><jobsy-icon name="arrow-left" /> Volver a empleados</a>
+    </nav>
+
+    <div class="rejilla_detalle_empleado">
+      <!-- ---- Perfil ---- -->
+      <article class="principal_detalle_empleado tarjeta">
+        <header class="encabezado_detalle_empleado">
+          <div class="avatar_detalle_empleado">
+            @if (employee()!.fotoUrl) {
+              <img [src]="employee()!.fotoUrl" [alt]="employee()!.nombre" />
+            } @else {
+              <span>{{ employee()!.nombre.charAt(0) }}</span>
+            }
+          </div>
+
+          <div>
+            <h1 class="nombre_detalle_empleado">{{ employee()!.nombre }}</h1>
+
+            <div class="pildoras_detalle_empleado">
+              @if (employee()!.verificado) { <span class="pildora_exito"><jobsy-icon name="check" /> Verificado</span> }
+              @if (employee()!.disponible) { <span class="pildora_info">Disponible</span> }
+            </div>
+
+            <jobsy-rating-stars
+              [value]="employee()!.calificacion"
+              [reviews]="employee()!.totalServicios" />
+
+            <p class="ciudad_detalle_empleado"><jobsy-icon name="map-pin" /> {{ employee()!.ciudad }}</p>
+          </div>
+        </header>
+
+        <section class="seccion_detalle_empleado">
+          <h2>Sobre mi</h2>
+          <p class="texto_chico texto_gris">{{ employee()!.descripcion }}</p>
+        </section>
+
+        <section class="seccion_detalle_empleado">
+          <h2>Experiencia</h2>
+          <p class="texto_chico texto_gris">{{ employee()!.experiencia }}</p>
+        </section>
+
+        <section class="seccion_detalle_empleado">
+          <h2>Especialidades</h2>
+          <ul class="habilidades_detalle_empleado">
+            @for (skill of employee()!.especialidades; track skill) {
+              <li class="pildora_info">{{ skill }}</li>
+            }
+          </ul>
+        </section>
+
+        <section class="seccion_detalle_empleado">
+          <h2>Resenas ({{ resenas().length }})</h2>
+
+          @if (isLoggedIn()) {
+            <form class="formulario_resena_detalle_empleado" (submit)="enviarResena($event)">
+              <p class="etiqueta_resena_detalle_empleado">Deja tu calificacion</p>
+
+              <div class="estrellas_picker_detalle_empleado" role="radiogroup"
+                aria-label="Calificacion en estrellas">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <button type="button" class="estrella_picker_detalle_empleado"
+                    [class.is-active]="star <= nuevaCalificacion()"
+                    (click)="setCalificacion(star)"
+                    [attr.aria-label]="star + ' estrellas'">&#9733;</button>
+                }
+              </div>
+
+              <textarea class="campo_resena_detalle_empleado" rows="3"
+                placeholder="Cuenta como te fue con esta persona (opcional)"
+                [value]="nuevoComentario()"
+                (input)="nuevoComentario.set($any($event.target).value)"></textarea>
+
+              <button type="submit" class="boton_principal" [disabled]="nuevaCalificacion() === 0">
+                Publicar resena
+              </button>
+            </form>
+          } @else {
+            <p class="aviso_resena_detalle_empleado">
+              <a routerLink="/auth/login">Inicia sesion</a> para dejar tu calificacion.
+            </p>
+          }
+
+          <ul class="resenas_detalle_empleado">
+            @for (review of resenas(); track $index) {
+              <li class="resena_detalle_empleado">
+                <div class="encabezado_resena_detalle_empleado">
+                  <strong>{{ review.autor }}</strong>
+                  <jobsy-rating-stars [value]="review.estrellas" [showValue]="false" />
+                </div>
+                <p>{{ review.texto }}</p>
+                <span class="texto_mini texto_gris">{{ review.fecha }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      </article>
+
+      <!-- ---- Contratar ---- -->
+      <aside class="lateral_detalle_empleado tarjeta">
+        <p class="servicios_detalle_empleado">
+          <strong>{{ employee()!.totalServicios }}</strong> servicios completados
+        </p>
+
+        <a [routerLink]="['/contratacion', employee()!.id]" class="boton_principal boton_ancho">
+          Solicitar contratacion
+        </a>
+        <a routerLink="/agendar" class="boton_secundario boton_ancho">Agendar horario</a>
+        <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar perfil</button>
+
+        <p class="nota_detalle_empleado">
+          Todos los pagos y acuerdos se gestionan dentro de Jobsy para tu seguridad.
+        </p>
+      </aside>
+    </div>
+  }
+</div>

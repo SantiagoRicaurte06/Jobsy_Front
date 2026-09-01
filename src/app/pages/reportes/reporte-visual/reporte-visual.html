@@ -1,0 +1,47 @@
+<section class="reporte-visual">
+  <div class="encabezado_seccion">
+    <h1>Reporte visual</h1>
+    <a routerLink="/app/reportes" class="boton_simple boton_chico">Volver al centro</a>
+  </div>
+
+  <!-- KPIs -->
+  <div class="reporte-visual__kpis">
+    @for (kpi of kpis; track kpi.label) {
+      <div class="reporte-visual__kpi tarjeta">
+        <span class="reporte-visual__kpi-label">{{ kpi.label }}</span>
+        <strong class="reporte-visual__kpi-value">{{ kpi.value }}</strong>
+        <span class="reporte-visual__kpi-delta"><jobsy-icon name="chevron-up" /> {{ kpi.delta }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="reporte-visual__grid">
+    <!-- Grafico principal -->
+    <section class="tarjeta reporte-visual__chart">
+      <div class="encabezado_seccion">
+        <h2>Postulaciones por mes &mdash; {{ periodo() }}</h2>
+      </div>
+
+      <jobsy-bar-chart [data]="postulaciones" unit="postulaciones" />
+    </section>
+
+    <!-- Distribucion por categoria -->
+    <section class="tarjeta reporte-visual__breakdown">
+      <h2>Tipos de servicio</h2>
+
+      <ul>
+        @for (cat of categorias; track cat.nombre) {
+          <li>
+            <div class="reporte-visual__cat-head">
+              <span>{{ cat.nombre }}</span>
+              <strong>{{ cat.porcentaje }}%</strong>
+            </div>
+            <div class="reporte-visual__meter">
+              <span [style.width.%]="cat.porcentaje"></span>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>

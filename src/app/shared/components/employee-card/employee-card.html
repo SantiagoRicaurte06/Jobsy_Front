@@ -1,4 +1,46 @@
-<!-- TODO: maquetar employee-card -->
-<div class="employee-card">
-  <p>employee-card</p>
-</div>
+<article class="tarjeta_empleado">
+  @if (employee().disponible) {
+    <span class="disponible_tarjeta_empleado pildora_exito">Disponible</span>
+  }
+
+  <header class="encabezado_tarjeta_empleado">
+    <div class="avatar_tarjeta_empleado">
+      @if (employee().fotoUrl) {
+        <img [src]="employee().fotoUrl" [alt]="employee().nombre" />
+      } @else {
+        <span>{{ initials(employee().nombre) }}</span>
+      }
+    </div>
+
+    <h3 class="nombre_tarjeta_empleado">{{ employee().nombre }}</h3>
+
+    @if (employee().verificado) {
+      <span class="verificado_tarjeta_empleado pildora_info">
+        <span aria-hidden="true"><jobsy-icon name="check" /></span> Empleado de Hogar
+      </span>
+    }
+  </header>
+
+  <p class="descripcion_tarjeta_empleado">{{ employee().descripcion }}</p>
+
+  <div class="valoracion_tarjeta_empleado">
+    <jobsy-rating-stars [value]="employee().calificacion" [reviews]="employee().totalServicios" />
+  </div>
+
+  <p class="experiencia_tarjeta_empleado">
+    <span aria-hidden="true"><jobsy-icon name="briefcase" /></span> {{ employee().experiencia }}
+  </p>
+
+  <ul class="habilidades_tarjeta_empleado">
+    @for (skill of employee().especialidades; track skill) {
+      <li class="pildora_info">{{ skill }}</li>
+    }
+  </ul>
+
+  <footer class="acciones_tarjeta_empleado">
+    <a class="boton_simple boton_chico" [routerLink]="['/empleados', employee().id]">Ver perfil</a>
+    <button type="button" class="boton_secundario boton_chico" (click)="solicitar.emit(employee())">
+      Solicitar
+    </button>
+  </footer>
+</article>

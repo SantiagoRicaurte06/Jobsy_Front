@@ -1,4 +1,29 @@
-<!-- TODO: maquetar search-bar -->
-<div class="search-bar">
-  <p>search-bar</p>
-</div>
+<form class="barra_busqueda" (ngSubmit)="submit()">
+  <div class="campo_barra_busqueda">
+    <span class="icono_barra_busqueda" aria-hidden="true"><jobsy-icon name="search" /></span>
+    <input
+      type="search"
+      class="entrada_barra_busqueda"
+      [placeholder]="placeholder()"
+      [ngModel]="termino()"
+      (ngModelChange)="termino.set($event)"
+      name="termino"
+      aria-label="Termino de busqueda" />
+  </div>
+
+  @if (showCity()) {
+    <div class="campo_barra_busqueda campo_barra_busqueda_ciudad">
+      <span class="icono_barra_busqueda" aria-hidden="true"><jobsy-icon name="map-pin" /></span>
+      <input
+        type="text"
+        class="entrada_barra_busqueda"
+        placeholder="Yopal, Casanare"
+        [ngModel]="ciudad()"
+        (ngModelChange)="ciudad.set($event)"
+        name="ciudad"
+        aria-label="Ciudad" />
+    </div>
+  }
+
+  <button type="submit" class="boton_secundario">Buscar</button>
+</form>

@@ -1,0 +1,84 @@
+@use 'variables' as v;
+
+.grafico { margin: 0; }
+
+.unidad_grafico {
+  margin-bottom: v.$space-2;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+  text-align: right;
+}
+
+// ---- Area donde se dibujan las barras ----
+.area_grafico {
+  display: flex;
+  align-items: flex-end;
+  gap: v.$space-2;
+  height: 200px;
+  padding: v.$space-4;
+  background: v.$color-primary-bg;
+  border-radius: v.$radius-md;
+}
+
+.columna_grafico {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  gap: v.$space-2;
+}
+
+.barra_grafico {
+  width: 100%;
+  min-height: 4px;
+  background: v.$color-primary-light;
+  border-radius: v.$radius-sm v.$radius-sm 0 0;
+  transition: opacity v.$transition-fast;
+
+  &:hover { opacity: 0.85; }
+
+  &.is-highlight { background: v.$color-accent; }
+
+  &.is-projected {
+    background: v.$color-border-strong;
+    opacity: 0.55;
+  }
+}
+
+.etiqueta_grafico {
+  font-size: 10px;
+  color: v.$color-text-muted;
+
+  &.is-highlight {
+    color: v.$color-accent;
+    font-weight: v.$font-weight-bold;
+  }
+}
+
+// ---- Leyenda ----
+.leyenda_grafico {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-4;
+  margin-top: v.$space-3;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+}
+
+.clave_grafico {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: v.$color-primary-light;
+}
+
+.clave_grafico_destacado  { background: v.$color-accent; }
+.clave_grafico_proyectado { background: v.$color-border-strong; }

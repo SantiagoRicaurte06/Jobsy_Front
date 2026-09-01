@@ -14,8 +14,9 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
 }
+
 
 body {
   font-family: v.$font-family-base;
@@ -45,9 +46,99 @@ img { max-width: 100%; display: block; }
 
 button { font-family: inherit; }
 
-// ---- Utilidades minimas ----
-.container { @include m.container; }
-.card      { @include m.card; }
-.btn-primary   { @include m.btn-primary; }
-.btn-secondary { @include m.btn-secondary; }
-.btn-outline   { @include m.btn-outline; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+// ============================================================
+//  Utilidades
+// ============================================================
+.contenedor { @include m.container; }
+.tarjeta      { @include m.card; }
+
+// ---- Botones ----
+.boton_principal   { @include m.btn-primary; }
+.boton_secundario { @include m.btn-secondary; }
+.boton_borde   { @include m.btn-outline; }
+.boton_simple     { @include m.btn-ghost; }
+
+// Los botones son inline-flex para poder centrar icono + texto.
+.boton_principal,
+.boton_secundario,
+.boton_borde,
+.boton_simple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space-2;
+  font-size: v.$font-size-sm;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover { text-decoration: none; }
+}
+
+.boton_chico {
+  padding: v.$space-2 v.$space-3;
+  font-size: v.$font-size-xs;
+}
+
+.boton_ancho { width: 100%; }
+
+// ---- Formularios ----
+.grupo_campo  { margin-bottom: v.$space-4; }
+.etiqueta  { @include m.form-label; }
+.campo,
+.lista,
+.area_texto { @include m.input; }
+.area_texto { min-height: 120px; resize: vertical; }
+
+.error {
+  margin-top: v.$space-1;
+  font-size: v.$font-size-xs;
+  color: v.$color-danger;
+}
+
+.ayuda {
+  margin-top: v.$space-1;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
+
+.casilla {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  font-size: v.$font-size-sm;
+  cursor: pointer;
+
+  input { accent-color: v.$color-primary-light; cursor: pointer; }
+}
+
+// ---- Badges de estado ----
+.pildora_exito { @include m.badge(v.$color-success-pale, v.$color-success); }
+.pildora_aviso { @include m.badge(v.$color-warning-pale, v.$color-warning); }
+.pildora_error  { @include m.badge(v.$color-danger-pale, v.$color-danger); }
+.pildora_info    { @include m.badge(v.$color-info-pale, v.$color-primary); }
+.pildora_naranja  { @include m.badge(v.$color-accent-pale, v.$color-accent-dark); }
+
+// ---- Cabecera de seccion ----
+.encabezado_seccion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  margin-bottom: v.$space-5;
+
+  h1, h2 { margin: 0; }
+}
+
+// ---- Texto ----
+.texto_gris { color: v.$color-text-muted; }
+.texto_chico    { font-size: v.$font-size-sm; }
+.texto_mini    { font-size: v.$font-size-xs; }
+.precio {
+  color: v.$color-accent;
+  font-weight: v.$font-weight-bold;
+}
+
+.oculto { @include m.visually-hidden; }

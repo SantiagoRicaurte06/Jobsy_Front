@@ -1,0 +1,40 @@
+<section class="portada_empleados">
+  <div class="interior_portada_empleados">
+    <div>
+      <h1 class="titulo_portada_empleados">ENCUENTRA EMPLEADOS</h1>
+      <p class="texto_portada_empleados">Perfiles verificados y calificados por otros hogares de tu ciudad.</p>
+    </div>
+
+    <a routerLink="/publicar-oferta" class="boton_principal">Publicar una oferta</a>
+  </div>
+</section>
+
+<div class="contenedor buscar_empleados">
+  <jobsy-search-bar
+    placeholder="Buscar por nombre o especialidad..."
+    (buscar)="buscar($event)" />
+
+  <div class="encabezado_seccion encabezado_buscar_empleados">
+    <h2>Empleados disponibles</h2>
+    @if (!loading()) {
+      <p class="texto_chico texto_gris">{{ total() }} perfiles</p>
+    }
+  </div>
+
+  @if (loading()) {
+    <jobsy-loading-spinner label="Buscando empleados..." />
+  } @else if (employees().length === 0) {
+    <jobsy-empty-state
+      icon="user"
+      title="Sin resultados"
+      message="No encontramos empleados con ese criterio. Prueba otra busqueda." />
+  } @else {
+    <div class="rejilla_buscar_empleados">
+      @for (employee of employees(); track employee.id) {
+        <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />
+      }
+    </div>
+
+    <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
+  }
+</div>

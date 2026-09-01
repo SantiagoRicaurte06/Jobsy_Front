@@ -1,0 +1,75 @@
+<div class="acceso tarjeta">
+  <header class="encabezado_acceso">
+    <a routerLink="/" class="marca_acceso" aria-label="Ir al inicio">
+      <jobsy-logo variant="color" size="grande" />
+    </a>
+    <h1 class="titulo_acceso">Bienvenido de nuevo</h1>
+    <p class="subtitulo_acceso">Inicia sesion para continuar en Jobsy</p>
+  </header>
+
+  <form (ngSubmit)="submit()">
+    <div class="grupo_campo">
+      <label class="etiqueta" for="usuario">Usuario o correo electronico</label>
+      <div class="campo_acceso">
+        <span class="icono_acceso" aria-hidden="true"><jobsy-icon name="user" /></span>
+        <input
+          id="usuario"
+          type="text"
+          class="campo"
+          placeholder="Ingresa tu usuario o correo"
+          autocomplete="username"
+          [ngModel]="usuario()"
+          (ngModelChange)="usuario.set($event)"
+          name="usuario"
+        />
+      </div>
+    </div>
+
+    <div class="grupo_campo">
+      <label for="password" class="etiqueta">Contrasena</label>
+      <div class="campo_acceso">
+        <span class="icono_acceso" aria-hidden="true"><jobsy-icon name="lock" /></span>
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          class="campo"
+          placeholder="Ingresa tu contraseña"
+          autocomplete="current-password"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          name="password"
+        />
+
+        <button
+          type="button"
+          class="ojo_acceso"
+          (click)="togglePassword()"
+          [attr.aria-label]="showPassword() ? 'Ocultar contrasena' : 'Mostrar contrasena'"
+        >
+          <jobsy-icon [name]="showPassword() ? 'eye-off' : 'eye'" />
+        </button>
+      </div>
+    </div>
+    <p class="olvide_acceso">
+      <a routerLink="/auth/recuperar">&iquest;Olvidaste tu contrasena?</a>
+    </p>
+
+    @if (error()) {
+      <p class="error error_acceso" role="alert">{{ error() }}</p>
+    }
+
+    <button type="submit" class="boton_principal boton_ancho" [disabled]="loading()">
+      {{loading() ? 'Ingresando...' : 'Iniciar Sesion' }}
+    </button>
+  </form>
+
+  <div class="separador_acceso"><span>o</span></div>
+
+  <button class="boton_simple boton_ancho" type="button" (click)="google()" [disabled]="loading()">
+    <span class="google_acceso" aria-hidden="true">G</span> Continuar con Google
+  </button>
+
+  <p class="registro_acceso">
+    &iquest;Nuevo en Jobsy? <a routerLink="/registro/crear-cuenta">Crear cuenta</a>
+  </p>
+</div>

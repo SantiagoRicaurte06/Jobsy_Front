@@ -1,0 +1,75 @@
+
+<div class="paso-trabajo tarjeta">
+  <jobsy-step-progress [steps]="steps()" [current]="1" />
+
+  <h1 class="paso-trabajo__title">Modalidad De Trabajo</h1>
+  <p class="paso-trabajo__subtitle">Cuentanos Como Prefieres Trabajar. Puedes Elejir Varias</p>
+
+  <form (ngSubmit)="next()">
+
+    <!-- MODALIDADES -->
+    <div class="grupo_campo">
+      <label class="etiqueta">Modalidades Disponibles</label>
+      <div class="paso-trabajo__grid">
+        @for (op of opcionesModalidad; track op.value) {
+          <button
+            type="button"
+            class="paso-trabajo__option"
+            [class.is-selected]="modalidades().includes(op.value)"
+            [attr.aria-pressed]="modalidades().includes(op.value)"
+            (click)="toggleModalidad(op.value)">
+            <span class="paso-trabajo__icon" aria-hidden="true"><jobsy-icon [name]="op.icon" /></span>
+            <strong>{{ op.label }}</strong>
+            <span class="paso-trabajo__option-text">{{ op.text }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+
+    <!-- ESPECIALIDADES -->
+    <div class="grupo_campo">
+      <label class="etiqueta">Especialidades</label>
+      <ul class="paso-trabajo__chips">
+        @for (e of opcionesEspecialidad; track e) {
+          <li>
+            <button
+              type="button"
+              class="paso-trabajo__chip"
+              [class.is-selected]="especialidades().includes(e)"
+              [attr.aria-pressed]="especialidades().includes(e)"
+              (click)="toggleEspecialidades(e)">
+              {{ e }}
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <!--EXPERIENCIA-->
+
+    <div class="grupo_campo">
+      <label class="etiqueta" for="experiencia">Cuentanos Tu Experiencia</label>
+      <textarea id="experiencia" class="area_texto"
+      placeholder="Ej: 6 Anos De Experiencia En Hogares De Yopal, Con Enfasis En Limpieza Profunda Y Cocina"
+      [ngModel]="experiencia()" (ngModelChange)="experiencia.set($event)" name="experiencia"></textarea>
+    <p class="ayuda">Este Texto Aparecera En Tu Perfil Publico.</p>
+    </div>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <div class="paso-trabajo__actions">
+      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="submit" class="boton_principal">Siguiente</button>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+  

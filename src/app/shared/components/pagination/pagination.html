@@ -1,4 +1,32 @@
-<!-- TODO: maquetar pagination -->
-<div class="pagination">
-  <p>pagination</p>
-</div>
+@if (totalPages() > 1) {
+  <nav class="paginado" aria-label="Paginacion">
+    <button
+      type="button"
+      class="flecha_paginado"
+      [disabled]="!canPrev()"
+      (click)="go(page() - 1)"
+      aria-label="Pagina anterior">
+      <jobsy-icon name="chevron-left" />
+    </button>
+
+    @for (p of pages(); track p) {
+      <button
+        type="button"
+        class="pagina_paginado"
+        [class.is-active]="p === page()"
+        [attr.aria-current]="p === page() ? 'page' : null"
+        (click)="go(p)">
+        {{ p }}
+      </button>
+    }
+
+    <button
+      type="button"
+      class="flecha_paginado"
+      [disabled]="!canNext()"
+      (click)="go(page() + 1)"
+      aria-label="Pagina siguiente">
+      <jobsy-icon name="chevron-right" />
+    </button>
+  </nav>
+}

@@ -1,6 +1,8 @@
-@use 'variables' as v;
-@use 'mixins' as m;
-
-.public-layout {
-  // TODO: estilos
+.marco_publico {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+// flex:1 empuja el pie al final aunque la pagina tenga poco contenido.
+.principal_marco_publico { flex: 1; }

@@ -1,0 +1,61 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ---- Portada ----
+.portada_empleos {
+  background: v.$gradient-band;
+  color: v.$color-text-invert;
+}
+
+.interior_portada_empleos {
+  @include m.container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-5;
+  padding-block: v.$space-6;
+
+  @include m.until(v.$bp-lg) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.titulo_portada_empleos {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-2xl;
+  letter-spacing: -0.01em;
+}
+
+.texto_portada_empleos {
+  margin: 0;
+  font-size: v.$font-size-sm;
+  opacity: 0.9;
+}
+
+.acciones_portada_empleos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-3;
+}
+
+// ---- Listado ----
+.buscar_empleos {
+  padding-block: v.$space-6;
+}
+
+.cuerpo_buscar_empleos {
+  display: grid;
+  gap: v.$space-5;
+
+  // Con los filtros abiertos aparece la columna lateral.
+  &.con_filtros {
+    grid-template-columns: 260px 1fr;
+
+    @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+  }
+}
+
+.resultados_buscar_empleos { min-width: 0; }
+
+.rejilla_buscar_empleos { @include m.grid-cards(300px); }

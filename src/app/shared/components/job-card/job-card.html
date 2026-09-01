@@ -1,4 +1,53 @@
-<!-- TODO: maquetar job-card -->
-<div class="job-card">
-  <p>job-card</p>
-</div>
+<article class="tarjeta_empleo">
+  <!-- Imagen de la vivienda -->
+  <div class="imagen_tarjeta_empleo">
+    @if (job().imagenUrl) {
+      <img [src]="job().imagenUrl" [alt]="job().titulo" />
+    } @else {
+      <div class="reserva_tarjeta_empleo" aria-hidden="true"><jobsy-icon name="house" /></div>
+    }
+
+    @if (job().esNuevo) {
+      <span class="distintivo_tarjeta_empleo">Nuevo</span>
+    }
+  </div>
+
+  <div class="cuerpo_tarjeta_empleo">
+    <p class="meta_tarjeta_empleo">
+      <span class="punto_tarjeta_empleo" aria-hidden="true"></span>
+      Tamano: <strong>{{ sizeLabel() }}</strong>
+      <span class="pildora_info">{{ sizeLabel() }}</span>
+    </p>
+
+    <h3 class="titulo_tarjeta_empleo">{{ job().titulo }}</h3>
+
+    <p class="precio_tarjeta_empleo">
+      <span class="precio">{{ job().precioHora | cop }} / hora</span>
+      <span class="texto_mini texto_gris">aprox.</span>
+    </p>
+
+    <dl class="detalles_tarjeta_empleo">
+      <div>
+        <dt aria-hidden="true"><jobsy-icon name="clock" /></dt>
+        <dd><strong>Horario:</strong> {{ job().horario }}</dd>
+      </div>
+      <div>
+        <dt aria-hidden="true"><jobsy-icon name="map-pin" /></dt>
+        <dd><strong>Direccion:</strong> {{ job().direccion }}, {{ job().ciudad }}</dd>
+      </div>
+    </dl>
+
+    @if (job().etiquetas.length) {
+      <ul class="etiquetas_tarjeta_empleo">
+        @for (tag of job().etiquetas; track tag) {
+          <li class="pildora_info">{{ tag }}</li>
+        }
+      </ul>
+    }
+  </div>
+
+  <footer class="acciones_tarjeta_empleo">
+    <a class="boton_simple boton_chico" [routerLink]="['/empleos', job().id]">Ver mas</a>
+    <a class="boton_principal boton_chico" [routerLink]="['/empleos', job().id, 'postularme']">Postularme</a>
+  </footer>
+</article>

@@ -1,7 +1,6 @@
 // ============================================================
 //  Jobsy — Design tokens
 //  Valores tomados del archivo de Figma (fileKey h1mrQxQYKAHcuZ4sjVT7iH).
-//  TODO: ajustar con el equipo de diseno si cambian los colores.
 // ============================================================
 
 // ---- Marca ----
@@ -13,39 +12,75 @@ $color-primary-bg:     #EAF4FC;
 
 $color-accent:         #F5821F; // naranja — accion principal (CTA)
 $color-accent-dark:    #D96D0F;
-$color-accent-light:   #FFA352;
+$color-accent-light:   #FFA352; 
+$color-accent-pale:    #FDEBDA;
 
 // ---- Estado ----
-$color-success:        #2E9E5B; // verificado / publicado
-$color-warning:        #E8A33D; // pendiente / borrador
-$color-danger:         #D64545; // stock critico / error
+$color-success:        #2E9E5B;
+$color-success-pale:   #E3F5EA;
+$color-warning:        #E8A33D;
+$color-warning-pale:   #FDF3E3;
+$color-danger:         #D64545;
+$color-danger-pale:    #FBE9E9;
 $color-info:           $color-primary-light;
+$color-info-pale:      $color-primary-bg;
 
 // ---- Neutros ----
-$color-white:          #FFFFFF;
-$color-bg:             #F5F8FB;
-$color-surface:        #FFFFFF;
-$color-border:         #E1E8EF;
+$color-white:                 #FFFFFF;
+$color-bg:                    #EEF4FA;
+$color-surface:               #FFFFFF;
+$color-surface-muted:         #E9F0F7; // blanco oscurito / gris claro suave
+$color-surface-muted-light:   #F5F8FB;
+$color-surface-muted-border:  #D0DFEC;
+$color-surface-muted-subtle:  #DCE7F2;
+$color-border:                #E1E8EF;
+$color-border-strong:         #C9D6E2;
+
+
+// ============================================================
+//  Liquid glass
+//  Superficies translucidas que dejan ver el fondo desenfocado.
+//  El borde claro arriba simula el canto iluminado del cristal.
+// ============================================================
+$glass-bg:          rgba(255, 255, 255, 0.62);
+$glass-bg-strong:   rgba(255, 255, 255, 0.80); // cuando hay texto denso encima
+$glass-bg-soft:     rgba(255, 255, 255, 0.42);
+$glass-bg-dark:     rgba(14, 33, 54, 0.55);    // sidebar y superficies oscuras
+$glass-border:      rgba(255, 255, 255, 0.65);
+$glass-border-dark: rgba(255, 255, 255, 0.12);
+$glass-blur:        18px;
+$glass-blur-strong: 28px;
+
+/// Sombras suaves y difusas: el cristal flota, no se pega.
+$glass-shadow-sm: 0 2px 10px rgba(22, 104, 179, 0.06);
+$glass-shadow-md: 0 8px 28px rgba(22, 104, 179, 0.10);
+$glass-shadow-lg: 0 18px 50px rgba(22, 104, 179, 0.16);
+
+/// Brillo interior del canto superior.
+$glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 $color-text:           #1C2B3A;
 $color-text-muted:     #6B7C8F;
 $color-text-invert:    #FFFFFF;
 $color-sidebar:        #0E2136; // sidebar admin azul oscuro
+$color-sidebar-hover:  #17304C;
 
+// ---- Tipografia ----
 // ---- Tipografia ----
 $font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-$font-size-xs:   0.75rem;   // 12px
-$font-size-sm:   0.875rem;  // 14px
-$font-size-base: 1rem;      // 16px
-$font-size-lg:   1.125rem;  // 18px
-$font-size-xl:   1.5rem;    // 24px
-$font-size-2xl:  2rem;      // 32px
-$font-size-3xl:  2.5rem;    // 40px
+$font-size-xs:   0.875rem;  // antes 0.75rem
+$font-size-sm:   1rem;      // antes 0.875rem
+$font-size-base: 1.125rem;  // antes 1rem
+$font-size-lg:   1.25rem;   // antes 1.125rem
+$font-size-xl:   1.75rem;   // antes 1.5rem
+$font-size-2xl:  2.25rem;   // antes 2rem
+$font-size-3xl:  2.75rem;   // antes 2.5rem
+$font-size-4xl:  3.25rem;   // antes 3rem
 
-$font-weight-regular: 400;
-$font-weight-medium:  500;
+$font-weight-regular:  400;
+$font-weight-medium:   500;
 $font-weight-semibold: 600;
-$font-weight-bold:    700;
+$font-weight-bold:     700;
 
 // ---- Espaciado (escala de 4px) ----
 $space-1: 0.25rem;
@@ -61,6 +96,7 @@ $space-8: 4rem;
 $radius-sm:   4px;
 $radius-md:   8px;
 $radius-lg:   12px;
+$radius-xl:   16px;
 $radius-pill: 999px;
 
 $shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.08);
@@ -78,5 +114,13 @@ $bp-md: 768px;
 $bp-lg: 1024px;
 $bp-xl: 1280px;
 
-// ---- Gradiente del hero ----
-$gradient-hero: linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
+// ---- Gradientes ----
+$gradient-hero:       linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
+$gradient-band:       linear-gradient(90deg, #1668B3 0%, #2B8FE0 100%);
+$gradient-login:      linear-gradient(160deg, #DCEEFB 0%, #C3E2F7 100%);
+$gradient-card-muted: linear-gradient(180deg, $color-surface-muted-light 0%, $color-surface-muted 100%);
+
+
+// ---- Transiciones ----
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;

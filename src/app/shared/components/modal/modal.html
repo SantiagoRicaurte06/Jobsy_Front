@@ -1,4 +1,21 @@
-<!-- TODO: maquetar modal -->
-<div class="modal">
-  <p>modal</p>
+<div class="ventana" role="dialog" aria-modal="true">
+  <!-- Clic fuera del panel cierra el modal -->
+  <div class="fondo_ventana" (click)="cerrar.emit()"></div>
+
+  <div class="panel_ventana">
+    <header class="encabezado_ventana">
+      <div>
+        @if (title()) { <h2 class="titulo_ventana">{{ title() }}</h2> }
+        @if (subtitle()) { <p class="subtitulo_ventana">{{ subtitle() }}</p> }
+      </div>
+
+      <button type="button" class="cerrar_ventana" (click)="cerrar.emit()" aria-label="Cerrar">
+        <jobsy-icon name="x" />
+      </button>
+    </header>
+
+    <div class="cuerpo_ventana">
+      <ng-content />
+    </div>
+  </div>
 </div>

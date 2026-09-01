@@ -1,6 +1,112 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.job-card {
-  // TODO: estilos
+.tarjeta_empleo {
+  @include m.card-hover;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+// ---- Imagen de la vivienda ----
+.imagen_tarjeta_empleo {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: v.$color-primary-pale;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.reserva_tarjeta_empleo {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: v.$font-size-3xl;
+  opacity: 0.5;
+}
+
+.distintivo_tarjeta_empleo {
+  position: absolute;
+  top: v.$space-3;
+  right: v.$space-3;
+  padding: v.$space-1 v.$space-3;
+  background: v.$color-primary-light;
+  color: v.$color-text-invert;
+  border-radius: v.$radius-pill;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+}
+
+// ---- Contenido ----
+.cuerpo_tarjeta_empleo {
+  flex: 1;
+  padding: v.$space-4;
+}
+
+.meta_tarjeta_empleo {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
+
+.punto_tarjeta_empleo {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: v.$color-primary-light;
+}
+
+.titulo_tarjeta_empleo {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-base;
+  @include m.line-clamp(2);
+}
+
+.precio_tarjeta_empleo {
+  display: flex;
+  align-items: baseline;
+  gap: v.$space-2;
+  margin: 0 0 v.$space-3;
+  font-size: v.$font-size-lg;
+}
+
+// ---- Horario y direccion ----
+.detalles_tarjeta_empleo {
+  margin: 0 0 v.$space-3;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+
+  > div {
+    display: flex;
+    gap: v.$space-2;
+    margin-bottom: v.$space-2;
+  }
+
+  dt { flex-shrink: 0; }
+  dd { margin: 0; }
+  strong { color: v.$color-primary; }
+}
+
+.etiquetas_tarjeta_empleo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+// ---- Botones ----
+.acciones_tarjeta_empleo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-2;
+  padding: v.$space-4;
+  padding-top: 0;
+
+  > * { justify-content: center; }
 }

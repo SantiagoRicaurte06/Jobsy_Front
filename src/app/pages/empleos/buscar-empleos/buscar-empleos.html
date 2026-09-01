@@ -1,0 +1,58 @@
+<!-- ============ PORTADA ============ -->
+<section class="portada_empleos">
+  <div class="interior_portada_empleos">
+    <div>
+      <h1 class="titulo_portada_empleos">SUBE TU HOJA DE VIDA</h1>
+      <p class="texto_portada_empleos">Empieza tu busqueda de trabajo y carga tu hoja de vida en Jobsy</p>
+    </div>
+
+    <div class="acciones_portada_empleos">
+      <a routerLink="/app/hoja-de-vida" class="boton_principal"><jobsy-icon name="upload" /> Subir CV</a>
+      <a routerLink="/app/mis-postulaciones" class="boton_secundario"><jobsy-icon name="clipboard-list" /> Ver mis Postulaciones</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LISTADO ============ -->
+<div class="contenedor buscar_empleos">
+  <div class="encabezado_seccion">
+    <div>
+      <h2>Trabajos Disponibles</h2>
+      @if (!loading()) {
+        <p class="texto_chico texto_gris">{{ total() }} ofertas encontradas</p>
+      }
+    </div>
+
+    <button type="button" class="boton_secundario boton_chico" (click)="toggleFilters()">
+      <jobsy-icon name="menu" /> Filtros
+    </button>
+  </div>
+
+  <div class="cuerpo_buscar_empleos" [class.con_filtros]="showFilters()">
+    @if (showFilters()) {
+      <jobsy-filter-panel (aplicar)="applyFilters($event)" />
+    }
+
+    <div class="resultados_buscar_empleos">
+      @if (loading()) {
+        <jobsy-loading-spinner label="Buscando empleos..." />
+      } @else if (jobs().length === 0) {
+        <jobsy-empty-state
+          icon="search"
+          title="No encontramos ofertas"
+          message="Prueba a cambiar los filtros o amplia tu busqueda a otras zonas." />
+      } @else {
+        <div class="rejilla_buscar_empleos">
+          @for (job of jobs(); track job.id) {
+            <jobsy-job-card [job]="job" />
+          }
+        </div>
+
+        <jobsy-pagination
+          [page]="page()"
+          [totalPages]="totalPages()"
+          (pageChange)="changePage($event)" />
+      }
+    </div>
+  </div>
+</div>

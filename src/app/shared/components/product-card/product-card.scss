@@ -1,6 +1,91 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.product-card {
-  // TODO: estilos
+.tarjeta_producto {
+  @include m.card-hover;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
+
+.imagen_tarjeta_producto {
+  position: relative;
+  aspect-ratio: 1;
+  background: v.$color-bg;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.reserva_tarjeta_producto {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: v.$font-size-3xl;
+  opacity: 0.4;
+}
+
+.distintivo_tarjeta_producto {
+  position: absolute;
+  top: v.$space-3;
+  left: v.$space-3;
+  padding: v.$space-1 v.$space-3;
+  background: v.$color-accent;
+  color: v.$color-text-invert;
+  border-radius: v.$radius-pill;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+}
+
+.distintivo_tarjeta_producto_aviso {
+  background: v.$color-danger;
+  top: auto;
+  bottom: v.$space-3;
+}
+
+.cuerpo_tarjeta_producto {
+  flex: 1;
+  padding: v.$space-4;
+}
+
+.categoria_tarjeta_producto {
+  margin: 0 0 v.$space-1;
+  font-size: v.$font-size-base; // antes sm
+  font-weight: v.$font-weight-semibold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: v.$color-primary-light;
+}
+
+.titulo_tarjeta_producto {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-lg; // antes base
+
+  a { color: v.$color-text; }
+
+  a:hover {
+    color: v.$color-primary;
+    text-decoration: none;
+  }
+}
+
+.descripcion_tarjeta_producto {
+  margin: 0 0 v.$space-3;
+  font-size: v.$font-size-base; // antes sm
+  color: v.$color-text-muted;
+  @include m.line-clamp(2);
+}
+
+.pie_tarjeta_producto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  padding: v.$space-4;
+  padding-top: 0;
+}
+
+.precio_tarjeta_producto { font-size: v.$font-size-lg; }

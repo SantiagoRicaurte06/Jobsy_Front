@@ -33,3 +33,16 @@ export interface Cart {
   envio: number;
   total: number;
 }
+
+export interface ProductReview {
+  id: string;
+  productoId: string;
+  autor: string;
+  calificacion: number; // 1 to 5
+  titulo: string;
+  comentario: string;
+  fotos?: string[]; // base64 or image URLs
+  fecha: string; // ISO date string or relative display
+  verificado?: boolean;
+}
+

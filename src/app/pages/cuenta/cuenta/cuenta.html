@@ -1,0 +1,15 @@
+<section class="cuenta">
+  <div class="encabezado_seccion">
+    <h1>Mi cuenta</h1>
+  </div>
+
+  <nav class="pestanas_cuenta">
+    @for (tab of tabs; track tab.path) {
+      <a [routerLink]="tab.path" routerLinkActive="is-active">{{ tab.label }}</a>
+    }
+  </nav>
+
+  <div class="panel_cuenta">
+    <router-outlet />
+  </div>
+</section>

@@ -1,0 +1,83 @@
+<section class="tienda-portada">
+  <div class="tienda-portada__inner">
+    <h1 class="tienda-portada__title">Tienda Jobsy</h1>
+    <p class="tienda-portada__text">Productos profesionales para empleadores y empleados del hogar</p>
+
+    <ul class="tienda-portada__perks">
+      <li><jobsy-icon name="truck" /> Pago 100% seguro</li>
+      <li><jobsy-icon name="circle-check" /> Envio rapido garantizado</li>
+      <li><jobsy-icon name="star" /> Marca lider verificada</li>
+    </ul>
+  </div>
+</section>
+
+<div class="contenedor tienda">
+  <div class="tienda__layout">
+    <!-- ---- Filtros ---- -->
+    <aside class="tienda__filters">
+      <h2 class="tienda__filters-title">Categorias</h2>
+
+      <ul class="tienda__cats">
+        <li>
+          <button type="button"
+            [class.is-active]="categoriaActiva() === null"
+            (click)="filtrarCategoria(null)">
+            Todas <span>{{ total() }}</span>
+          </button>
+        </li>
+
+        @for (cat of categories(); track cat.id) {
+          <li>
+            <button type="button"
+              [class.is-active]="categoriaActiva() === cat.nombre"
+              (click)="filtrarCategoria(cat.nombre)">
+              {{ cat.nombre }} <span>{{ cat.cantidadProductos }}</span>
+            </button>
+          </li>
+        }
+      </ul>
+
+      <div class="tienda__trust">
+        <h3>Compra con confianza</h3>
+        <ul>
+          <li><span><jobsy-icon name="credit-card" /></span> Pago seguro</li>
+          <li><span><jobsy-icon name="package" /></span> Envio confiable</li>
+          <li><span><jobsy-icon name="rotate-cw" /></span> Devoluciones</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ---- Catalogo ---- -->
+    <div class="tienda__catalog">
+      <div class="encabezado_seccion">
+        <h2>
+          @if (categoriaActiva()) { {{ categoriaActiva() }} } @else { Productos seleccionados }
+        </h2>
+
+        <a routerLink="/tienda/carrito" class="boton_secundario boton_chico">
+          Ver carrito ({{ cart.count() }})
+        </a>
+      </div>
+
+      @if (loading()) {
+        <jobsy-loading-spinner label="Cargando productos..." />
+      } @else if (products().length === 0) {
+        <jobsy-empty-state icon="package" title="Sin productos" message="No hay productos en esta categoria." />
+      } @else {
+        <div class="tienda__grid">
+          @for (product of products(); track product.id) {
+            <div class="tienda__item">
+              <jobsy-product-card [product]="product" (agregar)="agregar($event)" />
+
+              @if (added() === product.id) {
+                <p class="tienda__added"><jobsy-icon name="check" /> Agregado al carrito</p>
+              }
+            </div>
+          }
+        </div>
+
+        <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
+      }
+    </div>
+  </div>
+</div>

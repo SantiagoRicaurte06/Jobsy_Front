@@ -1,6 +1,247 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.admin-layout {
-  // TODO: estilos
+.marco_admin {
+  display: grid;
+  grid-template-columns: v.$sidebar-width 1fr;
+  min-height: 100vh;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+}
+
+// ============ Barra lateral ============
+.lateral_marco_admin {
+  display: flex;
+  flex-direction: column;
+  background: v.$color-sidebar; // respaldo si no hay soporte de cristal
+  color: v.$color-text-invert;
+  padding: v.$space-4;
+  border-right: 1px solid v.$glass-border-dark;
+
+  @supports (backdrop-filter: blur(1px)) {
+    background: linear-gradient(
+      180deg,
+      rgba(14, 33, 54, 0.94) 0%,
+      rgba(16, 44, 74, 0.90) 100%
+    );
+    -webkit-backdrop-filter: blur(v.$glass-blur) saturate(160%);
+    backdrop-filter: blur(v.$glass-blur) saturate(160%);
+  }
+
+  @include m.until(v.$bp-lg) {
+    flex-direction: row;
+    align-items: center;
+    gap: v.$space-4;
+    overflow-x: auto;
+  }
+}
+
+.marca_marco_admin {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding-bottom: v.$space-5;
+}
+
+.sello_marco_admin {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.usuario_marco_admin {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  padding: v.$space-3;
+  margin-bottom: v.$space-5;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: v.$radius-md;
+
+  strong { display: block; font-size: v.$font-size-sm; }
+  small { font-size: v.$font-size-xs; opacity: 0.6; }
+
+  @include m.until(v.$bp-lg) { margin-bottom: 0; }
+}
+
+.avatar_marco_admin {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: v.$color-primary-light;
+  border-radius: 50%;
+  font-weight: v.$font-weight-bold;
+}
+
+// ---- Navegacion ----
+.navegacion_marco_admin {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-1;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: v.$space-3;
+    padding: v.$space-3;
+    border-radius: v.$radius-md;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: v.$font-size-sm;
+
+    &:hover {
+      background: v.$color-sidebar-hover;
+      color: v.$color-text-invert;
+      text-decoration: none;
+    }
+
+    &.is-active {
+      background: v.$color-primary;
+      color: v.$color-text-invert;
+      font-weight: v.$font-weight-semibold;
+    }
+  }
+
+  @include m.until(v.$bp-lg) {
+    flex-direction: row;
+    align-items: center;
+
+    a { white-space: nowrap; }
+  }
+}
+
+.etiqueta_marco_admin { flex: 1; }
+
+.grupo_marco_admin {
+  margin: v.$space-4 0 v.$space-2;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.45;
+
+  @include m.until(v.$bp-lg) { display: none; }
+}
+
+.pildora_marco_admin {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 v.$space-1;
+  background: v.$color-primary-light;
+  border-radius: v.$radius-pill;
+  font-size: 10px;
+  font-weight: v.$font-weight-bold;
+}
+
+.salir_marco_admin {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  margin-top: auto;
+  padding: v.$space-3;
+  background: transparent;
+  border: none;
+  border-radius: v.$radius-md;
+  color: v.$color-danger;
+  font-family: inherit;
+  font-size: v.$font-size-sm;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover { background: rgba(214, 69, 69, 0.12); }
+
+  @include m.until(v.$bp-lg) { margin-top: 0; margin-left: auto; }
+}
+
+// ============ Contenido ============
+// Transparente a proposito: deja ver las manchas de color del body, que son
+// las que el cristal de los paneles desenfoca.
+.contenido_marco_admin {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: transparent;
+}
+
+.barra_superior_marco_admin {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  padding: v.$space-4 v.$space-5;
+  background: rgba(255, 255, 255, 0.92); // respaldo
+  border-bottom: 1px solid v.$glass-border;
+
+  @supports (backdrop-filter: blur(1px)) {
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(v.$glass-blur-strong) saturate(180%);
+    backdrop-filter: blur(v.$glass-blur-strong) saturate(180%);
+  }
+}
+
+.ruta_marco_admin {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  font-size: v.$font-size-sm;
+
+  span { color: v.$color-text-muted; }
+  strong { color: v.$color-text; }
+}
+
+.herramientas_marco_admin {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+}
+
+.buscador_marco_admin {
+  width: 260px;
+  padding: v.$space-2 v.$space-4;
+  background: v.$color-bg;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-pill;
+  font-family: inherit;
+  font-size: v.$font-size-sm;
+
+  &:focus {
+    outline: none;
+    border-color: v.$color-primary-light;
+  }
+
+  @include m.until(v.$bp-md) { display: none; }
+}
+
+.boton_icono_marco_admin {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  background: v.$color-bg;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+  cursor: pointer;
+
+  &:hover { background: v.$color-primary-bg; }
+}
+
+// Punto naranja de "hay notificaciones sin leer".
+.punto_marco_admin {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  background: v.$color-accent;
+  border-radius: 50%;
+}
+
+.principal_marco_admin {
+  flex: 1;
+  padding: v.$space-5;
 }

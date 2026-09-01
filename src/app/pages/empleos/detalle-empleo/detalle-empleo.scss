@@ -1,0 +1,151 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.detalle_empleo {
+  padding-block: v.$space-6;
+}
+
+.migas_detalle_empleo {
+  margin-bottom: v.$space-4;
+  font-size: v.$font-size-sm;
+}
+
+.rejilla_detalle_empleo {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  align-items: start;
+  gap: v.$space-5;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+}
+
+// ---- Columna principal ----
+.principal_detalle_empleo { overflow: hidden; }
+
+.imagen_detalle_empleo {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 21 / 9;
+  background: v.$color-primary-pale;
+  font-size: v.$font-size-4xl;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.cuerpo_detalle_empleo { padding: v.$space-5; }
+
+.etiquetas_detalle_empleo {
+  display: flex;
+  gap: v.$space-2;
+  margin-bottom: v.$space-3;
+}
+
+.titulo_detalle_empleo {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-xl;
+}
+
+.precio_detalle_empleo {
+  display: flex;
+  align-items: baseline;
+  gap: v.$space-2;
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-xl;
+}
+
+// ---- Datos clave ----
+.datos_detalle_empleo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-4;
+  margin: 0 0 v.$space-5;
+  padding: v.$space-4;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+
+  dt {
+    margin-bottom: v.$space-1;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: v.$color-text-muted;
+  }
+
+  dd {
+    margin: 0;
+    font-size: v.$font-size-sm;
+  }
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+.seccion_detalle_empleo {
+  margin-bottom: v.$space-5;
+
+  h2 {
+    margin-bottom: v.$space-3;
+    font-size: v.$font-size-base;
+  }
+}
+
+.lista_detalle_empleo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: v.$space-2;
+  font-size: v.$font-size-sm;
+  color: v.$color-success;
+}
+
+// ---- Panel lateral ----
+.lateral_detalle_empleo {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-4;
+  position: sticky;
+  top: calc(#{v.$header-height} + #{v.$space-4});
+
+  @include m.until(v.$bp-lg) { position: static; }
+}
+
+.llamada_detalle_empleo {
+  padding: v.$space-5;
+  text-align: center;
+
+  .boton_principal { margin-block: v.$space-4 v.$space-2; }
+}
+
+.precio_llamada_detalle_empleo {
+  margin: 0;
+  font-size: v.$font-size-2xl;
+}
+
+.nota_detalle_empleo {
+  margin: v.$space-3 0 0;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+}
+
+.seguridad_detalle_empleo {
+  padding: v.$space-4;
+
+  h3 {
+    margin-bottom: v.$space-3;
+    font-size: v.$font-size-sm;
+  }
+
+  li {
+    margin-bottom: v.$space-2;
+    padding-left: v.$space-4;
+    position: relative;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+
+    &::before {
+      content: '2';
+      position: absolute;
+      left: 0;
+      color: v.$color-accent;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+<div class="contenedor pago">
+  <h1 class="pago__title">Finalizar compra</h1>
+
+  <div class="pago__grid">
+    <div class="pago__main">
+      <!-- Selector de metodo de pago -->
+      <nav class="pago__methods">
+        @for (method of methods; track method.path) {
+          <a [routerLink]="method.path" routerLinkActive="is-active" class="pago__method">
+            <span aria-hidden="true"><jobsy-icon [name]="method.icon" /></span>
+            {{ method.label }}
+          </a>
+        }
+      </nav>
+
+      <div class="pago__panel tarjeta">
+        <router-outlet />
+      </div>
+    </div>
+
+    <!-- Resumen -->
+    <aside class="pago__summary tarjeta">
+      <h2 class="pago__summary-title">Tu pedido</h2>
+
+      <ul class="pago__items">
+        @for (item of cart.items(); track item.product.id) {
+          <li>
+            <span class="pago__item-qty">{{ item.cantidad }}&times;</span>
+            <span class="pago__item-name">{{ item.product.nombre }}</span>
+            <span>{{ item.product.precio * item.cantidad | cop }}</span>
+          </li>
+        }
+      </ul>
+
+      <dl class="pago__lines">
+        <div><dt>Subtotal</dt><dd>{{ cart.subtotal() | cop }}</dd></div>
+        <div><dt>Envio</dt><dd>{{ cart.envio() | cop }}</dd></div>
+        <div class="pago__lines-total">
+          <dt>Total</dt>
+          <dd class="precio">{{ cart.total() | cop }}</dd>
+        </div>
+      </dl>
+
+      <a routerLink="/tienda/carrito" class="pago__back"><jobsy-icon name="arrow-left" /> Volver al carrito</a>
+    </aside>
+  </div>
+</div>

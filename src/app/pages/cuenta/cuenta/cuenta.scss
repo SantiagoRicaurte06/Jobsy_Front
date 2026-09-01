@@ -1,0 +1,26 @@
+@use 'variables' as v;
+
+.pestanas_cuenta {
+  display: flex;
+  gap: v.$space-1;
+  margin-bottom: v.$space-4;
+  border-bottom: 1px solid v.$color-border;
+  overflow-x: auto;
+
+  a {
+    padding: v.$space-3 v.$space-4;
+    color: v.$color-text-muted;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+
+    &:hover { color: v.$color-text; text-decoration: none; }
+
+    &.is-active {
+      color: v.$color-primary;
+      border-bottom-color: v.$color-accent;
+    }
+  }
+}

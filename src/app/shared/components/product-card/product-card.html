@@ -1,4 +1,40 @@
-<!-- TODO: maquetar product-card -->
-<div class="product-card">
-  <p>product-card</p>
-</div>
+<article class="tarjeta_producto">
+  <div class="imagen_tarjeta_producto">
+    @if (product().imagenUrl) {
+      <img [src]="product().imagenUrl" [alt]="product().nombre" />
+    } @else {
+      <div class="reserva_tarjeta_producto" aria-hidden="true"><jobsy-icon name="sparkles" /></div>
+    }
+
+    @if (product().estado === 'destacado') {
+      <span class="distintivo_tarjeta_producto">Destacado</span>
+    }
+    @if (product().stock <= 5 && product().stock > 0) {
+      <span class="distintivo_tarjeta_producto distintivo_tarjeta_producto_aviso">Ultimas {{ product().stock }}</span>
+    }
+  </div>
+
+  <div class="cuerpo_tarjeta_producto">
+    <p class="categoria_tarjeta_producto">{{ product().categoria }}</p>
+
+    <h3 class="titulo_tarjeta_producto">
+      <a [routerLink]="['/tienda/producto', product().id]">{{ product().nombre }}</a>
+    </h3>
+
+    <p class="descripcion_tarjeta_producto">{{ product().descripcion }}</p>
+
+    <jobsy-rating-stars [value]="product().calificacion" [showValue]="false" />
+  </div>
+
+  <footer class="pie_tarjeta_producto">
+    <span class="precio_tarjeta_producto precio">{{ product().precio | cop }}</span>
+
+    <button
+      type="button"
+      class="boton_principal boton_chico"
+      [disabled]="product().stock === 0"
+      (click)="agregar.emit(product())">
+      {{ product().stock === 0 ? 'Agotado' : 'Agregar' }}
+    </button>
+  </footer>
+</article>

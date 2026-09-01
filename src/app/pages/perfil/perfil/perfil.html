@@ -1,0 +1,101 @@
+<section class="perfil">
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else {
+    <div class="encabezado_seccion">
+      <h1>Mi perfil</h1>
+      <a routerLink="/app/perfil/editar" class="boton_principal boton_chico">Editar perfil</a>
+    </div>
+
+    <!-- Cabecera -->
+    <header class="perfil__head tarjeta">
+      <div class="perfil__avatar">
+        @if (user()?.fotoUrl) {
+          <img [src]="user()!.fotoUrl" [alt]="'Foto de perfil de' +user()!.nombre" />
+        } @else {
+          <span aria-hidden="true">{{ user()?.nombre?.charAt(0) }}</span>
+          <span class="sr-only">{{ user()?.nombre}}</span>
+        }
+      </div>
+
+      <div class="perfil__identity">
+        <h2 class="perfil__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
+
+        <div class="perfil__badges">
+          <span class="pildora_info">{{ user()?.rol }}</span>
+          @if (user()?.verificado) {
+            <span class="pildora_exito"><jobsy-icon name="check" /> Verificado</span>
+          }
+        </div>
+
+        <jobsy-rating-stars [value]="calificacion" [reviews]="servicios" />
+
+        <p class="perfil__city"><jobsy-icon name="map-pin" /> {{ user()?.ciudad }}</p>
+      </div>
+
+      <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico">Cambiar foto</a>
+    </header>
+
+    <div class="perfil__grid">
+      <!-- Datos personales -->
+      <section class="perfil__block tarjeta">
+        <h3>Datos personales</h3>
+
+        <dl class="perfil__data">
+          <div><dt>Nombre</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
+          <div><dt>Correo</dt><dd>{{ user()?.email }}</dd></div>
+          <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
+          <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
+          <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro }}</dd></div>
+        </dl>
+      </section>
+
+      <!-- Especialidades -->
+      <section class="perfil__block tarjeta">
+        <h3>Especialidades</h3>
+
+        <ul class="perfil__skills">
+          @for (skill of especialidades; track skill) {
+            <li class="pildora_info">{{ skill }}</li>
+          }
+        </ul>
+
+        <h3 class="perfil__subtitle">Resumen de actividad</h3>
+
+        <div class="perfil__metrics">
+          <div>
+            <strong>{{ servicios }}</strong>
+            <span>Servicios</span>
+          </div>
+          <div>
+            <strong>{{ calificacion.toFixed(1) }}</strong>
+            <span>Calificacion</span>
+          </div>
+          <div>
+            <strong>100%</strong>
+            <span>Cumplimiento</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Enlaces relacionados -->
+    <nav class="perfil__links">
+      <a routerLink="/app/hoja-de-vida" class="tarjeta">
+        <span aria-hidden="true"><jobsy-icon name="file-text" /></span>
+        <div>
+          <strong>Hoja de vida</strong>
+          <span>Actualiza tu experiencia y estudios</span>
+        </div>
+      </a>
+
+      <a routerLink="/app/configuracion" class="tarjeta">
+        <span aria-hidden="true"><jobsy-icon name="settings" /></span>
+        <div>
+          <strong>Configuracion</strong>
+          <span>Notificaciones, privacidad y seguridad</span>
+        </div>
+      </a>
+    </nav>
+  }
+</section>

@@ -1,0 +1,108 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ---- Saldo ----
+.saldo_metodos_pago {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  padding: v.$space-5;
+  margin-bottom: v.$space-4;
+  background: v.$gradient-hero;
+  border: none;
+  color: v.$color-text-invert;
+}
+
+.etiqueta_saldo_metodos_pago {
+  display: block;
+  font-size: v.$font-size-xs;
+  opacity: 0.85;
+}
+
+.monto_saldo_metodos_pago {
+  display: block;
+  margin-top: v.$space-1;
+  font-size: v.$font-size-2xl;
+}
+
+// ---- Bloque ----
+.bloque_metodos_pago { padding: v.$space-5; }
+
+.encabezado_metodos_pago {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  margin-bottom: v.$space-4;
+
+  h2 { margin: 0; font-size: v.$font-size-base; }
+}
+
+.vacio_metodos_pago {
+  padding: v.$space-4;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+  text-align: center;
+}
+
+// ---- Lista ----
+.elemento_metodos_pago {
+  display: flex;
+  align-items: center;
+  gap: v.$space-4;
+  padding-block: v.$space-4;
+  border-bottom: 1px solid v.$color-border;
+
+  &:last-child { border-bottom: none; }
+
+  @include m.until(v.$bp-sm) {
+    flex-wrap: wrap;
+    row-gap: v.$space-2;
+  }
+}
+
+.icono_metodos_pago {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-lg;
+}
+
+.info_metodos_pago {
+  flex: 1;
+  min-width: 0;
+
+  strong { display: block; font-size: v.$font-size-sm; }
+}
+
+.enlace_metodos_pago,
+.quitar_metodos_pago {
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: v.$font-size-xs;
+  cursor: pointer;
+
+  &:hover { text-decoration: underline; }
+}
+
+.enlace_metodos_pago { color: v.$color-primary-light; }
+.quitar_metodos_pago { color: v.$color-danger; }
+
+.nota_metodos_pago {
+  margin: v.$space-5 0 0;
+  padding: v.$space-3;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+  line-height: 1.6;
+}

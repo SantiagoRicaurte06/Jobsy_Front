@@ -1,0 +1,67 @@
+<section class="mis_postulaciones">
+  <div class="encabezado_seccion">
+    <h1>Mis Postulaciones</h1>
+    </div>
+
+<!--Filstros por estado-->
+ <nav class="filtros_mis_postulaciones">
+  @for (f of filtros; track f.value) {
+    <button type="button"
+      class="filtro_mis_postulaciones"
+      [class.is-active]="filtro() === f.value"
+      (click)="filtro.set(f.value)">
+      {{ f.label }}
+    </button>
+  }
+ </nav>
+
+  @if (loading()) {
+    <jobsy-loading-spinner />
+  } @else if (visibles().length === 0) {
+    <div class="tarjeta">
+      <jobsy-empty-state
+        icon="clipboard-list"
+        title="Sin postulaciones"
+        message="cuando te postules a una oferta, aparecera aqui.">
+        <a routerLink="/empleos" class="boton_principal">Buscar empleos</a>
+        </jobsy-empty-state>
+    </div>
+  }@else {
+    <ul class="lista_mis_postulaciones">
+      @for (row of visibles(); track row.application.id) {
+        <li class="elemento_mis_postulaciones tarjeta">
+          <div class="imagen_mis_postulaciones" aria-hidden="true"><jobsy-icon name="house" /></div>
+
+          <div class="info_mis_postulaciones">
+            <h2>{{ row.job?.titulo ?? 'Oferta' }}</h2>
+            <p class="texto_mini texto_gris">
+              {{ row.job?.direccion }}@if (row.job) {, {{ row.job.ciudad }}}
+            </p>
+            @if (row.job) {
+              <p class="precio">{{ row.job.precioHora | cop }} / hora</p>
+            }
+            <p class="texto_mini texto_gris">Postulado el {{ row.application.fechaPostulacion }}</p>
+          </div>
+
+          <div class="estado_mis_postulaciones">
+            <span [class]="badgeClass(row.application.estado)">
+              {{ label(row.application.estado) }}
+            </span>
+          </div>
+
+          <div class="acciones_mis_postulaciones">
+            @if (row.job) {
+              <a [routerLink]="['/empleos', row.job.id]" class="boton_simple boton_chico">Ver oferta</a>
+            }
+            @if (row.application.estado === 'pendiente') {
+              <button type="button" class="cancelar_mis_postulaciones"
+                (click)="cancelar(row.application.id)">
+                Cancelar
+              </button>
+            }
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>

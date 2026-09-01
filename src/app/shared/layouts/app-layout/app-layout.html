@@ -1,4 +1,25 @@
-<!-- TODO: maquetar app-layout -->
-<div class="app-layout">
-  <router-outlet />
+<div class="marco_privado">
+  <jobsy-header />
+
+  <div class="cuerpo_marco_privado">
+    <div class="interior_marco_privado">
+      <!-- Menu lateral del usuario -->
+      <aside class="lateral_marco_privado">
+        <nav class="menu_marco_privado">
+          @for (item of menu; track item.path) {
+            <a [routerLink]="item.path" routerLinkActive="is-active">
+              <span class="icono_marco_privado" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
+              {{ item.label }}
+            </a>
+          }
+        </nav>
+      </aside>
+
+      <main class="principal_marco_privado">
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+
+  <jobsy-footer />
 </div>
