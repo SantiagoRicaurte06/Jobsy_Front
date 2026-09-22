@@ -1,10 +1,11 @@
 import { Component, input } from '@angular/core';
+import { IconComponent } from '../icon/icon';
 
 /** Barra de progreso del asistente de registro. */
 @Component({
   selector: 'jobsy-step-progress',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './step-progress.html',
   styleUrl: './step-progress.scss',
 })

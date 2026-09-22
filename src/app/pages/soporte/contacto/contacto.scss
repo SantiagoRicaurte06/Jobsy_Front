@@ -1,0 +1,80 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.grid_contacto {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: v.$space-6;
+  align-items: start;
+
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ---- Canales ----
+.columna_canales {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-4;
+}
+
+.tarjeta_canal {
+  display: flex;
+  align-items: flex-start;
+  gap: v.$space-4;
+  padding: v.$space-5;
+
+  h3 { margin: 0 0 v.$space-1; font-size: v.$font-size-sm; }
+}
+
+.dato_canal {
+  margin: 0 0 v.$space-1;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-primary;
+}
+
+.icono_valor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: v.$radius-md;
+  background: v.$color-primary-pale;
+  color: v.$color-primary;
+  font-size: v.$font-size-lg;
+}
+
+// ---- Formulario ----
+.tarjeta_formulario_contacto {
+  padding: v.$space-6;
+}
+
+.titulo_formulario_contacto {
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-lg;
+}
+
+// ---- Confirmacion ----
+.confirmacion_contacto {
+  text-align: center;
+  padding-block: v.$space-6;
+
+  h2 { margin: v.$space-4 0 v.$space-2; }
+  p { margin: 0 0 v.$space-5; }
+}
+
+.icono_confirmacion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: v.$color-success-pale;
+  color: v.$color-success;
+  font-size: v.$font-size-2xl;
+}

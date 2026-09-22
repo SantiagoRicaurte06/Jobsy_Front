@@ -1,0 +1,141 @@
+<section class="centro-reportes">
+  <div class="encabezado_seccion">
+    <h1>Centro de reportes</h1>
+    <a routerLink="/app/reportes/visual" class="boton_simple boton_chico">Ver estadisticas</a>
+  </div>
+
+  <div class="centro-reportes__grid">
+    <!-- ---- Nuevo reporte ---- -->
+    <section class="centro-reportes__form tarjeta">
+      <h2>Crear un reporte</h2>
+      <p class="centro-reportes__hint">Cuentanos que ocurrio y te responderemos en menos de 48 horas.</p>
+
+      @if (enviado()) {
+        <p class="centro-reportes__sent" role="status"><jobsy-icon name="check" /> Reporte enviado. Te contactaremos pronto.</p>
+      }
+
+      <form (ngSubmit)="enviar()">
+        <div class="grupo_campo">
+          <label class="etiqueta">Tipo de reporte</label>
+          <div class="centro-reportes__types">
+            @for (t of tipos; track t.value) {
+              <button type="button" class="centro-reportes__type"
+                [class.is-selected]="tipo() === t.value"
+                (click)="tipo.set(t.value)">
+                <span aria-hidden="true"><jobsy-icon [name]="t.icon" /></span>
+                <strong>{{ t.label }}</strong>
+                <span class="centro-reportes__type-text">{{ t.text }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="grupo_campo">
+          <label class="etiqueta" for="asunto">Asunto</label>
+          <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una linea"
+            [ngModel]="asunto()" (ngModelChange)="asunto.set($event)" name="asunto" />
+        </div>
+
+        <div class="grupo_campo">
+          <label class="etiqueta" for="descripcion">Descripcion</label>
+          <textarea id="descripcion" class="area_texto"
+            placeholder="Describe con detalle que paso, cuando y en que pantalla."
+            [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+        </div>
+
+        <button type="submit" class="boton_principal boton_ancho" [disabled]="enviando()">
+          {{ enviando() ? 'Creando...' : 'Crear reporte' }}
+        </button>
+      </form>
+    </section>
+
+    <!-- ---- Historial / conversacion y ayuda ---- -->
+    <div class="centro-reportes__side">
+      <section class="tarjeta centro-reportes__history">
+        @if (seleccionado(); as r) {
+          <!-- ===== Conversacion ===== -->
+          <div class="chat">
+            <header class="chat__head">
+              <button type="button" class="chat__back" (click)="volver()" aria-label="Volver a mis reportes">
+                &#8249;
+              </button>
+              <div class="chat__head-info">
+                <strong>{{ r.asunto }}</strong>
+                <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
+              </div>
+            </header>
+
+            <ul class="chat__messages">
+              @for (m of r.mensajes ?? []; track $index) {
+                <li class="chat__msg" [class.is-user]="m.autor === 'usuario'">
+                  <div class="chat__bubble">
+                    @if (m.autor === 'soporte') {
+                      <span class="chat__author">Soporte Jobsy</span>
+                    }
+                    <p>{{ m.texto }}</p>
+                    <span class="chat__time">{{ cuando(m.fecha) }}</span>
+                  </div>
+                </li>
+              }
+            </ul>
+
+            @if (puedeChatear()) {
+              <form class="chat__composer" (ngSubmit)="enviarMensaje()">
+                <input class="campo" placeholder="Escribe un mensaje..." autocomplete="off"
+                  [ngModel]="nuevoMensaje()" (ngModelChange)="nuevoMensaje.set($event)" name="mensaje" />
+                <button type="submit" class="boton_principal boton_chico" [disabled]="!nuevoMensaje().trim()">
+                  Enviar
+                </button>
+              </form>
+            } @else {
+              <p class="chat__closed">
+                Este reporte esta {{ r.estado }}. No se pueden enviar mas mensajes.
+              </p>
+            }
+          </div>
+        } @else {
+          <!-- ===== Lista de reportes ===== -->
+          <h2>Mis reportes</h2>
+
+          @if (reports().length === 0) {
+            <p class="centro-reportes__empty">Aun no has creado reportes.</p>
+          } @else {
+            <ul class="centro-reportes__list">
+              @for (r of reports(); track r.id) {
+                <li>
+                  <button type="button" class="centro-reportes__report" (click)="seleccionar(r.id)">
+                    <div class="centro-reportes__report-head">
+                      <strong>{{ r.asunto }}</strong>
+                      <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
+                    </div>
+                    <p class="texto_mini texto_gris centro-reportes__preview">{{ ultimoMensaje(r) }}</p>
+                    <span class="texto_mini texto_gris">{{ cuando(r.fecha) }} &middot; Abrir chat &rsaquo;</span>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        }
+      </section>
+
+      <section class="tarjeta centro-reportes__faq">
+        <h2>Preguntas frecuentes</h2>
+
+        <ul>
+          @for (faq of faqs; track faq.q; let i = $index) {
+            <li>
+              <button type="button" (click)="toggleFaq(i)" [attr.aria-expanded]="faqAbierta() === i">
+                {{ faq.q }}
+                <span aria-hidden="true">{{ faqAbierta() === i ? '−' : '+' }}</span>
+              </button>
+
+              @if (faqAbierta() === i) {
+                <p>{{ faq.a }}</p>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,113 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.configuracion {
+  &__saved {
+    padding: v.$space-3 v.$space-4;
+    margin-bottom: v.$space-4;
+    background: v.$color-success-pale;
+    border-radius: v.$radius-md;
+    color: v.$color-success;
+    font-size: v.$font-size-sm;
+  }
+
+  &__block {
+    padding: v.$space-5;
+    margin-bottom: v.$space-4;
+
+    h2 { margin: 0 0 v.$space-1; font-size: v.$font-size-base; }
+  }
+
+  &__hint {
+    margin: 0 0 v.$space-4;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    line-height: 1.6;
+  }
+
+  // ---- Interruptores ----
+  &__switches {
+    &--top { margin-top: v.$space-4; }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: v.$space-4;
+      padding-block: v.$space-3;
+      border-bottom: 1px solid v.$color-border;
+
+      &:last-child { border-bottom: none; }
+
+      strong {
+        display: block;
+        font-size: v.$font-size-sm;
+        font-weight: v.$font-weight-medium;
+      }
+
+      span {
+        font-size: v.$font-size-xs;
+        color: v.$color-text-muted;
+      }
+    }
+  }
+
+  &__switch {
+    flex-shrink: 0;
+    width: 44px;
+    height: 24px;
+    appearance: none;
+    background: v.$color-border-strong;
+    border-radius: v.$radius-pill;
+    cursor: pointer;
+    position: relative;
+    transition: background v.$transition-fast;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      background: v.$color-white;
+      border-radius: 50%;
+      transition: transform v.$transition-fast;
+    }
+
+    &:checked {
+      background: v.$color-success;
+
+      &::after { transform: translateX(20px); }
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: v.$space-3;
+
+    @include m.until(v.$bp-md) { grid-template-columns: 1fr; }
+  }
+
+  // ---- Zona peligrosa ----
+  &__danger {
+    border-color: v.$color-danger;
+
+    h2 { color: v.$color-danger; }
+  }
+
+  &__delete {
+    padding: v.$space-3 v.$space-5;
+    background: transparent;
+    border: 1px solid v.$color-danger;
+    border-radius: v.$radius-md;
+    color: v.$color-danger;
+    font-family: inherit;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    cursor: pointer;
+
+    &:hover { background: v.$color-danger; color: v.$color-text-invert; }
+  }
+}

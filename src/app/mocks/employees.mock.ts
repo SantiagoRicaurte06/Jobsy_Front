@@ -1,4 +1,5 @@
 import { Employee } from '../core/models';
+import { avatar } from './images.mock';
 
 // TEMPORAL: reemplazar por Usuarios_Api
 export const MOCK_EMPLOYEES: Employee[] = [
@@ -9,6 +10,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
     especialidades: ['Limpieza profunda', 'Zonas verdes', 'Cocina'],
     experiencia: '6 anos trabajando en Sirivana y Manchas, Yopal',
     ciudad: 'Yopal', disponible: true,
+    fotoUrl: avatar('Martha'),
   },
   {
     id: 'e2', nombre: 'Jose Luis R.',
@@ -17,6 +19,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
     especialidades: ['Limpieza profunda', 'Bioseguridad', 'Mantenimiento'],
     experiencia: 'Ideal para apartamentos modernos y oficinas en el Centro, Yopal',
     ciudad: 'Yopal', disponible: true,
+    fotoUrl: avatar('JoseLuis'),
   },
   {
     id: 'e3', nombre: 'Carmen E.',
@@ -25,5 +28,6 @@ export const MOCK_EMPLOYEES: Employee[] = [
     especialidades: ['Limpieza', 'Mascotas', 'Planchado'],
     experiencia: 'Preferida por familias en El Alcaravan por su buen trato',
     ciudad: 'Yopal', disponible: true,
+    fotoUrl: avatar('Carmen'),
   },
 ];

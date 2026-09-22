@@ -1,0 +1,53 @@
+<section class="inicio_privado">
+  <!-- Bienvenida -->
+  <header class="bienvenida_inicio_privado tarjeta">
+    <div>
+      <h1 class="titulo_inicio_privado">Hola, {{ user()?.nombre }} <jobsy-icon name="hand" /></h1>
+      <p class="texto_inicio_privado">
+        Este es tu panel. Aqui puedes ver tus postulaciones y las ofertas nuevas de tu zona.
+      </p>
+    </div>
+
+    <a routerLink="/empleos" class="boton_principal">Buscar empleo</a>
+  </header>
+
+  <!-- Metricas -->
+  <div class="cifras_inicio_privado">
+    <div class="cifra_inicio_privado tarjeta">
+      <strong>{{ applications().length }}</strong>
+      <span>Postulaciones activas</span>
+    </div>
+    <div class="cifra_inicio_privado tarjeta">
+      <strong>{{ jobs().length }}</strong>
+      <span>Ofertas nuevas</span>
+    </div>
+    <div class="cifra_inicio_privado tarjeta">
+      <strong>{{ user()?.verificado ? 'Si' : 'No' }}</strong>
+      <span>Perfil verificado</span>
+    </div>
+  </div>
+
+  <!-- Accesos rapidos -->
+  <nav class="accesos_inicio_privado">
+    @for (s of shortcuts; track s.path) {
+      <a [routerLink]="s.path" class="acceso_inicio_privado tarjeta">
+        <span aria-hidden="true"><jobsy-icon [name]="s.icon" /></span>
+        {{ s.label }}
+      </a>
+    }
+  </nav>
+
+  <!-- Ofertas recomendadas -->
+  <section class="seccion_inicio_privado">
+    <div class="encabezado_seccion">
+      <h2>Ofertas para ti</h2>
+      <a routerLink="/empleos">Ver todas <jobsy-icon name="arrow-right" /></a>
+    </div>
+
+    <div class="rejilla_inicio_privado">
+      @for (job of jobs(); track job.id) {
+        <jobsy-job-card [job]="job" />
+      }
+    </div>
+  </section>
+</section>

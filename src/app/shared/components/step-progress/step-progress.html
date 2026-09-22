@@ -5,7 +5,11 @@
       [class.is-done]="i < current()"
       [class.is-current]="i === current()">
       <span class="punto_pasos">
-        {{ i < current() ? '✓' : i + 1 }}
+        @if (i < current()) {
+          <jobsy-icon name="check" />
+        } @else {
+          {{ i + 1 }}
+        }
       </span>
       <span class="etiqueta_pasos">{{ step }}</span>
     </li>

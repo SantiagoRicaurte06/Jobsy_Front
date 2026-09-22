@@ -1,0 +1,66 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.crear_cuenta {
+  width: 100%;
+  max-width: 460px;
+  padding: v.$space-7 v.$space-8; // igualado al padding de .acceso / .recuperar
+  border-top: 4px solid v.$color-accent; // la franja naranja que faltaba
+  border-radius: v.$radius-lg;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.10),
+    0 24px 48px rgba(0, 0, 0, 0.06);
+}
+
+.marca_crear_cuenta {
+  &:hover { text-decoration: none; }
+}
+
+.titulo_crear_cuenta {
+  margin: v.$space-5 0 v.$space-2;
+  font-size: v.$font-size-xl; // igualado a .titulo_acceso para consistencia entre pantallas
+}
+
+.encabezado_crear_cuenta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: v.$space-6;
+}
+
+.subtitulo_crear_cuenta {
+  margin: 0;
+  font-size: v.$font-size-xs;
+  color: v.$color-primary-light;
+}
+
+.fila_crear_cuenta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-3;
+  margin-bottom: v.$space-5; // faltaba separación con el siguiente grupo de campo
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+.terminos_crear_cuenta {
+  margin-bottom: v.$space-4;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+  display: flex; // "align-items" no hace nada sin display:flex declarado
+  align-items: flex-start;
+  gap: v.$space-2;
+
+  input { margin-top: 2px; }
+}
+
+.acceso_crear_cuenta {
+  margin: v.$space-5 0 0;
+  text-align: center;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+
+  a { font-weight: v.$font-weight-semibold; }
+}

@@ -1,0 +1,96 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ---- Filtros ----
+.filtros_blog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+  margin-bottom: v.$space-6;
+}
+
+.ficha_blog {
+  padding: v.$space-2 v.$space-4;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  color: v.$color-text-muted;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  cursor: pointer;
+  transition: background v.$transition-fast, color v.$transition-fast, border-color v.$transition-fast;
+
+  &:hover { border-color: v.$color-primary-light; color: v.$color-primary; }
+
+  &.is-active {
+    background: v.$color-primary;
+    border-color: v.$color-primary;
+    color: v.$color-text-invert;
+  }
+}
+
+// ---- Grid de posts ----
+.rejilla_blog {
+  @include m.grid-cards(300px);
+}
+
+.tarjeta_post {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.foto_post {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.cuerpo_post {
+  padding: v.$space-5;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-2;
+}
+
+.titulo_post {
+  margin: v.$space-1 0 0;
+  font-size: v.$font-size-base;
+  line-height: 1.3;
+}
+
+.resumen_post {
+  margin: 0;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+  line-height: 1.6;
+  @include m.line-clamp(3);
+}
+
+.meta_post {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-4;
+  margin-top: v.$space-2;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space-1;
+  }
+}
+
+// ---- Newsletter ----
+.form_newsletter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-3;
+
+  .campo {
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.92);
+  }
+}

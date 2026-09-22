@@ -1,0 +1,52 @@
+<div class="metodos_pago">
+  <!-- Saldo Jobsy -->
+  <section class="saldo_metodos_pago tarjeta">
+    <div>
+      <span class="etiqueta_saldo_metodos_pago">Saldo Jobsy</span>
+      <strong class="monto_saldo_metodos_pago">${{ saldoJobsy().toLocaleString('es-CO') }}</strong>
+    </div>
+
+    <button type="button" class="boton_secundario boton_chico">Recargar</button>
+  </section>
+
+  <!-- Metodos guardados -->
+  <section class="tarjeta bloque_metodos_pago">
+    <div class="encabezado_metodos_pago">
+      <h2>Metodos de pago guardados</h2>
+      <button type="button" class="boton_principal boton_chico">+ Agregar metodo</button>
+    </div>
+
+    @if (methods().length === 0) {
+      <p class="vacio_metodos_pago">No tienes metodos de pago guardados.</p>
+    } @else {
+      <ul class="lista_metodos_pago">
+        @for (m of methods(); track m.id) {
+          <li class="elemento_metodos_pago">
+            <span class="icono_metodos_pago" aria-hidden="true"><jobsy-icon [name]="m.icono" /></span>
+
+            <div class="info_metodos_pago">
+              <strong>{{ m.titulo }}</strong>
+              <span class="texto_mini texto_gris">{{ m.detalle }}</span>
+            </div>
+
+            @if (m.principal) {
+              <span class="pildora_exito">Principal</span>
+            } @else {
+              <button type="button" class="enlace_metodos_pago" (click)="hacerPrincipal(m.id)">
+                Hacer principal
+              </button>
+            }
+
+            <button type="button" class="quitar_metodos_pago" (click)="eliminar(m.id)">
+              Eliminar
+            </button>
+          </li>
+        }
+      </ul>
+    }
+
+    <p class="nota_metodos_pago">
+      <jobsy-icon name="lock" /> Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el numero completo de tu tarjeta.
+    </p>
+  </section>
+</div>

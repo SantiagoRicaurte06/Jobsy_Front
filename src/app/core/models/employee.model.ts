@@ -12,3 +12,11 @@ export interface Employee {
   ciudad: string;
   disponible: boolean;
 }
+
+/** Resena que un usuario deja en el perfil de un empleado. */
+export interface EmployeeReview {
+  autor: string;
+  estrellas: number;
+  texto: string;
+  fecha: string;
+}

@@ -1,6 +1,6 @@
 <form class="barra_busqueda" (ngSubmit)="submit()">
   <div class="campo_barra_busqueda">
-    <span class="icono_barra_busqueda" aria-hidden="true">&#128269;</span>
+    <span class="icono_barra_busqueda" aria-hidden="true"><jobsy-icon name="search" /></span>
     <input
       type="search"
       class="entrada_barra_busqueda"
@@ -13,7 +13,7 @@
 
   @if (showCity()) {
     <div class="campo_barra_busqueda campo_barra_busqueda_ciudad">
-      <span class="icono_barra_busqueda" aria-hidden="true">&#128205;</span>
+      <span class="icono_barra_busqueda" aria-hidden="true"><jobsy-icon name="map-pin" /></span>
       <input
         type="text"
         class="entrada_barra_busqueda"

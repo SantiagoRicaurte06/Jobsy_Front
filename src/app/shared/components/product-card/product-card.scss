@@ -13,7 +13,6 @@
   aspect-ratio: 1;
   background: v.$color-bg;
 
-  // Son fotos, no recortes sobre fondo blanco: se recortan a la caja.
   img {
     width: 100%;
     height: 100%;
@@ -41,7 +40,6 @@
   font-weight: v.$font-weight-semibold;
 }
 
-// Aviso de ultimas unidades: va abajo y en rojo.
 .distintivo_tarjeta_producto_aviso {
   background: v.$color-danger;
   top: auto;
@@ -55,7 +53,7 @@
 
 .categoria_tarjeta_producto {
   margin: 0 0 v.$space-1;
-  font-size: v.$font-size-xs;
+  font-size: v.$font-size-base; // antes sm
   font-weight: v.$font-weight-semibold;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -64,7 +62,7 @@
 
 .titulo_tarjeta_producto {
   margin: 0 0 v.$space-2;
-  font-size: v.$font-size-sm;
+  font-size: v.$font-size-lg; // antes base
 
   a { color: v.$color-text; }
 
@@ -76,7 +74,7 @@
 
 .descripcion_tarjeta_producto {
   margin: 0 0 v.$space-3;
-  font-size: v.$font-size-xs;
+  font-size: v.$font-size-base; // antes sm
   color: v.$color-text-muted;
   @include m.line-clamp(2);
 }

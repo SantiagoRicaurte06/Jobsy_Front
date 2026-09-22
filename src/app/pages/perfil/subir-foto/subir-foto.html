@@ -1,0 +1,46 @@
+<section class="subir-foto">
+  <div class="encabezado_seccion">
+    <h1>Foto de perfil</h1>
+    <a routerLink="/app/perfil" class="boton_simple boton_chico">Volver</a>
+  </div>
+
+  <div class="subir-foto__card tarjeta">
+    <p class="subir-foto__intro">
+      Una buena foto genera confianza. Usa una imagen clara de tu rostro, con buena luz y fondo neutro.
+    </p>
+
+    <!-- Zona de carga -->
+    <div class="subir-foto__drop">
+      @if (preview()) {
+        <img [src]="preview()" alt="Vista previa de tu foto" class="subir-foto__preview" />
+      } @else {
+        <span class="subir-foto__icon" aria-hidden="true"><jobsy-icon name="camera" /></span>
+        <p class="texto_chico texto_gris">Arrastra tu foto aqui o seleccionala</p>
+      }
+
+      <label class="boton_secundario boton_chico" for="foto">
+        {{ preview() ? 'Cambiar imagen' : 'Seleccionar imagen' }}
+      </label>
+      <input id="foto" type="file" accept="image/*" class="oculto" (change)="onFile($event)" />
+    </div>
+
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
+
+    <ul class="subir-foto__tips">
+      <li><jobsy-icon name="check" /> Formatos JPG o PNG</li>
+      <li><jobsy-icon name="check" /> Tamano maximo 2 MB</li>
+      <li><jobsy-icon name="check" /> Preferiblemente cuadrada (1:1)</li>
+    </ul>
+
+    <footer class="subir-foto__actions">
+      @if (preview()) {
+        <button type="button" class="boton_simple" (click)="quitar()">Quitar</button>
+      }
+      <button type="button" class="boton_principal" [disabled]="!archivo() || subiendo()" (click)="subir()">
+        {{ subiendo() ? 'Subiendo...' : 'Guardar foto' }}
+      </button>
+    </footer>
+  </div>
+</section>

@@ -1,0 +1,358 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ============ Utilidades locales ============
+.seccion { padding-block: v.$space-7; }
+
+.enlace_seccion {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+}
+
+.rejilla_inicio { @include m.grid-cards(320px); }
+
+// ============ PORTADA ============
+.portada {
+  background: v.$gradient-hero;
+  color: v.$color-text-invert;
+  overflow: hidden;
+}
+
+.interior_portada {
+  @include m.container;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: v.$space-6;
+  padding-block: v.$space-8;
+
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: 1fr;
+    padding-block: v.$space-7;
+  }
+}
+
+.pildora_portada {
+  display: inline-block;
+  padding: v.$space-1 v.$space-4;
+  margin-bottom: v.$space-5;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: v.$radius-pill;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-medium;
+}
+
+.titulo_portada {
+  margin: 0 0 v.$space-4;
+  font-size: v.$font-size-3xl;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+
+  em {
+    font-style: normal;
+    color: v.$color-accent-light;
+  }
+
+  @include m.from(v.$bp-lg) { font-size: v.$font-size-4xl; }
+}
+
+.texto_portada {
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-sm;
+  line-height: 1.7;
+  opacity: 0.92;
+}
+
+.acciones_portada {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-3;
+}
+
+// La ilustracion se oculta en pantallas pequenas.
+.media_portada {
+  @include m.until(v.$bp-lg) { display: none; }
+}
+
+.foto_portada {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  border-radius: v.$radius-xl;
+  box-shadow: v.$shadow-lg;
+}
+
+// ============ CARRUSEL PORTADA ============
+.carrusel_portada {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11; // el ratio ahora vive en el contenedor, no en cada foto
+  border-radius: v.$radius-xl;
+  overflow: hidden;
+  box-shadow: v.$shadow-lg;
+
+  &__pista {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.35);
+    color: v.$color-text-invert;
+    font-size: v.$font-size-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background v.$transition-fast;
+    z-index: 2;
+
+    &:hover { background: rgba(0, 0, 0, 0.55); }
+
+    &--izq { left: v.$space-3; }
+    &--der { right: v.$space-3; }
+  }
+
+  &__puntos {
+    position: absolute;
+    bottom: v.$space-3;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: v.$space-2;
+    z-index: 2;
+  }
+
+  &__punto {
+    width: 8px;
+    height: 8px;
+    border-radius: v.$radius-pill;
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    &--activo {
+      background: v.$color-text-invert;
+      width: 22px;
+    }
+  }
+
+  &__foto {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: unset; // se pisa el aspect-ratio de .foto_portada, ya definido arriba
+    box-shadow: none; // idem con la sombra: la pone .carrusel_portada, no cada imagen
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+
+    &--activa { opacity: 1; }
+  }
+}
+
+// ============ CIFRAS ============
+.cifras {
+  background: v.$color-primary-dark;
+  color: v.$color-text-invert;
+}
+
+.interior_cifras {
+  @include m.container;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-block: v.$space-5;
+
+  @include m.until(v.$bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: v.$space-4;
+  }
+}
+
+.elemento_cifras {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  strong { font-size: v.$font-size-xl; }
+  span { font-size: v.$font-size-xs; opacity: 0.75; }
+
+  // Separador vertical entre cifras, salvo antes de la primera.
+  & + & {
+    @include m.from(v.$bp-md) {
+      border-left: 1px solid rgba(255, 255, 255, 0.18);
+    }
+  }
+}
+
+// ============ BUSCADOR ============
+.buscador {
+  padding-block: v.$space-6;
+  background: transparent;
+}
+
+.interior_buscador {
+  @include m.container;
+  max-width: 860px;
+}
+
+.filtros_buscador {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: v.$space-2;
+  margin-top: v.$space-4;
+}
+
+.ficha_buscador {
+  padding: v.$space-2 v.$space-4;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid v.$glass-border;
+  border-radius: v.$radius-pill;
+  font-size: v.$font-size-sm; // antes xs
+  color: v.$color-text-muted;
+  cursor: pointer;
+  transition: all v.$transition-fast;
+
+  &:hover { border-color: v.$color-primary-light; }
+
+  &.is-active {
+    background: v.$color-primary-light;
+    border-color: v.$color-primary-light;
+    color: v.$color-text-invert;
+    font-weight: v.$font-weight-semibold;
+  }
+}
+
+// ============ SOBRE NOSOTROS ============
+.nosotros {
+  padding-block: v.$space-7;
+  background: rgba(234, 244, 252, 0.55);
+}
+
+.interior_nosotros {
+  @include m.container;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: v.$space-7;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+}
+
+.titulo_nosotros {
+  margin: v.$space-3 0 v.$space-4;
+  font-size: v.$font-size-2xl;
+  line-height: 1.2;
+
+  em {
+    font-style: normal;
+    color: v.$color-primary-light;
+  }
+}
+
+.texto_nosotros {
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+  line-height: 1.7;
+}
+
+.ventajas_nosotros {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: v.$space-3;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    padding: v.$space-3;
+    background: v.$color-surface;
+    border: 1px solid v.$glass-border;
+    border-radius: v.$radius-md;
+    box-shadow: v.$shadow-sm;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-medium;
+  }
+
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+}
+
+// ---- Columna derecha ----
+.foto_nosotros {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  margin-bottom: v.$space-4;
+  border-radius: v.$radius-xl;
+  box-shadow: v.$shadow-md;
+}
+
+.cifras_nosotros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$space-3;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: v.$space-3;
+    background: v.$color-surface;
+    border: 1px solid v.$glass-border;
+    border-radius: v.$radius-md;
+    box-shadow: v.$shadow-sm;
+    text-align: center;
+  }
+
+  strong { font-size: v.$font-size-lg; color: v.$color-primary; }
+  span { font-size: 10px; color: v.$color-text-muted; }
+}
+
+// ============ LLAMADA FINAL ============
+.llamada {
+  background: v.$gradient-band;
+  color: v.$color-text-invert;
+}
+
+.interior_llamada {
+  @include m.container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-6;
+  padding-block: v.$space-7;
+
+  @include m.until(v.$bp-lg) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.titulo_llamada {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-xl;
+}
+
+.texto_llamada {
+  margin: 0;
+  font-size: v.$font-size-sm;
+  line-height: 1.7;
+  opacity: 0.92;
+}
+
+.acciones_llamada {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-3;
+}

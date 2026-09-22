@@ -24,6 +24,16 @@ export interface RegistrationDraft {
   fotoUrl: string;
 }
 
+/**
+ * Registro ya persistido (simula el documento que guardaria Usuarios_Api).
+ * Reune todo lo capturado en el formulario mas los campos que genera el backend.
+ */
+export interface UsuarioRegistrado extends RegistrationDraft {
+  id: string;
+  fechaRegistro: string;
+  verificado: boolean;
+}
+
 const EMPTY: RegistrationDraft = {
   nombre: '', apellido: '', email: '', password: '', rol: null,
   nacionalidad: '', genero: '', fechaNacimiento: '', documento: '',
@@ -42,8 +52,12 @@ export class RegistrationService {
   readonly draft = this._draft.asReadonly();
   readonly rol = computed(() => this._draft().rol);
 
-  /** Pasos visibles en la barra de progreso. */
-  readonly steps = ['Datos personales', 'Modalidad de trabajo', 'Ubicacion y foto'];
+  /** Pasos visibles en la barra de progreso. El empleador no elige modalidad de trabajo. */
+  readonly steps = computed(() =>
+    this.rol() === 'empleador'
+      ? ['Datos personales', 'Ubicacion y foto']
+      : ['Datos personales', 'Modalidad de trabajo', 'Ubicacion y foto']
+  );
 
   patch(partial: Partial<RegistrationDraft>): void {
     this._draft.update((d) => ({ ...d, ...partial }));

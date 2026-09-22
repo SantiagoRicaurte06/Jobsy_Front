@@ -1,0 +1,62 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.billetera {
+  &__title {
+    margin: 0 0 v.$space-1;
+    font-size: v.$font-size-lg;
+  }
+
+  &__subtitle {
+    margin: 0 0 v.$space-4;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+
+  &__demo {
+    padding: v.$space-3;
+    margin-bottom: v.$space-5;
+    background: v.$color-warning-pale;
+    border-radius: v.$radius-md;
+    font-size: v.$font-size-xs;
+    color: v.$color-warning;
+  }
+
+  &__options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: v.$space-2;
+
+    @include m.until(v.$bp-sm) { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  &__dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+
+  &__option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: v.$space-1;
+    padding: v.$space-3;
+    background: v.$color-surface;
+    border: 2px solid v.$color-border;
+    border-radius: v.$radius-md;
+    font-family: inherit;
+    font-size: v.$font-size-xs;
+    cursor: pointer;
+    transition: all v.$transition-fast;
+
+    &:hover { border-color: v.$color-primary-light; }
+
+    &.is-selected {
+      border-color: v.$color-accent;
+      background: v.$color-accent-pale;
+      font-weight: v.$font-weight-semibold;
+    }
+  }
+}

@@ -8,12 +8,12 @@ export const MOCK_USERS: User[] = [
     fechaRegistro: '2026-01-15',
   },
   {
-    id: 'u2', nombre: 'Martha', apellido: 'C.', email: 'martha@jobsy.com',
+    id: 'u2', nombre: 'Victor', apellido: 'Mariño', email: 'martha@jobsy.com',
     rol: 'empleado', verificado: true, ciudad: 'Yopal', departamento: 'Casanare',
     fechaRegistro: '2026-02-01',
   },
   {
-    id: 'u3', nombre: 'Pedro', apellido: 'Gomez', email: 'pedro@jobsy.com',
+    id: 'u3', nombre: 'Esteban', apellido: 'Mcgregor', email: 'pedro@jobsy.com',
     rol: 'empleador', verificado: true, ciudad: 'Yopal', departamento: 'Casanare',
     fechaRegistro: '2026-03-01',
   },

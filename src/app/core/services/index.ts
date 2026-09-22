@@ -1,4 +1,5 @@
 export * from './api.service';
+export * from './storage.service';
 export * from './auth.service';
 export * from './registration.service';
 export * from './job.service';
@@ -13,3 +14,5 @@ export * from './subscription.service';
 export * from './report.service';
 export * from './admin.service';
 export * from './admin-store.service';
+export * from './review.service';
+

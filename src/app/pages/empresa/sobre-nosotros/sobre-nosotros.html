@@ -1,0 +1,106 @@
+<!-- ============ BANNER ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Empresa</span>
+    <h1 class="titulo_banner">Sobre Nosotros</h1>
+    <p class="texto_banner">
+      Conectamos hogares con personas de confianza en Yopal y todo Casanare.
+    </p>
+  </div>
+</section>
+
+<!-- ============ HISTORIA ============ -->
+<section class="contenedor seccion">
+  <div class="grid_historia">
+    <div>
+      <span class="pildora_info">Nuestra historia</span>
+      <h2 class="titulo_seccion">Nacimos para resolver un problema muy real</h2>
+      <p class="texto_parrafo">
+        Encontrar personal de confianza para el hogar solia depender del boca a boca:
+        recomendaciones sin verificar, precios poco claros y procesos lentos. Jobsy nace en
+        Yopal con una idea simple: darle a cada familia acceso a empleados verificados, y a
+        cada profesional del hogar acceso a ofertas reales, sin intermediarios confusos.
+      </p>
+      <p class="texto_parrafo">
+        Hoy seguimos siendo un equipo pequeno y local, enfocado en construir una plataforma
+        segura, honesta y facil de usar para toda la comunidad de Casanare.
+      </p>
+    </div>
+
+    <div class="tarjeta tarjeta_mision">
+      <h3><jobsy-icon name="flag" /> Mision</h3>
+      <p>
+        Conectar empleadores y empleados del hogar de forma rapida, segura y verificada,
+        generando oportunidades economicas reales en nuestra region.
+      </p>
+      <h3><jobsy-icon name="sparkles" /> Vision</h3>
+      <p>
+        Ser la plataforma de confianza numero uno para el trabajo domestico y de servicios en
+        el hogar en Colombia.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIFRAS ============ -->
+<section class="cifras_institucional">
+  <div class="interior_cifras_institucional">
+    @for (stat of stats; track stat.label) {
+      <div class="elemento_cifras_institucional">
+        <strong>{{ stat.value }}</strong>
+        <span>{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ VALORES ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion_centrado">
+    <span class="pildora_info">Lo que nos guia</span>
+    <h2 class="titulo_seccion">Nuestros valores</h2>
+    <p class="texto_gris">Cada decision de producto pasa por estos cuatro principios.</p>
+  </div>
+
+  <div class="rejilla_valores">
+    @for (v of values; track v.title) {
+      <div class="tarjeta tarjeta_valor">
+        <span class="icono_valor" aria-hidden="true"><jobsy-icon [name]="v.icon" /></span>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ EQUIPO ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion_centrado">
+    <span class="pildora_info">El equipo</span>
+    <h2 class="titulo_seccion">Personas detras de Jobsy</h2>
+  </div>
+
+  <div class="rejilla_equipo">
+    @for (persona of team; track persona.nombre) {
+      <div class="tarjeta tarjeta_persona">
+        <div class="avatar_persona" aria-hidden="true">{{ persona.nombre.charAt(0) }}</div>
+        <strong>{{ persona.nombre }}</strong>
+        <span class="texto_gris texto_chico">{{ persona.rol }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ LLAMADA FINAL ============ -->
+<section class="llamada_institucional">
+  <div class="interior_llamada_institucional">
+    <div>
+      <h2>&iquest;Quieres formar parte de esta comunidad?</h2>
+      <p>Publica una oferta, busca empleo o revisa las vacantes en nuestro propio equipo.</p>
+    </div>
+    <div class="acciones_llamada_institucional">
+      <a routerLink="/empleos" class="boton_principal">Buscar empleo</a>
+      <a routerLink="/empresa/trabaja-con-nosotros" class="boton_simple">Trabaja con nosotros</a>
+    </div>
+  </div>
+</section>

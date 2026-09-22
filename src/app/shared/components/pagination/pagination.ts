@@ -1,10 +1,11 @@
 import { Component, input, output, computed } from '@angular/core';
+import { IconComponent } from '../icon/icon';
 
 /** Paginacion numerica con flechas de anterior/siguiente. */
 @Component({
   selector: 'jobsy-pagination',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './pagination.html',
   styleUrl: './pagination.scss',
 })

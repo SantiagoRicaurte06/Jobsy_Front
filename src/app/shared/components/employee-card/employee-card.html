@@ -16,7 +16,7 @@
 
     @if (employee().verificado) {
       <span class="verificado_tarjeta_empleado pildora_info">
-        <span aria-hidden="true">&#10004;</span> Empleado de Hogar
+        <span aria-hidden="true"><jobsy-icon name="check" /></span> Empleado de Hogar
       </span>
     }
   </header>
@@ -28,7 +28,7 @@
   </div>
 
   <p class="experiencia_tarjeta_empleado">
-    <span aria-hidden="true">&#128188;</span> {{ employee().experiencia }}
+    <span aria-hidden="true"><jobsy-icon name="briefcase" /></span> {{ employee().experiencia }}
   </p>
 
   <ul class="habilidades_tarjeta_empleado">

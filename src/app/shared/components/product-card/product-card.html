@@ -3,7 +3,7 @@
     @if (product().imagenUrl) {
       <img [src]="product().imagenUrl" [alt]="product().nombre" />
     } @else {
-      <div class="reserva_tarjeta_producto" aria-hidden="true">&#129529;</div>
+      <div class="reserva_tarjeta_producto" aria-hidden="true"><jobsy-icon name="sparkles" /></div>
     }
 
     @if (product().estado === 'destacado') {

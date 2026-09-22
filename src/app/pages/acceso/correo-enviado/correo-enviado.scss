@@ -1,0 +1,36 @@
+@use 'variables' as v;
+
+.correo-enviado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: v.$space-6;
+
+  &__icon {
+    margin: v.$space-5 0 v.$space-3;
+    font-size: v.$font-size-3xl;
+  }
+
+  &__title {
+    margin: 0 0 v.$space-3;
+    font-size: v.$font-size-lg;
+  }
+
+  &__text {
+    margin: 0 0 v.$space-5;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    line-height: 1.6;
+
+    strong { color: v.$color-text; }
+  }
+
+  &__resend {
+    margin: v.$space-4 0 0;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+  }
+}

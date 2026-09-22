@@ -58,6 +58,28 @@
   @include glass;
 }
 
+/// Tarjeta con fondo neutro suave / blanco oscurito.
+@mixin card-muted($bg: v.$gradient-card-muted, $border: v.$color-surface-muted-border) {
+  background: v.$color-surface-muted;
+  border: 1px solid $border;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-sm;
+
+  @supports (backdrop-filter: blur(1px)) {
+    background: $bg;
+  }
+}
+
+/// Panel lateral estatico / sticky debajo de la cabecera.
+@mixin sticky-sidebar($top-offset: v.$space-4) {
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(#{v.$header-height} + #{$top-offset});
+  z-index: 10;
+  align-self: start;
+  height: fit-content;
+}
+
 /// Tarjeta que se eleva al pasar el raton.
 @mixin card-hover {
   @include card;
@@ -70,6 +92,7 @@
     transform: translateY(-3px);
   }
 }
+
 
 /// Base compartida por todos los botones.
 @mixin btn-base {

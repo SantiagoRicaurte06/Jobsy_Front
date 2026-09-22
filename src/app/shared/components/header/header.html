@@ -11,7 +11,7 @@
       (click)="toggleMenu()"
       [attr.aria-expanded]="menuOpen()"
       aria-label="Abrir menu">
-      &#9776;
+      <jobsy-icon name="menu" />
     </button>
 
     <!-- Navegacion principal -->
@@ -25,7 +25,7 @@
     <div class="acciones_cabecera">
       <!-- Carrito -->
       <a routerLink="/tienda/carrito" class="carrito_cabecera" aria-label="Carrito de compras">
-        <span aria-hidden="true">&#128722;</span>
+        <jobsy-icon name="shopping-cart" />
         @if (cart.count() > 0) {
           <span class="contador_carrito_cabecera">{{ cart.count() }}</span>
         }
@@ -37,7 +37,7 @@
           <button type="button" class="boton_usuario_cabecera" (click)="toggleUserMenu()" [attr.aria-expanded]="userMenuOpen()">
             <span class="avatar_cabecera">{{ user()?.nombre?.charAt(0) }}</span>
             <span class="nombre_usuario_cabecera">{{ user()?.nombre }}</span>
-            <span aria-hidden="true">&#9662;</span>
+            <span aria-hidden="true"><jobsy-icon name="chevron-down" /></span>
           </button>
 
           @if (userMenuOpen()) {

@@ -1,0 +1,69 @@
+<!-- ============ BANNER ============ -->
+<section class="banner_institucional">
+  <div class="contenedor">
+    <span class="pildora_institucional">Empresa</span>
+    <h1 class="titulo_banner">Trabaja con Nosotros</h1>
+    <p class="texto_banner">
+      Buscamos personas que quieran construir la plataforma de confianza para el trabajo del
+      hogar en Colombia.
+    </p>
+  </div>
+</section>
+
+<!-- ============ BENEFICIOS ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion_centrado">
+    <span class="pildora_info">Cultura Jobsy</span>
+    <h2 class="titulo_seccion">Por que trabajar en Jobsy</h2>
+  </div>
+
+  <div class="rejilla_beneficios_carrera">
+    @for (b of beneficios; track b.title) {
+      <div class="tarjeta tarjeta_beneficio_carrera">
+        <span class="icono_valor" aria-hidden="true"><jobsy-icon [name]="b.icon" /></span>
+        <h3>{{ b.title }}</h3>
+        <p>{{ b.text }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ VACANTES ============ -->
+<section class="contenedor seccion">
+  <div class="encabezado_seccion">
+    <h2>Vacantes abiertas</h2>
+    <span class="texto_chico texto_gris">{{ vacantes.length }} posiciones disponibles</span>
+  </div>
+
+  <div class="lista_vacantes">
+    @for (v of vacantes; track v.id) {
+      <div class="tarjeta fila_vacante">
+        <div>
+          <h3 class="cargo_vacante">{{ v.cargo }}</h3>
+          <div class="etiquetas_vacante">
+            <span class="pildora_info">{{ v.area }}</span>
+            <span class="texto_chico texto_gris"><jobsy-icon name="map-pin" /> {{ v.ciudad }}</span>
+            <span class="texto_chico texto_gris"><jobsy-icon name="clock" /> {{ v.modalidad }}</span>
+          </div>
+        </div>
+        <a href="mailto:empleo@jobsy.co?subject=Postulacion%20-%20{{ v.cargo }}" class="boton_borde">
+          Postularme
+        </a>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ============ LLAMADA FINAL ============ -->
+<section class="llamada_institucional">
+  <div class="interior_llamada_institucional">
+    <div>
+      <h2>&iquest;No ves una vacante para ti?</h2>
+      <p>Escribenos y cuentanos que quieres aportar. Siempre estamos buscando buen talento.</p>
+    </div>
+    <div class="acciones_llamada_institucional">
+      <a href="mailto:empleo@jobsy.co" class="boton_principal">Enviar mi hoja de vida</a>
+      <a routerLink="/empresa/sobre-nosotros" class="boton_simple">Conocer el equipo</a>
+    </div>
+  </div>
+</section>
