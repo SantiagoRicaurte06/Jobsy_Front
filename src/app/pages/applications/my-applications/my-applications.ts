@@ -38,7 +38,7 @@ export class MyApplicationsPage implements OnInit {
   private jobService = inject(JobService);
 
   readonly rows = signal<ApplicationRow[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly filtro = signal<ApplicationStatus | 'todas'>('todas');
 
   readonly filtros: { value: ApplicationStatus | 'todas'; label: string }[] = [
@@ -58,7 +58,7 @@ export class MyApplicationsPage implements OnInit {
     this.applicationService.myApplications().subscribe((apps) => {
       // Cruzamos cada postulacion con su oferta para mostrar titulo y precio.
       this.rows.set(apps.map((application) => ({ application })));
-      this.loading.set(false);
+      this.cargando.set(false);
 
       apps.forEach((app, i) => {
         this.jobService.getById(app.jobId).subscribe((job) => {

@@ -27,7 +27,7 @@ export class JobSearchPage implements OnInit {
   private route = inject(ActivatedRoute);
 
   readonly jobs = signal<Job[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly page = signal(1);
   readonly totalPages = signal(1);
   readonly total = signal(0);
@@ -41,12 +41,12 @@ export class JobSearchPage implements OnInit {
   }
 
   load(): void {
-    this.loading.set(true);
+    this.cargando.set(true);
     this.jobService.list(this.filters(), this.page(), 6).subscribe((res) => {
       this.jobs.set(res.items);
       this.totalPages.set(res.totalPages);
       this.total.set(res.total);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 

@@ -18,8 +18,8 @@ type Estudio = Resume['educacion'][number];
 export class ResumePage implements OnInit {
   private resumeService = inject(ResumeService);
 
-  readonly loading = signal(true);
-  readonly saving = signal(false);
+  readonly cargando = signal(true);
+  readonly guardando = signal(false);
   readonly guardado = signal(false);
 
   readonly resumenProfesional = signal('');
@@ -36,7 +36,7 @@ export class ResumePage implements OnInit {
       this.educacion.set(r.educacion);
       this.habilidades.set(r.habilidades);
       this.certificaciones.set(r.certificaciones);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 
@@ -75,7 +75,7 @@ export class ResumePage implements OnInit {
   }
 
   guardar(): void {
-    this.saving.set(true);
+    this.guardando.set(true);
 
     this.resumeService
       .update({
@@ -86,7 +86,7 @@ export class ResumePage implements OnInit {
         certificaciones: this.certificaciones(),
       })
       .subscribe(() => {
-        this.saving.set(false);
+        this.guardando.set(false);
         this.guardado.set(true);
         setTimeout(() => this.guardado.set(false), 2500);
       });

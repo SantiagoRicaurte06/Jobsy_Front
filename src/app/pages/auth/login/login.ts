@@ -19,7 +19,7 @@ export class LoginPage {
   readonly usuario = signal('');
   readonly password = signal('');
   readonly showPassword = signal(false);
-  readonly loading = signal(false);
+  readonly cargando = signal(false);
   readonly error = signal('');
 
   togglePassword(): void {
@@ -32,23 +32,23 @@ export class LoginPage {
       return;
     }
 
-    this.loading.set(true);
+    this.cargando.set(true);
     this.error.set('');
 
     this.auth.login({ usuario: this.usuario(), password: this.password() }).subscribe({
       next: () => this.redirect(),
       error: () => {
         this.error.set('Usuario o contrasena incorrectos.');
-        this.loading.set(false);
+        this.cargando.set(false);
       },
     });
   }
 
   google(): void {
-    this.loading.set(true);
+    this.cargando.set(true);
     this.auth.loginWithGoogle().subscribe({
       next: () => this.redirect(),
-      error: () => this.loading.set(false),
+      error: () => this.cargando.set(false),
     });
   }
 

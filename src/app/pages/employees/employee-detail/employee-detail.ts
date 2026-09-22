@@ -19,7 +19,7 @@ export class EmployeeDetailPage implements OnInit {
   readonly id = input.required<string>();
 
   readonly employee = signal<Employee | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
 
   /** TEMPORAL: resenas de ejemplo hasta que exista el endpoint real. */
   readonly reviews = [
@@ -31,7 +31,7 @@ export class EmployeeDetailPage implements OnInit {
   ngOnInit(): void {
     this.employeeService.getById(this.id()).subscribe((e) => {
       this.employee.set(e);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 }

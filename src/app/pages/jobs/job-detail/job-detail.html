@@ -1,5 +1,5 @@
 <div class="contenedor detalle_empleo">
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner />
   } @else if (!job()) {
     <jobsy-empty-state
@@ -27,7 +27,8 @@
         <div class="cuerpo_detalle_empleo">
           <div class="etiquetas_detalle_empleo">
             @if (job()!.esNuevo) { <span class="pildora_naranja">Nuevo</span> }
-            <span class="pildora_info">{{ job()!.tamano }}</span>
+            <span class="pildora_info">{{ tamanoTexto() }}</span>
+            @if (job()!.esLujo) { <span class="pildora_info">Lujo</span> }
           </div>
 
           <h1 class="titulo_detalle_empleo">{{ job()!.titulo }}</h1>
@@ -48,11 +49,11 @@
             </div>
             <div>
               <dt>Modalidad</dt>
-              <dd>{{ job()!.modalidad }}</dd>
+              <dd>{{ modalidadTexto() }}</dd>
             </div>
             <div>
               <dt>Publicado</dt>
-              <dd>{{ job()!.fechaPublicacion }}</dd>
+              <dd>{{ job()!.fechaPublicacion | date: 'longDate' }}</dd>
             </div>
           </dl>
 
@@ -68,7 +69,7 @@
           <section class="seccion_detalle_empleo">
             <h2>Sobre esta vivienda</h2>
             <p class="texto_chico texto_gris">
-              Vivienda de tamano {{ job()!.tamano }} ubicada en {{ job()!.ciudad }}.
+              Vivienda {{ tamanoTexto() | lowercase }} ubicada en {{ job()!.ciudad }}.
               El empleador busca una persona responsable y con experiencia comprobable.
               El pago se acuerda por hora y se liquida a traves de Jobsy.
             </p>

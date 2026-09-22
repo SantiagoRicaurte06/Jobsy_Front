@@ -54,7 +54,7 @@
       <section class="card report-center__history">
         <h2>Mis reportes</h2>
 
-        @if (loading()) {
+        @if (cargando()) {
           <jobsy-loading-spinner />
         } @else if (reports().length === 0) {
           <p class="report-center__empty">Aun no has creado reportes.</p>

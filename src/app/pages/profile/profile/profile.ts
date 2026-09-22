@@ -16,7 +16,7 @@ export class ProfilePage implements OnInit {
   private profileService = inject(ProfileService);
 
   readonly user = signal<User | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
 
   /** TEMPORAL: datos de perfil publico hasta que el backend los exponga. */
   readonly especialidades = ['Limpieza profunda', 'Cocina', 'Planchado'];
@@ -26,7 +26,7 @@ export class ProfilePage implements OnInit {
   ngOnInit(): void {
     this.profileService.me().subscribe((u) => {
       this.user.set(u);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 }

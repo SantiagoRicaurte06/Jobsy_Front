@@ -23,7 +23,7 @@ export class StepLocationPage {
   readonly barrio = signal(this.registration.draft().barrio);
   readonly distanciaKm = signal(this.registration.draft().distanciaKm);
   readonly fotoPreview = signal(this.registration.draft().fotoUrl);
-  readonly loading = signal(false);
+  readonly cargando = signal(false);
   readonly error = signal('');
   
   readonly Ciudades = ['Yopal', 'Aguazul', 'Tauramena', 'Villanueva', 'Monterrey'];
@@ -56,7 +56,7 @@ export class StepLocationPage {
     });
 
     const draft = this.registration.draft();
-    this.loading.set(true);
+    this.cargando.set(true);
 
     this.auth
       .register({
@@ -73,7 +73,7 @@ export class StepLocationPage {
         },
         error: () => {
           this.error.set('No pudimos crear tu cuenta. Intenta de nuevo.');
-          this.loading.set(false);
+          this.cargando.set(false);
         },
       });
 

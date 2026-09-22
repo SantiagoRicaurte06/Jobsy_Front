@@ -24,7 +24,7 @@ export class HiringPage implements OnInit {
   readonly step = signal(0);
 
   readonly employee = signal<Employee | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly done = signal(false);
 
   readonly modalidad = signal<WorkModality>('por_horas');
@@ -46,7 +46,7 @@ export class HiringPage implements OnInit {
   ngOnInit(): void {
     this.employeeService.getById(this.id()).subscribe((e) => {
       this.employee.set(e);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 

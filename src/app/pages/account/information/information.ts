@@ -18,12 +18,12 @@ export class AccountInfoPage implements OnInit {
 
   readonly user = signal<User | undefined>(undefined);
   readonly orders = signal<Order[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
 
   ngOnInit(): void {
     this.profileService.me().subscribe((u) => {
       this.user.set(u);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
 
     this.orderService.myOrders().subscribe((o) => this.orders.set(o));

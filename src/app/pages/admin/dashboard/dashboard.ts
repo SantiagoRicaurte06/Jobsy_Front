@@ -19,7 +19,7 @@ export class AdminDashboardPage implements OnInit {
 
   readonly stats = signal<AdminStats | undefined>(undefined);
   readonly recentOrders = signal<Order[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
 
   // Estos vienen del almacen editable: reflejan lo que acabas de cambiar.
   readonly topProducts = this.store.products;
@@ -60,7 +60,7 @@ export class AdminDashboardPage implements OnInit {
   ngOnInit(): void {
     this.adminService.stats().subscribe((s) => {
       this.stats.set(s);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
 
     this.adminService.recentOrders(4).subscribe((o) => this.recentOrders.set(o));

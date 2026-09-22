@@ -16,7 +16,7 @@ export class AccountPlanPage implements OnInit {
 
   readonly plans = signal<Plan[]>([]);
   readonly current = signal<Subscription | null>(null);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly cambiando = signal<string | null>(null);
 
   /** Nombre del plan suscrito, resuelto contra el listado de planes. */
@@ -27,7 +27,7 @@ export class AccountPlanPage implements OnInit {
   ngOnInit(): void {
     this.subscriptionService.plans().subscribe((p) => {
       this.plans.set(p);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
 
     this.subscriptionService.current().subscribe((s) => this.current.set(s));

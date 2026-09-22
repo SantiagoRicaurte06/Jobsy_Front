@@ -16,7 +16,7 @@ export class ReportCenterPage implements OnInit {
   private reportService = inject(ReportService);
 
   readonly reports = signal<Report[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly enviando = signal(false);
   readonly enviado = signal(false);
 
@@ -44,7 +44,7 @@ export class ReportCenterPage implements OnInit {
   ngOnInit(): void {
     this.reportService.list().subscribe((r) => {
       this.reports.set(r);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 

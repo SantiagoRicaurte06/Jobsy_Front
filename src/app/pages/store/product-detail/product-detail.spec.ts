@@ -16,6 +16,9 @@ describe('ProductDetailPage', () => {
 
     fixture = TestBed.createComponent(ProductDetailPage);
     component = fixture.componentInstance;
+    // ngOnInit lee this.id(), que es input.required: sin darselo el test falla
+    // con NG0950 antes de llegar a la comprobacion.
+    fixture.componentRef.setInput('id', '1');
     await fixture.whenStable();
   });
 

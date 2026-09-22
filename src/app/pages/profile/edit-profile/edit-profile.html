@@ -1,5 +1,5 @@
   <section class="editar_perfil">
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
     <div class="encabezado_seccion">
@@ -76,8 +76,8 @@
 
       <footer class="acciones_editar_perfil">
         <a routerLink="/app/perfil" class="boton_simple">Cancelar</a>
-        <button type="submit" class="boton_principal" [disabled]="saving()">
-          {{ saving() ? 'Guardando...' : 'Guardar cambios' }}
+        <button type="submit" class="boton_principal" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
         </button>
       </footer>
     </form>

@@ -32,7 +32,7 @@ export class LandingPage implements OnInit {
 
   readonly jobs = signal<Job[]>([]);
   readonly employees = signal<Employee[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
 
   /** Filtros rapidos bajo el buscador. */
   readonly quickFilters = ['Todos', 'Limpieza', 'Cocina', 'Jardineria', 'Cuidado de ninos', 'Mantenimiento', 'Tiempo completo'];
@@ -64,7 +64,7 @@ export class LandingPage implements OnInit {
   ngOnInit(): void {
     this.jobService.featured(6).subscribe((jobs) => {
       this.jobs.set(jobs);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
 
     this.employeeService.featured(3).subscribe((e) => this.employees.set(e));

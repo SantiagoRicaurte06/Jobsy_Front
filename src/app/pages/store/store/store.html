@@ -59,7 +59,7 @@
         </a>
       </div>
 
-      @if (loading()) {
+      @if (cargando()) {
         <jobsy-loading-spinner label="Cargando productos..." />
       } @else if (products().length === 0) {
         <jobsy-empty-state icon="&#128230;" title="Sin productos" message="No hay productos en esta categoria." />

@@ -56,8 +56,8 @@
 
      <div class="step-location__actions">
       <button type="button" class="btn-ghots" (click)="back()">Atras</button>
-      <button type="submit" class="btn-primary" [disabled]="loading()">
-        {{ loading() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
+      <button type="submit" class="btn-primary" [disabled]="cargando()">
+        {{ cargando() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
       </button>
      </div>
   </form>
