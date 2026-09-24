@@ -41,6 +41,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -55,6 +61,17 @@
               ],
               "outputHashing": "all"
             },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -68,6 +85,9 @@
           "configurations": {
             "production": {
               "buildTarget": "jobsy-frontend:build:production"
+            },
+            "local": {
+              "buildTarget": "jobsy-frontend:build:local"
             },
             "development": {
               "buildTarget": "jobsy-frontend:build:development"
