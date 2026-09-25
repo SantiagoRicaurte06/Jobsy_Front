@@ -1,4 +1,5 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReportService } from '../../../core/services';
 import { ReportStatus } from '../../../core/models';
@@ -20,10 +21,17 @@ const ETIQUETA: Record<ReportStatus, string> = {
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })
-export class AdminReportsPage {
+export class AdminReportsPage implements OnInit {
   private reportService = inject(ReportService);
 
   readonly reports = this.reportService.reports;
+  readonly cargando = this.reportService.cargando;
+
+  ngOnInit(): void {
+    // Como administrador: los reportes de todos, no solo los propios.
+    this.reportService.cargar(true);
+  }
+
   readonly abiertos = this.reportService.reportesAbiertos;
   readonly enProceso = this.reportService.reportesEnProceso;
   readonly resueltos = this.reportService.reportesResueltos;
@@ -69,17 +77,35 @@ export class AdminReportsPage {
   }
 
   cambiarEstado(id: string, estado: ReportStatus): void {
-    this.reportService.setStatus(id, estado);
+    const antes = this.reports().find((r) => r.id === id)?.estado;
+    this.reportService.fijarEstadoLocal(id, estado);
+    this.reportService.setStatus(id, estado).subscribe({
+      error: (e: HttpErrorResponse) => {
+        if (antes) this.reportService.fijarEstadoLocal(id, antes);
+        this.avisar(e.error?.error?.mensaje ?? 'No pudimos cambiar el estado.');
+      },
+    });
   }
 
   /** Envia la respuesta del agente al hilo del usuario. */
   responder(): void {
     const r = this.seleccionado();
-    if (!r || !this.respuesta().trim()) return;
+    const texto = this.respuesta().trim();
+    if (!r || !texto) return;
 
-    this.reportService.addSupportMessage(r.id, this.respuesta());
     this.respuesta.set('');
-    this.avisar('Respuesta enviada al usuario.');
+    this.reportService.addSupportMessage(r.id, texto).subscribe({
+      next: (m) => {
+        this.reportService.anexarMensaje(r.id, m);
+        // El servidor lo deja como respondido, que aqui se ve "en proceso".
+        this.reportService.fijarEstadoLocal(r.id, 'en_proceso');
+        this.avisar('Respuesta enviada al usuario.');
+      },
+      error: (e: HttpErrorResponse) => {
+        this.respuesta.set(texto);
+        this.avisar(e.error?.error?.mensaje ?? 'No pudimos enviar la respuesta.');
+      },
+    });
   }
 
   /** Marca como resuelto y cierra el detalle. */
@@ -87,15 +113,21 @@ export class AdminReportsPage {
     const r = this.seleccionado();
     if (!r) return;
 
-    this.reportService.setStatus(r.id, 'resuelto');
+    this.cambiarEstado(r.id, 'resuelto');
     this.avisar(`"${r.asunto}" resuelto.`);
     this.seleccionadoId.set(null);
   }
 
   eliminar(id: string, asunto: string): void {
-    this.reportService.deleteReport(id);
-    this.avisar('Reporte eliminado.');
+    this.reportService.quitarLocal(id);
     if (this.seleccionadoId() === id) this.seleccionadoId.set(null);
+    this.reportService.deleteReport(id).subscribe({
+      next: () => this.avisar(`"${asunto}" retirado.`),
+      error: (e: HttpErrorResponse) => {
+        this.reportService.cargar(true);
+        this.avisar(e.error?.error?.mensaje ?? 'No pudimos retirar el reporte.');
+      },
+    });
   }
 
   etiqueta(estado: ReportStatus): string {

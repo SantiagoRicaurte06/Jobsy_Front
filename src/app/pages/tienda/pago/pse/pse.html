@@ -2,9 +2,6 @@
   <h2 class="pse__title">Pago con PSE</h2>
   <p class="pse__subtitle">Seras redirigido al portal de tu banco para autorizar el pago.</p>
 
-  <!-- Este flujo es una simulacion: no se envia informacion a ninguna pasarela real. -->
-  <p class="pse__demo"><jobsy-icon name="triangle-alert" /> Modo demostracion: ningun dato se envia a una pasarela real.</p>
-
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
       <label class="etiqueta" for="banco">Banco</label>
@@ -55,6 +52,10 @@
         [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
       <p class="ayuda">Enviaremos el comprobante a este correo.</p>
     </div>
+
+    @if (error()) {
+      <p class="pildora_error">{{ error() }}</p>
+    }
 
     <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
       {{ procesando() ? 'Redirigiendo al banco...' : 'Pagar con PSE' }}

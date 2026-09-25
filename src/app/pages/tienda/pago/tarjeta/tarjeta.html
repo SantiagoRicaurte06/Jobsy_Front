@@ -52,6 +52,10 @@
       Guardar esta tarjeta para futuras compras
     </label>
 
+    @if (error()) {
+      <p class="pildora_error">{{ error() }}</p>
+    }
+
     <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
       {{ procesando() ? 'Procesando pago...' : 'Pagar con tarjeta' }}
     </button>

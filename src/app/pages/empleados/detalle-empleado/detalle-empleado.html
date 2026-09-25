@@ -75,18 +75,30 @@
               </div>
 
               <textarea class="campo_resena_detalle_empleado" rows="3"
-                placeholder="Cuenta como te fue con esta persona (opcional)"
+                placeholder="Cuenta como te fue con esta persona"
                 [value]="nuevoComentario()"
                 (input)="nuevoComentario.set($any($event.target).value)"></textarea>
 
-              <button type="submit" class="boton_principal" [disabled]="nuevaCalificacion() === 0">
-                Publicar resena
+              @if (errorResena()) {
+                <p class="error" role="alert">{{ errorResena() }}</p>
+              }
+
+              <button type="submit" class="boton_principal"
+                [disabled]="nuevaCalificacion() === 0 || enviandoResena()">
+                {{ enviandoResena() ? 'Publicando...' : 'Publicar resena' }}
               </button>
+              <p class="texto_mini texto_gris">
+                Solo puedes valorar a alguien con quien hayas trabajado.
+              </p>
             </form>
           } @else {
             <p class="aviso_resena_detalle_empleado">
               <a routerLink="/auth/login">Inicia sesion</a> para dejar tu calificacion.
             </p>
+          }
+
+          @if (resenas().length === 0) {
+            <p class="texto_mini texto_gris">Todavia no tiene resenas.</p>
           }
 
           <ul class="resenas_detalle_empleado">
@@ -113,7 +125,21 @@
         <a [routerLink]="['/contratacion', employee()!.id]" class="boton_principal boton_ancho">
           Solicitar contratacion
         </a>
-        <a routerLink="/agendar" class="boton_secundario boton_ancho">Agendar horario</a>
+        <a [routerLink]="['/agendar']" [queryParams]="{ empleado: employee()!.id }"
+          class="boton_secundario boton_ancho">Agendar horario</a>
+
+        @if (disponibilidad().length > 0) {
+          <section class="disponibilidad_detalle_empleado">
+            <h3 class="texto_mini">Disponibilidad</h3>
+            <ul>
+              @for (franja of disponibilidad(); track $index) {
+                <li class="texto_mini texto_gris">
+                  {{ franja.dia }}: {{ franja.horaInicio }} - {{ franja.horaFin }}
+                </li>
+              }
+            </ul>
+          </section>
+        }
         <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar perfil</button>
 
         <p class="nota_detalle_empleado">

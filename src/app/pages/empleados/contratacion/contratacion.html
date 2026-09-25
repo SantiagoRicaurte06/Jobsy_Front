@@ -4,10 +4,10 @@
   } @else if (done()) {
     <div class="hecho_contratacion tarjeta">
       <span aria-hidden="true"><jobsy-icon name="check" /></span>
-      <h1>Solicitud enviada</h1>
+      <h1>Contratacion confirmada</h1>
       <p>
-        Enviamos tu solicitud de contratacion a <strong>{{ employee()?.nombre }}</strong>.
-        Te avisaremos cuando responda.
+        Contrataste a <strong>{{ employee()?.nombre }}</strong>.
+        Puedes ver el servicio en tus contrataciones.
       </p>
       <button type="button" class="boton_principal" (click)="goHome()">Volver a empleados</button>
     </div>
@@ -99,13 +99,19 @@
         </p>
       }
 
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+
       <footer class="acciones_contratacion">
         <button type="button" class="boton_simple" [disabled]="step() === 0" (click)="back()">Atras</button>
 
         @if (step() < steps.length - 1) {
           <button type="button" class="boton_principal" (click)="next()">Siguiente</button>
         } @else {
-          <button type="button" class="boton_principal" (click)="confirmar()">Enviar solicitud</button>
+          <button type="button" class="boton_principal" [disabled]="enviando()" (click)="confirmar()">
+            {{ enviando() ? 'Contratando...' : 'Confirmar contratacion' }}
+          </button>
         }
       </footer>
     </div>

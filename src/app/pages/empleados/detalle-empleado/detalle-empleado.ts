@@ -1,7 +1,9 @@
-import { Component, inject, input, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, input, signal, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { EmployeeService, AuthService } from '../../../core/services';
 import { Employee, EmployeeReview } from '../../../core/models';
+import { ScheduleSlot } from '../../../core/services';
 import { RatingStarsComponent } from '../../../shared/components/rating-stars/rating-stars';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
@@ -26,55 +28,83 @@ export class EmployeeDetailPage implements OnInit {
   readonly employee = signal<Employee | undefined>(undefined);
   readonly cargando = signal(true);
 
-  /** Resenas de ejemplo que trae el perfil. */
-  readonly seedReviews: EmployeeReview[] = [
-    { autor: 'Familia Rodriguez', estrellas: 5, texto: 'Excelente trabajo, muy puntual y detallista.', fecha: 'Hace 2 semanas' },
-    { autor: 'Pedro G.', estrellas: 5, texto: 'Dejo la casa impecable. La volveria a contratar.', fecha: 'Hace 1 mes' },
-    { autor: 'Ana M.', estrellas: 4, texto: 'Muy buena actitud y cumplida con los horarios.', fecha: 'Hace 2 meses' },
-  ];
+  /** Resenas recibidas, tal como las guarda el servidor. */
+  readonly resenas = signal<EmployeeReview[]>([]);
+
+  /** Franjas en las que esa persona puede trabajar. */
+  readonly disponibilidad = signal<ScheduleSlot[]>([]);
 
   // ---- Formulario "deja tu resena" ----
   readonly nuevaCalificacion = signal(0);
   readonly nuevoComentario = signal('');
-
-  /** Resenas que el usuario ha dejado (persisten en localStorage). */
-  readonly savedReviews = signal<EmployeeReview[]>([]);
-
-  /** Lista completa que se muestra: primero las nuevas, luego las de ejemplo. */
-  readonly resenas = computed(() => [...this.savedReviews(), ...this.seedReviews]);
+  readonly enviandoResena = signal(false);
+  readonly errorResena = signal('');
 
   ngOnInit(): void {
-    this.employeeService.getById(this.id()).subscribe((e) => {
-      this.employee.set(e);
-      this.cargando.set(false);
+    this.employeeService.getById(this.id()).subscribe({
+      next: (e) => {
+        this.employee.set(e);
+        this.cargando.set(false);
+      },
+      error: () => this.cargando.set(false),
     });
 
-    this.savedReviews.set(this.employeeService.getReviews(this.id()));
+    this.employeeService.reviews(this.id()).subscribe({
+      next: (r) => this.resenas.set(r ?? []),
+      error: () => this.resenas.set([]),
+    });
+
+    this.employeeService.availability(this.id()).subscribe({
+      next: (d) => this.disponibilidad.set(d ?? []),
+      error: () => this.disponibilidad.set([]),
+    });
   }
 
   setCalificacion(n: number): void {
     this.nuevaCalificacion.set(n);
   }
 
-  /** Guarda la resena en localStorage y la muestra al instante. */
+  /**
+   * Publica la resena.
+   *
+   * El servidor solo la acepta de alguien que haya trabajado con esta
+   * persona; si no, lo dice. Antes se guardaba en localStorage y la veia
+   * unicamente quien la escribio.
+   */
   enviarResena(event: Event): void {
     event.preventDefault();
 
     const usuario = this.auth.user();
     if (!usuario || this.nuevaCalificacion() === 0) return;
 
-    const apellido = usuario.apellido ? ` ${usuario.apellido.charAt(0)}.` : '';
-    const review: EmployeeReview = {
-      autor: `${usuario.nombre}${apellido}`,
-      estrellas: this.nuevaCalificacion(),
-      texto: this.nuevoComentario().trim() || 'Sin comentario.',
-      fecha: 'Ahora',
-    };
+    const comentario = this.nuevoComentario().trim();
+    if (!comentario) {
+      this.errorResena.set('Escribe un comentario.');
+      return;
+    }
 
-    this.employeeService.addReview(this.id(), review);
-    this.savedReviews.update((list) => [review, ...list]);
+    this.enviandoResena.set(true);
+    this.errorResena.set('');
 
-    this.nuevaCalificacion.set(0);
-    this.nuevoComentario.set('');
+    this.employeeService
+      .addReview({
+        sobreUsuarioId: this.id(),
+        calificacion: this.nuevaCalificacion(),
+        comentario,
+      })
+      .subscribe({
+        next: (creada) => {
+          this.resenas.update((list) => [creada, ...list]);
+          this.nuevaCalificacion.set(0);
+          this.nuevoComentario.set('');
+          this.enviandoResena.set(false);
+        },
+        error: (e: HttpErrorResponse) => {
+          this.enviandoResena.set(false);
+          this.errorResena.set(
+            e.error?.error?.mensaje ?? 'Solo puedes valorar a alguien con quien hayas trabajado.',
+          );
+        },
+      });
   }
 }

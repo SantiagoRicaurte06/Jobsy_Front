@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { environment } from '../../../environments/environment';
-import { Product, Order } from '../models';
+import { Product, Category, Order, Report, ReportMessage, ReportStatus } from '../models';
 import { MOCK_PRODUCTS, mockResponse } from '../../mocks';
 
 /** KPIs del dashboard de administracion. */
@@ -22,11 +22,35 @@ export interface SalesPoint {
   ventas: number;
 }
 
-/** Core_api / Tienda_APi — panel de administracion. */
+/**
+ * Alta y edicion de producto.
+ *
+ * El SKU no viaja: la tabla no tiene esa columna y el servidor lo deriva del
+ * id. En la edicion solo se mandan los campos que cambian.
+ */
+export interface ProductPayload {
+  nombre?: string;
+  categoria?: string;
+  descripcion?: string;
+  precio?: number;
+  stock?: number;
+  imagenUrl?: string;
+  estado?: string;
+}
+
+/**
+ * Tienda_APi / Soporte_API — panel de administracion.
+ *
+ * Las rutas /admin exigen rol de administrador en el servidor: el guard del
+ * frontend lee el rol de localStorage y es manipulable.
+ */
 @Injectable({ providedIn: 'root' })
 export class AdminService {
   private api = inject(ApiService);
   private path = environment.endpoints.tienda;
+  private soporte = environment.endpoints.soporte;
+
+  // ---- Indicadores ----
 
   stats(): Observable<AdminStats> {
     if (environment.useMocks) {
@@ -39,7 +63,7 @@ export class AdminService {
     return this.api.get<AdminStats>(`${this.path}/admin/estadisticas`);
   }
 
-  salesByMonth(ano = 2026): Observable<SalesPoint[]> {
+  salesByMonth(ano = new Date().getFullYear()): Observable<SalesPoint[]> {
     if (environment.useMocks) {
       return mockResponse<SalesPoint[]>([
         { mes: 'Ene', ventas: 1800000 }, { mes: 'Feb', ventas: 2400000 },
@@ -59,5 +83,65 @@ export class AdminService {
   recentOrders(limit = 4): Observable<Order[]> {
     if (environment.useMocks) return mockResponse<Order[]>([]);
     return this.api.get<Order[]>(`${this.path}/admin/pedidos-recientes`, { limit });
+  }
+
+  // ---- Catalogo ----
+
+  /** Incluye los productos en borrador, que la tienda publica no muestra. */
+  products(): Observable<Product[]> {
+    return this.api.get<Product[]>(`${this.path}/admin/productos`);
+  }
+
+  createProduct(data: ProductPayload): Observable<Product> {
+    return this.api.post<Product>(`${this.path}/admin/productos`, data);
+  }
+
+  updateProduct(id: string, cambios: ProductPayload): Observable<Product> {
+    return this.api.put<Product>(`${this.path}/admin/productos/${id}`, cambios);
+  }
+
+  deleteProduct(id: string): Observable<void> {
+    return this.api.delete<void>(`${this.path}/admin/productos/${id}`);
+  }
+
+  /** Suma o resta unidades. El servidor no deja bajar de cero. */
+  adjustStock(id: string, delta: number): Observable<Product> {
+    return this.api.post<Product>(`${this.path}/admin/productos/${id}/stock`, { delta });
+  }
+
+  createCategory(nombre: string): Observable<Category> {
+    return this.api.post<Category>(`${this.path}/admin/categorias`, { nombre });
+  }
+
+  renameCategory(id: string, nombre: string): Observable<Category> {
+    return this.api.put<Category>(`${this.path}/admin/categorias/${id}`, { nombre });
+  }
+
+  deleteCategory(id: string): Observable<void> {
+    return this.api.delete<void>(`${this.path}/admin/categorias/${id}`);
+  }
+
+  // ---- Soporte ----
+
+  /** Reportes de todos los usuarios, no solo los propios. */
+  reports(): Observable<Report[]> {
+    return this.api.get<Report[]>(`${this.soporte}/admin/reportes`);
+  }
+
+  reportMessages(id: string): Observable<ReportMessage[]> {
+    return this.api.get<ReportMessage[]>(`${this.soporte}/admin/reportes/${id}/mensajes`);
+  }
+
+  replyToReport(id: string, texto: string): Observable<ReportMessage> {
+    return this.api.post<ReportMessage>(`${this.soporte}/admin/reportes/${id}/mensajes`, { texto });
+  }
+
+  setReportStatus(id: string, estado: ReportStatus): Observable<Report> {
+    return this.api.put<Report>(`${this.soporte}/admin/reportes/${id}/estado`, { estado });
+  }
+
+  /** Oculta el reporte. El hilo se conserva: es el rastro de la atencion. */
+  removeReport(id: string): Observable<void> {
+    return this.api.delete<void>(`${this.soporte}/admin/reportes/${id}`);
   }
 }
