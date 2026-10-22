@@ -1,4 +1,5 @@
 import { Component, inject, input, signal, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { EmployeeService, AuthService } from '../../../core/services';
@@ -12,7 +13,7 @@ import { IconComponent } from '../../../shared/components/icon/icon';
 @Component({
   selector: 'jobsy-employee-detail',
   standalone: true,
-  imports: [IconComponent, RouterLink, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent, DatePipe],
   templateUrl: './detalle-empleado.html',
   styleUrl: './detalle-empleado.scss',
 })

@@ -27,8 +27,13 @@
       @if (enviado()) {
         <div class="confirmacion_contacto">
           <span class="icono_confirmacion" aria-hidden="true"><jobsy-icon name="circle-check" /></span>
-          <h2>Mensaje enviado</h2>
-          <p class="texto_gris">Gracias por escribirnos. Nuestro equipo te respondera muy pronto.</p>
+          @if (porCorreo()) {
+            <h2>Abrimos tu correo</h2>
+            <p class="texto_gris">Tu mensaje quedo listo para soporte&#64;jobsy.co; envialo desde tu aplicacion de correo. Si inicias sesion, puedes escribirnos directamente desde aqui.</p>
+          } @else {
+            <h2>Mensaje enviado</h2>
+            <p class="texto_gris">Gracias por escribirnos. Puedes seguir la respuesta en el Centro de reportes.</p>
+          }
           <button type="button" class="boton_borde" (click)="enviado.set(false)">Enviar otro mensaje</button>
         </div>
       } @else {
@@ -87,6 +92,9 @@
               required></textarea>
           </div>
 
+          @if (error()) {
+            <p class="error" role="alert">{{ error() }}</p>
+          }
           <button type="submit" class="boton_principal boton_ancho" [disabled]="enviando()">
             @if (enviando()) {
               Enviando...

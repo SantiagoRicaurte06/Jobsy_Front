@@ -28,7 +28,9 @@
           }
         </div>
 
-        <jobsy-rating-stars [value]="calificacion" [reviews]="servicios" />
+        @if (empleado(); as e) {
+          <jobsy-rating-stars [value]="e.calificacion" [reviews]="e.totalServicios" />
+        }
 
         <p class="perfil__city"><jobsy-icon name="map-pin" /> {{ user()?.ciudad }}</p>
       </div>
@@ -46,36 +48,77 @@
           <div><dt>Correo</dt><dd>{{ user()?.email }}</dd></div>
           <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
           <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
-          <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro }}</dd></div>
+          <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro | date: 'longDate' }}</dd></div>
         </dl>
       </section>
 
-      <!-- Especialidades -->
-      <section class="perfil__block tarjeta">
-        <h3>Especialidades</h3>
+      <!-- Especialidades: solo los empleados tienen ficha publica -->
+      @if (empleado(); as e) {
+        <section class="perfil__block tarjeta">
+          <h3>Especialidades</h3>
 
-        <ul class="perfil__skills">
-          @for (skill of especialidades; track skill) {
-            <li class="pildora_info">{{ skill }}</li>
+          <ul class="perfil__skills">
+            @for (skill of e.especialidades; track skill) {
+              <li class="pildora_info">{{ skill }}</li>
+            } @empty {
+              <li>Aun no tienes especialidades registradas.</li>
+            }
+          </ul>
+
+          <h3 class="perfil__subtitle">Resumen de actividad</h3>
+
+          <div class="perfil__metrics">
+            <div>
+              <strong>{{ e.totalServicios }}</strong>
+              <span>Servicios</span>
+            </div>
+            <div>
+              <strong>{{ e.calificacion.toFixed(1) }}</strong>
+              <span>Calificacion</span>
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- Documentos de verificacion -->
+      <section class="perfil__block tarjeta">
+        <h3>Documentos de verificacion</h3>
+
+        <ul class="perfil__docs">
+          @for (d of documentos(); track d.id) {
+            <li>
+              <a [href]="d.archivoUrl" target="_blank" rel="noopener">{{ nombreTipo(d.tipo) }}</a>
+              <span [class]="d.estado === 'verificado' ? 'pildora_exito' : d.estado === 'rechazado' ? 'pildora_error' : 'pildora_aviso'">
+                {{ d.estado }}
+              </span>
+              @if (d.notas) {
+                <small>{{ d.notas }}</small>
+              }
+            </li>
+          } @empty {
+            <li>No has subido documentos. Sube tu documento de identidad para verificar tu perfil.</li>
           }
         </ul>
 
-        <h3 class="perfil__subtitle">Resumen de actividad</h3>
+        <form class="perfil__upload" (ngSubmit)="subirDocumento()">
+          <label class="etiqueta" for="tipoDocumento">Tipo de documento</label>
+          <select id="tipoDocumento" class="campo" name="tipoDocumento"
+            [ngModel]="tipoElegido()" (ngModelChange)="tipoElegido.set($event)">
+            @for (t of tiposDocumento; track t.value) {
+              <option [value]="t.value">{{ t.label }}</option>
+            }
+          </select>
 
-        <div class="perfil__metrics">
-          <div>
-            <strong>{{ servicios }}</strong>
-            <span>Servicios</span>
-          </div>
-          <div>
-            <strong>{{ calificacion.toFixed(1) }}</strong>
-            <span>Calificacion</span>
-          </div>
-          <div>
-            <strong>100%</strong>
-            <span>Cumplimiento</span>
-          </div>
-        </div>
+          <label class="etiqueta" for="archivoDocumento">Archivo (PDF o imagen)</label>
+          <input id="archivoDocumento" class="campo" type="file" accept=".pdf,image/*" (change)="elegirArchivo($event)" />
+
+          @if (errorDocumento()) {
+            <p class="error" role="alert">{{ errorDocumento() }}</p>
+          }
+          <button type="submit" class="boton_principal boton_chico" [disabled]="subiendo()">
+            {{ subiendo() ? 'Subiendo...' : 'Subir documento' }}
+          </button>
+        </form>
       </section>
     </div>
 

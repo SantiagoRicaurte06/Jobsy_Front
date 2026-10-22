@@ -109,7 +109,7 @@
                   <jobsy-rating-stars [value]="review.estrellas" [showValue]="false" />
                 </div>
                 <p>{{ review.texto }}</p>
-                <span class="texto_mini texto_gris">{{ review.fecha }}</span>
+                <span class="texto_mini texto_gris">{{ review.fecha | date: 'mediumDate' }}</span>
               </li>
             }
           </ul>

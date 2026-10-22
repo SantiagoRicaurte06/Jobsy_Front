@@ -1,4 +1,5 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReportService } from '../../../core/services';
@@ -17,7 +18,7 @@ const ETIQUETA: Record<ReportStatus, string> = {
 @Component({
   selector: 'jobsy-admin-reports',
   standalone: true,
-  imports: [IconComponent, FormsModule, ModalComponent, EmptyStateComponent],
+  imports: [IconComponent, FormsModule, ModalComponent, EmptyStateComponent, DatePipe],
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })

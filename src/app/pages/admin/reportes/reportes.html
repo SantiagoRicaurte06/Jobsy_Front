@@ -55,7 +55,7 @@
               </div>
               <p class="admin-reportes__desc">{{ r.descripcion }}</p>
               <span class="texto_mini texto_gris">
-                {{ r.reportanteId }} &middot; {{ r.fecha }}
+                {{ r.reportanteId }} &middot; {{ r.fecha | date: 'mediumDate' }}
               </span>
             </div>
 
@@ -83,7 +83,7 @@
 
 <!-- ============ Detalle del reporte ============ -->
 @if (seleccionado(); as r) {
-  <jobsy-modal [title]="r.asunto" [subtitle]="r.tipo + ' · ' + r.fecha" (cerrar)="cerrarDetalle()">
+  <jobsy-modal [title]="r.asunto" [subtitle]="r.tipo + ' · ' + (r.fecha | date: 'mediumDate')" (cerrar)="cerrarDetalle()">
     <dl class="admin-reportes__detalle">
       <div>
         <dt>Reportado por</dt>

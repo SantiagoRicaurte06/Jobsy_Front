@@ -22,6 +22,15 @@ export interface SalesPoint {
   ventas: number;
 }
 
+export interface RefundResult {
+  pedidoId: string;
+  pagoId?: string;
+  monto: number;
+  estado: string;
+  mensaje: string;
+  stockRepuesto: boolean;
+}
+
 /**
  * Alta y edicion de producto.
  *
@@ -83,6 +92,17 @@ export class AdminService {
   recentOrders(limit = 4): Observable<Order[]> {
     if (environment.useMocks) return mockResponse<Order[]>([]);
     return this.api.get<Order[]>(`${this.path}/admin/pedidos-recientes`, { limit });
+  }
+
+  /**
+   * Devuelve el dinero de un pedido cobrado (pagado, enviado o entregado) y
+   * repone su stock. El servidor rechaza los que no estan cobrados.
+   */
+  refundOrder(id: string, motivo: string): Observable<RefundResult> {
+    if (environment.useMocks) {
+      return mockResponse({ pedidoId: id, monto: 0, estado: 'reembolsado', mensaje: 'Reembolso simulado.', stockRepuesto: true });
+    }
+    return this.api.post<RefundResult>(`${this.path}/admin/pedidos/${id}/reembolsar`, { motivo });
   }
 
   // ---- Catalogo ----

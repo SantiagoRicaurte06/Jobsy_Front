@@ -1,4 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProfileService, OrderService } from '../../../core/services';
 import { User, Order } from '../../../core/models';
@@ -8,7 +9,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 @Component({
   selector: 'jobsy-account-info',
   standalone: true,
-  imports: [RouterLink, CopPipe, LoadingSpinnerComponent],
+  imports: [RouterLink, CopPipe, LoadingSpinnerComponent, DatePipe],
   templateUrl: './informacion.html',
   styleUrl: './informacion.scss',
 })

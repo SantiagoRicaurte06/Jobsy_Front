@@ -1,4 +1,5 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApplicationService, JobService } from '../../../core/services';
 import { Application, Job, ApplicationStatus } from '../../../core/models';
@@ -30,7 +31,7 @@ const STATUS_CLASS: Record<ApplicationStatus, string> = {
 @Component({
   selector: 'jobsy-my-applications',
   standalone: true,
-  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent, DatePipe],
   templateUrl: './mis-postulaciones.html',
   styleUrl: './mis-postulaciones.scss',
 })
