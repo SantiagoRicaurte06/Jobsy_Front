@@ -1,7 +1,7 @@
 import { inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { OrderService, CartService, PaymentDetails } from '../../../core/services';
+import { OrderService, CartService, DeliveryService, PaymentDetails } from '../../../core/services';
 import { PaymentMethod } from '../../../core/models';
 
 /**
@@ -17,6 +17,7 @@ export abstract class CheckoutBase {
   protected orderService = inject(OrderService);
   protected cart = inject(CartService);
   protected router = inject(Router);
+  protected entrega = inject(DeliveryService);
 
   readonly procesando = signal(false);
   readonly error = signal('');
@@ -33,10 +34,15 @@ export abstract class CheckoutBase {
       this.error.set('Tu carrito esta vacio.');
       return;
     }
+    const entrega = this.entrega.datos();
+    if (!this.entrega.confirmados() || !entrega) {
+      this.error.set('Primero confirma los datos de entrega.');
+      return;
+    }
     this.procesando.set(true);
     this.error.set('');
 
-    this.orderService.checkout(this.cart.items(), metodo, datos).subscribe({
+    this.orderService.checkout(this.cart.items(), metodo, { ...datos, entrega }).subscribe({
       next: (pedido) => {
         this.procesando.set(false);
 
@@ -45,8 +51,10 @@ export abstract class CheckoutBase {
           return;
         }
 
-        // El pedido ya existe: lo comprado no debe seguir en el carrito.
+        // El pedido ya existe: lo comprado no debe seguir en el carrito, y la
+        // proxima compra vuelve a pedir confirmar la entrega.
         this.cart.clear();
+        this.entrega.editar();
 
         if (pedido.urlRedireccion) {
           window.location.href = pedido.urlRedireccion;

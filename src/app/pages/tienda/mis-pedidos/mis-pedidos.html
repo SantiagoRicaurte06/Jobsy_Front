@@ -104,6 +104,17 @@
                 <div class="pedido__gran-total"><dt>Total pagado</dt><dd>{{ p.total | cop }}</dd></div>
               </dl>
 
+              @if (p.entrega; as e) {
+                <div class="pedido__entrega">
+                  <jobsy-icon name="map-pin" />
+                  <div>
+                    <strong>Entrega a {{ e.nombre }}</strong> · {{ e.telefono }}
+                    <p>{{ e.direccion }}{{ e.detalle ? ', ' + e.detalle : '' }}{{ e.barrio ? ' · ' + e.barrio : '' }} · {{ e.ciudad }}</p>
+                    @if (e.notas) { <p class="texto_gris">{{ e.notas }}</p> }
+                  </div>
+                </div>
+              }
+
               <div class="pedido__acciones">
                 <a routerLink="/app/reportes" class="boton_simple boton_chico">¿Problema con este pedido?</a>
                 <button type="button" class="boton_secundario boton_chico" [disabled]="ocupado() === p.id" (click)="repetir(p)">

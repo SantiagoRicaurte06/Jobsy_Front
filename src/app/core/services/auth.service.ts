@@ -110,6 +110,13 @@ export class AuthService {
 
   logout(): void {
     this.storage.remove(StorageKeys.session);
+    // Datos personales recordados para el checkout: en un equipo compartido
+    // no deben quedarle al siguiente.
+    try {
+      localStorage.removeItem('jobsy.entrega');
+    } catch {
+      // Sin almacenamiento no hay nada que borrar.
+    }
     this._user.set(null);
   }
 

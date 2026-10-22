@@ -19,3 +19,4 @@ export * from './wallet.service';
 export * from './settings.service';
 export * from './notification.service';
 export * from './hiring.service';
+export * from './delivery.service';

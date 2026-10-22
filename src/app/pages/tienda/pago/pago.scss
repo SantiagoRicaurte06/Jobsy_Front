@@ -121,3 +121,43 @@
     text-align: center;
   }
 }
+
+// ---- Pasos y datos de entrega ----
+.pago__pasos {
+  display: flex;
+  gap: v.$space-4;
+  margin: 0 0 v.$space-4;
+  padding: 0;
+  list-style: none;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+
+  .is-actual { font-weight: v.$font-weight-semibold; color: v.$color-primary; }
+  .is-hecho { color: v.$color-success; }
+}
+
+.entrega {
+  &__titulo { display: flex; align-items: center; gap: v.$space-2; margin: 0 0 v.$space-4; font-size: v.$font-size-base; }
+
+  &__fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: v.$space-3;
+
+    @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+  }
+
+  &__notas { min-height: 72px; }
+  .casilla { margin-bottom: v.$space-4; font-size: v.$font-size-sm; }
+
+  &__resumen {
+    display: flex;
+    align-items: flex-start;
+    gap: v.$space-3;
+    margin-bottom: v.$space-4;
+    padding: v.$space-4;
+
+    > div { flex: 1; min-width: 0; }
+    p { margin: 2px 0 0; font-size: v.$font-size-sm; }
+  }
+}

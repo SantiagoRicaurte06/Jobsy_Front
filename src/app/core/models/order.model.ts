@@ -44,6 +44,21 @@ export interface Order {
   estadoPago?: string;
   /** PSE saca al usuario del sitio: si viene, hay que seguirla. */
   urlRedireccion?: string;
+  /** A quien y a donde se lleva; los pedidos antiguos no lo tienen. */
+  entrega?: DeliveryInfo;
+}
+
+/** Datos para entregar un pedido de la tienda. */
+export interface DeliveryInfo {
+  nombre: string;
+  telefono: string;
+  direccion: string;
+  /** Apartamento, torre, casa o interior. */
+  detalle?: string;
+  barrio?: string;
+  ciudad: string;
+  /** Indicaciones para quien entrega: porteria, horario, referencias. */
+  notas?: string;
 }
 
 /** Cupon ya resuelto para un subtotal concreto. */

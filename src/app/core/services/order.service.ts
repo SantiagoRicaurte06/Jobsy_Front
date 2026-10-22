@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { environment } from '../../../environments/environment';
-import { Order, PaymentMethod, CartItem, Coupon } from '../models';
+import { Order, PaymentMethod, CartItem, Coupon, DeliveryInfo } from '../models';
 import { mockResponse } from '../../mocks';
 
 /**
@@ -21,6 +21,8 @@ export interface PaymentDetails {
   banco?: string;
   tipoCuenta?: string;
   correo?: string;
+  /** Obligatoria: los productos de la tienda se envian. */
+  entrega?: DeliveryInfo;
 }
 
 /** Tienda_APi — pedidos y pasarela de pago (PSE, tarjeta, billetera, saldo). */
@@ -55,6 +57,7 @@ export class OrderService {
         estado: 'pendiente',
         metodoPago,
         fecha: new Date().toISOString(),
+        entrega: datos.entrega,
       };
       return mockResponse(order, 900);
     }

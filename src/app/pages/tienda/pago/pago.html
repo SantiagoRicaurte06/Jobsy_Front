@@ -1,21 +1,111 @@
 <div class="contenedor pago">
   <h1 class="pago__title">Finalizar compra</h1>
 
+  <ol class="pago__pasos" aria-label="Pasos de la compra">
+    <li [class.is-actual]="!entrega.confirmados()" [class.is-hecho]="entrega.confirmados()">1. Datos de entrega</li>
+    <li [class.is-actual]="entrega.confirmados()">2. Pago</li>
+  </ol>
+
   <div class="pago__grid">
     <div class="pago__main">
-      <!-- Selector de metodo de pago -->
-      <nav class="pago__methods">
-        @for (method of methods; track method.path) {
-          <a [routerLink]="method.path" routerLinkActive="is-active" class="pago__method">
-            <span aria-hidden="true"><jobsy-icon [name]="method.icon" /></span>
-            {{ method.label }}
-          </a>
-        }
-      </nav>
+      @if (!entrega.confirmados()) {
+        <!-- ===== Paso 1: datos de entrega ===== -->
+        <form class="pago__panel tarjeta entrega" (ngSubmit)="continuar()" novalidate>
+          <h2 class="entrega__titulo"><jobsy-icon name="truck" /> ¿A donde llevamos tu pedido?</h2>
 
-      <div class="pago__panel tarjeta">
-        <router-outlet />
-      </div>
+          <div class="entrega__fila">
+            <div class="grupo_campo">
+              <label class="etiqueta" for="e-nombre">Nombre de quien recibe</label>
+              <input id="e-nombre" class="campo" type="text" maxlength="60" autocomplete="name"
+                [class.is-invalid]="intentado() && errores().nombre"
+                [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
+              @if (intentado() && errores().nombre) { <p class="error">{{ errores().nombre }}</p> }
+            </div>
+            <div class="grupo_campo">
+              <label class="etiqueta" for="e-telefono">Celular de contacto</label>
+              <input id="e-telefono" class="campo" type="tel" inputmode="tel" maxlength="16" autocomplete="tel-national"
+                placeholder="300 123 4567" [class.is-invalid]="intentado() && errores().telefono"
+                [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
+              @if (intentado() && errores().telefono) { <p class="error">{{ errores().telefono }}</p> }
+            </div>
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="e-direccion">Direccion</label>
+            <input id="e-direccion" class="campo" type="text" maxlength="120" autocomplete="street-address"
+              placeholder="Calle 10 # 20-30" [class.is-invalid]="intentado() && errores().direccion"
+              [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
+            @if (intentado() && errores().direccion) { <p class="error">{{ errores().direccion }}</p> }
+            @else { <p class="ayuda">{{ ejemploDireccion }}</p> }
+          </div>
+
+          <div class="entrega__fila">
+            <div class="grupo_campo">
+              <label class="etiqueta" for="e-detalle">Apto, torre o casa <span class="texto_gris">(opcional)</span></label>
+              <input id="e-detalle" class="campo" type="text" maxlength="150" placeholder="Apto 301, Torre 2"
+                [ngModel]="detalle()" (ngModelChange)="detalle.set($event)" name="detalle" />
+            </div>
+            <div class="grupo_campo">
+              <label class="etiqueta" for="e-barrio">Barrio <span class="texto_gris">(opcional)</span></label>
+              <input id="e-barrio" class="campo" type="text" maxlength="100" placeholder="El Alcaravan"
+                [ngModel]="barrio()" (ngModelChange)="barrio.set($event)" name="barrio" />
+            </div>
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="e-ciudad">Ciudad</label>
+            <select id="e-ciudad" class="lista" [class.is-invalid]="intentado() && errores().ciudad"
+              [ngModel]="ciudad()" (ngModelChange)="ciudad.set($event)" name="ciudad">
+              @for (c of ciudades; track c) { <option [value]="c">{{ c }}</option> }
+            </select>
+            @if (intentado() && errores().ciudad) { <p class="error">{{ errores().ciudad }}</p> }
+          </div>
+
+          <div class="grupo_campo">
+            <label class="etiqueta" for="e-notas">Indicaciones para la entrega <span class="texto_gris">(opcional)</span></label>
+            <textarea id="e-notas" class="area_texto entrega__notas" maxlength="300"
+              placeholder="Ej: casa de rejas blancas, dejar en porteria, llamar al llegar."
+              [ngModel]="notas()" (ngModelChange)="notas.set($event)" name="notas"></textarea>
+            <p class="ayuda">{{ notas().length }}/300</p>
+          </div>
+
+          <label class="casilla">
+            <input type="checkbox" [ngModel]="recordar()" (ngModelChange)="recordar.set($event)" name="recordar" />
+            Recordar estos datos en este equipo para mi proxima compra
+          </label>
+
+          <button type="submit" class="boton_principal boton_ancho" [disabled]="cart.isEmpty()">
+            Continuar al pago <jobsy-icon name="arrow-right" />
+          </button>
+          @if (cart.isEmpty()) { <p class="ayuda">Tu carrito esta vacio.</p> }
+        </form>
+      } @else {
+        <!-- ===== Paso 2: pago ===== -->
+        @if (entrega.datos(); as d) {
+          <div class="tarjeta entrega__resumen">
+            <jobsy-icon name="map-pin" />
+            <div>
+              <strong>{{ d.nombre }} · {{ d.telefono }}</strong>
+              <p>{{ d.direccion }}{{ d.detalle ? ', ' + d.detalle : '' }}{{ d.barrio ? ' · ' + d.barrio : '' }} · {{ d.ciudad }}</p>
+              @if (d.notas) { <p class="texto_gris">{{ d.notas }}</p> }
+            </div>
+            <button type="button" class="boton_simple boton_chico" (click)="cambiar()">Cambiar</button>
+          </div>
+        }
+
+        <nav class="pago__methods">
+          @for (method of methods; track method.path) {
+            <a [routerLink]="method.path" routerLinkActive="is-active" class="pago__method">
+              <span aria-hidden="true"><jobsy-icon [name]="method.icon" /></span>
+              {{ method.label }}
+            </a>
+          }
+        </nav>
+
+        <div class="pago__panel tarjeta">
+          <router-outlet />
+        </div>
+      }
     </div>
 
     <!-- Resumen -->

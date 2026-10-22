@@ -164,5 +164,17 @@
     dt { color: v.$color-text !important; }
   }
 
+  &__entrega {
+    display: flex;
+    gap: v.$space-2;
+    margin-top: v.$space-3;
+    padding: v.$space-3;
+    border-radius: v.$radius-md;
+    background: v.$color-bg;
+    font-size: v.$font-size-sm;
+
+    p { margin: 2px 0 0; }
+  }
+
   &__acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: v.$space-2; margin-top: v.$space-4; }
 }
