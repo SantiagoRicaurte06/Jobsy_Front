@@ -307,6 +307,11 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/empleador/mis-ofertas/mis-ofertas').then((m) => m.MyOffersPage),
         title: 'Mis ofertas — Jobsy',
       },
+      {
+        path: 'contrataciones',
+        loadComponent: () => import('./pages/contrataciones/contrataciones').then((m) => m.HiringsPage),
+        title: 'Contrataciones — Jobsy',
+      },
 
       // ---- Perfil ----
       {

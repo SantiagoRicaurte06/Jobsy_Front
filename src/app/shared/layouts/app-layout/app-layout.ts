@@ -33,11 +33,13 @@ export class AppLayoutComponent {
       rol === 'empleador'
         ? [
             { path: '/app/mis-ofertas', label: 'Mis ofertas', icon: 'briefcase' },
+            { path: '/app/contrataciones', label: 'Contrataciones', icon: 'calendar' },
             { path: '/publicar-oferta', label: 'Publicar oferta', icon: 'square-pen' },
           ]
         : rol === 'empleado'
           ? [
               { path: '/app/mis-postulaciones', label: 'Mis postulaciones', icon: 'clipboard-list' },
+              { path: '/app/contrataciones', label: 'Mis trabajos', icon: 'calendar' },
               { path: '/app/hoja-de-vida', label: 'Hoja de vida', icon: 'file-text' },
             ]
           : [];

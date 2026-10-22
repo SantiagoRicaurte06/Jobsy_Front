@@ -86,14 +86,27 @@
           <p class="precio_llamada_detalle_empleo precio">{{ job()!.precioHora | cop }}</p>
           <p class="texto_mini texto_gris">por hora, aproximadamente</p>
 
-          <a [routerLink]="['/empleos', job()!.id, 'postularme']" class="boton_principal boton_ancho">
-            Postularme
-          </a>
-          <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar oferta</button>
-
-          <p class="nota_detalle_empleo">
-            Al postularte, el empleador vera tu perfil y tu hoja de vida.
-          </p>
+          @switch (accion()) {
+            @case ('propia') {
+              <a routerLink="/app/mis-ofertas" class="boton_principal boton_ancho">Ver postulaciones en Mis ofertas</a>
+              <p class="nota_detalle_empleo">Esta es tu oferta. Desde "Mis ofertas" ves quien se postulo y la gestionas.</p>
+            }
+            @case ('empleador') {
+              <p class="nota_detalle_empleo">Solo las cuentas de empleado pueden postularse a una oferta.</p>
+            }
+            @case ('cerrada') {
+              <p class="nota_detalle_empleo">Esta oferta ya no recibe postulaciones.</p>
+              <a routerLink="/empleos" class="boton_simple boton_ancho">Ver otras ofertas</a>
+            }
+            @default {
+              <a [routerLink]="['/empleos', job()!.id, 'postularme']" class="boton_principal boton_ancho">
+                Postularme
+              </a>
+              <p class="nota_detalle_empleo">
+                Al postularte, el empleador vera tu perfil y tu hoja de vida.
+              </p>
+            }
+          }
         </div>
 
         <div class="seguridad_detalle_empleo tarjeta">

@@ -1,0 +1,87 @@
+<section class="contrataciones">
+  <div class="encabezado_seccion">
+    <h1>Contrataciones</h1>
+  </div>
+
+  @if (aviso()) {
+    <p class="aviso_contrataciones" role="status">
+      {{ aviso() }}
+      <button type="button" aria-label="Cerrar aviso" (click)="aviso.set('')"><jobsy-icon name="x" /></button>
+    </p>
+  }
+
+  <nav class="filtros_contrataciones">
+    <button type="button" [class.is-active]="filtro() === 'todas'" (click)="filtro.set('todas')">Todas</button>
+    <button type="button" [class.is-active]="filtro() === 'activa'" (click)="filtro.set('activa')">En curso</button>
+    <button type="button" [class.is-active]="filtro() === 'completada'" (click)="filtro.set('completada')">Finalizadas</button>
+  </nav>
+
+  @if (cargando()) {
+    <jobsy-loading-spinner />
+  } @else if (visibles().length === 0) {
+    <div class="tarjeta">
+      <jobsy-empty-state icon="calendar" title="Sin contrataciones"
+        message="Cuando contrates a alguien, o te contraten, el servicio aparecera aqui." />
+    </div>
+  } @else {
+    <ul class="lista_contrataciones">
+      @for (h of visibles(); track h.id) {
+        <li class="contratacion tarjeta">
+          <div class="cabeza_contratacion">
+            <div>
+              <h2>{{ h.titulo || 'Servicio contratado' }}</h2>
+              <p class="texto_mini texto_gris">
+                {{ h.soyEmpleador ? 'Contrataste a' : 'Te contrato' }}
+                <strong>{{ h.contraparte || ('usuario #' + h.contraparteId) }}</strong>
+              </p>
+            </div>
+            <span [class]="estadoClase(h.estado)">{{ h.estado === 'activa' ? 'En curso' : h.estado }}</span>
+          </div>
+
+          <dl class="datos_contratacion">
+            <div><dt>Fecha</dt><dd>{{ h.fechaInicio.slice(0, 10) | date: 'longDate' }}</dd></div>
+            <div><dt>Hora</dt><dd>{{ h.horaInicio }} · {{ h.duracionHoras }} h</dd></div>
+            <div><dt>Direccion</dt><dd>{{ h.direccion }}</dd></div>
+            <div><dt>Tarifa</dt><dd>{{ h.tarifa | cop }} / hora</dd></div>
+            <div><dt>Total estimado</dt><dd class="precio">{{ h.totalEstimado | cop }}</dd></div>
+          </dl>
+
+          <div class="acciones_contratacion">
+            @if (h.soyEmpleador && h.contraparteId) {
+              <a [routerLink]="['/empleados', h.contraparteId]" class="boton_simple boton_chico">Ver perfil</a>
+            }
+            @if (h.soyEmpleador && h.estado === 'activa') {
+              <button type="button" class="boton_principal boton_chico" [disabled]="ocupado() === h.id" (click)="finalizar(h)">
+                {{ ocupado() === h.id ? 'Finalizando...' : 'Finalizar servicio' }}
+              </button>
+            }
+            @if (h.soyEmpleador && h.estado === 'completada' && !resenadas().includes(h.id) && resena()?.id !== h.id) {
+              <button type="button" class="boton_principal boton_chico" (click)="abrirResena(h)">Dejar resena</button>
+            }
+          </div>
+
+          @if (resena()?.id === h.id) {
+            <form class="form_resena" (ngSubmit)="publicarResena(h)">
+              <label class="etiqueta">Calificacion
+                <select class="campo" name="calificacion" [ngModel]="resena()!.calificacion"
+                  (ngModelChange)="resena.set({ id: h.id, calificacion: +$event, comentario: resena()!.comentario })">
+                  @for (n of [5, 4, 3, 2, 1]; track n) {
+                    <option [value]="n">{{ n }} estrella(s)</option>
+                  }
+                </select>
+              </label>
+              <label class="etiqueta">Comentario
+                <textarea class="area_texto" name="comentario" placeholder="¿Como fue el servicio?" [ngModel]="resena()!.comentario"
+                  (ngModelChange)="resena.set({ id: h.id, calificacion: resena()!.calificacion, comentario: $event })"></textarea>
+              </label>
+              <div class="acciones_contratacion">
+                <button type="button" class="boton_simple boton_chico" (click)="resena.set(null)">Cancelar</button>
+                <button type="submit" class="boton_principal boton_chico" [disabled]="ocupado() === h.id">Publicar resena</button>
+              </div>
+            </form>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

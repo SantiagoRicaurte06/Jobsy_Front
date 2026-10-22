@@ -39,6 +39,8 @@ export interface Job {
   titulo: string;
   /** Detalles del hogar y del trabajo que escribe el empleador. */
   descripcion?: string;
+  /** activa | pausada | cerrada. Solo las activas admiten postulaciones. */
+  estado?: string;
   tamano: JobSize;
   /** Gama alta. Independiente del tamano. */
   esLujo?: boolean;

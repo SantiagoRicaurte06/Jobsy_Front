@@ -71,9 +71,11 @@
               <a routerLink="/app/perfil" (click)="closeMenus()">Mi perfil</a>
               @if (role() === 'empleador') {
                 <a routerLink="/app/mis-ofertas" (click)="closeMenus()">Mis ofertas</a>
+                <a routerLink="/app/contrataciones" (click)="closeMenus()">Contrataciones</a>
                 <a routerLink="/publicar-oferta" (click)="closeMenus()">Publicar oferta</a>
               } @else if (role() === 'empleado') {
                 <a routerLink="/app/mis-postulaciones" (click)="closeMenus()">Mis postulaciones</a>
+                <a routerLink="/app/contrataciones" (click)="closeMenus()">Mis trabajos</a>
                 <a routerLink="/app/hoja-de-vida" (click)="closeMenus()">Hoja de vida</a>
               }
               <a routerLink="/app/cuenta" (click)="closeMenus()">Cuenta</a>

@@ -60,6 +60,8 @@ export class MyOffersPage implements OnInit {
   readonly subiendoFotos = signal<string | null>(null);
   readonly ocupado = signal<string | null>(null);
   readonly contrato = signal<FormContrato | null>(null);
+  /** Tras contratar se ofrece ir a Contrataciones. */
+  readonly contratoHecho = signal(false);
 
   ngOnInit(): void {
     this.cargar();
@@ -204,13 +206,17 @@ export class MyOffersPage implements OnInit {
     }
     this.ocupado.set(c.postulacionId);
     this.hirings.fromApplication(c).subscribe({
-      next: (h) => {
-        this.recibidas.update((lista) =>
-          lista.map((x) => (x.id === c.postulacionId ? { ...x, estado: 'aceptada', contratacionId: h.id } : x)),
-        );
+      next: () => {
         this.contrato.set(null);
         this.ocupado.set(null);
-        this.aviso.set('Contratacion creada. La persona recibio un aviso.');
+        this.contratoHecho.set(true);
+        this.aviso.set(
+          'Contratacion creada. La oferta quedo cerrada y las demas candidatas recibieron un aviso. ' +
+            'Si necesitas a alguien mas, reactiva la oferta.',
+        );
+        // El servidor cerro la oferta y respondio a las demas: se relee todo.
+        const id = this.abierta();
+        if (id) this.jobs.received(id).subscribe((r) => this.recibidas.set(r));
         this.refrescarConteos();
       },
       error: (err: HttpErrorResponse) => {

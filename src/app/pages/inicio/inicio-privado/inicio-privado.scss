@@ -86,3 +86,13 @@
 .seccion_inicio_privado { margin-bottom: v.$space-6; }
 
 .rejilla_inicio_privado { @include m.grid-cards(280px, v.$space-4); }
+
+// Las cifras llevan a su pantalla.
+a.cifra_inicio_privado {
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    border-color: v.$color-primary-light;
+  }
+}

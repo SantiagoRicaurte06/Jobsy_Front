@@ -32,6 +32,10 @@ export interface Hiring {
   /** De que lado esta quien consulta, para decidir que acciones ofrecer. */
   soyEmpleador: boolean;
   agenda?: ScheduleSlot[];
+  /** Titulo de la oferta y nombre de la otra parte. */
+  titulo?: string;
+  contraparteId?: string;
+  contraparte?: string;
 }
 
 /** Contratacion directa: se elige a alguien del buscador, sin oferta previa. */

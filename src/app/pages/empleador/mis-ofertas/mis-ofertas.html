@@ -14,8 +14,13 @@
 
   @if (aviso()) {
     <p class="aviso_mis_ofertas" role="status">
-      {{ aviso() }}
-      <button type="button" aria-label="Cerrar aviso" (click)="aviso.set('')"><jobsy-icon name="x" /></button>
+      <span>
+        {{ aviso() }}
+        @if (contratoHecho()) {
+          <a routerLink="/app/contrataciones">Ver contrataciones</a>
+        }
+      </span>
+      <button type="button" aria-label="Cerrar aviso" (click)="aviso.set(''); contratoHecho.set(false)"><jobsy-icon name="x" /></button>
     </p>
   }
 
@@ -127,12 +132,15 @@
                       @if (r.empleado) {
                         <a [routerLink]="['/empleados', r.empleado.id]" class="boton_simple boton_chico">Ver perfil</a>
                       }
+                      @if (r.contratacionId) {
+                        <a routerLink="/app/contrataciones" class="boton_simple boton_chico">Ver contratacion</a>
+                      }
                       @if (r.estado === 'pendiente' || r.estado === 'en_revision') {
                         @if (r.estado === 'pendiente') {
                           <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === r.id" (click)="responder(r, 'en_revision')">En revision</button>
                         }
                         <button type="button" class="boton_simple boton_chico cerrar_oferta" [disabled]="ocupado() === r.id" (click)="responder(r, 'rechazada')">Rechazar</button>
-                        <button type="button" class="boton_principal boton_chico" (click)="abrirContrato(o, r)">Contratar</button>
+                        <button type="button" class="boton_principal boton_chico" (click)="abrirContrato(o, r)">Aceptar y contratar</button>
                       }
                     </div>
 
@@ -155,6 +163,10 @@
                         </label>
                         <p class="texto_mini form_contrato__ancho">
                           Total estimado: <strong>{{ contrato()!.duracionHoras * contrato()!.tarifa | cop }}</strong>
+                        </p>
+                        <p class="texto_mini texto_gris form_contrato__ancho">
+                          Al confirmar, {{ r.empleado?.nombre ?? 'esta persona' }} queda contratada y recibe un aviso;
+                          la oferta se cierra y las demas postulaciones abiertas se responden automaticamente.
                         </p>
                         <div class="form_contrato__ancho acciones_candidata">
                           <button type="button" class="boton_simple boton_chico" (click)="contrato.set(null)">Cancelar</button>
