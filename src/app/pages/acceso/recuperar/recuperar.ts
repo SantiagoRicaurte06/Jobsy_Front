@@ -17,15 +17,15 @@ export class ForgotPasswordPage {
   private router = inject(Router);
 
   readonly email = signal('');
-  readonly loading = signal(false);
+  readonly cargando = signal(false);
 
   submit(): void {
     if (!this.email()) return;
 
-    this.loading.set(true);
+    this.cargando.set(true);
     this.auth.requestPasswordReset(this.email()).subscribe({
       next: () => this.router.navigate(['/auth/correo-enviado'], { queryParams: { email: this.email() } }),
-      error: () => this.loading.set(false),
+      error: () => this.cargando.set(false),
     });
   }
 }

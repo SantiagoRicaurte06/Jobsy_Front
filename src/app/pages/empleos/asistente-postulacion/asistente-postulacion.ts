@@ -26,7 +26,7 @@ export class ApplyWizardPage implements OnInit {
   readonly step = signal(0);
 
   readonly job = signal<Job | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly sending = signal(false);
 
   // ---- Datos del formulario ----
@@ -44,7 +44,7 @@ export class ApplyWizardPage implements OnInit {
     this.jobService.getById(this.id()).subscribe((job) => {
       this.job.set(job);
       this.tarifa.set(job?.precioHora ?? null);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 
 import { VisualReportPage } from './reporte-visual';
@@ -11,7 +12,7 @@ describe('VisualReportPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [VisualReportPage],
-      providers: [provideHttpClient(), provideRouter([])],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VisualReportPage);

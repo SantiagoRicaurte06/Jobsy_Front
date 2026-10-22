@@ -24,8 +24,8 @@ export class StepPersonalPage {
   readonly documento = signal(this.registration.draft().documento);
   readonly error = signal('');
 
-  readonly nacionalidades = ['Colombiana', 'Venzolana', 'Ecuatoriana', 'Peruana', 'Otra'];
-  readonly generos = ['Femenino', 'Maculino', 'No binario', 'Prefiero no decirlo'];
+  readonly nacionalidades = ['Colombiana', 'Venezolana', 'Ecuatoriana', 'Peruana', 'Otra'];
+  readonly generos = ['Femenino', 'Masculino', 'No binario', 'Prefiero no decirlo'];
 
   back():void {
     this.router.navigate(['/registro/checklist']);

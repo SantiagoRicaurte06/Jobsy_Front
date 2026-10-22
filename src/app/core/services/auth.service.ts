@@ -71,11 +71,23 @@ export class AuthService {
       return mockResponse(user);
     }
 
-    // API real: el contrato de Usuarios_Api es RegisterRequest.
+    // API real: se envia todo el asistente. Antes solo iban los cinco campos de
+    // la cuenta y el resto (documento, ubicacion, modalidades...) se perdia.
+    // Los vacios se omiten; la foto se sube aparte con la sesion ya abierta.
     const payload: RegisterRequest = {
       nombre: draft.nombre, apellido: draft.apellido, email: draft.email,
       password: draft.password, rol,
     };
+    const opcionales: Partial<RegisterRequest> = {
+      nacionalidad: draft.nacionalidad, genero: draft.genero, fechaNacimiento: draft.fechaNacimiento,
+      documento: draft.documento, ciudad: draft.ciudad, barrio: draft.barrio,
+      distanciaKm: draft.distanciaKm, experiencia: draft.experiencia,
+      modalidades: draft.modalidades, especialidades: draft.especialidades,
+    };
+    for (const [clave, valor] of Object.entries(opcionales)) {
+      const vacio = valor === '' || valor == null || (Array.isArray(valor) && !valor.length);
+      if (!vacio) (payload as unknown as Record<string, unknown>)[clave] = valor;
+    }
     return this.api.post<User>(`${environment.endpoints.usuarios}/registro`, payload);
   }
 

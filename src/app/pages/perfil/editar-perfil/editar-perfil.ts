@@ -16,8 +16,8 @@ export class EditProfilePage implements OnInit {
   private profileService = inject(ProfileService);
   private router = inject(Router);
 
-  readonly loading = signal(true);
-  readonly saving = signal(false);
+  readonly cargando = signal(true);
+  readonly guardando = signal(false);
   readonly guardado = signal(false);
 
   readonly nombre = signal('');
@@ -43,7 +43,7 @@ export class EditProfilePage implements OnInit {
         this.telefono.set(u.telefono ?? '');
         this.ciudad.set(u.ciudad ?? 'Yopal');
       }
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 
@@ -54,7 +54,7 @@ export class EditProfilePage implements OnInit {
   }
 
   submit(): void {
-    this.saving.set(true);
+    this.guardando.set(true);
 
     this.profileService
       .update({
@@ -64,7 +64,7 @@ export class EditProfilePage implements OnInit {
         ciudad: this.ciudad(),
       })
       .subscribe(() => {
-        this.saving.set(false);
+        this.guardando.set(false);
         this.guardado.set(true);
         setTimeout(() => this.router.navigate(['/app/perfil']), 1200);
       });

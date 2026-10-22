@@ -1,5 +1,5 @@
 <div class="contenedor detalle-producto">
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner />
   } @else if (!product()) {
     <jobsy-empty-state icon="package" title="Producto no encontrado">

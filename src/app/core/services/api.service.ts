@@ -4,7 +4,12 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 /**
- * Cliente HTTP base contra el gateway de microservicios (Core_api).
+ * Cliente HTTP base contra el middleware de Jobsy.
+ *
+ * El middleware no es uno de los servicios CRUD: los orquesta a todos, y ademas
+ * pone la autenticacion, la validacion y la logica de negocio que el backend no
+ * tiene. Es el unico destino al que sale el frontend.
+ *
  * Los servicios de dominio lo usan cuando environment.useMocks === false.
  */
 @Injectable({ providedIn: 'root' })

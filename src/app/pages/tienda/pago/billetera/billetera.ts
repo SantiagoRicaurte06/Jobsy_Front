@@ -1,40 +1,70 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { OrderService, CartService } from '../../../../core/services';
-import { IconComponent } from '../../../../shared/components/icon/icon';
+import { WalletService } from '../../../../core/services';
+import { PaymentMethod } from '../../../../core/models';
+import { CheckoutBase } from '../checkout-base';
+
+/** Color de marca de cada billetera, para el punto de color de la lista. */
+const COLORES: Record<string, string> = {
+  nequi: '#8B5CF6',
+  daviplata: '#E30613',
+};
+
+const NOMBRES: Record<string, string> = {
+  nequi: 'Nequi',
+  daviplata: 'Daviplata',
+};
 
 @Component({
   selector: 'jobsy-digital-wallet',
   standalone: true,
-  imports: [IconComponent, FormsModule],
+  imports: [FormsModule],
   templateUrl: './billetera.html',
   styleUrl: './billetera.scss',
 })
-export class DigitalWalletPage {
-  private orderService = inject(OrderService);
-  private cart = inject(CartService);
-  private router = inject(Router);
+export class DigitalWalletPage extends CheckoutBase implements OnInit {
+  private wallet = inject(WalletService);
 
-  readonly billetera = signal('nequi');
+  readonly billetera = signal<PaymentMethod | ''>('');
   readonly telefono = signal('');
-  readonly procesando = signal(false);
 
-  /** Cada billetera se distingue por su color de marca (punto de color). */
-  readonly billeteras = [
-    { value: 'nequi', color: '#8B5CF6', label: 'Nequi' },
-    { value: 'daviplata', color: '#E30613', label: 'Daviplata' },
-    { value: 'movii', color: '#FFD100', label: 'Movii' },
-    { value: 'dale', color: '#0047BB', label: 'Dale!' },
-  ];
+  /**
+   * Billeteras que la plataforma acepta ahora mismo.
+   *
+   * Antes la lista estaba escrita en el codigo (nequi, daviplata, movii,
+   * dale) y el pago se enviaba como "billetera", que no es ninguno de los
+   * metodos que el servidor conoce: siempre fallaba. Movii y Dale no existen
+   * en la tabla, asi que no se ofrecen.
+   */
+  readonly billeteras = signal<{ value: PaymentMethod; color: string; label: string }[]>([]);
+
+  ngOnInit(): void {
+    this.wallet.options().subscribe({
+      next: (opciones) => {
+        const disponibles = (opciones ?? [])
+          .filter((o) => o.disponible && NOMBRES[o.nombre])
+          .map((o) => ({
+            value: o.nombre as PaymentMethod,
+            color: COLORES[o.nombre] ?? '#666666',
+            label: NOMBRES[o.nombre],
+          }));
+        this.billeteras.set(disponibles);
+        this.billetera.set(disponibles[0]?.value ?? '');
+      },
+      error: () => this.error.set('No pudimos cargar las billeteras disponibles.'),
+    });
+  }
 
   pagar(): void {
-    if (!this.telefono()) return;
-
-    this.procesando.set(true);
-    this.orderService.checkout(this.cart.items(), 'billetera').subscribe(() => {
-      this.cart.clear();
-      this.router.navigate(['/app/cuenta']);
-    });
+    const elegida = this.billetera();
+    if (!elegida) {
+      this.error.set('Elige una billetera.');
+      return;
+    }
+    if (!this.telefono()) {
+      this.error.set('Escribe el telefono de tu billetera.');
+      return;
+    }
+    this.pagarCon(elegida, { correo: this.telefono() });
   }
 }

@@ -1,4 +1,4 @@
-@if (loading()) {
+@if (cargando()) {
   <jobsy-loading-spinner />
 } @else {
   <div class="info_cuenta">
@@ -25,7 +25,7 @@
             }
           </dd>
         </div>
-        <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro }}</dd></div>
+        <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro | date: 'longDate' }}</dd></div>
       </dl>
     </section>
 
@@ -51,7 +51,7 @@
               @for (order of orders(); track order.id) {
                 <tr>
                   <td><strong>{{ order.numero }}</strong></td>
-                  <td>{{ order.fecha }}</td>
+                  <td>{{ order.fecha | date: 'mediumDate' }}</td>
                   <td>{{ order.items.length }}</td>
                   <td class="precio">{{ order.total | cop }}</td>
                   <td><span [class]="badgeClass(order.estado)">{{ order.estado }}</span></td>

@@ -1,4 +1,5 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApplicationService, JobService } from '../../../core/services';
 import { Application, Job, ApplicationStatus } from '../../../core/models';
@@ -30,7 +31,7 @@ const STATUS_CLASS: Record<ApplicationStatus, string> = {
 @Component({
   selector: 'jobsy-my-applications',
   standalone: true,
-  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent, DatePipe],
   templateUrl: './mis-postulaciones.html',
   styleUrl: './mis-postulaciones.scss',
 })
@@ -39,7 +40,7 @@ export class MyApplicationsPage implements OnInit {
   private jobService = inject(JobService);
 
   readonly rows = signal<ApplicationRow[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly filtro = signal<ApplicationStatus | 'todas'>('todas');
 
   readonly filtros: { value: ApplicationStatus | 'todas'; label: string }[] = [
@@ -59,7 +60,7 @@ export class MyApplicationsPage implements OnInit {
     this.applicationService.myApplications().subscribe((apps) => {
       // Cruzamos cada postulacion con su oferta para mostrar titulo y precio.
       this.rows.set(apps.map((application) => ({ application })));
-      this.loading.set(false);
+      this.cargando.set(false);
 
       apps.forEach((app, i) => {
         this.jobService.getById(app.jobId).subscribe((job) => {

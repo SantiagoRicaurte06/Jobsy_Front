@@ -15,7 +15,7 @@
   }
  </nav>
 
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner />
   } @else if (visibles().length === 0) {
     <div class="tarjeta">
@@ -40,7 +40,7 @@
             @if (row.job) {
               <p class="precio">{{ row.job.precioHora | cop }} / hora</p>
             }
-            <p class="texto_mini texto_gris">Postulado el {{ row.application.fechaPostulacion }}</p>
+            <p class="texto_mini texto_gris">Postulado el {{ row.application.fechaPostulacion | date: 'longDate' }}</p>
           </div>
 
           <div class="estado_mis_postulaciones">

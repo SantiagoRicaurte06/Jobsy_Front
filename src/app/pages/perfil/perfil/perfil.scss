@@ -97,9 +97,36 @@
     gap: v.$space-2;
   }
 
+  // ---- Documentos ----
+  &__docs {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-2;
+    margin-bottom: v.$space-4;
+
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: v.$space-2;
+      font-size: v.$font-size-sm;
+    }
+
+    small { flex-basis: 100%; color: v.$color-text-muted; }
+  }
+
+  &__upload {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-2;
+
+    button { align-self: flex-start; }
+  }
+
   &__metrics {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: v.$space-3;
 
     > div {

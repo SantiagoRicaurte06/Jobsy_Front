@@ -107,7 +107,7 @@
     <a routerLink="/empleos" class="enlace_seccion">Ver todos <jobsy-icon name="arrow-right" /></a>
   </div>
 
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner label="Cargando empleos..." />
   } @else {
     <div class="rejilla_inicio">

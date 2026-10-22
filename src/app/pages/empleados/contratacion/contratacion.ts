@@ -1,7 +1,8 @@
 import { Component, inject, input, signal, OnInit, computed } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EmployeeService } from '../../../core/services';
+import { EmployeeService, HiringService } from '../../../core/services';
 import { Employee, WorkModality } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
@@ -17,6 +18,7 @@ import { IconComponent } from '../../../shared/components/icon/icon';
 })
 export class HiringPage implements OnInit {
   private employeeService = inject(EmployeeService);
+  private hiring = inject(HiringService);
   private router = inject(Router);
 
   readonly id = input.required<string>();
@@ -25,8 +27,10 @@ export class HiringPage implements OnInit {
   readonly step = signal(0);
 
   readonly employee = signal<Employee | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly done = signal(false);
+  readonly enviando = signal(false);
+  readonly error = signal('');
 
   readonly modalidad = signal<WorkModality>('por_horas');
   readonly fecha = signal('');
@@ -35,19 +39,32 @@ export class HiringPage implements OnInit {
   readonly tarifaHora = signal(30000);
   readonly direccion = signal('');
 
+  /**
+   * Las tres modalidades del catalogo (catalogo.modalidades_trabajo).
+   *
+   * Habia una cuarta, "Contrato fijo", que viajaba como 'presencial': el
+   * servidor no la reconoce y la contratacion habria fallado.
+   */
   readonly modalidades: { value: WorkModality; label: string; text: string }[] = [
     { value: 'por_horas', label: 'Por horas', text: 'Pagas solo las horas trabajadas.' },
     { value: 'jornada_completa', label: 'Jornada completa', text: 'Dia completo de trabajo.' },
     { value: 'fin_de_semana', label: 'Fin de semana', text: 'Sabados y domingos.' },
-    { value: 'presencial', label: 'Contrato fijo', text: 'Vinculacion estable mensual.' },
   ];
 
   readonly total = computed(() => this.horas() * this.tarifaHora());
 
   ngOnInit(): void {
-    this.employeeService.getById(this.id()).subscribe((e) => {
-      this.employee.set(e);
-      this.loading.set(false);
+    this.employeeService.getById(this.id()).subscribe({
+      next: (e) => {
+        this.employee.set(e);
+        // La tarifa de partida es la de esa persona, no una cifra fija.
+        if (e?.tarifaHora) this.tarifaHora.set(e.tarifaHora);
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.cargando.set(false);
+        this.error.set('No pudimos cargar los datos de esta persona.');
+      },
     });
   }
 
@@ -60,8 +77,41 @@ export class HiringPage implements OnInit {
   }
 
   confirmar(): void {
-    // TEMPORAL: aqui iria la llamada real al backend de contratacion.
-    this.done.set(true);
+    if (!this.direccion().trim()) {
+      this.error.set('Escribe la direccion del servicio.');
+      return;
+    }
+    if (!this.fecha()) {
+      this.error.set('Elige la fecha del servicio.');
+      return;
+    }
+    this.enviando.set(true);
+    this.error.set('');
+
+    // Contratacion directa: no hay oferta ni postulacion previas, las crea el
+    // servidor a partir de esto.
+    this.hiring
+      .direct({
+        empleadoId: this.id(),
+        titulo: `Servicio con ${this.employee()?.nombre ?? 'Jobsy'}`,
+        direccion: this.direccion().trim(),
+        ciudad: this.employee()?.ciudad ?? '',
+        fechaInicio: this.fecha(),
+        horaInicio: this.horaInicio(),
+        duracionHoras: this.horas(),
+        tarifa: this.tarifaHora(),
+        modalidad: this.modalidad(),
+      })
+      .subscribe({
+        next: () => {
+          this.enviando.set(false);
+          this.done.set(true);
+        },
+        error: (e: HttpErrorResponse) => {
+          this.enviando.set(false);
+          this.error.set(e.error?.error?.mensaje ?? 'No pudimos completar la contratacion.');
+        },
+      });
   }
 
   goHome(): void {

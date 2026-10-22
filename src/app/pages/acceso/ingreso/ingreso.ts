@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'jobsy-login',
@@ -20,8 +21,10 @@ export class LoginPage {
   readonly usuario = signal('');
   readonly password = signal('');
   readonly showPassword = signal(false);
-  readonly loading = signal(false);
+  readonly cargando = signal(false);
   readonly error = signal('');
+  /** El acceso con Google solo existe en modo mocks: el middleware no lo implementa. */
+  readonly googleDisponible = environment.useMocks;
 
   togglePassword(): void {
     this.showPassword.update((v) => !v);
@@ -33,23 +36,23 @@ export class LoginPage {
       return;
     }
 
-    this.loading.set(true);
+    this.cargando.set(true);
     this.error.set('');
 
     this.auth.login({ usuario: this.usuario(), password: this.password() }).subscribe({
       next: () => this.redirect(),
       error: () => {
         this.error.set('Usuario o contrasena incorrectos.');
-        this.loading.set(false);
+        this.cargando.set(false);
       },
     });
   }
 
   google(): void {
-    this.loading.set(true);
+    this.cargando.set(true);
     this.auth.loginWithGoogle().subscribe({
       next: () => this.redirect(),
-      error: () => this.loading.set(false),
+      error: () => this.cargando.set(false),
     });
   }
 

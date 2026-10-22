@@ -58,8 +58,8 @@
 
      <div class="paso-ubicacion__actions">
       <button type="button" class="boton_simple" (click)="back()">Atras</button>
-      <button type="submit" class="boton_principal" [disabled]="loading()">
-        {{ loading() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
+      <button type="submit" class="boton_principal" [disabled]="cargando()">
+        {{ cargando() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
       </button>
      </div>
   </form>

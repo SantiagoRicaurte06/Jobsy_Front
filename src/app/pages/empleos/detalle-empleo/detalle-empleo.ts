@@ -1,7 +1,8 @@
-import { Component, inject, input, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, input, signal, OnInit } from '@angular/core';
+import { DatePipe, LowerCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { JobService } from '../../../core/services';
-import { Job } from '../../../core/models';
+import { Job, MODALIDAD_TEXTO, TAMANO_TEXTO } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
@@ -10,7 +11,10 @@ import { IconComponent } from '../../../shared/components/icon/icon';
 @Component({
   selector: 'jobsy-job-detail',
   standalone: true,
-  imports: [IconComponent, RouterLink, CopPipe, LoadingSpinnerComponent, EmptyStateComponent],
+  imports: [
+    DatePipe, LowerCasePipe, IconComponent, RouterLink, CopPipe,
+    LoadingSpinnerComponent, EmptyStateComponent,
+  ],
   templateUrl: './detalle-empleo.html',
   styleUrl: './detalle-empleo.scss',
 })
@@ -21,12 +25,24 @@ export class JobDetailPage implements OnInit {
   readonly id = input.required<string>();
 
   readonly job = signal<Job | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
+
+  // La vista pintaba el valor crudo del enum: "jornada_completa" con guion
+  // bajo, y "mediano" en masculino junto a "vivienda".
+  readonly tamanoTexto = computed(() => {
+    const j = this.job();
+    return j ? TAMANO_TEXTO[j.tamano] : '';
+  });
+
+  readonly modalidadTexto = computed(() => {
+    const j = this.job();
+    return j ? MODALIDAD_TEXTO[j.modalidad] : '';
+  });
 
   ngOnInit(): void {
     this.jobService.getById(this.id()).subscribe((job) => {
       this.job.set(job);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 }

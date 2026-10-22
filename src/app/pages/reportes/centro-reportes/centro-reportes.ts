@@ -1,4 +1,5 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ReportService } from '../../../core/services';
@@ -12,11 +13,16 @@ import { IconComponent } from '../../../shared/components/icon/icon';
   templateUrl: './centro-reportes.html',
   styleUrl: './centro-reportes.scss',
 })
-export class ReportCenterPage {
+export class ReportCenterPage implements OnInit {
   private reportService = inject(ReportService);
 
   /** Lista reactiva de reportes del usuario (con su conversacion). */
   readonly reports = this.reportService.reports;
+  readonly cargando = this.reportService.cargando;
+
+  ngOnInit(): void {
+    this.reportService.cargar();
+  }
 
   readonly enviando = signal(false);
   readonly enviado = signal(false);
@@ -69,20 +75,29 @@ export class ReportCenterPage {
     this.enviando.set(true);
     this.error.set(null);
 
-    // ReportService.create() ya agrega el reporte a la lista y lo persiste.
-    const nuevo = this.reportService.create({
-      tipo: this.tipo(),
-      asunto: this.asunto(),
-      descripcion: this.descripcion(),
-    });
-
-    this.asunto.set('');
-    this.descripcion.set('');
-    this.enviando.set(false);
-    this.enviado.set(true);
-    setTimeout(() => this.enviado.set(false), 3000);
-
-    this.seleccionadoId.set(nuevo.id);
+    this.reportService
+      .create({ tipo: this.tipo(), asunto: this.asunto(), descripcion: this.descripcion() })
+      .subscribe({
+        next: (nuevo) => {
+          // El alta no devuelve el hilo; el primer mensaje es la descripcion.
+          this.reportService.anexarReporte({
+            ...nuevo,
+            mensajes: [
+              { autor: 'usuario', texto: nuevo.descripcion, fecha: new Date().toISOString() },
+            ],
+          });
+          this.asunto.set('');
+          this.descripcion.set('');
+          this.enviando.set(false);
+          this.enviado.set(true);
+          setTimeout(() => this.enviado.set(false), 3000);
+          this.seleccionadoId.set(nuevo.id);
+        },
+        error: (e: HttpErrorResponse) => {
+          this.enviando.set(false);
+          this.error.set(e.error?.error?.mensaje ?? 'No pudimos enviar tu reporte.');
+        },
+      });
   }
 
   /** Abre la conversacion de un reporte. */
@@ -101,8 +116,14 @@ export class ReportCenterPage {
     const texto = this.nuevoMensaje().trim();
     if (!id || !texto) return;
 
-    this.reportService.sendMessage(id, texto);
     this.nuevoMensaje.set('');
+    this.reportService.sendMessage(id, texto).subscribe({
+      next: (m) => this.reportService.anexarMensaje(id, m),
+      error: (e: HttpErrorResponse) => {
+        this.nuevoMensaje.set(texto);
+        this.error.set(e.error?.error?.mensaje ?? 'No pudimos enviar tu mensaje.');
+      },
+    });
   }
 
   /** Texto del ultimo mensaje del hilo, para la vista previa del listado. */

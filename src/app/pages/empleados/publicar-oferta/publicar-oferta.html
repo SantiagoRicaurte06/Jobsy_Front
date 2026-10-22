@@ -97,8 +97,8 @@
         <p class="error" role="alert">{{ error() }}</p>
       }
 
-      <button type="submit" class="boton_principal boton_ancho" [disabled]="saving()">
-        {{ saving() ? 'Publicando...' : 'Publicar oferta' }}
+      <button type="submit" class="boton_principal boton_ancho" [disabled]="guardando()">
+        {{ guardando() ? 'Publicando...' : 'Publicar oferta' }}
       </button>
     </form>
   </div>

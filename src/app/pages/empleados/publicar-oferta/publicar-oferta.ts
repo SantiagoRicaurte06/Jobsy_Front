@@ -2,7 +2,9 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JobService } from '../../../core/services';
-import { JobSize, WorkModality } from '../../../core/models';
+import {
+  JobSize, MODALIDADES, MODALIDAD_TEXTO, TAMANOS, TAMANO_TEXTO, WorkModality,
+} from '../../../core/models';
 
 @Component({
   selector: 'jobsy-publish-offer',
@@ -24,22 +26,12 @@ export class PublishOfferPage {
   readonly ciudad = signal('Yopal');
   readonly etiquetas = signal<string[]>([]);
   readonly descripcion = signal('');
-  readonly saving = signal(false);
+  readonly guardando = signal(false);
   readonly error = signal('');
 
-  readonly tamanos: { value: JobSize; label: string }[] = [
-    { value: 'pequeno', label: 'Pequena' },
-    { value: 'mediano', label: 'Mediana' },
-    { value: 'grande', label: 'Grande' },
-    { value: 'lujoso', label: 'Lujosa' },
-  ];
+  readonly tamanos = TAMANOS.map((value) => ({ value, label: TAMANO_TEXTO[value] }));
 
-  readonly modalidades: { value: WorkModality; label: string }[] = [
-    { value: 'por_horas', label: 'Por horas' },
-    { value: 'jornada_completa', label: 'Jornada completa' },
-    { value: 'fin_de_semana', label: 'Fin de semana' },
-    { value: 'presencial', label: 'Presencial fijo' },
-  ];
+  readonly modalidades = MODALIDADES.map((value) => ({ value, label: MODALIDAD_TEXTO[value] }));
 
   readonly tareas = ['Limpieza', 'Cocina', 'Planchado', 'Zonas verdes', 'Mascotas', 'Cuidado de ninos'];
   readonly ciudades = ['Yopal', 'Aguazul', 'Tauramena', 'Villanueva', 'Monterrey'];
@@ -54,7 +46,7 @@ export class PublishOfferPage {
       return;
     }
 
-    this.saving.set(true);
+    this.guardando.set(true);
     this.jobService
       .create({
         titulo: this.titulo(),
@@ -70,7 +62,7 @@ export class PublishOfferPage {
         next: () => this.router.navigate(['/empleos']),
         error: () => {
           this.error.set('No pudimos publicar la oferta. Intenta de nuevo.');
-          this.saving.set(false);
+          this.guardando.set(false);
         },
       });
   }

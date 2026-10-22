@@ -1,15 +1,8 @@
 import { Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Job, JobSize } from '../../../core/models';
+import { Job, TAMANO_TEXTO } from '../../../core/models';
 import { CopPipe } from '../../pipes';
 import { IconComponent } from '../icon/icon';
-
-const SIZE_LABEL: Record<JobSize, string> = {
-  pequeno: 'Pequeno',
-  mediano: 'Mediano',
-  grande: 'Grande',
-  lujoso: 'Lujoso',
-};
 
 /** Tarjeta de oferta de empleo. Se usa en el home y en la busqueda. */
 @Component({
@@ -22,5 +15,5 @@ const SIZE_LABEL: Record<JobSize, string> = {
 export class JobCardComponent {
   readonly job = input.required<Job>();
 
-  readonly sizeLabel = computed(() => SIZE_LABEL[this.job().tamano]);
+  readonly sizeLabel = computed(() => TAMANO_TEXTO[this.job().tamano]);
 }
