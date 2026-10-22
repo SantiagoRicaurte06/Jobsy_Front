@@ -151,7 +151,9 @@ export class ReportCenterPage implements OnInit {
       if (document.hidden) return;
       const id = this.seleccionadoId();
       if (id) this.reportService.cargarHilo(id);
-      if (todo) this.reportService.cargar(false, true);
+      // Con un chat abierto tambien se relee la lista: el estado (soporte lo
+      // pasa a "en proceso" al responder) viaja en ella.
+      if (todo || id) this.reportService.cargar(false, true);
     };
     const temporizador = setInterval(() => refrescar(++vuelta % 3 === 0), REFRESCO_MS);
     const alVolver = () => refrescar(true);

@@ -56,8 +56,13 @@ export class CartService {
     // Persiste el carrito en localStorage ante cualquier cambio.
     effect(() => this.storage.set(StorageKeys.cart, this._items()));
 
-    // Al iniciar sesion se fusiona con el carrito guardado; al cerrarla se
-    // vacia la copia local para que el siguiente usuario no la herede.
+    // Al iniciar sesion se fusiona lo que el visitante tenia con el carrito
+    // guardado; al cerrarla se vacia la copia local para que el siguiente
+    // usuario no la herede.
+    //
+    // Al abrir o recargar la pagina con la sesion ya iniciada NO se fusiona:
+    // la copia local es el espejo del carrito guardado, y volver a subirla
+    // sumaba las mismas unidades en cada recarga (1, 2, 3...). Solo se lee.
     let habiaSesion: boolean | null = null;
     effect(() => {
       const sesion = this.auth.isLoggedIn();
@@ -65,8 +70,10 @@ export class CartService {
       const primeraVez = habiaSesion === null;
       habiaSesion = sesion;
       untracked(() => {
-        if (sesion && !environment.useMocks) this.fusionar();
-        else if (!sesion && !primeraVez) this._items.set([]);
+        if (sesion && !environment.useMocks) {
+          if (primeraVez) this.recargar();
+          else this.fusionar();
+        } else if (!sesion && !primeraVez) this._items.set([]);
       });
     });
   }
@@ -109,6 +116,14 @@ export class CartService {
 
   cerrarAviso(): void {
     this._aviso.set(null);
+  }
+
+  /** Trae el carrito guardado y reemplaza la copia local. */
+  private recargar(): void {
+    this.api.get<CarritoRemoto>(this.path).subscribe({
+      next: (c) => this.adoptar(c),
+      error: () => this._aviso.set('No pudimos recuperar tu carrito guardado.'),
+    });
   }
 
   /** Sube lo que hubiera en el navegador y adopta el carrito resultante. */

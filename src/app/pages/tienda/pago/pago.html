@@ -1,6 +1,15 @@
 <div class="contenedor pago">
   <h1 class="pago__title">Finalizar compra</h1>
 
+  @if (cart.isEmpty()) {
+    <!-- Antes se podia llenar todo el checkout de un pedido de $0. -->
+    <div class="tarjeta pago__vacio">
+      <jobsy-icon name="shopping-cart" />
+      <h2>Tu carrito esta vacio</h2>
+      <p>Agrega productos de la tienda para poder finalizar una compra.</p>
+      <a routerLink="/tienda" class="boton_principal">Ir a la tienda</a>
+    </div>
+  } @else {
   <ol class="pago__pasos" aria-label="Pasos de la compra">
     <li [class.is-actual]="!entrega.confirmados()" [class.is-hecho]="entrega.confirmados()">1. Datos de entrega</li>
     <li [class.is-actual]="entrega.confirmados()">2. Pago</li>
@@ -134,4 +143,5 @@
       <a routerLink="/tienda/carrito" class="pago__back"><jobsy-icon name="arrow-left" /> Volver al carrito</a>
     </aside>
   </div>
+  }
 </div>

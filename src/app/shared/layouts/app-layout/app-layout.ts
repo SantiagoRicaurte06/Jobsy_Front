@@ -61,7 +61,7 @@ export class AppLayoutComponent {
       ...propios,
       { path: '/app/perfil', label: 'Perfil', icon: 'user' },
       { path: '/app/pedidos', label: 'Mis pedidos', icon: 'package' },
-      { path: '/app/reportes', label: 'Reportes', icon: 'chart-column' },
+      { path: '/app/reportes', label: 'Soporte', icon: 'message-circle' },
       { path: '/app/cuenta', label: 'Cuenta', icon: 'credit-card' },
       { path: '/app/configuracion', label: 'Configuracion', icon: 'settings' },
     ];

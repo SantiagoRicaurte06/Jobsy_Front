@@ -161,3 +161,16 @@
     p { margin: 2px 0 0; font-size: v.$font-size-sm; }
   }
 }
+
+.pago__vacio {
+  display: grid;
+  justify-items: center;
+  gap: v.$space-2;
+  max-width: 480px;
+  margin: v.$space-6 auto;
+  padding: v.$space-6;
+  text-align: center;
+
+  h2 { margin: 0; font-size: v.$font-size-lg; }
+  p { margin: 0 0 v.$space-2; color: v.$color-text-muted; }
+}

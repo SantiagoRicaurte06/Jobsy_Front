@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { JobService, EmployeeService, CartService } from '../../../core/services';
+import { JobService, EmployeeService, CartService, ProductService } from '../../../core/services';
+import { CIUDADES } from '../../../core/validation/reglas';
 import { Job, Employee } from '../../../core/models';
 import { IMG_SITE } from '../../../mocks';
 import { JobCardComponent } from '../../../shared/components/job-card/job-card';
@@ -43,6 +44,13 @@ export class LandingPage implements OnInit, OnDestroy {
   /** Total real de ofertas, para que el hero no prometa una cifra inventada. */
   readonly totalEmpleos = signal(0);
   readonly totalEmpleados = signal(0);
+  readonly totalProductos = signal(0);
+  private productService = inject(ProductService);
+
+  /** "1 empleo disponible" / "7 empleos disponibles". */
+  readonly textoEmpleos = computed(() =>
+    this.totalEmpleos() === 1 ? '1 empleo disponible hoy' : `${this.totalEmpleos()} empleos disponibles hoy`,
+  );
 
   /**
    * Cifras de la franja de confianza.
@@ -52,8 +60,9 @@ export class LandingPage implements OnInit, OnDestroy {
   readonly stats = computed(() => [
     { value: String(this.totalEmpleos()), label: 'Empleos activos' },
     { value: String(this.totalEmpleados()), label: 'Empleados registrados' },
-    { value: '100%', label: 'Satisfaccion' },
-    { value: '1', label: 'Ciudad' },
+    // Antes "100% Satisfaccion" y "1 Ciudad" estaban escritos a mano.
+    { value: String(this.totalProductos()), label: 'Productos en la tienda' },
+    { value: String(CIUDADES.length), label: 'Ciudades con cobertura' },
   ]);
 
   readonly benefits = [
@@ -85,6 +94,7 @@ export class LandingPage implements OnInit, OnDestroy {
     // franja de cifras debe reflejar el catalogo completo.
     this.jobService.list({}, 1, 1).subscribe((res) => this.totalEmpleos.set(res.total));
     this.employeeService.list('', 1, 1).subscribe((res) => this.totalEmpleados.set(res.total));
+    this.productService.list(undefined, 1, 1).subscribe((res) => this.totalProductos.set(res.total));
 
     this.carruselTimer = setInterval(() => this.siguienteSlide(), 5000);
   }
