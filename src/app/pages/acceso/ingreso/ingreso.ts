@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'jobsy-login',
@@ -22,6 +23,8 @@ export class LoginPage {
   readonly showPassword = signal(false);
   readonly cargando = signal(false);
   readonly error = signal('');
+  /** El acceso con Google solo existe en modo mocks: el middleware no lo implementa. */
+  readonly googleDisponible = environment.useMocks;
 
   togglePassword(): void {
     this.showPassword.update((v) => !v);
