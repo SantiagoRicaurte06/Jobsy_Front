@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, forkJoin, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { AdminService } from './admin.service';
 import { environment } from '../../../environments/environment';
@@ -41,14 +41,17 @@ export class ReportService {
   );
 
   /**
-   * Carga los reportes con su conversacion.
+   * Carga la bandeja de reportes.
    *
-   * `comoAdmin` trae los de todos los usuarios, no solo los propios; el
-   * servidor exige rol de administrador para eso.
+   * La lista trae el resumen de cada hilo (ultimo mensaje y total), asi que
+   * basta una peticion; cada conversacion se pide al abrirla (cargarHilo).
+   * `comoAdmin` trae los de todos los usuarios; el servidor exige rol admin.
+   * `silencioso` es para los refrescos periodicos: no muestra el spinner ni
+   * borra lo que ya hay si la red falla un momento.
    */
-  cargar(comoAdmin = false): void {
+  cargar(comoAdmin = false, silencioso = false): void {
     if (environment.useMocks) return;
-    this._cargando.set(true);
+    if (!silencioso) this._cargando.set(true);
 
     const peticion = comoAdmin
       ? this.admin.reports()
@@ -56,46 +59,41 @@ export class ReportService {
 
     peticion.subscribe({
       next: (reports) => {
-        const lista = reports ?? [];
-        if (lista.length === 0) {
-          this._reports.set([]);
-          this._cargando.set(false);
-          this._error.set(null);
-          return;
-        }
-        // Los mensajes van aparte, uno por reporte. Un hilo que falle no debe
-        // dejar la pantalla en blanco: ese reporte se queda sin conversacion.
-        forkJoin(
-          lista.map((r) =>
-            this.mensajes(r.id, comoAdmin).pipe(
-              map((mensajes) => ({ ...r, mensajes })),
-              catchError(() => of(r)),
-            ),
-          ),
-        ).subscribe({
-          next: (conHilos) => {
-            this._reports.set(conHilos);
-            this._cargando.set(false);
-            this._error.set(null);
-          },
-          error: (e: HttpErrorResponse) => {
-            this._reports.set(lista);
-            this._cargando.set(false);
-            this._error.set(mensajeDe(e, 'No pudimos cargar las conversaciones.'));
-          },
-        });
+        // Los hilos ya abiertos se conservan: la lista no los trae.
+        const previos = new Map(this._reports().map((r) => [r.id, r.mensajes]));
+        this._reports.set((reports ?? []).map((r) => ({ ...r, mensajes: previos.get(r.id) })));
+        this._cargando.set(false);
+        this._error.set(null);
       },
       error: (e: HttpErrorResponse) => {
         this._cargando.set(false);
-        this._error.set(mensajeDe(e, 'No pudimos cargar tus reportes.'));
+        if (!silencioso) this._error.set(mensajeDe(e, 'No pudimos cargar tus reportes.'));
       },
     });
   }
 
-  private mensajes(id: string, comoAdmin: boolean): Observable<ReportMessage[]> {
-    return comoAdmin
+  /** Lee (o relee) la conversacion de un reporte y la deja en la lista. */
+  cargarHilo(id: string, comoAdmin = false): void {
+    if (environment.useMocks) return;
+    const peticion = comoAdmin
       ? this.admin.reportMessages(id)
       : this.api.get<ReportMessage[]>(`${this.path}/reportes/${id}/mensajes`);
+    peticion.pipe(catchError(() => of(null))).subscribe((mensajes) => {
+      if (!mensajes) return;
+      this._reports.update((list) =>
+        list.map((r) =>
+          r.id === id
+            ? {
+                ...r,
+                mensajes,
+                totalMensajes: mensajes.length,
+                ultimoMensaje: mensajes.at(-1) ?? r.ultimoMensaje,
+                actividad: mensajes.at(-1)?.fecha ?? r.actividad,
+              }
+            : r,
+        ),
+      );
+    });
   }
 
   /** Abre un reporte. El primer mensaje del hilo es la descripcion. */
@@ -116,9 +114,11 @@ export class ReportService {
   /** Agrega el mensaje al hilo ya cargado, sin releerlo entero. */
   anexarMensaje(reportId: string, mensaje: ReportMessage): void {
     this._reports.update((list) =>
-      list.map((r) =>
-        r.id === reportId ? { ...r, mensajes: [...(r.mensajes ?? []), mensaje] } : r,
-      ),
+      list.map((r) => {
+        if (r.id !== reportId) return r;
+        const mensajes = [...(r.mensajes ?? []), mensaje];
+        return { ...r, mensajes, totalMensajes: mensajes.length, ultimoMensaje: mensaje, actividad: mensaje.fecha };
+      }),
     );
   }
 

@@ -1,146 +1,226 @@
-<section class="centro-reportes">
-  <div class="encabezado_seccion">
-    <h1>Centro de reportes</h1>
-    <a routerLink="/app/reportes/visual" class="boton_simple boton_chico">Ver estadisticas</a>
-  </div>
+<section class="soporte">
+  <header class="soporte__head">
+    <div>
+      <h1>Soporte</h1>
+      <p class="soporte__sub">Reporta un problema y conversa con el equipo de Jobsy. Respondemos en menos de 48 horas.</p>
+    </div>
+    <div class="soporte__head-acciones">
+      <a routerLink="/app/reportes/visual" class="boton_simple boton_chico">Estadisticas</a>
+      <button type="button" class="boton_principal boton_chico" (click)="nuevo()">
+        <jobsy-icon name="square-pen" /> Nuevo reporte
+      </button>
+    </div>
+  </header>
 
-  <div class="centro-reportes__grid">
-    <!-- ---- Nuevo reporte ---- -->
-    <section class="centro-reportes__form tarjeta">
-      <h2>Crear un reporte</h2>
-      <p class="centro-reportes__hint">Cuentanos que ocurrio y te responderemos en menos de 48 horas.</p>
-
-      @if (enviado()) {
-        <p class="centro-reportes__sent" role="status"><jobsy-icon name="check" /> Reporte enviado. Te contactaremos pronto.</p>
-      }
-
-      <form (ngSubmit)="enviar()">
-        <div class="grupo_campo">
-          <label class="etiqueta">Tipo de reporte</label>
-          <div class="centro-reportes__types">
-            @for (t of tipos; track t.value) {
-              <button type="button" class="centro-reportes__type"
-                [class.is-selected]="tipo() === t.value"
-                (click)="tipo.set(t.value)">
-                <span aria-hidden="true"><jobsy-icon [name]="t.icon" /></span>
-                <strong>{{ t.label }}</strong>
-                <span class="centro-reportes__type-text">{{ t.text }}</span>
-              </button>
-            }
-          </div>
-        </div>
-
-        <div class="grupo_campo">
-          <label class="etiqueta" for="asunto">Asunto</label>
-          <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una linea" maxlength="120"
-            [ngModel]="asunto()" (ngModelChange)="asunto.set($event)" name="asunto" />
-        </div>
-
-        <div class="grupo_campo">
-          <label class="etiqueta" for="descripcion">Descripcion</label>
-          <textarea id="descripcion" class="area_texto" maxlength="2000"
-            placeholder="Describe con detalle que paso, cuando y en que pantalla."
-            [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
-          <p class="ayuda">Minimo 10 caracteres · {{ descripcion().length }}/2000</p>
-        </div>
-
-        @if (error()) {
-          <p class="error" role="alert">{{ error() }}</p>
-        }
-
-        <button type="submit" class="boton_principal boton_ancho" [disabled]="enviando()">
-          {{ enviando() ? 'Creando...' : 'Crear reporte' }}
+  <div class="bandeja tarjeta" [class.bandeja--detalle]="seleccionado() || creando()">
+    <!-- ================= Lista ================= -->
+    <aside class="bandeja__lista">
+      <nav class="bandeja__filtros" aria-label="Filtrar reportes">
+        <button type="button" [class.is-active]="filtro() === 'activos'" (click)="filtro.set('activos')">
+          Activos <span>{{ conteo().activos }}</span>
         </button>
-      </form>
-    </section>
+        <button type="button" [class.is-active]="filtro() === 'resueltos'" (click)="filtro.set('resueltos')">
+          Resueltos <span>{{ conteo().resueltos }}</span>
+        </button>
+        <button type="button" [class.is-active]="filtro() === 'todos'" (click)="filtro.set('todos')">
+          Todos <span>{{ conteo().todos }}</span>
+        </button>
+      </nav>
 
-    <!-- ---- Historial / conversacion y ayuda ---- -->
-    <div class="centro-reportes__side">
-      <section class="tarjeta centro-reportes__history">
-        @if (seleccionado(); as r) {
-          <!-- ===== Conversacion ===== -->
-          <div class="chat">
-            <header class="chat__head">
-              <button type="button" class="chat__back" (click)="volver()" aria-label="Volver a mis reportes">
-                &#8249;
-              </button>
-              <div class="chat__head-info">
-                <strong>{{ r.asunto }}</strong>
-                <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
-              </div>
-            </header>
-
-            <ul class="chat__messages">
-              @for (m of r.mensajes ?? []; track $index) {
-                <li class="chat__msg" [class.is-user]="m.autor === 'usuario'">
-                  <div class="chat__bubble">
-                    @if (m.autor === 'soporte') {
-                      <span class="chat__author">Soporte Jobsy</span>
-                    }
-                    <p>{{ m.texto }}</p>
-                    <span class="chat__time">{{ cuando(m.fecha) }}</span>
-                  </div>
-                </li>
-              }
-            </ul>
-
-            @if (puedeChatear()) {
-              <form class="chat__composer" (ngSubmit)="enviarMensaje()">
-                <input class="campo" placeholder="Escribe un mensaje..." autocomplete="off" maxlength="2000"
-                  [ngModel]="nuevoMensaje()" (ngModelChange)="nuevoMensaje.set($event)" name="mensaje" />
-                <button type="submit" class="boton_principal boton_chico" [disabled]="!nuevoMensaje().trim()">
-                  Enviar
-                </button>
-              </form>
-            } @else {
-              <p class="chat__closed">
-                Este reporte esta {{ r.estado }}. No se pueden enviar mas mensajes.
-              </p>
-            }
-          </div>
-        } @else {
-          <!-- ===== Lista de reportes ===== -->
-          <h2>Mis reportes</h2>
-
-          @if (reports().length === 0) {
-            <p class="centro-reportes__empty">Aun no has creado reportes.</p>
-          } @else {
-            <ul class="centro-reportes__list">
-              @for (r of reports(); track r.id) {
-                <li>
-                  <button type="button" class="centro-reportes__report" (click)="seleccionar(r.id)">
-                    <div class="centro-reportes__report-head">
-                      <strong>{{ r.asunto }}</strong>
-                      <span [class]="badgeClass(r.estado)">{{ r.estado }}</span>
-                    </div>
-                    <p class="texto_mini texto_gris centro-reportes__preview">{{ ultimoMensaje(r) }}</p>
-                    <span class="texto_mini texto_gris">{{ cuando(r.fecha) }} &middot; Abrir chat &rsaquo;</span>
-                  </button>
-                </li>
-              }
-            </ul>
+      @if (cargando() && reports().length === 0) {
+        <ul class="bandeja__items" aria-busy="true">
+          @for (i of [1, 2, 3]; track i) { <li class="bandeja__esqueleto"></li> }
+        </ul>
+      } @else if (errorCarga() && reports().length === 0) {
+        <p class="bandeja__vacio">{{ errorCarga() }}</p>
+      } @else if (visibles().length === 0) {
+        <div class="bandeja__vacio">
+          <jobsy-icon name="inbox" />
+          <p>{{ filtro() === 'resueltos' ? 'Aun no tienes reportes resueltos.' : 'No tienes reportes activos.' }}</p>
+          @if (filtro() !== 'resueltos') {
+            <button type="button" class="boton_simple boton_chico" (click)="nuevo()">Crear un reporte</button>
           }
-        }
-      </section>
-
-      <section class="tarjeta centro-reportes__faq">
-        <h2>Preguntas frecuentes</h2>
-
-        <ul>
-          @for (faq of faqs; track faq.q; let i = $index) {
+        </div>
+      } @else {
+        <ul class="bandeja__items">
+          @for (r of visibles(); track r.id) {
             <li>
-              <button type="button" (click)="toggleFaq(i)" [attr.aria-expanded]="faqAbierta() === i">
-                {{ faq.q }}
-                <span aria-hidden="true">{{ faqAbierta() === i ? '−' : '+' }}</span>
+              <button type="button" class="item" [class.is-active]="seleccionadoId() === r.id"
+                [class.is-nuevo]="tieneNovedad(r)" (click)="seleccionar(r.id)">
+                <span class="item__icono" [attr.data-tipo]="r.tipo" aria-hidden="true">
+                  <jobsy-icon [name]="iconoTipo(r.tipo)" />
+                </span>
+                <span class="item__cuerpo">
+                  <span class="item__fila">
+                    <strong class="item__asunto">{{ r.asunto }}</strong>
+                    <span class="item__hora">{{ hace(r.actividad ?? r.fecha) }}</span>
+                  </span>
+                  <span class="item__previa">{{ vistaPrevia(r) }}</span>
+                  <span class="item__fila">
+                    <span [class]="badgeClass(r.estado) + ' item__estado'">{{ etiqueta(r.estado) }}</span>
+                    @if (tieneNovedad(r)) {
+                      <span class="item__nuevo">Nueva respuesta</span>
+                    }
+                  </span>
+                </span>
               </button>
-
-              @if (faqAbierta() === i) {
-                <p>{{ faq.a }}</p>
-              }
             </li>
           }
         </ul>
-      </section>
-    </div>
+      }
+    </aside>
+
+    <!-- ================= Detalle ================= -->
+    <section class="bandeja__detalle">
+      @if (creando()) {
+        <!-- ---- Nuevo reporte ---- -->
+        <div class="nuevo">
+          <header class="detalle__head">
+            <button type="button" class="detalle__volver" (click)="volver()" aria-label="Volver a mis reportes">
+              <jobsy-icon name="arrow-left" />
+            </button>
+            <div>
+              <h2>Nuevo reporte</h2>
+              <p class="texto_mini texto_gris">Cuentanos que paso; soporte te respondera en este mismo chat.</p>
+            </div>
+          </header>
+
+          <form class="nuevo__form" (ngSubmit)="enviar()" novalidate>
+            <fieldset class="nuevo__tipos">
+              <legend class="etiqueta">Tipo de reporte</legend>
+              @for (t of tipos; track t.value) {
+                <button type="button" class="nuevo__tipo" [class.is-selected]="tipo() === t.value"
+                  [attr.aria-pressed]="tipo() === t.value" (click)="tipo.set(t.value)">
+                  <span class="item__icono" [attr.data-tipo]="t.value" aria-hidden="true"><jobsy-icon [name]="t.icon" /></span>
+                  <span>
+                    <strong>{{ t.label }}</strong>
+                    <span class="texto_mini texto_gris">{{ t.text }}</span>
+                  </span>
+                </button>
+              }
+            </fieldset>
+
+            <div class="grupo_campo">
+              <label class="etiqueta" for="asunto">Asunto</label>
+              <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una linea" maxlength="120"
+                [ngModel]="asunto()" (ngModelChange)="asunto.set($event)" name="asunto" />
+            </div>
+
+            <div class="grupo_campo">
+              <label class="etiqueta" for="descripcion">Descripcion</label>
+              <textarea id="descripcion" class="area_texto" maxlength="2000"
+                placeholder="Que paso, cuando y en que pantalla. Si es un pago, incluye el numero de pedido."
+                [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+              <p class="ayuda">Minimo 10 caracteres · {{ descripcion().length }}/2000</p>
+            </div>
+
+            @if (error()) {
+              <p class="error" role="alert">{{ error() }}</p>
+            }
+
+            <div class="nuevo__acciones">
+              <button type="button" class="boton_simple" (click)="volver()">Cancelar</button>
+              <button type="submit" class="boton_principal" [disabled]="enviando()">
+                {{ enviando() ? 'Enviando...' : 'Enviar reporte' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      } @else if (seleccionado(); as r) {
+        <!-- ---- Conversacion ---- -->
+        <div class="chat">
+          <header class="detalle__head">
+            <button type="button" class="detalle__volver" (click)="volver()" aria-label="Volver a mis reportes">
+              <jobsy-icon name="arrow-left" />
+            </button>
+            <span class="item__icono" [attr.data-tipo]="r.tipo" aria-hidden="true"><jobsy-icon [name]="iconoTipo(r.tipo)" /></span>
+            <div class="detalle__titulo">
+              <h2>{{ r.asunto }}</h2>
+              <p class="texto_mini texto_gris">{{ r.tipo }} · #{{ r.id }} · {{ fechaLarga(r.fecha) }}</p>
+            </div>
+            <span [class]="badgeClass(r.estado)">{{ etiqueta(r.estado) }}</span>
+          </header>
+
+          <ol class="seguimiento" aria-label="Seguimiento del reporte">
+            @for (p of ['Recibido', 'En revision', r.estado === 'cerrado' ? 'Cerrado' : 'Resuelto']; track $index) {
+              <li [class.is-hecho]="paso(r.estado) >= $index" [class.is-actual]="paso(r.estado) === $index">{{ p }}</li>
+            }
+          </ol>
+
+          <ul class="chat__mensajes" #mensajes aria-live="polite">
+            @for (m of burbujas(); track $index) {
+              @if (m.dia) {
+                <li class="chat__dia"><span>{{ m.dia }}</span></li>
+              }
+              <li class="chat__msg" [class.is-mio]="m.autor === 'usuario'">
+                @if (m.autor === 'soporte') {
+                  <span class="chat__avatar" aria-hidden="true">J</span>
+                }
+                <div class="chat__burbuja">
+                  @if (m.autor === 'soporte') {
+                    <span class="chat__autor">Soporte Jobsy</span>
+                  }
+                  <p>{{ m.texto }}</p>
+                  <span class="chat__hora">{{ hora(m.fecha) }}</span>
+                </div>
+              </li>
+            }
+            @if (cargandoHilo()) {
+              <li class="chat__aviso">Cargando conversacion...</li>
+            } @else if (!r.mensajes?.length && puedeChatear()) {
+              <li class="chat__aviso">
+                <jobsy-icon name="clock" /> Tu reporte llego a soporte. Te avisaremos aqui cuando respondan.
+              </li>
+            }
+          </ul>
+
+          @if (puedeChatear()) {
+            <form class="chat__composer" (ngSubmit)="enviarMensaje()">
+              <textarea class="chat__entrada" rows="1" maxlength="2000" placeholder="Escribe un mensaje..."
+                aria-label="Mensaje para soporte" [ngModel]="nuevoMensaje()" (ngModelChange)="nuevoMensaje.set($event)"
+                (keydown)="alTeclear($event)" name="mensaje"></textarea>
+              <button type="submit" class="boton_principal boton_chico"
+                [disabled]="!nuevoMensaje().trim() || enviandoMensaje()">
+                {{ enviandoMensaje() ? 'Enviando...' : 'Enviar' }}
+              </button>
+            </form>
+            <p class="chat__pista texto_mini texto_gris">Enter para enviar · Shift + Enter para salto de linea</p>
+            @if (errorChat()) {
+              <p class="error" role="alert">{{ errorChat() }}</p>
+            }
+          } @else {
+            <p class="chat__cerrado">
+              <jobsy-icon name="circle-check" />
+              Este reporte esta {{ etiqueta(r.estado).toLowerCase() }}. Si el problema sigue, crea un reporte nuevo.
+            </p>
+          }
+        </div>
+      } @else {
+        <div class="detalle__vacio">
+          <jobsy-icon name="message-circle" />
+          <h2>Selecciona un reporte</h2>
+          <p>Aqui veras la conversacion con soporte. Las respuestas aparecen solas, sin recargar.</p>
+          <button type="button" class="boton_principal boton_chico" (click)="nuevo()">Nuevo reporte</button>
+        </div>
+      }
+    </section>
   </div>
+
+  <!-- ================= Preguntas frecuentes ================= -->
+  <section class="tarjeta faq">
+    <h2>Preguntas frecuentes</h2>
+    <ul>
+      @for (faq of faqs; track faq.q; let i = $index) {
+        <li>
+          <button type="button" (click)="toggleFaq(i)" [attr.aria-expanded]="faqAbierta() === i">
+            {{ faq.q }}
+            <jobsy-icon [name]="faqAbierta() === i ? 'chevron-up' : 'chevron-down'" />
+          </button>
+          @if (faqAbierta() === i) {
+            <p>{{ faq.a }}</p>
+          }
+        </li>
+      }
+    </ul>
+  </section>
 </section>

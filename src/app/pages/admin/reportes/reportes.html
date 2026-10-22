@@ -52,10 +52,21 @@
               <div class="admin-reportes__info-head">
                 <strong>{{ r.asunto }}</strong>
                 <span class="pildora_info">{{ r.tipo }}</span>
+                @if (esperando(r)) {
+                  <span class="admin-reportes__espera">Esperando respuesta</span>
+                }
               </div>
-              <p class="admin-reportes__desc">{{ r.descripcion }}</p>
+              <p class="admin-reportes__desc">
+                @if (r.ultimoMensaje; as u) {
+                  <strong>{{ u.autor === 'soporte' ? 'Soporte' : quien(r) }}:</strong> {{ u.texto }}
+                } @else {
+                  {{ r.descripcion }}
+                }
+              </p>
               <span class="texto_mini texto_gris">
-                {{ r.reportanteId }} &middot; {{ r.fecha | date: 'mediumDate' }}
+                {{ quien(r) }} &middot; #{{ r.id }} &middot; {{ r.fecha | date: 'mediumDate' }}
+                @if (r.totalMensajes) { &middot; {{ r.totalMensajes }} mensaje(s) }
+                &middot; ultima actividad {{ cuando(r.actividad ?? r.fecha) }}
               </span>
             </div>
 
@@ -87,7 +98,7 @@
     <dl class="admin-reportes__detalle">
       <div>
         <dt>Reportado por</dt>
-        <dd>{{ r.reportanteId }}</dd>
+        <dd>{{ quien(r) }}</dd>
       </div>
       <div>
         <dt>Estado actual</dt>
@@ -96,11 +107,11 @@
     </dl>
 
     <h3 class="admin-reportes__chat-title">Conversacion</h3>
-    <ul class="admin-chat">
-      @for (m of r.mensajes ?? []; track $index) {
+    <ul class="admin-chat" #hiloAdmin aria-live="polite">
+      @for (m of hilo(r); track $index) {
         <li class="admin-chat__msg" [class.is-support]="m.autor === 'soporte'">
           <div class="admin-chat__bubble">
-            <span class="admin-chat__author">{{ m.autor === 'soporte' ? 'Soporte' : 'Usuario' }}</span>
+            <span class="admin-chat__author">{{ m.autor === 'soporte' ? 'Soporte' : quien(r) }}</span>
             <p>{{ m.texto }}</p>
             <span class="admin-chat__time">{{ cuando(m.fecha) }}</span>
           </div>
@@ -110,8 +121,8 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="respuesta">Responder al usuario</label>
-      <textarea id="respuesta" class="area_texto"
-        placeholder="Escribe tu respuesta; el usuario la vera en su chat."
+      <textarea id="respuesta" class="area_texto" maxlength="2000" (keydown)="alTeclear($event)"
+        placeholder="Escribe tu respuesta; el usuario la vera en su chat (Ctrl + Enter para enviar)."
         [ngModel]="respuesta()" (ngModelChange)="respuesta.set($event)" name="respuesta"></textarea>
       <button type="button" class="boton_secundario boton_chico" [disabled]="!respuesta().trim()"
         (click)="responder()">

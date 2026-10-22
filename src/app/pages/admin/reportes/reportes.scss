@@ -126,6 +126,15 @@
     strong { font-size: v.$font-size-sm; }
   }
 
+  &__espera {
+    padding: 1px v.$space-2;
+    border-radius: v.$radius-pill;
+    background: v.$color-accent;
+    font-size: 11px;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-invert;
+  }
+
   &__desc {
     margin: 0 0 v.$space-1;
     font-size: v.$font-size-xs;
