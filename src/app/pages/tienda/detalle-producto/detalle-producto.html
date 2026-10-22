@@ -174,6 +174,7 @@
                 placeholder="Ej. Juan Pérez"
                 [(ngModel)]="nuevoAutor"
                 name="autor"
+                maxlength="60"
                 required
               />
             </div>
@@ -188,6 +189,7 @@
                 placeholder="Resume tu opinión en pocas palabras"
                 [(ngModel)]="nuevoTitulo"
                 name="titulo"
+                maxlength="100"
                 required
               />
             </div>
@@ -202,6 +204,7 @@
                 placeholder="¿Qué te pareció el producto? ¿La calidad, entrega o funcionamiento cumplieron tus expectativas?"
                 [(ngModel)]="nuevoComentario"
                 name="comentario"
+                maxlength="500"
                 required
               ></textarea>
             </div>

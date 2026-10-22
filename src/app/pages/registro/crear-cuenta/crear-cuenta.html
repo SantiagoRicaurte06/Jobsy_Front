@@ -12,13 +12,13 @@
     <div class="fila_crear_cuenta">
       <div class="grupo_campo">
         <label class="etiqueta" for="nombre">Nombre</label>
-        <input id="nombre" type="text" class="campo" placeholder="Santiago"
+        <input id="nombre" type="text" class="campo" placeholder="Santiago" maxlength="60" autocomplete="given-name"
           [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
       </div>
 
       <div class="grupo_campo">
         <label class="etiqueta" for="apellido">Apellido</label>
-        <input id="apellido" type="text" class="campo" placeholder="Ricaurte"
+        <input id="apellido" type="text" class="campo" placeholder="Ricaurte" maxlength="60" autocomplete="family-name"
           [ngModel]="apellido()" (ngModelChange)="apellido.set($event)" name="apellido" />
       </div>
     </div>
@@ -26,7 +26,7 @@
     <div class="grupo_campo">
       <label class="etiqueta" for="email">Correo electronico</label>
       <input id="email" type="email" class="campo" placeholder="tucorreo@ejemplo.com"
-        autocomplete="email"
+        autocomplete="email" maxlength="150"
         [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
     </div>
 

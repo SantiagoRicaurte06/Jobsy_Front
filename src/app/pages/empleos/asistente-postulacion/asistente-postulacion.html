@@ -48,20 +48,21 @@
           <div class="fila_asistente_postulacion">
             <div class="grupo_campo">
               <label class="etiqueta" for="inicio">Hora de inicio</label>
-              <input id="inicio" type="time" class="campo"
+              <input id="inicio" type="time" class="campo" step="900" required
                 [ngModel]="horaInicio()" (ngModelChange)="horaInicio.set($event)" name="inicio" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta" for="fin">Hora de fin</label>
-              <input id="fin" type="time" class="campo"
+              <input id="fin" type="time" class="campo" step="900" required
                 [ngModel]="horaFin()" (ngModelChange)="horaFin.set($event)" name="fin" />
             </div>
           </div>
 
           <div class="grupo_campo">
             <label class="etiqueta" for="tarifa">Tu tarifa por hora (COP)</label>
-            <input id="tarifa" type="number" class="campo"
+            <input id="tarifa" type="number" class="campo" inputmode="numeric" step="500"
+              [min]="limites.tarifaMin" [max]="limites.tarifaMax"
               [ngModel]="tarifa()" (ngModelChange)="tarifa.set($event)" name="tarifa" />
             <p class="ayuda">El empleador ofrece {{ job()?.precioHora | cop }}. Puedes proponer otra tarifa.</p>
           </div>
@@ -76,10 +77,10 @@
 
           <div class="grupo_campo">
             <label class="etiqueta" for="mensaje">Tu mensaje</label>
-            <textarea id="mensaje" class="area_texto"
+            <textarea id="mensaje" class="area_texto" maxlength="1000"
               placeholder="Hola, tengo 6 anos de experiencia en limpieza profunda y cocina..."
               [ngModel]="mensaje()" (ngModelChange)="mensaje.set($event)" name="mensaje"></textarea>
-            <p class="ayuda">{{ mensaje().length }} caracteres. Minimo 20.</p>
+            <p class="ayuda">{{ mensaje().length }}/1000 caracteres. Minimo 20.</p>
           </div>
         </section>
       }

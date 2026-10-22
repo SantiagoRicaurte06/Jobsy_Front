@@ -5,11 +5,13 @@
       Describe el trabajo que necesitas. Los empleados cercanos podran postularse.
     </p>
 
-    <form (ngSubmit)="submit()">
+    <form (ngSubmit)="submit()" novalidate>
       <div class="grupo_campo">
         <label class="etiqueta" for="titulo">Titulo de la oferta</label>
         <input id="titulo" type="text" class="campo" placeholder="Ej: Casa Familiar Grande (Villa)"
+          minlength="5" maxlength="100" required [class.is-invalid]="intentado() && errores().titulo"
           [ngModel]="titulo()" (ngModelChange)="titulo.set($event)" name="titulo" />
+        @if (intentado() && errores().titulo) { <p class="error">{{ errores().titulo }}</p> }
       </div>
 
       <!-- Tamano de la vivienda -->
@@ -43,8 +45,12 @@
       <div class="publicar-oferta__row">
         <div class="grupo_campo">
           <label class="etiqueta" for="precio">Precio por hora (COP)</label>
-          <input id="precio" type="number" class="campo" placeholder="30000"
+          <input id="precio" type="number" class="campo" placeholder="30000" inputmode="numeric"
+            [min]="limites.tarifaMin" [max]="limites.tarifaMax" step="500" required
+            [class.is-invalid]="intentado() && errores().precioHora"
             [ngModel]="precioHora()" (ngModelChange)="precioHora.set($event)" name="precio" />
+          @if (intentado() && errores().precioHora) { <p class="error">{{ errores().precioHora }}</p> }
+          @else { <p class="ayuda">Entre $5.000 y $200.000 por hora.</p> }
         </div>
 
         <div class="grupo_campo">
@@ -56,18 +62,44 @@
         </div>
       </div>
 
+      <!-- Horario: dias y franja; se envia como "Lun, Mie · 08:00 a 12:00" -->
       <div class="grupo_campo">
-        <label class="etiqueta" for="horario">Horario</label>
-        <input id="horario" type="text" class="campo"
-          placeholder="Ej: Sabados 8:00 am - 4:00 pm"
-          [ngModel]="horario()" (ngModelChange)="horario.set($event)" name="horario" />
+        <label class="etiqueta">Dias de trabajo</label>
+        <div class="publicar-oferta__options">
+          @for (d of diasSemana; track d.value) {
+            <button type="button" class="publicar-oferta__option"
+              [class.is-selected]="dias().includes(d.value)" [attr.aria-pressed]="dias().includes(d.value)"
+              (click)="toggleDia(d.value)">
+              {{ d.label }}
+            </button>
+          }
+        </div>
       </div>
+
+      <div class="publicar-oferta__row">
+        <div class="grupo_campo">
+          <label class="etiqueta" for="hora-inicio">Hora de inicio</label>
+          <input id="hora-inicio" type="time" class="campo" step="900" required
+            [class.is-invalid]="intentado() && errores().horario"
+            [ngModel]="horaInicio()" (ngModelChange)="horaInicio.set($event)" name="horaInicio" />
+        </div>
+        <div class="grupo_campo">
+          <label class="etiqueta" for="hora-fin">Hora de fin</label>
+          <input id="hora-fin" type="time" class="campo" step="900" required
+            [class.is-invalid]="intentado() && errores().horario"
+            [ngModel]="horaFin()" (ngModelChange)="horaFin.set($event)" name="horaFin" />
+        </div>
+      </div>
+      @if (intentado() && errores().horario) { <p class="error">{{ errores().horario }}</p> }
+      @else if (horarioTexto()) { <p class="ayuda">Horario: {{ horarioTexto() }}</p> }
 
       <div class="grupo_campo">
         <label class="etiqueta" for="direccion">Direccion</label>
-        <input id="direccion" type="text" class="campo" placeholder="Calle 7 #33, Via Sirivana"
+        <input id="direccion" type="text" class="campo" placeholder="Calle 7 # 33-20" autocomplete="street-address"
+          maxlength="120" required [class.is-invalid]="intentado() && errores().direccion"
           [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
-        <p class="ayuda">La direccion exacta solo se comparte al confirmar la contratacion.</p>
+        @if (intentado() && errores().direccion) { <p class="error">{{ errores().direccion }}</p> }
+        <p class="ayuda">{{ ejemploDireccion }}. Solo se comparte al confirmar la contratacion.</p>
       </div>
 
       <!-- Tareas -->
@@ -90,7 +122,9 @@
         <label class="etiqueta" for="descripcion">Descripcion adicional</label>
         <textarea id="descripcion" class="area_texto"
           placeholder="Detalles del hogar, numero de habitaciones, mascotas, etc."
+          maxlength="1000" [class.is-invalid]="intentado() && errores().descripcion"
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+        <p class="ayuda">{{ descripcion().length }}/1000</p>
       </div>
 
       <!-- Fotos de la casa -->

@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { WalletService, SavedPaymentMethod, PaymentOption } from '../../../core/services';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 /** Icono por metodo. El servidor devuelve el nombre, no como pintarlo. */
 const ICONOS: Record<string, string> = {
@@ -117,6 +118,14 @@ export class PaymentMethodsPage implements OnInit {
   guardar(): void {
     if (!this.metodoId() || !this.numeroCuenta().trim()) {
       this.error.set('Elige un metodo y escribe el numero de la cuenta.');
+      return;
+    }
+    const invalido = R.primero(
+      R.texto('El nombre para identificarlo', this.alias(), 2, 40),
+      /^[0-9]{6,20}$/.test(this.numeroCuenta().replace(/[ -]/g, '')) ? null : 'El numero de cuenta debe tener entre 6 y 20 digitos.',
+    );
+    if (invalido) {
+      this.error.set(invalido);
       return;
     }
     this.guardando.set(true);

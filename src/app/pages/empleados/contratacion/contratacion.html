@@ -49,13 +49,13 @@
         <div class="fila_contratacion">
           <div class="grupo_campo">
             <label class="etiqueta" for="fecha">Fecha</label>
-            <input id="fecha" type="date" class="campo"
+            <input id="fecha" type="date" class="campo" [min]="fechaMin" [max]="fechaMax" required
               [ngModel]="fecha()" (ngModelChange)="fecha.set($event)" name="fecha" />
           </div>
 
           <div class="grupo_campo">
             <label class="etiqueta" for="hora">Hora de inicio</label>
-            <input id="hora" type="time" class="campo"
+            <input id="hora" type="time" class="campo" step="900" required
               [ngModel]="horaInicio()" (ngModelChange)="horaInicio.set($event)" name="hora" />
           </div>
         </div>
@@ -69,15 +69,18 @@
 
           <div class="grupo_campo">
             <label class="etiqueta" for="tarifa">Tarifa por hora (COP)</label>
-            <input id="tarifa" type="number" class="campo"
+            <input id="tarifa" type="number" class="campo" inputmode="numeric" step="500"
+              [min]="limites.tarifaMin" [max]="limites.tarifaMax"
               [ngModel]="tarifaHora()" (ngModelChange)="tarifaHora.set(+$event)" name="tarifa" />
           </div>
         </div>
 
         <div class="grupo_campo">
           <label class="etiqueta" for="direccion">Direccion del servicio</label>
-          <input id="direccion" type="text" class="campo" placeholder="Calle 7 #33, Yopal"
+          <input id="direccion" type="text" class="campo" placeholder="Calle 7 # 33-20"
+            maxlength="120" autocomplete="street-address"
             [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
+          <p class="ayuda">Ej: Calle 10 # 20-30, Cra 84 # 65-22 o Vereda La Esperanza.</p>
         </div>
       }
 

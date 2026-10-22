@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { EmployeeService, HiringService, ScheduleSlot } from '../../../core/services';
 import { Employee } from '../../../core/models';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 /** Codigos de dia tal como los espera el catalogo (catalogo.dias_semana). */
 const CODIGOS_DIA = ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'];
@@ -99,8 +100,14 @@ export class SchedulePage implements OnInit {
     this.slotSeleccionado.set(null);
   }
 
+  /** Solo se agenda desde hoy y hasta un ano adelante, como exige el servidor. */
+  diaHabilitado(dia: number): boolean {
+    const d = this.mesActual();
+    return R.fechaServicio(iso(new Date(d.getFullYear(), d.getMonth(), dia))) === null;
+  }
+
   seleccionarDia(dia: number | null): void {
-    if (dia === null) return;
+    if (dia === null || !this.diaHabilitado(dia)) return;
     this.diaSeleccionado.set(dia);
     this.slotSeleccionado.set(null);
   }
@@ -118,14 +125,23 @@ export class SchedulePage implements OnInit {
     const empleado = this.empleado();
 
     if (!dia || !franja || !empleado) return;
-    if (!this.direccion().trim()) {
-      this.error.set('Escribe la direccion del servicio.');
-      return;
-    }
 
     const d = this.mesActual();
     const fecha = new Date(d.getFullYear(), d.getMonth(), dia);
     const horas = duracionEnHoras(franja.horaInicio, franja.horaFin);
+    const invalido = R.primero(
+      R.direccion(this.direccion()),
+      R.fechaServicio(iso(fecha)),
+      R.rango('La franja', horas, R.LIMITES.horasMin, R.LIMITES.horasMax)
+        ? `Una franja de ${horas} horas no se puede agendar: debe durar entre ${R.LIMITES.horasMin} y ${R.LIMITES.horasMax} horas.`
+        : null,
+      empleado.tarifaHora ? R.tarifa(empleado.tarifaHora) : `${empleado.nombre} aun no ha definido su tarifa por hora.`,
+      R.texto('La nota', this.notas(), 0, 500),
+    );
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
 
     this.enviando.set(true);
     this.error.set('');
@@ -135,7 +151,8 @@ export class SchedulePage implements OnInit {
         empleadoId: this.empleadoId(),
         titulo: `Servicio agendado con ${empleado.nombre}`,
         direccion: this.direccion().trim(),
-        ciudad: empleado.ciudad,
+        // El servidor solo acepta ciudades donde opera Jobsy.
+        ciudad: (R.CIUDADES as readonly string[]).includes(empleado.ciudad ?? '') ? empleado.ciudad : undefined,
         fechaInicio: iso(fecha),
         horaInicio: franja.horaInicio,
         horaFin: franja.horaFin,

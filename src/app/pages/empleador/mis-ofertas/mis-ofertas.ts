@@ -9,6 +9,7 @@ import { CopPipe } from '../../../shared/pipes';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 /** Datos del formulario de contratacion de una postulacion. */
 interface FormContrato {
@@ -62,6 +63,12 @@ export class MyOffersPage implements OnInit {
   readonly contrato = signal<FormContrato | null>(null);
   /** Tras contratar se ofrece ir a Contrataciones. */
   readonly contratoHecho = signal(false);
+
+  /** Error del formulario de contrato; se muestra dentro del propio formulario. */
+  readonly errorContrato = signal('');
+  readonly limites = R.LIMITES;
+  readonly fechaMin = R.hoyISO();
+  readonly fechaMax = R.hoyISO(0, 1);
 
   ngOnInit(): void {
     this.cargar();
@@ -181,11 +188,10 @@ export class MyOffersPage implements OnInit {
   }
 
   abrirContrato(o: OwnJob, r: ReceivedApplication): void {
-    const manana = new Date(Date.now() + 24 * 3600 * 1000);
-    const fecha = `${manana.getFullYear()}-${String(manana.getMonth() + 1).padStart(2, '0')}-${String(manana.getDate()).padStart(2, '0')}`;
+    this.errorContrato.set('');
     this.contrato.set({
       postulacionId: r.id,
-      fechaInicio: fecha,
+      fechaInicio: R.hoyISO(1),
       horaInicio: '08:00',
       duracionHoras: 4,
       tarifa: o.precioHora,
@@ -200,10 +206,15 @@ export class MyOffersPage implements OnInit {
   contratar(): void {
     const c = this.contrato();
     if (!c) return;
-    if (!c.direccion.trim() || !c.fechaInicio || c.duracionHoras <= 0 || c.tarifa <= 0) {
-      this.aviso.set('Completa direccion, fecha, horas y tarifa.');
-      return;
-    }
+    const invalido = R.primero(
+      R.fechaServicio(c.fechaInicio),
+      R.hora(c.horaInicio),
+      R.rango('El numero de horas', c.duracionHoras, R.LIMITES.horasMin, R.LIMITES.horasMax),
+      R.tarifa(c.tarifa),
+      R.direccion(c.direccion),
+    );
+    this.errorContrato.set(invalido ?? '');
+    if (invalido) return;
     this.ocupado.set(c.postulacionId);
     this.hirings.fromApplication(c).subscribe({
       next: () => {

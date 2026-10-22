@@ -74,7 +74,7 @@
                 }
               </div>
 
-              <textarea class="campo_resena_detalle_empleado" rows="3"
+              <textarea class="campo_resena_detalle_empleado" rows="3" maxlength="500"
                 placeholder="Cuenta como te fue con esta persona"
                 [value]="nuevoComentario()"
                 (input)="nuevoComentario.set($any($event.target).value)"></textarea>

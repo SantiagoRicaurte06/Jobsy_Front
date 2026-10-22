@@ -6,6 +6,7 @@ import { RegistrationService } from "../../../core/services";
 import { WorkModality } from "../../../core/models";
 import { StepProgressComponent } from "../../../shared/components/step-progress/step-progress";
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 @Component({
   selector: 'jobsy-step-work',
@@ -55,7 +56,12 @@ export class StepWorkPage {
 
   next(): void {
     if (!this.modalidades().length) {
-      this.error.set('Elige Al Menos Una Modalidad De Trabajo.');
+      this.error.set('Elige al menos una modalidad de trabajo.');
+      return;
+    }
+    const invalido = R.texto('La experiencia', this.experiencia(), 0, 1000);
+    if (invalido) {
+      this.error.set(invalido);
       return;
     }
 

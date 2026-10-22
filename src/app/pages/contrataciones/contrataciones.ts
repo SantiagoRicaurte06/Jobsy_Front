@@ -85,6 +85,10 @@ export class HiringsPage implements OnInit {
       this.aviso.set('Escribe un comentario para la resena.');
       return;
     }
+    if (r.comentario.trim().length > 500) {
+      this.aviso.set('El comentario admite como maximo 500 caracteres.');
+      return;
+    }
     this.ocupado.set(h.id);
     this.employees
       .addReview({ sobreUsuarioId: h.contraparteId, postulacionId: h.postulacionId, calificacion: r.calificacion, comentario: r.comentario.trim() })

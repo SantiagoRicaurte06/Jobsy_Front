@@ -98,6 +98,11 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   color: v.$color-danger;
 }
 
+/* Campo que no cumple su regla (core/validation/reglas.ts). */
+.campo.is-invalid,
+.lista.is-invalid,
+.area_texto.is-invalid { border-color: v.$color-danger; }
+
 .ayuda {
   margin-top: v.$space-1;
   font-size: v.$font-size-xs;

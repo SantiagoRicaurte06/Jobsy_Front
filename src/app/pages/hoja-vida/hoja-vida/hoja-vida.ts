@@ -1,7 +1,9 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ResumeService } from '../../../core/services';
 import { Resume } from '../../../core/models';
+import * as R from '../../../core/validation/reglas';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
@@ -22,6 +24,9 @@ export class ResumePage implements OnInit {
   readonly cargando = signal(true);
   readonly guardando = signal(false);
   readonly guardado = signal(false);
+  readonly error = signal('');
+  readonly mesMax = R.mesActual();
+  readonly anioMax = Number(R.hoyISO().slice(0, 4));
 
   readonly resumenProfesional = signal('');
   readonly experiencias = signal<Experiencia[]>([]);
@@ -66,6 +71,12 @@ export class ResumePage implements OnInit {
   agregarHabilidad(): void {
     const h = this.nuevaHabilidad().trim();
     if (!h || this.habilidades().includes(h)) return;
+    const invalido = R.texto('Cada habilidad', h, 2, 50);
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
+    this.error.set('');
 
     this.habilidades.update((list) => [...list, h]);
     this.nuevaHabilidad.set('');
@@ -75,7 +86,42 @@ export class ResumePage implements OnInit {
     this.habilidades.update((list) => list.filter((x) => x !== h));
   }
 
+  /**
+   * Las experiencias y los estudios se editan con [(ngModel)] sobre los
+   * objetos de la lista, asi que se validan al guardar y no con computed().
+   */
+  private validar(): string | null {
+    const r = R.texto('El resumen', this.resumenProfesional(), 0, 2000);
+    if (r) return r;
+    for (const [i, e] of this.experiencias().entries()) {
+      const err = R.primero(
+        R.texto('El cargo', e.cargo, 2, 100),
+        R.texto('La empresa o familia', e.empresa, 2, 150),
+        R.mesPasado('La fecha de inicio', e.desde),
+        e.hasta ? R.mesPasado('La fecha de fin', e.hasta) : null,
+        e.hasta && e.hasta < e.desde ? 'La fecha de fin no puede ser anterior a la de inicio.' : null,
+        R.texto('La descripcion', e.descripcion, 0, 500),
+      );
+      if (err) return `Experiencia ${i + 1}: ${err}`;
+    }
+    for (const [i, e] of this.educacion().entries()) {
+      const err = R.primero(
+        R.texto('El titulo', e.titulo, 2, 150),
+        R.texto('La institucion', e.institucion, 2, 150),
+        R.anio(e.ano),
+      );
+      if (err) return `Estudio ${i + 1}: ${err}`;
+    }
+    return null;
+  }
+
   guardar(): void {
+    const invalido = this.validar();
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
+    this.error.set('');
     this.guardando.set(true);
 
     this.resumeService
@@ -86,10 +132,16 @@ export class ResumePage implements OnInit {
         habilidades: this.habilidades(),
         certificaciones: this.certificaciones(),
       })
-      .subscribe(() => {
-        this.guardando.set(false);
-        this.guardado.set(true);
-        setTimeout(() => this.guardado.set(false), 2500);
+      .subscribe({
+        next: () => {
+          this.guardando.set(false);
+          this.guardado.set(true);
+          setTimeout(() => this.guardado.set(false), 2500);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.set(err?.error?.error?.mensaje ?? 'No pudimos guardar la hoja de vida.');
+          this.guardando.set(false);
+        },
       });
   }
 }

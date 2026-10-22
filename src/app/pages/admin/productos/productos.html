@@ -112,7 +112,7 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="f-nombre">Nombre</label>
-      <input id="f-nombre" type="text" class="campo" placeholder="Kit de Limpieza Profesional"
+      <input id="f-nombre" type="text" class="campo" maxlength="120" placeholder="Kit de Limpieza Profesional"
         [ngModel]="form().nombre" (ngModelChange)="set('nombre', $event)" name="f-nombre" />
     </div>
 
@@ -138,7 +138,7 @@
     <div class="admin-productos__row">
       <div class="grupo_campo">
         <label class="etiqueta" for="f-precio">Precio (COP)</label>
-        <input id="f-precio" type="number" min="0" class="campo"
+        <input id="f-precio" type="number" min="1" max="10000000" class="campo"
           [ngModel]="form().precio" (ngModelChange)="set('precio', +$event)" name="f-precio" />
       </div>
 
@@ -161,7 +161,7 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="f-desc">Descripcion</label>
-      <textarea id="f-desc" class="area_texto" placeholder="Para que sirve el producto."
+      <textarea id="f-desc" class="area_texto" maxlength="1000" placeholder="Para que sirve el producto."
         [ngModel]="form().descripcion" (ngModelChange)="set('descripcion', $event)" name="f-desc"></textarea>
     </div>
 

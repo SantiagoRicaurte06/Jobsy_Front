@@ -40,6 +40,8 @@
             type="text"
             name="alias"
             placeholder="Mi cuenta de ahorros"
+            maxlength="40"
+            required
             [ngModel]="alias()"
             (ngModelChange)="alias.set($event)" />
         </label>
@@ -51,6 +53,8 @@
             name="numeroCuenta"
             inputmode="numeric"
             autocomplete="off"
+            maxlength="24"
+            pattern="[0-9 -]{6,24}"
             [ngModel]="numeroCuenta()"
             (ngModelChange)="numeroCuenta.set($event)" />
         </label>

@@ -17,14 +17,18 @@
       <div class="fila_editar_perfil">
         <div class="grupo_campo">
           <label class="etiqueta" for="nombre">Nombre</label>
-          <input id="nombre" type="text" class="campo"
+          <input id="nombre" type="text" class="campo" maxlength="60" autocomplete="given-name"
+            [class.is-invalid]="intentado() && errores().nombre"
             [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
+          @if (intentado() && errores().nombre) { <p class="error">{{ errores().nombre }}</p> }
         </div>
 
         <div class="grupo_campo">
           <label class="etiqueta" for="apellido">Apellido</label>
-          <input id="apellido" type="text" class="campo"
+          <input id="apellido" type="text" class="campo" maxlength="60" autocomplete="family-name"
+            [class.is-invalid]="intentado() && errores().apellido"
             [ngModel]="apellido()" (ngModelChange)="apellido.set($event)" name="apellido" />
+          @if (intentado() && errores().apellido) { <p class="error">{{ errores().apellido }}</p> }
         </div>
       </div>
 
@@ -38,7 +42,10 @@
         <div class="grupo_campo">
           <label class="etiqueta" for="telefono">Telefono</label>
           <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
+            maxlength="16" inputmode="tel" autocomplete="tel-national"
+            [class.is-invalid]="intentado() && errores().telefono"
             [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
+          @if (intentado() && errores().telefono) { <p class="error">{{ errores().telefono }}</p> }
         </div>
 
         <div class="grupo_campo">
@@ -73,6 +80,8 @@
           }
         </ul>
       </div>
+
+      @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
 
       <footer class="acciones_editar_perfil">
         <a routerLink="/app/perfil" class="boton_simple">Cancelar</a>

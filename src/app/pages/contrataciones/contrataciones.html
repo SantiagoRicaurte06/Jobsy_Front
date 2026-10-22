@@ -71,7 +71,7 @@
                 </select>
               </label>
               <label class="etiqueta">Comentario
-                <textarea class="area_texto" name="comentario" placeholder="¿Como fue el servicio?" [ngModel]="resena()!.comentario"
+                <textarea class="area_texto" name="comentario" maxlength="500" placeholder="¿Como fue el servicio?" [ngModel]="resena()!.comentario"
                   (ngModelChange)="resena.set({ id: h.id, calificacion: resena()!.calificacion, comentario: $event })"></textarea>
               </label>
               <div class="acciones_contratacion">

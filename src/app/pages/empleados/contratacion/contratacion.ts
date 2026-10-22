@@ -8,6 +8,7 @@ import { CopPipe } from '../../../shared/pipes';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 @Component({
   selector: 'jobsy-hiring',
@@ -39,6 +40,10 @@ export class HiringPage implements OnInit {
   readonly tarifaHora = signal(30000);
   readonly direccion = signal('');
 
+  readonly limites = R.LIMITES;
+  readonly fechaMin = R.hoyISO();
+  readonly fechaMax = R.hoyISO(0, 1);
+
   /**
    * Las tres modalidades del catalogo (catalogo.modalidades_trabajo).
    *
@@ -68,7 +73,26 @@ export class HiringPage implements OnInit {
     });
   }
 
+  /** Reglas del paso "Fecha y hora"; son las mismas que aplica el servidor. */
+  private errorFechaYHora(): string | null {
+    return R.primero(
+      R.fechaServicio(this.fecha()),
+      R.hora(this.horaInicio()),
+      R.rango('El numero de horas', this.horas(), R.LIMITES.horasMin, R.LIMITES.horasMax),
+      R.tarifa(this.tarifaHora()),
+      R.direccion(this.direccion()),
+    );
+  }
+
   next(): void {
+    if (this.step() === 1) {
+      const invalido = this.errorFechaYHora();
+      if (invalido) {
+        this.error.set(invalido);
+        return;
+      }
+    }
+    this.error.set('');
     this.step.update((s) => Math.min(s + 1, this.steps.length - 1));
   }
 
@@ -77,12 +101,9 @@ export class HiringPage implements OnInit {
   }
 
   confirmar(): void {
-    if (!this.direccion().trim()) {
-      this.error.set('Escribe la direccion del servicio.');
-      return;
-    }
-    if (!this.fecha()) {
-      this.error.set('Elige la fecha del servicio.');
+    const invalido = this.errorFechaYHora();
+    if (invalido) {
+      this.error.set(invalido);
       return;
     }
     this.enviando.set(true);
@@ -95,7 +116,8 @@ export class HiringPage implements OnInit {
         empleadoId: this.id(),
         titulo: `Servicio con ${this.employee()?.nombre ?? 'Jobsy'}`,
         direccion: this.direccion().trim(),
-        ciudad: this.employee()?.ciudad ?? '',
+        // El servidor solo acepta ciudades donde opera Jobsy.
+        ciudad: (R.CIUDADES as readonly string[]).includes(this.employee()?.ciudad ?? '') ? this.employee()?.ciudad : undefined,
         fechaInicio: this.fecha(),
         horaInicio: this.horaInicio(),
         duracionHoras: this.horas(),

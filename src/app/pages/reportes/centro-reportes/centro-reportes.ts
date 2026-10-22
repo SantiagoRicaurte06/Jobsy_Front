@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { ReportService } from '../../../core/services';
 import { Report } from '../../../core/models';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 @Component({
   selector: 'jobsy-report-center',
@@ -70,7 +71,14 @@ export class ReportCenterPage implements OnInit {
 
   /** Crea el reporte y abre su conversacion. */
   enviar(): void {
-    if (!this.asunto() || !this.descripcion()) return;
+    const invalido = R.primero(
+      R.texto('El asunto', this.asunto(), 3, 120),
+      R.texto('La descripcion', this.descripcion(), 10, 2000),
+    );
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
 
     this.enviando.set(true);
     this.error.set(null);
@@ -115,6 +123,11 @@ export class ReportCenterPage implements OnInit {
     const id = this.seleccionadoId();
     const texto = this.nuevoMensaje().trim();
     if (!id || !texto) return;
+    const invalido = R.texto('El mensaje', texto, 1, 2000);
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
 
     this.nuevoMensaje.set('');
     this.reportService.sendMessage(id, texto).subscribe({

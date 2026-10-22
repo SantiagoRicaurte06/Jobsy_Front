@@ -147,20 +147,23 @@
                     @if (contrato()?.postulacionId === r.id) {
                       <form class="form_contrato" (ngSubmit)="contratar()">
                         <label class="etiqueta">Fecha de inicio
-                          <input class="campo" type="date" name="fecha" [ngModel]="contrato()!.fechaInicio" (ngModelChange)="actualizarContrato('fechaInicio', $event)" />
+                          <input class="campo" type="date" name="fecha" [min]="fechaMin" [max]="fechaMax" required [ngModel]="contrato()!.fechaInicio" (ngModelChange)="actualizarContrato('fechaInicio', $event)" />
                         </label>
                         <label class="etiqueta">Hora
-                          <input class="campo" type="time" name="hora" [ngModel]="contrato()!.horaInicio" (ngModelChange)="actualizarContrato('horaInicio', $event)" />
+                          <input class="campo" type="time" name="hora" step="900" required [ngModel]="contrato()!.horaInicio" (ngModelChange)="actualizarContrato('horaInicio', $event)" />
                         </label>
                         <label class="etiqueta">Horas
-                          <input class="campo" type="number" min="1" name="horas" [ngModel]="contrato()!.duracionHoras" (ngModelChange)="actualizarContrato('duracionHoras', +$event)" />
+                          <input class="campo" type="number" [min]="limites.horasMin" [max]="limites.horasMax" name="horas" [ngModel]="contrato()!.duracionHoras" (ngModelChange)="actualizarContrato('duracionHoras', +$event)" />
                         </label>
                         <label class="etiqueta">Tarifa por hora
-                          <input class="campo" type="number" min="1" name="tarifa" [ngModel]="contrato()!.tarifa" (ngModelChange)="actualizarContrato('tarifa', +$event)" />
+                          <input class="campo" type="number" inputmode="numeric" step="500" [min]="limites.tarifaMin" [max]="limites.tarifaMax" name="tarifa" [ngModel]="contrato()!.tarifa" (ngModelChange)="actualizarContrato('tarifa', +$event)" />
                         </label>
                         <label class="etiqueta form_contrato__ancho">Direccion del servicio
-                          <input class="campo" type="text" name="direccion" [ngModel]="contrato()!.direccion" (ngModelChange)="actualizarContrato('direccion', $event)" />
+                          <input class="campo" type="text" name="direccion" maxlength="120" placeholder="Calle 10 # 20-30" [ngModel]="contrato()!.direccion" (ngModelChange)="actualizarContrato('direccion', $event)" />
                         </label>
+                        @if (errorContrato()) {
+                          <p class="error form_contrato__ancho" role="alert">{{ errorContrato() }}</p>
+                        }
                         <p class="texto_mini form_contrato__ancho">
                           Total estimado: <strong>{{ contrato()!.duracionHoras * contrato()!.tarifa | cop }}</strong>
                         </p>

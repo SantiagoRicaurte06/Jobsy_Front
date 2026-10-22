@@ -8,6 +8,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { RegistrationService, AuthService, ProfileService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
+import * as R from '../../../core/validation/reglas';
 
 @Component({
   selector: 'jobsy-step-location',
@@ -34,7 +35,7 @@ export class StepLocationPage {
   readonly cargando = signal(false);
   readonly error = signal('');
   
-  readonly Ciudades = ['Yopal', 'Aguazul', 'Tauramena', 'Villanueva', 'Monterrey'];
+  readonly Ciudades = R.CIUDADES;
 
   onlife(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -54,6 +55,11 @@ export class StepLocationPage {
   finish(): void {
     if (!this.barrio()) {
       this.error.set('Indica tu barrio o zona.');
+      return;
+    }
+    const invalido = R.primero(R.ciudad(this.ciudad()), R.texto('El barrio', this.barrio(), 3, 100));
+    if (invalido) {
+      this.error.set(invalido);
       return;
     }
 

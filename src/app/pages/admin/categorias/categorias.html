@@ -22,7 +22,7 @@
 
       <div class="grupo_campo">
         <label class="etiqueta" for="nombre">Nombre</label>
-        <input id="nombre" type="text" class="campo" placeholder="Ej: Insumos de aseo"
+        <input id="nombre" type="text" class="campo" maxlength="60" placeholder="Ej: Insumos de aseo"
           [ngModel]="nueva()" (ngModelChange)="nueva.set($event)" name="nombre"
           (keydown.enter)="agregar()" />
       </div>
@@ -52,7 +52,7 @@
 
               @if (editandoId() === cat.id) {
                 <!-- Modo edicion en linea -->
-                <input type="text" class="campo admin-categorias__input"
+                <input type="text" class="campo admin-categorias__input" maxlength="60"
                   [ngModel]="nombreEditado()" (ngModelChange)="nombreEditado.set($event)"
                   [name]="'edit' + cat.id"
                   (keydown.enter)="confirmarEdicion(cat)"

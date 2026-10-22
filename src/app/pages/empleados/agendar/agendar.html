@@ -40,6 +40,7 @@
                 type="button"
                 class="agenda__day"
                 [class.is-selected]="diaSeleccionado() === dia"
+                [disabled]="!diaHabilitado(dia)"
                 (click)="seleccionarDia(dia)">
                 {{ dia }}
               </button>
@@ -81,14 +82,15 @@
 
           <div class="grupo_campo">
             <label class="etiqueta" for="direccion">Direccion del servicio</label>
-            <input id="direccion" type="text" class="campo"
-              placeholder="Calle 7 #33, Yopal"
+            <input id="direccion" type="text" class="campo" maxlength="120" autocomplete="street-address"
+              placeholder="Calle 7 # 33-20"
               [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
+            <p class="ayuda">Ej: Calle 10 # 20-30, Cra 84 # 65-22 o Vereda La Esperanza.</p>
           </div>
 
           <div class="grupo_campo">
             <label class="etiqueta" for="notas">Notas para el empleado</label>
-            <textarea id="notas" class="area_texto"
+            <textarea id="notas" class="area_texto" maxlength="500"
               placeholder="Ej: timbre del apartamento 302, hay un perro pequeno."
               [ngModel]="notas()" (ngModelChange)="notas.set($event)" name="notas"></textarea>
           </div>

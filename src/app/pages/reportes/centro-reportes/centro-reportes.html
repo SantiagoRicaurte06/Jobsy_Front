@@ -32,16 +32,21 @@
 
         <div class="grupo_campo">
           <label class="etiqueta" for="asunto">Asunto</label>
-          <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una linea"
+          <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una linea" maxlength="120"
             [ngModel]="asunto()" (ngModelChange)="asunto.set($event)" name="asunto" />
         </div>
 
         <div class="grupo_campo">
           <label class="etiqueta" for="descripcion">Descripcion</label>
-          <textarea id="descripcion" class="area_texto"
+          <textarea id="descripcion" class="area_texto" maxlength="2000"
             placeholder="Describe con detalle que paso, cuando y en que pantalla."
             [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
+          <p class="ayuda">Minimo 10 caracteres · {{ descripcion().length }}/2000</p>
         </div>
+
+        @if (error()) {
+          <p class="error" role="alert">{{ error() }}</p>
+        }
 
         <button type="submit" class="boton_principal boton_ancho" [disabled]="enviando()">
           {{ enviando() ? 'Creando...' : 'Crear reporte' }}
@@ -81,7 +86,7 @@
 
             @if (puedeChatear()) {
               <form class="chat__composer" (ngSubmit)="enviarMensaje()">
-                <input class="campo" placeholder="Escribe un mensaje..." autocomplete="off"
+                <input class="campo" placeholder="Escribe un mensaje..." autocomplete="off" maxlength="2000"
                   [ngModel]="nuevoMensaje()" (ngModelChange)="nuevoMensaje.set($event)" name="mensaje" />
                 <button type="submit" class="boton_principal boton_chico" [disabled]="!nuevoMensaje().trim()">
                   Enviar

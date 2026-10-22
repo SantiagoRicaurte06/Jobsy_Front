@@ -41,14 +41,14 @@
 
       <div class="grupo_campo">
         <label class="etiqueta" for="documento">Numero de documento</label>
-        <input id="documento" type="text" class="campo" placeholder="1234567890"
+        <input id="documento" type="text" class="campo" placeholder="1234567890" maxlength="14" inputmode="numeric"
           [ngModel]="documento()" (ngModelChange)="documento.set($event)" name="documento" />
       </div>
     </div>
 
     <div class="grupo_campo">
       <label class="etiqueta" for="email">Correo electronico</label>
-      <input id="email" type="email" class="campo" placeholder="tucorreo@ejemplo.com"
+      <input id="email" type="email" class="campo" placeholder="tucorreo@ejemplo.com" maxlength="150" autocomplete="email"
         [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
       <p class="ayuda">Enviaremos el comprobante a este correo.</p>
     </div>

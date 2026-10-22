@@ -33,7 +33,7 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="barrio">Barrio o zona</label>
-      <input id="barrio" type="text" class="campo" placeholder="Ej: El Alcaravan"
+      <input id="barrio" type="text" class="campo" placeholder="Ej: El Alcaravan" maxlength="100"
         [ngModel]="barrio()" (ngModelChange)="barrio.set($event)" name="barrio" />
     </div>
 

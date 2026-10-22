@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { AuthService, ReportService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
+import * as R from '../../../core/validation/reglas';
 
 /** Tipo de reporte de Soporte_API segun el motivo elegido en el formulario. */
 const TIPO_POR_MOTIVO: Record<string, string> = {
@@ -60,7 +61,15 @@ export class ContactPage {
   private reportes = inject(ReportService);
 
   enviar(): void {
-    if (!this.nombre() || !this.correo() || !this.mensaje()) return;
+    const invalido = R.primero(
+      R.texto('El nombre', this.nombre(), 2, 120),
+      R.correo(this.correo()),
+      R.texto('El mensaje', this.mensaje(), 10, 2000),
+    );
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
     this.error.set('');
 
     if (environment.useMocks) {

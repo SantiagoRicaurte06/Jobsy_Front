@@ -12,27 +12,27 @@
     <div class="grupo_campo">
       <label class="etiqueta" for="numero">Numero de tarjeta</label>
       <input id="numero" type="text" class="campo" placeholder="0000 0000 0000 0000"
-        inputmode="numeric" maxlength="19"
+        inputmode="numeric" maxlength="23" autocomplete="cc-number"
         [ngModel]="numero()" (ngModelChange)="numero.set($event)" name="numero" />
     </div>
 
     <div class="grupo_campo">
       <label class="etiqueta" for="titular">Nombre del titular</label>
-      <input id="titular" type="text" class="campo" placeholder="Como aparece en la tarjeta"
+      <input id="titular" type="text" class="campo" placeholder="Como aparece en la tarjeta" maxlength="60" autocomplete="cc-name"
         [ngModel]="titular()" (ngModelChange)="titular.set($event)" name="titular" />
     </div>
 
     <div class="pago-tarjeta__row">
       <div class="grupo_campo">
         <label class="etiqueta" for="venc">Vencimiento</label>
-        <input id="venc" type="text" class="campo" placeholder="MM/AA" maxlength="5"
+        <input id="venc" type="text" class="campo" placeholder="MM/AA" maxlength="5" inputmode="numeric" autocomplete="cc-exp"
           [ngModel]="vencimiento()" (ngModelChange)="vencimiento.set($event)" name="venc" />
       </div>
 
       <div class="grupo_campo">
         <label class="etiqueta" for="cvv">CVV</label>
         <input id="cvv" type="text" class="campo" placeholder="123" maxlength="4"
-          inputmode="numeric"
+          inputmode="numeric" autocomplete="cc-csc"
           [ngModel]="cvv()" (ngModelChange)="cvv.set($event)" name="cvv" />
       </div>
     </div>

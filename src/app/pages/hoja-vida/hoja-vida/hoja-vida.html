@@ -8,6 +8,9 @@
         {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
       </button>
     </div>
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    }
     @if (guardado()) {
       <p class="guardado_hoja_vida" role="status"><jobsy-icon name="check" /> Hoja de vida actualizada.</p>
     }
@@ -17,7 +20,7 @@
       <h2>Resumen profesional</h2>
       <p class="ayuda_hoja_vida">Un parrafo corto que aparece al inicio de tu hoja de vida.</p>
 
-      <textarea class="area_texto"
+      <textarea class="area_texto" maxlength="2000"
         placeholder="Ej: Profesional del hogar con 6 anos de experiencia en limpieza profunda y cocina."
         [ngModel]="resumenProfesional()" (ngModelChange)="resumenProfesional.set($event)" name="resumen"></textarea>
     </section>
@@ -44,32 +47,32 @@
             <div class="grupo_campo">
               <label class="etiqueta">Cargo</label>
               <input type="text" class="campo" placeholder="Empleada de hogar"
-                [(ngModel)]="exp.cargo" [name]="'cargo' + i" />
+                maxlength="100" [(ngModel)]="exp.cargo" [name]="'cargo' + i" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta">Empleador</label>
               <input type="text" class="campo" placeholder="Familia Rodriguez"
-                [(ngModel)]="exp.empresa" [name]="'empresa' + i" />
+                maxlength="150" [(ngModel)]="exp.empresa" [name]="'empresa' + i" />
             </div>
           </div>
 
           <div class="fila_hoja_vida">
             <div class="grupo_campo">
               <label class="etiqueta">Desde</label>
-              <input type="month" class="campo" [(ngModel)]="exp.desde" [name]="'desde' + i" />
+              <input type="month" class="campo" min="1950-01" [max]="mesMax" [(ngModel)]="exp.desde" [name]="'desde' + i" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta">Hasta</label>
-              <input type="month" class="campo" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
+              <input type="month" class="campo" [min]="exp.desde || '1950-01'" [max]="mesMax" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
             </div>
           </div>
 
           <div class="grupo_campo">
             <label class="etiqueta">Descripcion</label>
             <textarea class="area_texto" placeholder="Tareas principales que realizabas."
-              [(ngModel)]="exp.descripcion" [name]="'desc' + i"></textarea>
+              maxlength="500" [(ngModel)]="exp.descripcion" [name]="'desc' + i"></textarea>
           </div>
         </div>
       }
@@ -97,19 +100,19 @@
             <div class="grupo_campo">
               <label class="etiqueta">Titulo</label>
               <input type="text" class="campo" placeholder="Bachiller academico"
-                [(ngModel)]="est.titulo" [name]="'titulo' + i" />
+                maxlength="150" [(ngModel)]="est.titulo" [name]="'titulo' + i" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta">Institucion</label>
               <input type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
-                [(ngModel)]="est.institucion" [name]="'inst' + i" />
+                maxlength="150" [(ngModel)]="est.institucion" [name]="'inst' + i" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta">Ano</label>
               <input type="text" class="campo" placeholder="2018"
-                [(ngModel)]="est.ano" [name]="'ano' + i" />
+                inputmode="numeric" maxlength="4" pattern="[0-9]{4}" [(ngModel)]="est.ano" [name]="'ano' + i" />
             </div>
           </div>
         </div>
@@ -123,7 +126,7 @@
 
       <div class="agregar_habilidad_hoja_vida">
         <input type="text" class="campo" placeholder="Ej: Manejo de quimicos de aseo"
-          [ngModel]="nuevaHabilidad()" (ngModelChange)="nuevaHabilidad.set($event)" name="nuevaHabilidad"
+          maxlength="50" [ngModel]="nuevaHabilidad()" (ngModelChange)="nuevaHabilidad.set($event)" name="nuevaHabilidad"
           (keydown.enter)="$event.preventDefault(); agregarHabilidad()" />
         <button type="button" class="boton_secundario" (click)="agregarHabilidad()">Agregar</button>
       </div>

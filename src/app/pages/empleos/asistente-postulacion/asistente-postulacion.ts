@@ -7,6 +7,7 @@ import { CopPipe } from '../../../shared/pipes';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import * as R from '../../../core/validation/reglas';
 
 @Component({
   selector: 'jobsy-apply-wizard',
@@ -39,6 +40,7 @@ export class ApplyWizardPage implements OnInit {
   readonly error = signal('');
 
   readonly diasSemana = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
+  readonly limites = R.LIMITES;
 
   ngOnInit(): void {
     this.jobService.getById(this.id()).subscribe((job) => {
@@ -59,9 +61,19 @@ export class ApplyWizardPage implements OnInit {
       this.error.set('Selecciona al menos un dia disponible.');
       return;
     }
-    if (this.step() === 2 && this.mensaje().length < 20) {
-      this.error.set('Escribe un mensaje de al menos 20 caracteres.');
-      return;
+    if (this.step() === 1) {
+      const invalido = R.primero(R.franja(this.horaInicio(), this.horaFin()), R.tarifa(this.tarifa()));
+      if (invalido) {
+        this.error.set(invalido);
+        return;
+      }
+    }
+    if (this.step() === 2) {
+      const invalido = R.texto('El mensaje', this.mensaje(), 20, 1000);
+      if (invalido) {
+        this.error.set(invalido);
+        return;
+      }
     }
 
     this.step.update((s) => Math.min(s + 1, this.steps.length - 1));

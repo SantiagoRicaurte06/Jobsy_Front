@@ -20,7 +20,7 @@
     <div class="grupo_campo">
       <label class="etiqueta" for="telefono">Numero de celular</label>
       <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
-        inputmode="tel"
+        inputmode="tel" maxlength="16" autocomplete="tel-national"
         [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
       <p class="ayuda">Debe ser el numero asociado a tu billetera.</p>
     </div>

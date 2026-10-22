@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { WalletService } from '../../../../core/services';
 import { PaymentMethod } from '../../../../core/models';
 import { CheckoutBase } from '../checkout-base';
+import * as R from '../../../../core/validation/reglas';
 
 /** Color de marca de cada billetera, para el punto de color de la lista. */
 const COLORES: Record<string, string> = {
@@ -65,6 +66,12 @@ export class DigitalWalletPage extends CheckoutBase implements OnInit {
       this.error.set('Escribe el telefono de tu billetera.');
       return;
     }
+    const invalido = R.telefono(this.telefono());
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
+    this.error.set('');
     this.pagarCon(elegida, { correo: this.telefono() });
   }
 }
