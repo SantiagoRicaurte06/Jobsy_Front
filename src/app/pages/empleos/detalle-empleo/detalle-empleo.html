@@ -68,6 +68,9 @@
 
           <section class="seccion_detalle_empleo">
             <h2>Sobre esta vivienda</h2>
+            @if (job()!.descripcion) {
+              <p class="texto_chico">{{ job()!.descripcion }}</p>
+            }
             <p class="texto_chico texto_gris">
               Vivienda {{ tamanoTexto() | lowercase }} ubicada en {{ job()!.ciudad }}.
               El empleador busca una persona responsable y con experiencia comprobable.

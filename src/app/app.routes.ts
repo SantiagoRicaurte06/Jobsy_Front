@@ -60,7 +60,7 @@ export const routes: Routes = [
       },
       {
         path: 'publicar-oferta',
-        canActivate: [authGuard],
+        canActivate: [authGuard, roleGuard(['empleador'])],
         loadComponent: () =>
           import('./pages/empleados/publicar-oferta/publicar-oferta').then((m) => m.PublishOfferPage),
         title: 'Publicar oferta — Jobsy',
@@ -300,6 +300,12 @@ export const routes: Routes = [
             (m) => m.MyApplicationsPage,
           ),
         title: 'Mis postulaciones — Jobsy',
+      },
+      {
+        path: 'mis-ofertas',
+        canActivate: [roleGuard(['empleador'])],
+        loadComponent: () => import('./pages/empleador/mis-ofertas/mis-ofertas').then((m) => m.MyOffersPage),
+        title: 'Mis ofertas — Jobsy',
       },
 
       // ---- Perfil ----

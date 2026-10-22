@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { environment } from '../../../environments/environment';
-import { Job, JobFilters, Paginated } from '../models';
+import { Job, JobFilters, OfferStatus, OwnJob, Paginated, ReceivedApplication } from '../models';
 import { MOCK_JOBS, mockResponse, paginate } from '../../mocks';
 
 /** Empleo_API — ofertas de trabajo. */
@@ -40,5 +40,33 @@ export class JobService {
   create(job: Partial<Job>): Observable<Job> {
     if (environment.useMocks) return mockResponse({ ...MOCK_JOBS[0], ...job } as Job);
     return this.api.post<Job>(`${this.path}/ofertas`, job);
+  }
+
+  // ---- Lado del empleador ----
+
+  /** Ofertas del empleador con su estado, fotos y postulaciones. */
+  mine(): Observable<OwnJob[]> {
+    if (environment.useMocks) {
+      return mockResponse(MOCK_JOBS.slice(0, 2).map((j) => ({ ...j, estado: 'activa' as const, postulaciones: 0, pendientes: 0, fotos: [] })));
+    }
+    return this.api.get<OwnJob[]>(`${this.path}/ofertas/mias`);
+  }
+
+  /** Quienes se postularon a una oferta propia. */
+  received(jobId: string): Observable<ReceivedApplication[]> {
+    if (environment.useMocks) return mockResponse([]);
+    return this.api.get<ReceivedApplication[]>(`${this.path}/ofertas/${jobId}/postulaciones`);
+  }
+
+  /** Activa, pausa o cierra una oferta propia. Solo las activas salen en el buscador. */
+  setStatus(jobId: string, estado: OfferStatus): Observable<OwnJob> {
+    return this.api.put<OwnJob>(`${this.path}/ofertas/${jobId}/estado`, { estado });
+  }
+
+  /** Sube una foto de la casa; la primera queda como imagen principal. */
+  uploadPhoto(jobId: string, file: File): Observable<OwnJob> {
+    const form = new FormData();
+    form.append('foto', file);
+    return this.api.post<OwnJob>(`${this.path}/ofertas/${jobId}/fotos`, form);
   }
 }

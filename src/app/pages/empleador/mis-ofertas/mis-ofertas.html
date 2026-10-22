@@ -1,0 +1,178 @@
+<section class="mis_ofertas">
+  <div class="encabezado_seccion">
+    <h1>Mis ofertas</h1>
+    <a routerLink="/publicar-oferta" class="boton_principal boton_chico"><jobsy-icon name="square-pen" /> Publicar oferta</a>
+  </div>
+
+  @if (!cargando() && ofertas().length) {
+    <div class="resumen_mis_ofertas">
+      <div class="tarjeta"><strong>{{ resumen().activas }}</strong><span>Ofertas activas</span></div>
+      <div class="tarjeta"><strong>{{ resumen().postulaciones }}</strong><span>Postulaciones recibidas</span></div>
+      <div class="tarjeta"><strong>{{ resumen().pendientes }}</strong><span>Por responder</span></div>
+    </div>
+  }
+
+  @if (aviso()) {
+    <p class="aviso_mis_ofertas" role="status">
+      {{ aviso() }}
+      <button type="button" aria-label="Cerrar aviso" (click)="aviso.set('')"><jobsy-icon name="x" /></button>
+    </p>
+  }
+
+  <nav class="filtros_mis_ofertas">
+    @for (f of filtros; track f.value) {
+      <button type="button" class="filtro_mis_ofertas" [class.is-active]="filtro() === f.value" (click)="filtro.set(f.value)">
+        {{ f.label }}
+      </button>
+    }
+  </nav>
+
+  @if (cargando()) {
+    <jobsy-loading-spinner />
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else if (visibles().length === 0) {
+    <div class="tarjeta">
+      <jobsy-empty-state icon="briefcase" title="Sin ofertas" message="Publica una oferta para empezar a recibir postulaciones.">
+        <a routerLink="/publicar-oferta" class="boton_principal">Publicar oferta</a>
+      </jobsy-empty-state>
+    </div>
+  } @else {
+    <ul class="lista_mis_ofertas">
+      @for (o of visibles(); track o.id) {
+        <li class="oferta_mis_ofertas tarjeta">
+          <div class="cabeza_oferta">
+            <div class="imagen_oferta">
+              @if (o.imagenUrl) {
+                <img [src]="o.imagenUrl" [alt]="'Foto de ' + o.titulo" />
+              } @else {
+                <span aria-hidden="true"><jobsy-icon name="house" /></span>
+              }
+            </div>
+
+            <div class="info_oferta">
+              <h2>{{ o.titulo }}</h2>
+              <p class="texto_mini texto_gris">{{ o.direccion }}, {{ o.ciudad }}</p>
+              <p class="precio">{{ o.precioHora | cop }} / hora</p>
+              <p class="texto_mini texto_gris">Publicada el {{ o.fechaPublicacion | date: 'longDate' }}</p>
+            </div>
+
+            <div class="estado_oferta">
+              <span [class]="estadoClase(o.estado)">{{ o.estado }}</span>
+              <span class="texto_mini">
+                {{ o.postulaciones }} postulacion(es)
+                @if (o.pendientes > 0) { · <strong>{{ o.pendientes }} por responder</strong> }
+              </span>
+            </div>
+          </div>
+
+          <!-- Fotos de la casa -->
+          <div class="fotos_oferta">
+            @for (f of o.fotos; track f; let i = $index) {
+              <img [src]="f" [alt]="'Foto ' + (i + 1) + ' de ' + o.titulo" [class.is-principal]="i === 0" />
+            }
+            <label class="subir_foto_oferta" [class.is-ocupado]="subiendoFotos() === o.id">
+              <input type="file" accept="image/jpeg,image/png,image/webp" multiple (change)="subirFotos(o, $event)"
+                [disabled]="subiendoFotos() === o.id" />
+              <jobsy-icon name="camera" />
+              {{ subiendoFotos() === o.id ? 'Subiendo...' : o.fotos.length ? 'Agregar fotos' : 'Subir fotos de la casa' }}
+            </label>
+          </div>
+
+          <div class="acciones_oferta">
+            <button type="button" class="boton_principal boton_chico" (click)="verPostulaciones(o)">
+              {{ abierta() === o.id ? 'Ocultar postulaciones' : 'Ver postulaciones (' + o.postulaciones + ')' }}
+            </button>
+            <a [routerLink]="['/empleos', o.id]" class="boton_simple boton_chico">Ver publicacion</a>
+            @if (o.estado === 'activa') {
+              <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'pausada')">Pausar</button>
+            } @else {
+              <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'activa')">Reactivar</button>
+            }
+            @if (o.estado !== 'cerrada') {
+              <button type="button" class="boton_simple boton_chico cerrar_oferta" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'cerrada')">Cerrar oferta</button>
+            }
+          </div>
+
+          <!-- Postulaciones recibidas -->
+          @if (abierta() === o.id) {
+            <div class="postulaciones_oferta">
+              @if (cargandoRecibidas()) {
+                <jobsy-loading-spinner />
+              } @else {
+                @for (r of recibidas(); track r.id) {
+                  <div class="candidata">
+                    <div class="avatar_candidata">
+                      @if (r.empleado?.fotoUrl) {
+                        <img [src]="r.empleado!.fotoUrl" [alt]="r.empleado!.nombre" />
+                      } @else {
+                        <span aria-hidden="true">{{ (r.empleado?.nombre ?? '?').charAt(0) }}</span>
+                      }
+                    </div>
+                    <div class="info_candidata">
+                      <strong>{{ r.empleado?.nombre ?? 'Candidata #' + r.empleadoId }}</strong>
+                      @if (r.empleado) {
+                        <span class="texto_mini texto_gris">
+                          ★ {{ r.empleado.calificacion.toFixed(1) }} · {{ r.empleado.totalServicios }} servicios
+                          @if (r.empleado.experiencia) { · {{ r.empleado.experiencia }} }
+                        </span>
+                      }
+                      @if (r.mensaje) {
+                        <p class="mensaje_candidata">“{{ r.mensaje }}”</p>
+                      }
+                      <span class="texto_mini texto_gris">Se postulo el {{ r.fechaPostulacion | date: 'medium' }}</span>
+                    </div>
+                    <div class="acciones_candidata">
+                      <span [class]="estadoClase(r.estado)">{{ estadoTexto(r.estado) }}</span>
+                      @if (r.empleado) {
+                        <a [routerLink]="['/empleados', r.empleado.id]" class="boton_simple boton_chico">Ver perfil</a>
+                      }
+                      @if (r.estado === 'pendiente' || r.estado === 'en_revision') {
+                        @if (r.estado === 'pendiente') {
+                          <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === r.id" (click)="responder(r, 'en_revision')">En revision</button>
+                        }
+                        <button type="button" class="boton_simple boton_chico cerrar_oferta" [disabled]="ocupado() === r.id" (click)="responder(r, 'rechazada')">Rechazar</button>
+                        <button type="button" class="boton_principal boton_chico" (click)="abrirContrato(o, r)">Contratar</button>
+                      }
+                    </div>
+
+                    @if (contrato()?.postulacionId === r.id) {
+                      <form class="form_contrato" (ngSubmit)="contratar()">
+                        <label class="etiqueta">Fecha de inicio
+                          <input class="campo" type="date" name="fecha" [ngModel]="contrato()!.fechaInicio" (ngModelChange)="actualizarContrato('fechaInicio', $event)" />
+                        </label>
+                        <label class="etiqueta">Hora
+                          <input class="campo" type="time" name="hora" [ngModel]="contrato()!.horaInicio" (ngModelChange)="actualizarContrato('horaInicio', $event)" />
+                        </label>
+                        <label class="etiqueta">Horas
+                          <input class="campo" type="number" min="1" name="horas" [ngModel]="contrato()!.duracionHoras" (ngModelChange)="actualizarContrato('duracionHoras', +$event)" />
+                        </label>
+                        <label class="etiqueta">Tarifa por hora
+                          <input class="campo" type="number" min="1" name="tarifa" [ngModel]="contrato()!.tarifa" (ngModelChange)="actualizarContrato('tarifa', +$event)" />
+                        </label>
+                        <label class="etiqueta form_contrato__ancho">Direccion del servicio
+                          <input class="campo" type="text" name="direccion" [ngModel]="contrato()!.direccion" (ngModelChange)="actualizarContrato('direccion', $event)" />
+                        </label>
+                        <p class="texto_mini form_contrato__ancho">
+                          Total estimado: <strong>{{ contrato()!.duracionHoras * contrato()!.tarifa | cop }}</strong>
+                        </p>
+                        <div class="form_contrato__ancho acciones_candidata">
+                          <button type="button" class="boton_simple boton_chico" (click)="contrato.set(null)">Cancelar</button>
+                          <button type="submit" class="boton_principal boton_chico" [disabled]="ocupado() === r.id">
+                            {{ ocupado() === r.id ? 'Contratando...' : 'Confirmar contratacion' }}
+                          </button>
+                        </div>
+                      </form>
+                    }
+                  </div>
+                } @empty {
+                  <p class="texto_gris">Todavia nadie se ha postulado a esta oferta.</p>
+                }
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

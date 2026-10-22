@@ -6,7 +6,7 @@
       <!-- Menu lateral del usuario -->
       <aside class="lateral_marco_privado">
         <nav class="menu_marco_privado">
-          @for (item of menu; track item.path) {
+          @for (item of menu(); track item.path) {
             <a [routerLink]="item.path" routerLinkActive="is-active">
               <span class="icono_marco_privado" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
               {{ item.label }}

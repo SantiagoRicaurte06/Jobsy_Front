@@ -32,6 +32,31 @@
       </a>
 
       @if (isLoggedIn()) {
+        <!-- Avisos: postulaciones recibidas, contrataciones, respuestas -->
+        <div class="usuario_cabecera">
+          <button type="button" class="carrito_cabecera boton_avisos_cabecera" (click)="toggleAvisos()"
+            [attr.aria-expanded]="avisosOpen()" aria-label="Notificaciones">
+            <jobsy-icon name="bell" />
+            @if (avisos.sinLeer() > 0) {
+              <span class="contador_carrito_cabecera">{{ avisos.sinLeer() }}</span>
+            }
+          </button>
+
+          @if (avisosOpen()) {
+            <div class="desplegable_cabecera avisos_cabecera">
+              @for (n of avisos.items(); track n.id) {
+                <button type="button" class="aviso_cabecera" [class.is-nuevo]="!n.leida" (click)="abrirAviso(n)">
+                  <strong>{{ n.titulo }}</strong>
+                  <span>{{ n.cuerpo }}</span>
+                  <small>{{ n.fecha | date: 'short' }}</small>
+                </button>
+              } @empty {
+                <p class="sin_avisos_cabecera">No tienes notificaciones.</p>
+              }
+            </div>
+          }
+        </div>
+
         <!-- Menu de usuario -->
         <div class="usuario_cabecera">
           <button type="button" class="boton_usuario_cabecera" (click)="toggleUserMenu()" [attr.aria-expanded]="userMenuOpen()">
@@ -44,8 +69,13 @@
             <div class="desplegable_cabecera">
               <a routerLink="/app/inicio" (click)="closeMenus()">Mi inicio</a>
               <a routerLink="/app/perfil" (click)="closeMenus()">Mi perfil</a>
-              <a routerLink="/app/mis-postulaciones" (click)="closeMenus()">Mis postulaciones</a>
-              <a routerLink="/app/hoja-de-vida" (click)="closeMenus()">Hoja de vida</a>
+              @if (role() === 'empleador') {
+                <a routerLink="/app/mis-ofertas" (click)="closeMenus()">Mis ofertas</a>
+                <a routerLink="/publicar-oferta" (click)="closeMenus()">Publicar oferta</a>
+              } @else if (role() === 'empleado') {
+                <a routerLink="/app/mis-postulaciones" (click)="closeMenus()">Mis postulaciones</a>
+                <a routerLink="/app/hoja-de-vida" (click)="closeMenus()">Hoja de vida</a>
+              }
               <a routerLink="/app/cuenta" (click)="closeMenus()">Cuenta</a>
               <a routerLink="/app/configuracion" (click)="closeMenus()">Configuracion</a>
 

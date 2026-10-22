@@ -208,3 +208,41 @@
   font-family: inherit;
   cursor: pointer;
 }
+
+// ---- Avisos ----
+.boton_avisos_cabecera {
+  background: transparent;
+  border: 0;
+  color: v.$color-text;
+  cursor: pointer;
+}
+
+.avisos_cabecera {
+  width: 320px;
+  max-height: 420px;
+  overflow-y: auto;
+
+  @include m.until(v.$bp-md) { width: 280px; }
+}
+
+.aviso_cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  strong { font-size: v.$font-size-sm; }
+  span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
+  small { font-size: 10px; color: v.$color-text-muted; }
+
+  // Los no leidos se distinguen con una marca a la izquierda.
+  &.is-nuevo { border-left: 3px solid v.$color-accent; }
+}
+
+.sin_avisos_cabecera {
+  padding: v.$space-3;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+}

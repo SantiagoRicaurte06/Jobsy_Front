@@ -37,6 +37,8 @@ export const MODALIDADES: WorkModality[] = [
 export interface Job {
   id: string;
   titulo: string;
+  /** Detalles del hogar y del trabajo que escribe el empleador. */
+  descripcion?: string;
   tamano: JobSize;
   /** Gama alta. Independiente del tamano. */
   esLujo?: boolean;
@@ -60,4 +62,16 @@ export interface JobFilters {
   ciudad?: string;
   modalidad?: WorkModality[];
   busqueda?: string;
+}
+
+/** Estado de una oferta que su empleador puede cambiar. */
+export type OfferStatus = 'activa' | 'pausada' | 'cerrada';
+
+/** Oferta vista por su empleador: estado, fotos y cuantas postulaciones tiene. */
+export interface OwnJob extends Job {
+  estado: OfferStatus;
+  postulaciones: number;
+  /** Postulaciones pendientes o en revision: las que esperan respuesta. */
+  pendientes: number;
+  fotos: string[];
 }

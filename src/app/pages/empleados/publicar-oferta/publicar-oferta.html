@@ -93,6 +93,17 @@
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
       </div>
 
+      <!-- Fotos de la casa -->
+      <div class="grupo_campo">
+        <label class="etiqueta" for="fotos">Fotos de la casa (opcional)</label>
+        <input id="fotos" type="file" class="campo" accept="image/jpeg,image/png,image/webp" multiple
+          (change)="elegirFotos($event)" />
+        <p class="ayuda">
+          La primera foto sera la principal. Tambien puedes agregarlas despues desde "Mis ofertas".
+          @if (fotos().length) { · {{ fotos().length }} foto(s) elegida(s) }
+        </p>
+      </div>
+
       @if (error()) {
         <p class="error" role="alert">{{ error() }}</p>
       }

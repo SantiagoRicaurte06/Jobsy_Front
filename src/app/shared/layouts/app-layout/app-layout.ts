@@ -1,10 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../core/services';
 import { HeaderComponent } from '../../components/header/header';
 import { FooterComponent } from '../../components/footer/footer';
 import { IconComponent } from '../../components/icon/icon';
 
-/** Layout del area privada: header + menu lateral del usuario + contenido. */
+interface ItemMenu {
+  path: string;
+  label: string;
+  icon: string;
+}
+
+/**
+ * Layout del area privada: header + menu lateral del usuario + contenido.
+ *
+ * El menu depende del rol: el empleador gestiona sus ofertas y las
+ * postulaciones que recibe; la empleada sus postulaciones y su hoja de vida.
+ */
 @Component({
   selector: 'jobsy-app-layout',
   standalone: true,
@@ -13,13 +25,29 @@ import { IconComponent } from '../../components/icon/icon';
   styleUrl: './app-layout.scss',
 })
 export class AppLayoutComponent {
-  readonly menu = [
-    { path: '/app/inicio', label: 'Inicio', icon: 'house' },
-    { path: '/app/mis-postulaciones', label: 'Mis postulaciones', icon: 'clipboard-list' },
-    { path: '/app/perfil', label: 'Perfil', icon: 'user' },
-    { path: '/app/hoja-de-vida', label: 'Hoja de vida', icon: 'file-text' },
-    { path: '/app/reportes', label: 'Reportes', icon: 'chart-column' },
-    { path: '/app/cuenta', label: 'Cuenta', icon: 'credit-card' },
-    { path: '/app/configuracion', label: 'Configuracion', icon: 'settings' },
-  ];
+  private auth = inject(AuthService);
+
+  readonly menu = computed<ItemMenu[]>(() => {
+    const rol = this.auth.user()?.rol;
+    const propios: ItemMenu[] =
+      rol === 'empleador'
+        ? [
+            { path: '/app/mis-ofertas', label: 'Mis ofertas', icon: 'briefcase' },
+            { path: '/publicar-oferta', label: 'Publicar oferta', icon: 'square-pen' },
+          ]
+        : rol === 'empleado'
+          ? [
+              { path: '/app/mis-postulaciones', label: 'Mis postulaciones', icon: 'clipboard-list' },
+              { path: '/app/hoja-de-vida', label: 'Hoja de vida', icon: 'file-text' },
+            ]
+          : [];
+    return [
+      { path: '/app/inicio', label: 'Inicio', icon: 'house' },
+      ...propios,
+      { path: '/app/perfil', label: 'Perfil', icon: 'user' },
+      { path: '/app/reportes', label: 'Reportes', icon: 'chart-column' },
+      { path: '/app/cuenta', label: 'Cuenta', icon: 'credit-card' },
+      { path: '/app/configuracion', label: 'Configuracion', icon: 'settings' },
+    ];
+  });
 }

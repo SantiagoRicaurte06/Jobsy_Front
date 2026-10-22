@@ -5,7 +5,6 @@ import { catchError } from 'rxjs/operators';
 import { ApplicationService, AuthService, EmployeeService, HiringService, Hiring, JobService } from '../../../core/services';
 import { Application, Employee, Job } from '../../../core/models';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
-import { IconComponent } from '../../../shared/components/icon/icon';
 
 const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
@@ -16,7 +15,7 @@ const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'O
 @Component({
   selector: 'jobsy-visual-report',
   standalone: true,
-  imports: [IconComponent, RouterLink, BarChartComponent],
+  imports: [RouterLink, BarChartComponent],
   templateUrl: './reporte-visual.html',
   styleUrl: './reporte-visual.scss',
 })

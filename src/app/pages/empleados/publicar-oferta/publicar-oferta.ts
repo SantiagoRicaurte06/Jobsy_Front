@@ -1,6 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { from, of } from 'rxjs';
+import { catchError, concatMap, toArray } from 'rxjs/operators';
 import { JobService } from '../../../core/services';
 import {
   JobSize, MODALIDADES, MODALIDAD_TEXTO, TAMANOS, TAMANO_TEXTO, WorkModality,
@@ -36,8 +39,15 @@ export class PublishOfferPage {
   readonly tareas = ['Limpieza', 'Cocina', 'Planchado', 'Zonas verdes', 'Mascotas', 'Cuidado de ninos'];
   readonly ciudades = ['Yopal', 'Aguazul', 'Tauramena', 'Villanueva', 'Monterrey'];
 
+  /** Fotos elegidas; se suben al crear la oferta, la primera como principal. */
+  readonly fotos = signal<File[]>([]);
+
   toggleTarea(t: string): void {
     this.etiquetas.update((list) => (list.includes(t) ? list.filter((x) => x !== t) : [...list, t]));
+  }
+
+  elegirFotos(event: Event): void {
+    this.fotos.set(Array.from((event.target as HTMLInputElement).files ?? []));
   }
 
   submit(): void {
@@ -50,18 +60,34 @@ export class PublishOfferPage {
     this.jobService
       .create({
         titulo: this.titulo(),
+        // Se capturaba y no se enviaba: la oferta se publicaba sin descripcion.
+        descripcion: this.descripcion(),
         tamano: this.tamano(),
         modalidad: this.modalidad(),
         precioHora: this.precioHora()!,
+        moneda: 'COP',
         horario: this.horario(),
         direccion: this.direccion(),
         ciudad: this.ciudad(),
         etiquetas: this.etiquetas(),
       })
+      .pipe(
+        // Las fotos van despues, una a una y en orden. Si alguna falla la
+        // oferta ya esta publicada: se completa desde "Mis ofertas".
+        concatMap((oferta) =>
+          this.fotos().length
+            ? from(this.fotos()).pipe(
+                concatMap((f) => this.jobService.uploadPhoto(oferta.id, f)),
+                toArray(),
+                catchError(() => of([])),
+              )
+            : of([]),
+        ),
+      )
       .subscribe({
-        next: () => this.router.navigate(['/empleos']),
-        error: () => {
-          this.error.set('No pudimos publicar la oferta. Intenta de nuevo.');
+        next: () => this.router.navigate(['/app/mis-ofertas']),
+        error: (err: HttpErrorResponse) => {
+          this.error.set(err?.error?.error?.mensaje ?? 'No pudimos publicar la oferta. Intenta de nuevo.');
           this.guardando.set(false);
         },
       });
