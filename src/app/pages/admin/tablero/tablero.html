@@ -134,7 +134,8 @@
         <section class="tarjeta admin-tablero__panel">
           <div class="admin-tablero__panel-head">
             <h2><jobsy-icon name="clipboard-list" /> Pedidos recientes</h2>
-            <a routerLink="/app/cuenta">Ver todos <jobsy-icon name="arrow-right" /></a>
+            <!-- "Ver todos" llevaba a /app/cuenta, que son los pedidos del propio admin. -->
+            <a routerLink="/admin/analiticas">Ver ventas <jobsy-icon name="arrow-right" /></a>
           </div>
 
           @if (avisoReembolso()) {

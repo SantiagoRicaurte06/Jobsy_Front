@@ -1,4 +1,5 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { refrescarMientrasVisible } from '../../../core/utils/refresco';
+import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApplicationService, JobService } from '../../../core/services';
@@ -36,6 +37,7 @@ const STATUS_CLASS: Record<ApplicationStatus, string> = {
   styleUrl: './mis-postulaciones.scss',
 })
 export class MyApplicationsPage implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private applicationService = inject(ApplicationService);
   private jobService = inject(JobService);
 
@@ -57,14 +59,23 @@ export class MyApplicationsPage implements OnInit {
   });
 
   ngOnInit(): void {
+    this.cargar();
+    // Si el empleador acepta o rechaza, el estado cambia sin recargar.
+    refrescarMientrasVisible(this.destroyRef, () => this.cargar());
+  }
+
+  cargar(): void {
     this.applicationService.myApplications().subscribe((apps) => {
       // Cruzamos cada postulacion con su oferta para mostrar titulo y precio.
-      this.rows.set(apps.map((application) => ({ application })));
+      // Las ofertas ya leidas se reutilizan: no hace falta pedirlas en cada refresco.
+      const ofertas = new Map(this.rows().filter((r) => r.job).map((r) => [r.application.jobId, r.job]));
+      this.rows.set(apps.map((application) => ({ application, job: ofertas.get(application.jobId) })));
       this.cargando.set(false);
 
-      apps.forEach((app, i) => {
+      apps.forEach((app) => {
+        if (ofertas.has(app.jobId)) return;
         this.jobService.getById(app.jobId).subscribe((job) => {
-          this.rows.update((rows) => rows.map((r, idx) => (idx === i ? { ...r, job } : r)));
+          this.rows.update((rows) => rows.map((r) => (r.application.jobId === app.jobId ? { ...r, job } : r)));
         });
       });
     });

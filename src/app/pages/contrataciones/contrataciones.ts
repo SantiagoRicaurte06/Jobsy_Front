@@ -1,4 +1,5 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { refrescarMientrasVisible } from '../../core/utils/refresco';
+import { Component, computed, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -21,6 +22,7 @@ import { IconComponent } from '../../shared/components/icon/icon';
   styleUrl: './contrataciones.scss',
 })
 export class HiringsPage implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private hirings = inject(HiringService);
   private employees = inject(EmployeeService);
 
@@ -39,6 +41,11 @@ export class HiringsPage implements OnInit {
   readonly resenadas = signal<string[]>([]);
 
   ngOnInit(): void {
+    this.cargar();
+    refrescarMientrasVisible(this.destroyRef, () => this.cargar());
+  }
+
+  cargar(): void {
     this.hirings.mine().subscribe({
       next: (h) => {
         this.lista.set(h);

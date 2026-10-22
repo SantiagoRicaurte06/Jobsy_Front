@@ -24,7 +24,7 @@ export abstract class CheckoutBase {
   /**
    * Cobra y decide a donde ir.
    *
-   * - aprobado  -> a los pedidos, con el carrito vacio
+   * - aprobado  -> a Mis pedidos, con el carrito vacio
    * - pendiente -> al portal del banco si lo hay; si no, a los pedidos
    * - rechazado -> se queda aqui y lo dice
    */
@@ -52,7 +52,7 @@ export abstract class CheckoutBase {
           window.location.href = pedido.urlRedireccion;
           return;
         }
-        this.router.navigate(['/app/cuenta'], {
+        this.router.navigate(['/app/pedidos'], {
           queryParams: { pedido: pedido.numero },
         });
       },

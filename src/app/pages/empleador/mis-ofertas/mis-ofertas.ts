@@ -1,4 +1,5 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { refrescarMientrasVisible } from '../../../core/utils/refresco';
+import { Component, computed, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -34,6 +35,7 @@ interface FormContrato {
   styleUrl: './mis-ofertas.scss',
 })
 export class MyOffersPage implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private jobs = inject(JobService);
   private applications = inject(ApplicationService);
   private hirings = inject(HiringService);
@@ -72,6 +74,12 @@ export class MyOffersPage implements OnInit {
 
   ngOnInit(): void {
     this.cargar();
+    // Postulaciones nuevas y ofertas cerradas aparecen sin recargar.
+    refrescarMientrasVisible(this.destroyRef, () => {
+      this.cargar();
+      const id = this.abierta();
+      if (id) this.jobs.received(id).subscribe((r) => this.recibidas.set(r));
+    });
   }
 
   cargar(): void {

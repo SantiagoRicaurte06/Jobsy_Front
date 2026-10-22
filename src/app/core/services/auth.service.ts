@@ -122,7 +122,35 @@ export class AuthService {
     this._user.set(res.user);
   }
 
+  /**
+   * Recupera la sesion guardada, salvo que el token ya haya vencido: antes la
+   * app se creia con sesion hasta que la primera peticion fallaba con 401.
+   */
   private restore(): User | null {
-    return this.storage.get<LoginResponse>(StorageKeys.session)?.user ?? null;
+    const sesion = this.storage.get<LoginResponse>(StorageKeys.session);
+    if (!sesion) return null;
+    if (tokenVencido(sesion.token)) {
+      this.storage.remove(StorageKeys.session);
+      return null;
+    }
+    return sesion.user ?? null;
+  }
+
+  /** True si hay sesion y su token ya no sirve (se usa al volver a la pestana). */
+  sesionVencida(): boolean {
+    return this.isLoggedIn() && tokenVencido(this.token);
+  }
+}
+
+/** Lee el `exp` del JWT. Un token que no es JWT (los de mocks) no vence. */
+function tokenVencido(token: string | null | undefined): boolean {
+  if (!token) return true;
+  const partes = token.split('.');
+  if (partes.length !== 3) return false;
+  try {
+    const datos = JSON.parse(atob(partes[1].replace(/-/g, '+').replace(/_/g, '/')));
+    return typeof datos.exp === 'number' && datos.exp * 1000 <= Date.now();
+  } catch {
+    return true;
   }
 }

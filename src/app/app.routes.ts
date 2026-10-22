@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, roleGuard } from './core/guards';
+import { authGuard, guestGuard, roleGuard } from './core/guards';
 
 /**
  * Rutas de Jobsy, agrupadas por layout.
@@ -196,11 +196,13 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       {
         path: 'login',
+        canActivate: [guestGuard],
         loadComponent: () => import('./pages/acceso/ingreso/ingreso').then((m) => m.LoginPage),
         title: 'Iniciar sesión — Jobsy',
       },
       {
         path: 'recuperar',
+        canActivate: [guestGuard],
         loadComponent: () =>
           import('./pages/acceso/recuperar/recuperar').then((m) => m.ForgotPasswordPage),
         title: 'Restablecer contraseña — Jobsy',
@@ -226,6 +228,7 @@ export const routes: Routes = [
   // ============================================================
   {
     path: 'registro',
+    canActivate: [guestGuard],
     loadComponent: () =>
       import('./shared/layouts/auth-layout/auth-layout').then((m) => m.AuthLayoutComponent),
     children: [
@@ -350,6 +353,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/reportes/reporte-visual/reporte-visual').then((m) => m.VisualReportPage),
         title: 'Reporte visual — Jobsy',
+      },
+
+      {
+        path: 'pedidos',
+        loadComponent: () =>
+          import('./pages/tienda/mis-pedidos/mis-pedidos').then((m) => m.MyOrdersPage),
+        title: 'Mis pedidos — Jobsy',
       },
 
       // ---- Cuenta ----

@@ -1,0 +1,119 @@
+<section class="pedidos">
+  <header class="pedidos__head">
+    <div>
+      <h1>Mis pedidos</h1>
+      <p class="pedidos__sub">Tus compras en la tienda Jobsy y en que va cada una.</p>
+    </div>
+    <a routerLink="/tienda" class="boton_simple boton_chico"><jobsy-icon name="shopping-cart" /> Ir a la tienda</a>
+  </header>
+
+  @if (recien(); as numero) {
+    <div class="pedidos__exito" role="status">
+      <jobsy-icon name="circle-check" />
+      <div>
+        <strong>¡Gracias por tu compra!</strong>
+        <p>Recibimos tu pedido <b>{{ numero }}</b>. Aqui puedes seguirlo; te avisaremos cuando cambie de estado.</p>
+      </div>
+      <button type="button" class="pedidos__cerrar" (click)="cerrarAviso()" aria-label="Cerrar aviso"><jobsy-icon name="x" /></button>
+    </div>
+  }
+
+  @if (aviso()) {
+    <p class="error" role="alert">{{ aviso() }}</p>
+  }
+
+  @if (cargando()) {
+    <jobsy-loading-spinner />
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else if (pedidos().length === 0) {
+    <jobsy-empty-state icon="package" title="Aun no has comprado nada"
+      message="Cuando hagas un pedido en la tienda lo veras aqui con su estado." />
+    <div class="pedidos__centro"><a routerLink="/tienda" class="boton_principal">Explorar la tienda</a></div>
+  } @else {
+    <div class="pedidos__resumen">
+      <div class="tarjeta"><strong>{{ conteo().todos }}</strong><span>Pedidos</span></div>
+      <div class="tarjeta"><strong>{{ conteo().en_curso }}</strong><span>En curso</span></div>
+      <div class="tarjeta"><strong>{{ totalGastado() | cop }}</strong><span>Total comprado</span></div>
+    </div>
+
+    <nav class="pedidos__filtros" aria-label="Filtrar pedidos">
+      <button type="button" [class.is-active]="filtro() === 'todos'" (click)="filtro.set('todos')">Todos ({{ conteo().todos }})</button>
+      <button type="button" [class.is-active]="filtro() === 'en_curso'" (click)="filtro.set('en_curso')">En curso ({{ conteo().en_curso }})</button>
+      <button type="button" [class.is-active]="filtro() === 'entregados'" (click)="filtro.set('entregados')">Entregados ({{ conteo().entregados }})</button>
+      <button type="button" [class.is-active]="filtro() === 'cancelados'" (click)="filtro.set('cancelados')">Cancelados y reembolsos ({{ conteo().cancelados }})</button>
+    </nav>
+
+    @if (visibles().length === 0) {
+      <p class="pedidos__vacio">No hay pedidos en este grupo.</p>
+    }
+
+    <ul class="pedidos__lista">
+      @for (p of visibles(); track p.id) {
+        <li class="pedido tarjeta" [class.is-recien]="p.numero === recien()">
+          <button type="button" class="pedido__cabecera" (click)="alternar(p.id)" [attr.aria-expanded]="abierto() === p.id">
+            <span class="pedido__icono" aria-hidden="true"><jobsy-icon name="package" /></span>
+            <span class="pedido__datos">
+              <strong>{{ p.numero }}</strong>
+              <span class="texto_mini texto_gris">
+                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} articulo(s) · {{ metodo(p.metodoPago) }}
+              </span>
+            </span>
+            <span [class]="badgeClass(p.estado)">{{ etiqueta(p.estado) }}</span>
+            <strong class="pedido__total">{{ p.total | cop }}</strong>
+            <jobsy-icon [name]="abierto() === p.id ? 'chevron-up' : 'chevron-down'" />
+          </button>
+
+          @if (abierto() === p.id) {
+            <div class="pedido__detalle">
+              @if (paso(p.estado) >= 0) {
+                <ol class="pedido__pasos" aria-label="Seguimiento del pedido">
+                  @for (s of pasos; track s; let i = $index) {
+                    <li [class.is-hecho]="paso(p.estado) >= i">{{ etiqueta(s) }}</li>
+                  }
+                </ol>
+              } @else if (p.estado === 'pendiente') {
+                <p class="pedido__nota"><jobsy-icon name="clock" /> Estamos esperando la confirmacion del pago.</p>
+              } @else {
+                <p class="pedido__nota">
+                  <jobsy-icon name="rotate-cw" />
+                  {{ p.estado === 'reembolsado' ? 'Este pedido fue reembolsado al medio de pago original.' : 'Este pedido fue cancelado.' }}
+                </p>
+              }
+
+              <ul class="pedido__items">
+                @for (i of p.items; track i.productId) {
+                  <li>
+                    <a [routerLink]="['/tienda/producto', i.productId]">{{ i.nombre }}</a>
+                    <span class="texto_gris">{{ i.cantidad }} × {{ i.precio | cop }}</span>
+                    <strong>{{ i.cantidad * i.precio | cop }}</strong>
+                  </li>
+                }
+              </ul>
+
+              <dl class="pedido__cuentas">
+                @if (p.subtotal != null) {
+                  <div><dt>Subtotal</dt><dd>{{ p.subtotal | cop }}</dd></div>
+                }
+                @if (p.descuento) {
+                  <div><dt>Descuento</dt><dd>-{{ p.descuento | cop }}</dd></div>
+                }
+                @if (p.envio != null) {
+                  <div><dt>Envio</dt><dd>{{ p.envio ? (p.envio | cop) : 'Gratis' }}</dd></div>
+                }
+                <div class="pedido__gran-total"><dt>Total pagado</dt><dd>{{ p.total | cop }}</dd></div>
+              </dl>
+
+              <div class="pedido__acciones">
+                <a routerLink="/app/reportes" class="boton_simple boton_chico">¿Problema con este pedido?</a>
+                <button type="button" class="boton_secundario boton_chico" [disabled]="ocupado() === p.id" (click)="repetir(p)">
+                  {{ ocupado() === p.id ? 'Agregando...' : 'Volver a comprar' }}
+                </button>
+              </div>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

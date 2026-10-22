@@ -1,5 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
+import { ActivatedRoute, Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services';
 import { HeaderComponent } from '../../components/header/header';
 import { FooterComponent } from '../../components/footer/footer';
@@ -26,6 +28,17 @@ interface ItemMenu {
 })
 export class AppLayoutComponent {
   private auth = inject(AuthService);
+  private router = inject(Router);
+
+  /** La guarda de rol manda aqui con ?aviso=sin-permiso cuando falta permiso. */
+  readonly sinPermiso = toSignal(
+    inject(ActivatedRoute).queryParamMap.pipe(map((q) => q.get('aviso') === 'sin-permiso')),
+    { initialValue: false },
+  );
+
+  cerrarAviso(): void {
+    this.router.navigate([], { queryParams: { aviso: null }, queryParamsHandling: 'merge', replaceUrl: true });
+  }
 
   readonly menu = computed<ItemMenu[]>(() => {
     const rol = this.auth.user()?.rol;
@@ -47,6 +60,7 @@ export class AppLayoutComponent {
       { path: '/app/inicio', label: 'Inicio', icon: 'house' },
       ...propios,
       { path: '/app/perfil', label: 'Perfil', icon: 'user' },
+      { path: '/app/pedidos', label: 'Mis pedidos', icon: 'package' },
       { path: '/app/reportes', label: 'Reportes', icon: 'chart-column' },
       { path: '/app/cuenta', label: 'Cuenta', icon: 'credit-card' },
       { path: '/app/configuracion', label: 'Configuracion', icon: 'settings' },

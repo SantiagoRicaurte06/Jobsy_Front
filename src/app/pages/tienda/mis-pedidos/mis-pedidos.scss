@@ -1,0 +1,168 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.pedidos {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-4;
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: v.$space-3;
+
+    h1 { margin: 0; }
+  }
+
+  &__sub { margin: v.$space-1 0 0; font-size: v.$font-size-sm; color: v.$color-text-muted; }
+  &__centro { text-align: center; }
+  &__vacio { font-size: v.$font-size-sm; color: v.$color-text-muted; }
+
+  &__exito {
+    display: flex;
+    align-items: flex-start;
+    gap: v.$space-3;
+    padding: v.$space-4;
+    border: 1px solid v.$color-success;
+    border-radius: v.$radius-lg;
+    background: v.$color-success-pale;
+    color: v.$color-success;
+
+    p { margin: v.$space-1 0 0; font-size: v.$font-size-sm; color: v.$color-text; }
+    > div { flex: 1; }
+  }
+
+  &__cerrar { padding: 0; border: none; background: none; color: inherit; cursor: pointer; }
+
+  &__resumen {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: v.$space-3;
+
+    .tarjeta { display: flex; flex-direction: column; padding: v.$space-4; }
+    strong { font-size: v.$font-size-lg; }
+    span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
+    @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+  }
+
+  &__filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space-2;
+
+    button {
+      padding: v.$space-1 v.$space-3;
+      border: 1px solid v.$color-border;
+      border-radius: v.$radius-pill;
+      background: v.$color-surface;
+      font: inherit;
+      font-size: v.$font-size-xs;
+      color: v.$color-text-muted;
+      cursor: pointer;
+
+      &.is-active { border-color: v.$color-primary; background: v.$color-primary-bg; color: v.$color-primary; }
+    }
+  }
+
+  &__lista { display: flex; flex-direction: column; gap: v.$space-3; margin: 0; padding: 0; list-style: none; }
+}
+
+.pedido {
+  overflow: hidden;
+  padding: 0;
+
+  &.is-recien { box-shadow: 0 0 0 2px v.$color-success; }
+
+  &__cabecera {
+    display: flex;
+    align-items: center;
+    gap: v.$space-3;
+    width: 100%;
+    padding: v.$space-4;
+    border: none;
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover { background: v.$color-bg; }
+    @include m.until(v.$bp-sm) { flex-wrap: wrap; }
+  }
+
+  &__icono {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: v.$radius-md;
+    background: v.$color-primary-bg;
+    color: v.$color-primary;
+  }
+
+  &__datos { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  &__total { min-width: 90px; text-align: right; }
+  &__detalle { padding: 0 v.$space-4 v.$space-4; border-top: 1px solid v.$color-border; }
+
+  &__pasos {
+    display: flex;
+    margin: v.$space-4 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      flex: 1;
+      position: relative;
+      padding-top: 16px;
+      font-size: v.$font-size-xs;
+      color: v.$color-text-muted;
+      text-align: center;
+
+      &::before { content: ''; position: absolute; top: 0; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: v.$color-border-strong; }
+      &:not(:first-child)::after { content: ''; position: absolute; top: 5px; right: calc(50% + 8px); left: calc(-50% + 8px); height: 2px; background: v.$color-border; }
+      &.is-hecho { color: v.$color-text; &::before, &::after { background: v.$color-success; } }
+    }
+  }
+
+  &__nota { display: flex; align-items: center; gap: v.$space-2; margin: v.$space-4 0; font-size: v.$font-size-sm; color: v.$color-text-muted; }
+
+  &__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: v.$space-3;
+      padding: v.$space-2 0;
+      border-bottom: 1px dashed v.$color-border;
+      font-size: v.$font-size-sm;
+    }
+
+    a { color: v.$color-text; text-decoration: none; &:hover { color: v.$color-primary; } }
+  }
+
+  &__cuentas {
+    max-width: 280px;
+    margin: v.$space-3 0 0 auto;
+    font-size: v.$font-size-sm;
+
+    div { display: flex; justify-content: space-between; padding: 2px 0; }
+    dt { color: v.$color-text-muted; }
+    dd { margin: 0; }
+  }
+
+  &__gran-total {
+    margin-top: v.$space-1;
+    padding-top: v.$space-2 !important;
+    border-top: 1px solid v.$color-border;
+    font-weight: v.$font-weight-bold;
+
+    dt { color: v.$color-text !important; }
+  }
+
+  &__acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: v.$space-2; margin-top: v.$space-4; }
+}

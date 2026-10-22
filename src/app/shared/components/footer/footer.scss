@@ -72,21 +72,13 @@
 
 .redes_pie {
   display: flex;
-  gap: v.$space-2;
+  flex-wrap: wrap;
+  gap: v.$space-4;
 
   a {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: v.$radius-sm;
-    color: v.$color-text-invert;
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-xs;
+    color: rgba(255, 255, 255, 0.8);
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.28);
-      text-decoration: none;
-    }
+    &:hover { color: v.$color-text-invert; }
   }
 }

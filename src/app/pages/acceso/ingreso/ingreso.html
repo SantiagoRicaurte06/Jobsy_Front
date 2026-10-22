@@ -7,6 +7,10 @@
     <p class="subtitulo_acceso">Inicia sesion para continuar en Jobsy</p>
   </header>
 
+  @if (motivo) {
+    <p class="ayuda" role="status">{{ motivo }}</p>
+  }
+
   <form (ngSubmit)="submit()">
     <div class="grupo_campo">
       <label class="etiqueta" for="usuario">Usuario o correo electronico</label>

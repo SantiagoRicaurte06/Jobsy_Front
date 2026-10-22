@@ -29,38 +29,18 @@
       </dl>
     </section>
 
-    <!-- Historial de pedidos -->
+    <!-- Pedidos: tienen su propia seccion -->
     <section class="tarjeta bloque_info_cuenta">
       <h2>Mis pedidos</h2>
-
       @if (orders().length === 0) {
         <p class="vacio_info_cuenta">Aun no has hecho pedidos en la tienda.</p>
       } @else {
-        <div class="caja_tabla_info_cuenta">
-          <table class="tabla_info_cuenta">
-            <thead>
-              <tr>
-                <th>Pedido</th>
-                <th>Fecha</th>
-                <th>Articulos</th>
-                <th>Total</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (order of orders(); track order.id) {
-                <tr>
-                  <td><strong>{{ order.numero }}</strong></td>
-                  <td>{{ order.fecha | date: 'mediumDate' }}</td>
-                  <td>{{ order.items.length }}</td>
-                  <td class="precio">{{ order.total | cop }}</td>
-                  <td><span [class]="badgeClass(order.estado)">{{ order.estado }}</span></td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+        <p class="vacio_info_cuenta">
+          Tienes {{ orders().length }} pedido(s); el ultimo es <strong>{{ orders()[0].numero }}</strong>
+          del {{ orders()[0].fecha | date: 'mediumDate' }}.
+        </p>
       }
+      <a routerLink="/app/pedidos" class="boton_simple boton_chico">Ver mis pedidos</a>
     </section>
   </div>
 }

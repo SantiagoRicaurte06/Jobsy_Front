@@ -16,6 +16,12 @@
       </aside>
 
       <main class="principal_marco_privado">
+        @if (sinPermiso()) {
+          <p class="aviso_permiso_marco_privado" role="alert">
+            Esa seccion no esta disponible para tu tipo de cuenta.
+            <button type="button" (click)="cerrarAviso()" aria-label="Cerrar aviso"><jobsy-icon name="x" /></button>
+          </p>
+        }
         <router-outlet />
       </main>
     </div>

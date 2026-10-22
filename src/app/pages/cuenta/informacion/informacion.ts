@@ -3,13 +3,12 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProfileService, OrderService } from '../../../core/services';
 import { User, Order } from '../../../core/models';
-import { CopPipe } from '../../../shared/pipes';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'jobsy-account-info',
   standalone: true,
-  imports: [RouterLink, CopPipe, LoadingSpinnerComponent, DatePipe],
+  imports: [RouterLink, LoadingSpinnerComponent, DatePipe],
   templateUrl: './informacion.html',
   styleUrl: './informacion.scss',
 })
@@ -27,13 +26,8 @@ export class AccountInfoPage implements OnInit {
       this.cargando.set(false);
     });
 
-    this.orderService.myOrders().subscribe((o) => this.orders.set(o));
+    // El mas reciente primero, para el resumen.
+    this.orderService.myOrders().subscribe((o) => this.orders.set([...(o ?? [])].sort((a, b) => b.fecha.localeCompare(a.fecha))));
   }
 
-  badgeClass(estado: string): string {
-    if (estado === 'entregado') return 'pildora_exito';
-    if (estado === 'enviado') return 'pildora_info';
-    if (estado === 'cancelado') return 'pildora_error';
-    return 'pildora_aviso';
-  }
 }
