@@ -27,7 +27,7 @@ export class ProductDetailPage implements OnInit {
   readonly id = input.required<string>();
 
   readonly product = signal<Product | undefined>(undefined);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly cantidad = signal(1);
 
   // ---- Reseñas ----
@@ -76,7 +76,7 @@ export class ProductDetailPage implements OnInit {
 
     this.productService.getById(this.id()).subscribe((p) => {
       this.product.set(p);
-      this.loading.set(false);
+      this.cargando.set(false);
       this.cargarResenas();
     });
   }

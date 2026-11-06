@@ -91,7 +91,7 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="stock">Nuevo valor</label>
-      <input id="stock" type="number" min="0" class="campo"
+      <input id="stock" type="number" min="0" max="100000" class="campo"
         [ngModel]="nuevoStock()" (ngModelChange)="nuevoStock.set(+$event)" name="stock" />
       <p class="ayuda">Usa esto tras un conteo fisico para cuadrar la cifra real.</p>
     </div>

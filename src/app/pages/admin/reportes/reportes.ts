@@ -1,7 +1,9 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, signal, computed, effect, viewChild, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReportService } from '../../../core/services';
-import { ReportStatus } from '../../../core/models';
+import { Report, ReportMessage, ReportStatus } from '../../../core/models';
 import { ModalComponent } from '../../../shared/components/modal/modal';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
@@ -16,14 +18,64 @@ const ETIQUETA: Record<ReportStatus, string> = {
 @Component({
   selector: 'jobsy-admin-reports',
   standalone: true,
-  imports: [IconComponent, FormsModule, ModalComponent, EmptyStateComponent],
+  imports: [IconComponent, FormsModule, ModalComponent, EmptyStateComponent, DatePipe],
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })
-export class AdminReportsPage {
+export class AdminReportsPage implements OnInit {
   private reportService = inject(ReportService);
+  private destroyRef = inject(DestroyRef);
+  private hiloAdmin = viewChild<ElementRef<HTMLElement>>('hiloAdmin');
+
+  constructor() {
+    // Al abrir un hilo o llegar mensajes se baja al ultimo.
+    effect(() => {
+      this.seleccionado()?.mensajes?.length;
+      const el = this.hiloAdmin()?.nativeElement;
+      if (el) setTimeout(() => (el.scrollTop = el.scrollHeight));
+    });
+  }
 
   readonly reports = this.reportService.reports;
+  readonly cargando = this.reportService.cargando;
+
+  ngOnInit(): void {
+    // Como administrador: los reportes de todos, no solo los propios.
+    this.reportService.cargar(true);
+
+    // Los mensajes nuevos de los usuarios llegan solos: el hilo abierto cada
+    // 5 s y la lista cada 15 s, mientras la pestana este a la vista.
+    let vuelta = 0;
+    const refrescar = (todo: boolean) => {
+      if (document.hidden) return;
+      const id = this.seleccionadoId();
+      if (id) this.reportService.cargarHilo(id, true);
+      if (todo) this.reportService.cargar(true, true);
+    };
+    const temporizador = setInterval(() => refrescar(++vuelta % 3 === 0), 5000);
+    const alVolver = () => refrescar(true);
+    document.addEventListener('visibilitychange', alVolver);
+    this.destroyRef.onDestroy(() => {
+      clearInterval(temporizador);
+      document.removeEventListener('visibilitychange', alVolver);
+    });
+  }
+
+  /** El ultimo mensaje es del usuario (o aun nadie le ha contestado). */
+  esperando(r: Report): boolean {
+    if (r.estado === 'resuelto' || r.estado === 'cerrado') return false;
+    return !r.ultimoMensaje || r.ultimoMensaje.autor === 'usuario';
+  }
+
+  /** El hilo con la descripcion como primer mensaje, que es como lo vio el usuario. */
+  hilo(r: Report): ReportMessage[] {
+    return [{ autor: 'usuario', texto: r.descripcion || r.asunto, fecha: r.fecha }, ...(r.mensajes ?? [])];
+  }
+
+  quien(r: Report): string {
+    return r.reportante || `Usuario #${r.reportanteId}`;
+  }
+
   readonly abiertos = this.reportService.reportesAbiertos;
   readonly enProceso = this.reportService.reportesEnProceso;
   readonly resueltos = this.reportService.reportesResueltos;
@@ -52,16 +104,30 @@ export class AdminReportsPage {
     const f = this.filtro();
     const lista = f === 'todos' ? this.reports() : this.reports().filter((r) => r.estado === f);
 
-    // Los abiertos primero: son los que hay que atender.
+    // Primero los que esperan respuesta, luego por estado y por actividad.
     const orden: Record<ReportStatus, number> = {
       abierto: 0, en_proceso: 1, resuelto: 2, cerrado: 3,
     };
-    return [...lista].sort((a, b) => orden[a.estado] - orden[b.estado]);
+    return [...lista].sort(
+      (a, b) =>
+        Number(this.esperando(b)) - Number(this.esperando(a)) ||
+        orden[a.estado] - orden[b.estado] ||
+        (b.actividad ?? b.fecha).localeCompare(a.actividad ?? a.fecha),
+    );
   });
 
   abrir(id: string): void {
     this.seleccionadoId.set(id);
     this.respuesta.set('');
+    this.reportService.cargarHilo(id, true);
+  }
+
+  /** Ctrl+Enter envia la respuesta. */
+  alTeclear(e: KeyboardEvent): void {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      this.responder();
+    }
   }
 
   cerrarDetalle(): void {
@@ -69,17 +135,35 @@ export class AdminReportsPage {
   }
 
   cambiarEstado(id: string, estado: ReportStatus): void {
-    this.reportService.setStatus(id, estado);
+    const antes = this.reports().find((r) => r.id === id)?.estado;
+    this.reportService.fijarEstadoLocal(id, estado);
+    this.reportService.setStatus(id, estado).subscribe({
+      error: (e: HttpErrorResponse) => {
+        if (antes) this.reportService.fijarEstadoLocal(id, antes);
+        this.avisar(e.error?.error?.mensaje ?? 'No pudimos cambiar el estado.');
+      },
+    });
   }
 
   /** Envia la respuesta del agente al hilo del usuario. */
   responder(): void {
     const r = this.seleccionado();
-    if (!r || !this.respuesta().trim()) return;
+    const texto = this.respuesta().trim();
+    if (!r || !texto) return;
 
-    this.reportService.addSupportMessage(r.id, this.respuesta());
     this.respuesta.set('');
-    this.avisar('Respuesta enviada al usuario.');
+    this.reportService.addSupportMessage(r.id, texto).subscribe({
+      next: (m) => {
+        this.reportService.anexarMensaje(r.id, m);
+        // El servidor lo deja como respondido, que aqui se ve "en proceso".
+        this.reportService.fijarEstadoLocal(r.id, 'en_proceso');
+        this.avisar('Respuesta enviada al usuario.');
+      },
+      error: (e: HttpErrorResponse) => {
+        this.respuesta.set(texto);
+        this.avisar(e.error?.error?.mensaje ?? 'No pudimos enviar la respuesta.');
+      },
+    });
   }
 
   /** Marca como resuelto y cierra el detalle. */
@@ -87,15 +171,21 @@ export class AdminReportsPage {
     const r = this.seleccionado();
     if (!r) return;
 
-    this.reportService.setStatus(r.id, 'resuelto');
+    this.cambiarEstado(r.id, 'resuelto');
     this.avisar(`"${r.asunto}" resuelto.`);
     this.seleccionadoId.set(null);
   }
 
   eliminar(id: string, asunto: string): void {
-    this.reportService.deleteReport(id);
-    this.avisar('Reporte eliminado.');
+    this.reportService.quitarLocal(id);
     if (this.seleccionadoId() === id) this.seleccionadoId.set(null);
+    this.reportService.deleteReport(id).subscribe({
+      next: () => this.avisar(`"${asunto}" retirado.`),
+      error: (e: HttpErrorResponse) => {
+        this.reportService.cargar(true);
+        this.avisar(e.error?.error?.mensaje ?? 'No pudimos retirar el reporte.');
+      },
+    });
   }
 
   etiqueta(estado: ReportStatus): string {
@@ -125,16 +215,6 @@ export class AdminReportsPage {
     if (t.includes('usuario')) return 'flag';
     if (t.includes('sugerencia')) return 'lightbulb';
     return 'bug';
-  }
-
-  /** "2026-03-04T10:02:00" -> "4 mar, 10:02"; "2026-03-04" -> "4 mar". */
-  cuando(fecha: string): string {
-    const d = new Date(fecha);
-    if (isNaN(d.getTime())) return fecha;
-    const opts: Intl.DateTimeFormatOptions = fecha.includes('T')
-      ? { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }
-      : { day: 'numeric', month: 'short' };
-    return d.toLocaleString('es-CO', opts);
   }
 
   private avisar(texto: string): void {

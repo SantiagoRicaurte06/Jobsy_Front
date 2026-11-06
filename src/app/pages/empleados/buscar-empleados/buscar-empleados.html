@@ -16,12 +16,12 @@
 
   <div class="encabezado_seccion encabezado_buscar_empleados">
     <h2>Empleados disponibles</h2>
-    @if (!loading()) {
+    @if (!cargando()) {
       <p class="texto_chico texto_gris">{{ total() }} perfiles</p>
     }
   </div>
 
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner label="Buscando empleados..." />
   } @else if (employees().length === 0) {
     <jobsy-empty-state

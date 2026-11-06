@@ -18,7 +18,7 @@
   <div class="encabezado_seccion">
     <div>
       <h2>Trabajos Disponibles</h2>
-      @if (!loading()) {
+      @if (!cargando()) {
         <p class="texto_chico texto_gris">{{ total() }} ofertas encontradas</p>
       }
     </div>
@@ -34,7 +34,7 @@
     }
 
     <div class="resultados_buscar_empleos">
-      @if (loading()) {
+      @if (cargando()) {
         <jobsy-loading-spinner label="Buscando empleos..." />
       } @else if (jobs().length === 0) {
         <jobsy-empty-state

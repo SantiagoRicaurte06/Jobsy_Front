@@ -1,11 +1,16 @@
 <section class="configuracion">
   <div class="encabezado_seccion">
     <h1>Configuracion</h1>
-    <button type="button" class="boton_principal boton_chico" (click)="guardar()">Guardar cambios</button>
+    <button type="button" class="boton_principal boton_chico" [disabled]="guardando()" (click)="guardar()">
+      {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
+    </button>
   </div>
 
   @if (guardado()) {
     <p class="configuracion__saved" role="status"><jobsy-icon name="check" /> Preferencias guardadas.</p>
+  }
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
   }
 
   <!-- ---- Notificaciones ---- -->
@@ -19,17 +24,17 @@
           <strong>Correo electronico</strong>
           <span>Recibe avisos en tu correo.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="notifEmail()" (ngModelChange)="notifEmail.set($event)" name="notifEmail" />
+        <input type="checkbox" class="configuracion__switch" name="notifCorreo"
+          [ngModel]="valores().notifCorreo" (ngModelChange)="set('notifCorreo', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Notificaciones push</strong>
-          <span>Avisos en el navegador.</span>
+          <strong>Avisos en la plataforma</strong>
+          <span>Los veras en tu campana de notificaciones.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="notifPush()" (ngModelChange)="notifPush.set($event)" name="notifPush" />
+        <input type="checkbox" class="configuracion__switch" name="notifPlataforma"
+          [ngModel]="valores().notifPlataforma" (ngModelChange)="set('notifPlataforma', $event)" />
       </li>
 
       <li>
@@ -37,8 +42,8 @@
           <strong>Nuevas ofertas</strong>
           <span>Cuando aparezca un empleo que encaje contigo.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="notifOfertas()" (ngModelChange)="notifOfertas.set($event)" name="notifOfertas" />
+        <input type="checkbox" class="configuracion__switch" name="notifNuevasOfertas"
+          [ngModel]="valores().notifNuevasOfertas" (ngModelChange)="set('notifNuevasOfertas', $event)" />
       </li>
 
       <li>
@@ -46,17 +51,26 @@
           <strong>Mensajes</strong>
           <span>Cuando un empleador te escriba.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="notifMensajes()" (ngModelChange)="notifMensajes.set($event)" name="notifMensajes" />
+        <input type="checkbox" class="configuracion__switch" name="notifMensajes"
+          [ngModel]="valores().notifMensajes" (ngModelChange)="set('notifMensajes', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Promociones</strong>
-          <span>Novedades y descuentos de la tienda.</span>
+          <strong>Tus postulaciones</strong>
+          <span>Cuando cambie el estado de una postulacion tuya.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="notifPromos()" (ngModelChange)="notifPromos.set($event)" name="notifPromos" />
+        <input type="checkbox" class="configuracion__switch" name="notifPostulaciones"
+          [ngModel]="valores().notifPostulaciones" (ngModelChange)="set('notifPostulaciones', $event)" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Novedades de Jobsy</strong>
+          <span>Cambios en la plataforma y promociones de la tienda.</span>
+        </div>
+        <input type="checkbox" class="configuracion__switch" name="notifActualizaciones"
+          [ngModel]="valores().notifActualizaciones" (ngModelChange)="set('notifActualizaciones', $event)" />
       </li>
     </ul>
   </section>
@@ -70,10 +84,37 @@
       <li>
         <div>
           <strong>Perfil publico</strong>
-          <span>Tu perfil aparece en las busquedas.</span>
+          <span>Cualquiera puede abrir tu perfil.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="perfilPublico()" (ngModelChange)="perfilPublico.set($event)" name="perfilPublico" />
+        <input type="checkbox" class="configuracion__switch" name="perfilPublico"
+          [ngModel]="valores().perfilPublico" (ngModelChange)="set('perfilPublico', $event)" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Aparecer en busquedas</strong>
+          <span>Tu perfil sale en el buscador de empleados.</span>
+        </div>
+        <input type="checkbox" class="configuracion__switch" name="aparecerBusquedas"
+          [ngModel]="valores().aparecerBusquedas" (ngModelChange)="set('aparecerBusquedas', $event)" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Hoja de vida visible</strong>
+          <span>Los empleadores pueden ver tu hoja de vida.</span>
+        </div>
+        <input type="checkbox" class="configuracion__switch" name="hvVisible"
+          [ngModel]="valores().hvVisible" (ngModelChange)="set('hvVisible', $event)" />
+      </li>
+
+      <li>
+        <div>
+          <strong>Mostrar correo</strong>
+          <span>Tu correo aparece en tu perfil.</span>
+        </div>
+        <input type="checkbox" class="configuracion__switch" name="mostrarCorreo"
+          [ngModel]="valores().mostrarCorreo" (ngModelChange)="set('mostrarCorreo', $event)" />
       </li>
 
       <li>
@@ -81,54 +122,19 @@
           <strong>Mostrar telefono</strong>
           <span>Solo visible tras confirmar una contratacion.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="mostrarTelefono()" (ngModelChange)="mostrarTelefono.set($event)" name="mostrarTelefono" />
+        <input type="checkbox" class="configuracion__switch" name="mostrarTelefono"
+          [ngModel]="valores().mostrarTelefono" (ngModelChange)="set('mostrarTelefono', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Mostrar calificaciones</strong>
-          <span>Tus resenas son visibles en tu perfil.</span>
+          <strong>Mostrar ubicacion</strong>
+          <span>Tu ciudad y barrio aparecen en tu perfil.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="mostrarCalificaciones()" (ngModelChange)="mostrarCalificaciones.set($event)" name="mostrarCalif" />
+        <input type="checkbox" class="configuracion__switch" name="mostrarUbicacion"
+          [ngModel]="valores().mostrarUbicacion" (ngModelChange)="set('mostrarUbicacion', $event)" />
       </li>
     </ul>
-  </section>
-
-  <!-- ---- Preferencias ---- -->
-  <section class="configuracion__block tarjeta">
-    <h2>Preferencias</h2>
-
-    <div class="configuracion__row">
-      <div class="grupo_campo">
-        <label class="etiqueta" for="idioma">Idioma</label>
-        <select id="idioma" class="lista"
-          [ngModel]="idioma()" (ngModelChange)="idioma.set($event)" name="idioma">
-          <option value="es">Espanol</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-
-      <div class="grupo_campo">
-        <label class="etiqueta" for="moneda">Moneda</label>
-        <select id="moneda" class="lista"
-          [ngModel]="moneda()" (ngModelChange)="moneda.set($event)" name="moneda">
-          <option value="COP">Peso colombiano (COP)</option>
-          <option value="USD">Dolar (USD)</option>
-        </select>
-      </div>
-
-      <div class="grupo_campo">
-        <label class="etiqueta" for="tema">Tema</label>
-        <select id="tema" class="lista"
-          [ngModel]="tema()" (ngModelChange)="tema.set($event)" name="tema">
-          <option value="claro">Claro</option>
-          <option value="oscuro">Oscuro</option>
-          <option value="sistema">Segun el sistema</option>
-        </select>
-      </div>
-    </div>
   </section>
 
   <!-- ---- Seguridad ---- -->
@@ -159,6 +165,11 @@
     @if (errorPassword()) {
       <p class="error" role="alert">{{ errorPassword() }}</p>
     }
+    @if (passwordCambiada()) {
+      <p class="configuracion__saved" role="status">
+        <jobsy-icon name="check" /> Contrasena actualizada.
+      </p>
+    }
 
     <button type="button" class="boton_secundario boton_chico" (click)="cambiarPassword()">
       Cambiar contrasena
@@ -170,8 +181,8 @@
           <strong>Verificacion en dos pasos</strong>
           <span>Pide un codigo adicional al iniciar sesion.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch"
-          [ngModel]="dobleFactor()" (ngModelChange)="dobleFactor.set($event)" name="dobleFactor" />
+        <input type="checkbox" class="configuracion__switch" name="dobleFactor"
+          [ngModel]="valores().dobleFactor" (ngModelChange)="set('dobleFactor', $event)" />
       </li>
     </ul>
   </section>
@@ -180,8 +191,32 @@
   <section class="configuracion__block configuracion__danger tarjeta">
     <h2>Eliminar cuenta</h2>
     <p class="configuracion__hint">
-      Al eliminar tu cuenta se borran tu perfil, tu hoja de vida y tu historial. Esta accion no se puede deshacer.
+      Tu perfil dejara de aparecer y no podras volver a entrar. Las contrataciones,
+      pedidos y resenas en los que participaste se conservan, porque forman parte del
+      historial de las otras personas.
     </p>
-    <button type="button" class="configuracion__delete">Eliminar mi cuenta</button>
+
+    @if (confirmandoBaja()) {
+      <div class="grupo_campo">
+        <label class="etiqueta" for="passBaja">Escribe tu contrasena para confirmar</label>
+        <input id="passBaja" type="password" class="campo" autocomplete="current-password"
+          [ngModel]="passwordBaja()" (ngModelChange)="passwordBaja.set($event)" name="passBaja" />
+      </div>
+
+      @if (errorBaja()) {
+        <p class="error" role="alert">{{ errorBaja() }}</p>
+      }
+
+      <button type="button" class="configuracion__delete" (click)="confirmarBaja()">
+        Si, eliminar mi cuenta
+      </button>
+      <button type="button" class="boton_secundario boton_chico" (click)="cancelarBaja()">
+        Cancelar
+      </button>
+    } @else {
+      <button type="button" class="configuracion__delete" (click)="pedirBaja()">
+        Eliminar mi cuenta
+      </button>
+    }
   </section>
 </section>

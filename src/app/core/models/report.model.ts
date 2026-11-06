@@ -19,6 +19,14 @@ export interface Report {
   estado: ReportStatus;
   reportanteId: string;
   fecha: string;
-  /** Conversacion del reporte. El primer mensaje suele ser la descripcion inicial. */
+  /** Mensajes del hilo, sin contar la descripcion (que abre la conversacion). */
+  totalMensajes?: number;
+  /** Ultimo mensaje del hilo, para la bandeja; no viene si aun no hay respuestas. */
+  ultimoMensaje?: ReportMessage;
+  /** Fecha del ultimo mensaje, o la de creacion si no hay. */
+  actividad?: string;
+  /** Nombre de quien reporta (solo en el panel admin). */
+  reportante?: string;
+  /** Conversacion del reporte, cargada al abrirlo. No incluye la descripcion. */
   mensajes?: ReportMessage[];
 }

@@ -1,6 +1,8 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { JobFilters, JobSize, WorkModality } from '../../../core/models';
+import {
+  JobFilters, JobSize, MODALIDADES, MODALIDAD_TEXTO, TAMANOS, TAMANO_TEXTO, WorkModality,
+} from '../../../core/models';
 
 /** Panel lateral de filtros para la busqueda de empleo. */
 @Component({
@@ -13,19 +15,9 @@ import { JobFilters, JobSize, WorkModality } from '../../../core/models';
 export class FilterPanelComponent {
   readonly aplicar = output<JobFilters>();
 
-  readonly sizes: { value: JobSize; label: string }[] = [
-    { value: 'pequeno', label: 'Pequeno' },
-    { value: 'mediano', label: 'Mediano' },
-    { value: 'grande', label: 'Grande' },
-    { value: 'lujoso', label: 'Lujoso' },
-  ];
+  readonly sizes = TAMANOS.map((value) => ({ value, label: TAMANO_TEXTO[value] }));
 
-  readonly modalities: { value: WorkModality; label: string }[] = [
-    { value: 'por_horas', label: 'Por horas' },
-    { value: 'jornada_completa', label: 'Jornada completa' },
-    { value: 'fin_de_semana', label: 'Fin de semana' },
-    { value: 'presencial', label: 'Presencial' },
-  ];
+  readonly modalities = MODALIDADES.map((value) => ({ value, label: MODALIDAD_TEXTO[value] }));
 
   readonly selectedSizes = signal<JobSize[]>([]);
   readonly selectedModalities = signal<WorkModality[]>([]);

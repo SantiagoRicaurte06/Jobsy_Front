@@ -26,19 +26,20 @@ export class FooterComponent {
     {
       title: 'Empresa',
       links: [
-        { label: 'Sobre Nosotros', path: '/' },
-        { label: 'Blog', path: '/' },
-        { label: 'Trabaja con Nosotros', path: '/' },
-        { label: 'Prensa', path: '/' },
+        { label: 'Sobre Nosotros', path: '/empresa/sobre-nosotros' },
+        { label: 'Blog', path: '/empresa/blog' },
+        { label: 'Trabaja con Nosotros', path: '/empresa/trabaja-con-nosotros' },
+        { label: 'Prensa', path: '/empresa/prensa' },
       ],
     },
     {
       title: 'Soporte',
       links: [
-        { label: 'Centro de Ayuda', path: '/app/reportes' },
-        { label: 'Contacto', path: '/app/reportes' },
-        { label: 'Terminos', path: '/' },
-        { label: 'Privacidad', path: '/' },
+        // Publicas: llevar a /app/reportes mandaba al login a quien no tiene cuenta.
+        { label: 'Centro de Ayuda', path: '/soporte/centro-ayuda' },
+        { label: 'Contacto', path: '/soporte/contacto' },
+        { label: 'Terminos', path: '/legal/terminos' },
+        { label: 'Privacidad', path: '/legal/privacidad' },
       ],
     },
   ];

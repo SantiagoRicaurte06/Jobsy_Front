@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 
 import { StepProgressComponent } from './step-progress';
@@ -11,7 +12,7 @@ describe('StepProgressComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StepProgressComponent],
-      providers: [provideHttpClient(), provideRouter([])],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StepProgressComponent);

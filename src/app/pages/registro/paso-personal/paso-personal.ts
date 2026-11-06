@@ -3,6 +3,7 @@ import { Component, inject, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RegistrationService } from "../../../core/services";
+import * as R from "../../../core/validation/reglas";
 import { StepProgressComponent } from "../../../shared/components/step-progress/step-progress";
 
 @Component ({
@@ -24,8 +25,12 @@ export class StepPersonalPage {
   readonly documento = signal(this.registration.draft().documento);
   readonly error = signal('');
 
-  readonly nacionalidades = ['Colombiana', 'Venzolana', 'Ecuatoriana', 'Peruana', 'Otra'];
-  readonly generos = ['Femenino', 'Maculino', 'No binario', 'Prefiero no decirlo'];
+  /** Limites del selector de fecha: entre 18 y 80 anos. */
+  readonly fechaMax = R.hoyISO(0, -R.LIMITES.edadMin);
+  readonly fechaMin = R.hoyISO(0, -R.LIMITES.edadMax);
+
+  readonly nacionalidades = ['Colombiana', 'Venezolana', 'Ecuatoriana', 'Peruana', 'Otra'];
+  readonly generos = ['Femenino', 'Masculino', 'No binario', 'Prefiero no decirlo'];
 
   back():void {
     this.router.navigate(['/registro/checklist']);
@@ -33,15 +38,26 @@ export class StepPersonalPage {
 
   next():void {
     if (!this.genero() || !this.fechaNacimiento() || !this.documento()) {
-      this.error.set('Completa Todos Los Campos Para Continuar.');
+      this.error.set('Completa todos los campos para continuar.');
       return;
     }
+    // Sin puntos ni espacios: "1.234.567.890" se guarda como 1234567890.
+    const documento = this.documento().replace(/[. ]/g, '');
+    const invalido = R.primero(
+      R.fechaNacimiento(this.fechaNacimiento()),
+      R.documento(documento, this.nacionalidad() === 'Colombiana'),
+    );
+    if (invalido) {
+      this.error.set(invalido);
+      return;
+    }
+    this.error.set('');
 
     this.registration.patch({
       nacionalidad: this.nacionalidad(),
       genero: this.genero(),
       fechaNacimiento: this.fechaNacimiento(),
-      documento: this.documento(),
+      documento,
     });
 
     const siguiente = this.registration.rol() === 'empleador' ? '/registro/paso-3' : '/registro/paso-2';

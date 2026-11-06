@@ -24,8 +24,8 @@
         name="email" />
     </div>
 
-    <button type="submit" class="boton_principal boton_ancho" [disabled]="loading()">
-      {{ loading() ? 'Enviando...' : 'Enviar enlace' }}
+    <button type="submit" class="boton_principal boton_ancho" [disabled]="cargando()">
+      {{ cargando() ? 'Enviando...' : 'Enviar enlace' }}
     </button>
   </form>
 

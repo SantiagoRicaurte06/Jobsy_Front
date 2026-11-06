@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 
 import { StepWorkPage } from './paso-trabajo';
@@ -11,7 +12,7 @@ describe('StepWorkPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StepWorkPage],
-      providers: [provideHttpClient(), provideRouter([])],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StepWorkPage);

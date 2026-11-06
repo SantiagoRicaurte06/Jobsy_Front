@@ -6,7 +6,7 @@
       <!-- Menu lateral del usuario -->
       <aside class="lateral_marco_privado">
         <nav class="menu_marco_privado">
-          @for (item of menu; track item.path) {
+          @for (item of menu(); track item.path) {
             <a [routerLink]="item.path" routerLinkActive="is-active">
               <span class="icono_marco_privado" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
               {{ item.label }}
@@ -16,6 +16,12 @@
       </aside>
 
       <main class="principal_marco_privado">
+        @if (sinPermiso()) {
+          <p class="aviso_permiso_marco_privado" role="alert">
+            Esa seccion no esta disponible para tu tipo de cuenta.
+            <button type="button" (click)="cerrarAviso()" aria-label="Cerrar aviso"><jobsy-icon name="x" /></button>
+          </p>
+        }
         <router-outlet />
       </main>
     </div>

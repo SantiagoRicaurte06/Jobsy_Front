@@ -30,15 +30,16 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="fecha">Fecha de nacimiento</label>
-      <input id="fecha" type="date" class="campo"
+      <input id="fecha" type="date" class="campo" [min]="fechaMin" [max]="fechaMax" required
         [ngModel]="fechaNacimiento()" (ngModelChange)="fechaNacimiento.set($event)" name="fecha" />
     </div>
 
     <div class="grupo_campo">
       <label class="etiqueta" for="documento">Numero de documento</label>
-      <input id="documento" type="text" class="campo" placeholder="1.234.567.890"
+      <input id="documento" type="text" class="campo" placeholder="1234567890"
+        maxlength="15" [attr.inputmode]="nacionalidad() === 'Colombiana' ? 'numeric' : null"
         [ngModel]="documento()" (ngModelChange)="documento.set($event)" name="documento" />
-      <p class="ayuda">Lo Usamos Solo Para Verificar Tu Perfil. Nunca Se Muestra Publicamente.</p>
+      <p class="ayuda">Cedula de 6 a 10 digitos (pasaporte o PPT: 5 a 15 letras o numeros). Solo se usa para verificar tu perfil.</p>
     </div>
 
     @if (error()) {

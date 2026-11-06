@@ -3,6 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services';
+import * as R from '../../../core/validation/reglas';
 import { LogoComponent } from '../../../shared/components/logo/logo';
 
 @Component ({
@@ -26,7 +27,16 @@ export class CreateAccountPage {
 
   submit(): void {
     if (!this.nombre() || !this.apellido() || !this.email() || !this.password()) {
-      this.error.set('Completa Todos Los Cambios.');
+      this.error.set('Completa todos los campos.');
+      return;
+    }
+    const invalido = R.primero(
+      R.nombrePersona('El nombre', this.nombre()),
+      R.nombrePersona('El apellido', this.apellido()),
+      R.correo(this.email()),
+    );
+    if (invalido) {
+      this.error.set(invalido);
       return;
     }
     if (this.password().length < 8) {
@@ -38,7 +48,7 @@ export class CreateAccountPage {
       return;
     }
     if (!this.acepta()) {
-      this.error.set('Debes Aceptar Los Terminos Y Condidcones.');
+      this.error.set('Debes aceptar los terminos y condiciones.');
       return;
     }
 

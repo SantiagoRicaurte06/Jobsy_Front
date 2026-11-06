@@ -71,11 +71,23 @@ export class AuthService {
       return mockResponse(user);
     }
 
-    // API real: el contrato de Usuarios_Api es RegisterRequest.
+    // API real: se envia todo el asistente. Antes solo iban los cinco campos de
+    // la cuenta y el resto (documento, ubicacion, modalidades...) se perdia.
+    // Los vacios se omiten; la foto se sube aparte con la sesion ya abierta.
     const payload: RegisterRequest = {
       nombre: draft.nombre, apellido: draft.apellido, email: draft.email,
       password: draft.password, rol,
     };
+    const opcionales: Partial<RegisterRequest> = {
+      nacionalidad: draft.nacionalidad, genero: draft.genero, fechaNacimiento: draft.fechaNacimiento,
+      documento: draft.documento, ciudad: draft.ciudad, barrio: draft.barrio,
+      distanciaKm: draft.distanciaKm, experiencia: draft.experiencia,
+      modalidades: draft.modalidades, especialidades: draft.especialidades,
+    };
+    for (const [clave, valor] of Object.entries(opcionales)) {
+      const vacio = valor === '' || valor == null || (Array.isArray(valor) && !valor.length);
+      if (!vacio) (payload as unknown as Record<string, unknown>)[clave] = valor;
+    }
     return this.api.post<User>(`${environment.endpoints.usuarios}/registro`, payload);
   }
 
@@ -98,6 +110,13 @@ export class AuthService {
 
   logout(): void {
     this.storage.remove(StorageKeys.session);
+    // Datos personales recordados para el checkout: en un equipo compartido
+    // no deben quedarle al siguiente.
+    try {
+      localStorage.removeItem('jobsy.entrega');
+    } catch {
+      // Sin almacenamiento no hay nada que borrar.
+    }
     this._user.set(null);
   }
 
@@ -110,7 +129,35 @@ export class AuthService {
     this._user.set(res.user);
   }
 
+  /**
+   * Recupera la sesion guardada, salvo que el token ya haya vencido: antes la
+   * app se creia con sesion hasta que la primera peticion fallaba con 401.
+   */
   private restore(): User | null {
-    return this.storage.get<LoginResponse>(StorageKeys.session)?.user ?? null;
+    const sesion = this.storage.get<LoginResponse>(StorageKeys.session);
+    if (!sesion) return null;
+    if (tokenVencido(sesion.token)) {
+      this.storage.remove(StorageKeys.session);
+      return null;
+    }
+    return sesion.user ?? null;
+  }
+
+  /** True si hay sesion y su token ya no sirve (se usa al volver a la pestana). */
+  sesionVencida(): boolean {
+    return this.isLoggedIn() && tokenVencido(this.token);
+  }
+}
+
+/** Lee el `exp` del JWT. Un token que no es JWT (los de mocks) no vence. */
+function tokenVencido(token: string | null | undefined): boolean {
+  if (!token) return true;
+  const partes = token.split('.');
+  if (partes.length !== 3) return false;
+  try {
+    const datos = JSON.parse(atob(partes[1].replace(/-/g, '+').replace(/_/g, '/')));
+    return typeof datos.exp === 'number' && datos.exp * 1000 <= Date.now();
+  } catch {
+    return true;
   }
 }

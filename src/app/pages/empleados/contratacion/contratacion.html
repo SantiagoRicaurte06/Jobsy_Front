@@ -1,13 +1,13 @@
 <div class="contenedor contratacion">
-  @if (loading()) {
+  @if (cargando()) {
     <jobsy-loading-spinner />
   } @else if (done()) {
     <div class="hecho_contratacion tarjeta">
       <span aria-hidden="true"><jobsy-icon name="check" /></span>
-      <h1>Solicitud enviada</h1>
+      <h1>Contratacion confirmada</h1>
       <p>
-        Enviamos tu solicitud de contratacion a <strong>{{ employee()?.nombre }}</strong>.
-        Te avisaremos cuando responda.
+        Contrataste a <strong>{{ employee()?.nombre }}</strong>.
+        Puedes ver el servicio en tus contrataciones.
       </p>
       <button type="button" class="boton_principal" (click)="goHome()">Volver a empleados</button>
     </div>
@@ -49,13 +49,13 @@
         <div class="fila_contratacion">
           <div class="grupo_campo">
             <label class="etiqueta" for="fecha">Fecha</label>
-            <input id="fecha" type="date" class="campo"
+            <input id="fecha" type="date" class="campo" [min]="fechaMin" [max]="fechaMax" required
               [ngModel]="fecha()" (ngModelChange)="fecha.set($event)" name="fecha" />
           </div>
 
           <div class="grupo_campo">
             <label class="etiqueta" for="hora">Hora de inicio</label>
-            <input id="hora" type="time" class="campo"
+            <input id="hora" type="time" class="campo" step="900" required
               [ngModel]="horaInicio()" (ngModelChange)="horaInicio.set($event)" name="hora" />
           </div>
         </div>
@@ -69,15 +69,18 @@
 
           <div class="grupo_campo">
             <label class="etiqueta" for="tarifa">Tarifa por hora (COP)</label>
-            <input id="tarifa" type="number" class="campo"
+            <input id="tarifa" type="number" class="campo" inputmode="numeric" step="500"
+              [min]="limites.tarifaMin" [max]="limites.tarifaMax"
               [ngModel]="tarifaHora()" (ngModelChange)="tarifaHora.set(+$event)" name="tarifa" />
           </div>
         </div>
 
         <div class="grupo_campo">
           <label class="etiqueta" for="direccion">Direccion del servicio</label>
-          <input id="direccion" type="text" class="campo" placeholder="Calle 7 #33, Yopal"
+          <input id="direccion" type="text" class="campo" placeholder="Calle 7 # 33-20"
+            maxlength="120" autocomplete="street-address"
             [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
+          <p class="ayuda">Ej: Calle 10 # 20-30, Cra 84 # 65-22 o Vereda La Esperanza.</p>
         </div>
       }
 
@@ -99,13 +102,19 @@
         </p>
       }
 
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+
       <footer class="acciones_contratacion">
         <button type="button" class="boton_simple" [disabled]="step() === 0" (click)="back()">Atras</button>
 
         @if (step() < steps.length - 1) {
           <button type="button" class="boton_principal" (click)="next()">Siguiente</button>
         } @else {
-          <button type="button" class="boton_principal" (click)="confirmar()">Enviar solicitud</button>
+          <button type="button" class="boton_principal" [disabled]="enviando()" (click)="confirmar()">
+            {{ enviando() ? 'Contratando...' : 'Confirmar contratacion' }}
+          </button>
         }
       </footer>
     </div>

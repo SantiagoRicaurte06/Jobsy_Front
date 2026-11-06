@@ -28,6 +28,10 @@
     }
   </dl>
 
+  @if (error()) {
+    <p class="pildora_error">{{ error() }}</p>
+  }
+
   @if (suficiente()) {
     <button type="button" class="boton_principal boton_ancho" [disabled]="procesando()" (click)="pagar()">
       {{ procesando() ? 'Procesando...' : 'Pagar con saldo Jobsy' }}
@@ -43,18 +47,20 @@
   <section class="saldo__history">
     <h3>Movimientos recientes</h3>
 
-    <ul>
-      @for (mov of movimientos; track mov.concepto) {
-        <li>
-          <div>
-            <strong>{{ mov.concepto }}</strong>
-            <span class="texto_mini texto_gris">{{ mov.fecha }}</span>
-          </div>
-          <span [class.saldo__in]="mov.monto > 0" [class.saldo__out]="mov.monto < 0">
-            {{ formatear(mov.monto) }}
-          </span>
-        </li>
-      }
-    </ul>
+    @if (movimientos().length === 0) {
+      <p class="texto_mini texto_gris">Todavia no tienes movimientos.</p>
+    } @else {
+      <ul>
+        @for (mov of movimientos(); track mov.id) {
+          <li>
+            <div>
+              <strong>{{ concepto(mov) }}</strong>
+              <span class="texto_mini texto_gris">{{ cuando(mov.fecha) }} &middot; {{ mov.estado }}</span>
+            </div>
+            <span class="saldo__out">{{ formatear(mov) }}</span>
+          </li>
+        }
+      </ul>
+    }
   </section>
 </section>

@@ -11,6 +11,8 @@ export interface Employee {
   experiencia: string;
   ciudad: string;
   disponible: boolean;
+  /** Lo que cobra por hora. Ausente si todavia no tiene perfil. */
+  tarifaHora?: number;
 }
 
 /** Resena que un usuario deja en el perfil de un empleado. */

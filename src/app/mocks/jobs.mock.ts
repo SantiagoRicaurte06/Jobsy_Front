@@ -31,7 +31,7 @@ export const MOCK_JOBS: Job[] = [
     imagenUrl: IMG_JOBS['j3'],
   },
   {
-    id: 'j4', titulo: 'Casa Grande (Lujo) - La Decision', tamano: 'lujoso',
+    id: 'j4', titulo: 'Casa Grande (Lujo) - La Decision', tamano: 'grande', esLujo: true,
     precioHora: 40000, moneda: 'COP',
     horario: 'Jueves: 8:00 am - 3:30 pm (ver detalles)',
     direccion: 'Conjunto La Rochela', ciudad: 'Yopal',

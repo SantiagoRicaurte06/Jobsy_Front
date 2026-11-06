@@ -4,32 +4,55 @@
     <div>
       <h1 class="titulo_inicio_privado">Hola, {{ user()?.nombre }} <jobsy-icon name="hand" /></h1>
       <p class="texto_inicio_privado">
-        Este es tu panel. Aqui puedes ver tus postulaciones y las ofertas nuevas de tu zona.
+        @if (esEmpleador()) {
+          Este es tu panel. Aqui ves tus ofertas, las postulaciones que recibes y tus contrataciones.
+        } @else {
+          Este es tu panel. Aqui puedes ver tus postulaciones y las ofertas nuevas de tu zona.
+        }
       </p>
     </div>
 
-    <a routerLink="/empleos" class="boton_principal">Buscar empleo</a>
+    @if (esEmpleador()) {
+      <a routerLink="/publicar-oferta" class="boton_principal">Publicar oferta</a>
+    } @else {
+      <a routerLink="/empleos" class="boton_principal">Buscar empleo</a>
+    }
   </header>
 
   <!-- Metricas -->
   <div class="cifras_inicio_privado">
-    <div class="cifra_inicio_privado tarjeta">
-      <strong>{{ applications().length }}</strong>
-      <span>Postulaciones activas</span>
-    </div>
-    <div class="cifra_inicio_privado tarjeta">
-      <strong>{{ jobs().length }}</strong>
-      <span>Ofertas nuevas</span>
-    </div>
-    <div class="cifra_inicio_privado tarjeta">
-      <strong>{{ user()?.verificado ? 'Si' : 'No' }}</strong>
-      <span>Perfil verificado</span>
-    </div>
+    @if (esEmpleador()) {
+      <a routerLink="/app/mis-ofertas" class="cifra_inicio_privado tarjeta">
+        <strong>{{ ofertasActivas() }}</strong>
+        <span>Ofertas activas</span>
+      </a>
+      <a routerLink="/app/mis-ofertas" class="cifra_inicio_privado tarjeta">
+        <strong>{{ porResponder() }}</strong>
+        <span>Postulaciones por responder</span>
+      </a>
+      <a routerLink="/app/contrataciones" class="cifra_inicio_privado tarjeta">
+        <strong>{{ enCurso() }}</strong>
+        <span>Contrataciones en curso</span>
+      </a>
+    } @else {
+      <a routerLink="/app/mis-postulaciones" class="cifra_inicio_privado tarjeta">
+        <strong>{{ postulacionesAbiertas() }}</strong>
+        <span>Postulaciones activas</span>
+      </a>
+      <a routerLink="/app/contrataciones" class="cifra_inicio_privado tarjeta">
+        <strong>{{ enCurso() }}</strong>
+        <span>Trabajos en curso</span>
+      </a>
+      <div class="cifra_inicio_privado tarjeta">
+        <strong>{{ user()?.verificado ? 'Si' : 'No' }}</strong>
+        <span>Perfil verificado</span>
+      </div>
+    }
   </div>
 
   <!-- Accesos rapidos -->
   <nav class="accesos_inicio_privado">
-    @for (s of shortcuts; track s.path) {
+    @for (s of shortcuts(); track s.path) {
       <a [routerLink]="s.path" class="acceso_inicio_privado tarjeta">
         <span aria-hidden="true"><jobsy-icon [name]="s.icon" /></span>
         {{ s.label }}
@@ -37,7 +60,8 @@
     }
   </nav>
 
-  <!-- Ofertas recomendadas -->
+  <!-- Ofertas recomendadas (solo para quien busca trabajo) -->
+  @if (!esEmpleador()) {
   <section class="seccion_inicio_privado">
     <div class="encabezado_seccion">
       <h2>Ofertas para ti</h2>
@@ -50,4 +74,5 @@
       }
     </div>
   </section>
+  }
 </section>

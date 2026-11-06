@@ -1,0 +1,233 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+// ---- Resumen ----
+.resumen_mis_ofertas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$space-3;
+  margin-bottom: v.$space-4;
+
+  @include m.until(v.$bp-md) { grid-template-columns: 1fr; }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: v.$space-4;
+  }
+
+  strong { font-size: v.$font-size-xl; color: v.$color-primary; }
+  span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
+}
+
+.aviso_mis_ofertas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: v.$space-2;
+  margin-bottom: v.$space-3;
+  padding: v.$space-3;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+
+  button { background: transparent; border: 0; cursor: pointer; color: v.$color-text-muted; }
+}
+
+// ---- Filtros (mismo estilo que Mis postulaciones) ----
+.filtros_mis_ofertas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+  margin-bottom: v.$space-4;
+}
+
+.filtro_mis_ofertas {
+  padding: v.$space-2 v.$space-4;
+  background: v.$color-surface;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-pill;
+  font-family: inherit;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+  cursor: pointer;
+
+  &:hover { border-color: v.$color-primary-light; }
+
+  &.is-active {
+    background: v.$color-primary-light;
+    border-color: v.$color-primary-light;
+    color: v.$color-text-invert;
+    font-weight: v.$font-weight-semibold;
+  }
+}
+
+// ---- Ofertas ----
+.lista_mis_ofertas {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-4;
+}
+
+.oferta_mis_ofertas {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  padding: v.$space-4;
+}
+
+.cabeza_oferta {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  gap: v.$space-4;
+  align-items: center;
+
+  @include m.until(v.$bp-md) { grid-template-columns: 72px 1fr; }
+
+  h2 { margin: 0; font-size: v.$font-size-lg; }
+  p { margin: 2px 0; }
+}
+
+.imagen_oferta {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 72px;
+  overflow: hidden;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-xl;
+  color: v.$color-text-muted;
+
+  @include m.until(v.$bp-md) { width: 72px; height: 56px; }
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.estado_oferta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: v.$space-1;
+  text-transform: capitalize;
+
+  @include m.until(v.$bp-md) { grid-column: 1 / -1; align-items: flex-start; }
+}
+
+.fotos_oferta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+  align-items: center;
+
+  img {
+    width: 72px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: v.$radius-sm;
+    border: 2px solid transparent;
+
+    // La principal es la que sale en el buscador.
+    &.is-principal { border-color: v.$color-primary-light; }
+  }
+}
+
+.subir_foto_oferta {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-2 v.$space-3;
+  border: 1px dashed v.$color-border;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+  cursor: pointer;
+
+  &:hover { border-color: v.$color-primary-light; color: v.$color-primary; }
+  &.is-ocupado { opacity: 0.6; cursor: progress; }
+
+  input { display: none; }
+}
+
+.acciones_oferta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+.cerrar_oferta { color: v.$color-danger !important; }
+
+// ---- Postulaciones recibidas ----
+.postulaciones_oferta {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  padding-top: v.$space-3;
+  border-top: 1px solid v.$color-border;
+}
+
+.candidata {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: v.$space-3;
+  align-items: start;
+  padding: v.$space-3;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+
+  @include m.until(v.$bp-md) { grid-template-columns: 48px 1fr; }
+}
+
+.avatar_candidata {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  background: v.$color-primary-light;
+  color: v.$color-text-invert;
+  border-radius: 50%;
+  font-weight: v.$font-weight-bold;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.info_candidata {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mensaje_candidata {
+  margin: v.$space-1 0;
+  font-size: v.$font-size-sm;
+  font-style: italic;
+}
+
+.acciones_candidata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+  align-items: center;
+  justify-content: flex-end;
+
+  @include m.until(v.$bp-md) { grid-column: 1 / -1; justify-content: flex-start; }
+}
+
+.form_contrato {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: v.$space-3;
+  padding: v.$space-3;
+  background: v.$color-surface;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+
+  @include m.until(v.$bp-md) { grid-template-columns: 1fr 1fr; }
+
+  label { display: flex; flex-direction: column; gap: v.$space-1; }
+
+  &__ancho { grid-column: 1 / -1; }
+}

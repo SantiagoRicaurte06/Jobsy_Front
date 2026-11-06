@@ -27,7 +27,7 @@ export class EmployeeSearchPage implements OnInit {
   private router = inject(Router);
 
   readonly employees = signal<Employee[]>([]);
-  readonly loading = signal(true);
+  readonly cargando = signal(true);
   readonly page = signal(1);
   readonly totalPages = signal(1);
   readonly total = signal(0);
@@ -38,12 +38,12 @@ export class EmployeeSearchPage implements OnInit {
   }
 
   load(): void {
-    this.loading.set(true);
+    this.cargando.set(true);
     this.employeeService.list(this.busqueda(), this.page(), 6).subscribe((res) => {
       this.employees.set(res.items);
       this.totalPages.set(res.totalPages);
       this.total.set(res.total);
-      this.loading.set(false);
+      this.cargando.set(false);
     });
   }
 

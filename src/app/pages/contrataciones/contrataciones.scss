@@ -1,0 +1,94 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.aviso_contrataciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: v.$space-3;
+  padding: v.$space-3;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+  font-size: v.$font-size-sm;
+
+  button { background: transparent; border: 0; cursor: pointer; color: v.$color-text-muted; }
+}
+
+.filtros_contrataciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+  margin-bottom: v.$space-4;
+
+  button {
+    padding: v.$space-2 v.$space-4;
+    background: v.$color-surface;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-pill;
+    font-family: inherit;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    cursor: pointer;
+
+    &.is-active {
+      background: v.$color-primary-light;
+      border-color: v.$color-primary-light;
+      color: v.$color-text-invert;
+      font-weight: v.$font-weight-semibold;
+    }
+  }
+}
+
+.lista_contrataciones {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+}
+
+.contratacion {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  padding: v.$space-4;
+}
+
+.cabeza_contratacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: v.$space-3;
+  text-transform: none;
+
+  h2 { margin: 0; font-size: v.$font-size-lg; }
+  p { margin: 2px 0 0; }
+  > span { text-transform: capitalize; }
+}
+
+.datos_contratacion {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: v.$space-3;
+  margin: 0;
+
+  @include m.until(v.$bp-md) { grid-template-columns: 1fr 1fr; }
+
+  dt { font-size: v.$font-size-xs; color: v.$color-text-muted; }
+  dd { margin: 0; font-size: v.$font-size-sm; font-weight: v.$font-weight-medium; }
+}
+
+.acciones_contratacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+.form_resena {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  padding: v.$space-3;
+  background: v.$color-bg;
+  border-radius: v.$radius-md;
+
+  label { display: flex; flex-direction: column; gap: v.$space-1; }
+}

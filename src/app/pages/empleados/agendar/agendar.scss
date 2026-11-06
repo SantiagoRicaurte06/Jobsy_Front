@@ -84,6 +84,15 @@
 
     &--empty { cursor: default; }
 
+    // Dias pasados o a mas de un ano: no se pueden agendar.
+    &:disabled {
+      color: v.$color-text-muted;
+      opacity: 0.45;
+      cursor: not-allowed;
+      background: transparent;
+      border-color: transparent;
+    }
+
     &.is-selected {
       background: v.$color-accent;
       border-color: v.$color-accent;

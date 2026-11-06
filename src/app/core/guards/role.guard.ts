@@ -14,6 +14,9 @@ export function roleGuard(roles: UserRole[]): CanActivateFn {
 
     const role = auth.role();
     if (role && roles.includes(role)) return true;
-    return router.createUrlTree(['/']);
+    // Al inicio de su rol, que dice que puede hacer, y no a la portada publica.
+    return router.createUrlTree([auth.isLoggedIn() ? auth.homeUrl() : '/auth/login'], {
+      queryParams: auth.isLoggedIn() ? { aviso: 'sin-permiso' } : {},
+    });
   };
 }

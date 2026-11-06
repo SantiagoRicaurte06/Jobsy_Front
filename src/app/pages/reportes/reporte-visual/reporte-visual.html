@@ -6,11 +6,11 @@
 
   <!-- KPIs -->
   <div class="reporte-visual__kpis">
-    @for (kpi of kpis; track kpi.label) {
+    @for (kpi of kpis(); track kpi.label) {
       <div class="reporte-visual__kpi tarjeta">
         <span class="reporte-visual__kpi-label">{{ kpi.label }}</span>
         <strong class="reporte-visual__kpi-value">{{ kpi.value }}</strong>
-        <span class="reporte-visual__kpi-delta"><jobsy-icon name="chevron-up" /> {{ kpi.delta }}</span>
+        <span class="reporte-visual__kpi-delta">{{ kpi.delta }}</span>
       </div>
     }
   </div>
@@ -22,7 +22,7 @@
         <h2>Postulaciones por mes &mdash; {{ periodo() }}</h2>
       </div>
 
-      <jobsy-bar-chart [data]="postulaciones" unit="postulaciones" />
+      <jobsy-bar-chart [data]="postulaciones()" unit="postulaciones" />
     </section>
 
     <!-- Distribucion por categoria -->
@@ -30,7 +30,7 @@
       <h2>Tipos de servicio</h2>
 
       <ul>
-        @for (cat of categorias; track cat.nombre) {
+        @for (cat of categorias(); track cat.nombre) {
           <li>
             <div class="reporte-visual__cat-head">
               <span>{{ cat.nombre }}</span>
@@ -40,6 +40,8 @@
               <span [style.width.%]="cat.porcentaje"></span>
             </div>
           </li>
+        } @empty {
+          <li>Aun no hay postulaciones para calcular el reparto.</li>
         }
       </ul>
     </section>

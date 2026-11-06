@@ -36,4 +36,12 @@ export class ApplicationService {
     if (environment.useMocks) return mockResponse(undefined as void);
     return this.api.delete<void>(`${this.path}/postulaciones/${id}`);
   }
+
+  /**
+   * El empleador pasa una postulacion a revision o la rechaza; la candidata
+   * recibe un aviso. Aceptar es contratar (HiringService.fromApplication).
+   */
+  setStatus(id: string, estado: 'en_revision' | 'rechazada'): Observable<Application> {
+    return this.api.put<Application>(`${this.path}/postulaciones/${id}/estado`, { estado });
+  }
 }

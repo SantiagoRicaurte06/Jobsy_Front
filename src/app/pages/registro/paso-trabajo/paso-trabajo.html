@@ -50,7 +50,7 @@
 
     <div class="grupo_campo">
       <label class="etiqueta" for="experiencia">Cuentanos Tu Experiencia</label>
-      <textarea id="experiencia" class="area_texto"
+      <textarea id="experiencia" class="area_texto" maxlength="1000"
       placeholder="Ej: 6 Anos De Experiencia En Hogares De Yopal, Con Enfasis En Limpieza Profunda Y Cocina"
       [ngModel]="experiencia()" (ngModelChange)="experiencia.set($event)" name="experiencia"></textarea>
     <p class="ayuda">Este Texto Aparecera En Tu Perfil Publico.</p>

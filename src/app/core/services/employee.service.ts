@@ -3,11 +3,10 @@ import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { environment } from '../../../environments/environment';
 import { Employee, EmployeeReview, Paginated } from '../models';
+import { ScheduleSlot } from './hiring.service';
 import { MOCK_EMPLOYEES, mockResponse, paginate } from '../../mocks';
 
-const REVIEWS_KEY = 'jobsy_employee_reviews';
-
-/** Usuarios_Api — busqueda y perfiles de empleados. */
+/** Usuarios_Api — busqueda, perfiles, resenas y disponibilidad de empleados. */
 @Injectable({ providedIn: 'root' })
 export class EmployeeService {
   private api = inject(ApiService);
@@ -35,33 +34,51 @@ export class EmployeeService {
   }
 
   // ============================================================
-  //  Resenas de empleados
-  //  TEMPORAL: se guardan en localStorage. Con backend real iran a Usuarios_Api.
+  //  Resenas
   // ============================================================
 
-  /** Resenas que los usuarios han dejado a un empleado (las mas nuevas primero). */
-  getReviews(employeeId: string): EmployeeReview[] {
-    return this.allReviews()[employeeId] ?? [];
+  /**
+   * Resenas que ha recibido esa persona.
+   *
+   * Antes vivian en localStorage: solo las veia quien las escribia, y el
+   * perfil mostraba ademas tres de ejemplo fijas.
+   */
+  reviews(employeeId: string): Observable<EmployeeReview[]> {
+    if (environment.useMocks) return mockResponse<EmployeeReview[]>([]);
+    return this.api.get<EmployeeReview[]>(`${this.path}/empleados/${employeeId}/resenas`);
   }
 
-  /** Guarda una resena nueva para un empleado y la persiste. */
-  addReview(employeeId: string, review: EmployeeReview): void {
-    const all = this.allReviews();
-    all[employeeId] = [review, ...(all[employeeId] ?? [])];
-    this.almacen?.setItem(REVIEWS_KEY, JSON.stringify(all));
+  /**
+   * Publica una resena.
+   *
+   * El servidor solo la acepta si ambos comparten una postulacion, es decir,
+   * si de verdad trabajaron juntos.
+   */
+  addReview(data: {
+    sobreUsuarioId: string;
+    calificacion: number;
+    comentario: string;
+    postulacionId?: string;
+  }): Observable<EmployeeReview> {
+    return this.api.post<EmployeeReview>(`${this.path}/resenas`, data);
   }
 
-  private allReviews(): Record<string, EmployeeReview[]> {
-    try {
-      const raw = this.almacen?.getItem(REVIEWS_KEY);
-      if (raw) return JSON.parse(raw) as Record<string, EmployeeReview[]>;
-    } catch {
-      // Si el JSON esta corrupto, arrancamos vacio.
-    }
-    return {};
+  // ============================================================
+  //  Disponibilidad
+  // ============================================================
+
+  /** Franjas en las que esa persona puede trabajar. */
+  availability(employeeId: string): Observable<ScheduleSlot[]> {
+    if (environment.useMocks) return mockResponse<ScheduleSlot[]>([]);
+    return this.api.get<ScheduleSlot[]>(`${this.path}/empleados/${employeeId}/disponibilidad`);
   }
 
-  private get almacen(): Storage | null {
-    return typeof localStorage === 'undefined' ? null : localStorage;
+  /** Franjas propias, para el empleado que edita su agenda. */
+  myAvailability(): Observable<ScheduleSlot[]> {
+    return this.api.get<ScheduleSlot[]>(`${this.path}/disponibilidad`);
+  }
+
+  setMyAvailability(franjas: ScheduleSlot[]): Observable<ScheduleSlot[]> {
+    return this.api.put<ScheduleSlot[]>(`${this.path}/disponibilidad`, franjas);
   }
 }
