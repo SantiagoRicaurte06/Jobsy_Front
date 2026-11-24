@@ -45,33 +45,33 @@
 
           <div class="fila_hoja_vida">
             <div class="grupo_campo">
-              <label class="etiqueta">Cargo</label>
-              <input type="text" class="campo" placeholder="Empleada de hogar"
+              <label class="etiqueta" [for]="'hoja-vida-cargo-' + i">Cargo</label>
+              <input [id]="'hoja-vida-cargo-' + i" type="text" class="campo" placeholder="Empleada de hogar"
                 maxlength="100" [(ngModel)]="exp.cargo" [name]="'cargo' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Empleador</label>
-              <input type="text" class="campo" placeholder="Familia Rodriguez"
+              <label class="etiqueta" [for]="'hoja-vida-empresa-' + i">Empleador</label>
+              <input [id]="'hoja-vida-empresa-' + i" type="text" class="campo" placeholder="Familia Rodriguez"
                 maxlength="150" [(ngModel)]="exp.empresa" [name]="'empresa' + i" />
             </div>
           </div>
 
           <div class="fila_hoja_vida">
             <div class="grupo_campo">
-              <label class="etiqueta">Desde</label>
-              <input type="month" class="campo" min="1950-01" [max]="mesMax" [(ngModel)]="exp.desde" [name]="'desde' + i" />
+              <label class="etiqueta" [for]="'hoja-vida-desde-' + i">Desde</label>
+              <input [id]="'hoja-vida-desde-' + i" type="month" class="campo" min="1950-01" [max]="mesMax" [(ngModel)]="exp.desde" [name]="'desde' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Hasta</label>
-              <input type="month" class="campo" [min]="exp.desde || '1950-01'" [max]="mesMax" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
+              <label class="etiqueta" [for]="'hoja-vida-hasta-' + i">Hasta</label>
+              <input [id]="'hoja-vida-hasta-' + i" type="month" class="campo" [min]="exp.desde || '1950-01'" [max]="mesMax" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
             </div>
           </div>
 
           <div class="grupo_campo">
-            <label class="etiqueta">Descripcion</label>
-            <textarea class="area_texto" placeholder="Tareas principales que realizabas."
+            <label class="etiqueta" [for]="'hoja-vida-desc-' + i">Descripcion</label>
+            <textarea [id]="'hoja-vida-desc-' + i" class="area_texto" placeholder="Tareas principales que realizabas."
               maxlength="500" [(ngModel)]="exp.descripcion" [name]="'desc' + i"></textarea>
           </div>
         </div>
@@ -98,20 +98,20 @@
 
           <div class="fila_hoja_vida fila_hoja_vida_tres">
             <div class="grupo_campo">
-              <label class="etiqueta">Titulo</label>
-              <input type="text" class="campo" placeholder="Bachiller academico"
+              <label class="etiqueta" [for]="'hoja-vida-titulo-' + i">Titulo</label>
+              <input [id]="'hoja-vida-titulo-' + i" type="text" class="campo" placeholder="Bachiller academico"
                 maxlength="150" [(ngModel)]="est.titulo" [name]="'titulo' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Institucion</label>
-              <input type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
+              <label class="etiqueta" [for]="'hoja-vida-inst-' + i">Institucion</label>
+              <input [id]="'hoja-vida-inst-' + i" type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
                 maxlength="150" [(ngModel)]="est.institucion" [name]="'inst' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Ano</label>
-              <input type="text" class="campo" placeholder="2018"
+              <label class="etiqueta" [for]="'hoja-vida-ano-' + i">Ano</label>
+              <input [id]="'hoja-vida-ano-' + i" type="text" class="campo" placeholder="2018"
                 inputmode="numeric" maxlength="4" pattern="[0-9]{4}" [(ngModel)]="est.ano" [name]="'ano' + i" />
             </div>
           </div>

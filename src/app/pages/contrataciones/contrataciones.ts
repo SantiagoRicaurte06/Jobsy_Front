@@ -9,6 +9,16 @@ import { CopPipe } from '../../shared/pipes';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../shared/components/icon/icon';
+import { ConfirmacionComponent } from '../../shared/components/confirmacion/confirmacion';
+
+/** Acción que espera que el usuario la confirme en el diálogo. */
+interface Pendiente {
+  titulo: string;
+  mensaje: string;
+  aceptar: string;
+  peligro: boolean;
+  accion: () => void;
+}
 
 /**
  * Servicios contratados del usuario, de los dos lados. El empleador los da por
@@ -17,7 +27,7 @@ import { IconComponent } from '../../shared/components/icon/icon';
 @Component({
   selector: 'jobsy-hirings',
   standalone: true,
-  imports: [RouterLink, FormsModule, DatePipe, CopPipe, EmptyStateComponent, LoadingSpinnerComponent, IconComponent],
+  imports: [RouterLink, FormsModule, DatePipe, CopPipe, EmptyStateComponent, LoadingSpinnerComponent, IconComponent, ConfirmacionComponent],
   templateUrl: './contrataciones.html',
   styleUrl: './contrataciones.scss',
 })
@@ -64,8 +74,19 @@ export class HiringsPage implements OnInit {
     return 'pildora_info';
   }
 
-  finalizar(h: Hiring): void {
-    if (!confirm(`¿Dar por terminado el servicio "${h.titulo ?? 'contratado'}"?`)) return;
+  readonly pendiente = signal<Pendiente | null>(null);
+
+  finalizar(h: Hiring, confirmado = false): void {
+    if (!confirmado) {
+      this.pendiente.set({
+        titulo: '¿Terminar este servicio?',
+        mensaje: `«${h.titulo ?? 'Servicio contratado'}» quedará como completado y podrás dejar una reseña.`,
+        aceptar: 'Terminar servicio',
+        peligro: false,
+        accion: () => this.finalizar(h, true),
+      });
+      return;
+    }
     this.ocupado.set(h.id);
     this.hirings.finish(h.id).subscribe({
       next: (act) => {

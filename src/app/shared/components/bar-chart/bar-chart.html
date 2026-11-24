@@ -3,24 +3,29 @@
     <figcaption class="unidad_grafico">{{ unit() }}</figcaption>
   }
 
-  <div class="area_grafico">
+  <ul class="area_grafico">
     @for (bar of bars(); track bar.label) {
-      <div class="columna_grafico">
+      <li class="columna_grafico">
         <div
           class="barra_grafico"
           [class.is-highlight]="bar.destacado"
           [class.is-projected]="bar.proyectado"
           [style.height.%]="bar.height"
-          [attr.title]="bar.label + ': ' + bar.value">
+          [attr.title]="bar.label + ': ' + bar.value"
+          aria-hidden="true">
         </div>
-        <span class="etiqueta_grafico" [class.is-highlight]="bar.destacado">{{ bar.label }}</span>
-      </div>
+        <span class="etiqueta_grafico" [class.is-highlight]="bar.destacado">
+          {{ bar.label }}<span class="oculto">: {{ bar.value }} {{ unit() }}</span>
+        </span>
+      </li>
     }
-  </div>
-
-  <ul class="leyenda_grafico">
-    <li><span class="clave_grafico"></span> Ventas mensuales</li>
-    <li><span class="clave_grafico clave_grafico_destacado"></span> Mejor mes</li>
-    <li><span class="clave_grafico clave_grafico_proyectado"></span> Proyectado</li>
   </ul>
+
+  @if (serie() || hayDestacado() || hayProyectado()) {
+    <ul class="leyenda_grafico" aria-hidden="true">
+      @if (serie()) { <li><span class="clave_grafico"></span> {{ serie() }}</li> }
+      @if (hayDestacado()) { <li><span class="clave_grafico clave_grafico_destacado"></span> {{ etiquetaDestacado() }}</li> }
+      @if (hayProyectado()) { <li><span class="clave_grafico clave_grafico_proyectado"></span> Proyectado</li> }
+    </ul>
+  }
 </figure>

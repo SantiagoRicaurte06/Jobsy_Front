@@ -191,3 +191,8 @@
     </ul>
   }
 </section>
+
+@if (pendiente(); as c) {
+  <jobsy-confirmacion [titulo]="c.titulo" [mensaje]="c.mensaje" [textoAceptar]="c.aceptar" [peligro]="c.peligro"
+    (aceptar)="pendiente.set(null); c.accion()" (cancelar)="pendiente.set(null)" />
+}

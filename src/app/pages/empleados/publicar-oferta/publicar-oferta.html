@@ -16,8 +16,8 @@
 
       <!-- Tamano de la vivienda -->
       <div class="grupo_campo">
-        <label class="etiqueta">Tamano de la vivienda</label>
-        <div class="publicar-oferta__options">
+        <p class="etiqueta" id="grupo-tamano-de-la-vivienda">Tamano de la vivienda</p>
+        <div class="publicar-oferta__options" role="group" aria-labelledby="grupo-tamano-de-la-vivienda">
           @for (t of tamanos; track t.value) {
             <button type="button" class="publicar-oferta__option"
               [class.is-selected]="tamano() === t.value"
@@ -30,8 +30,8 @@
 
       <!-- Modalidad -->
       <div class="grupo_campo">
-        <label class="etiqueta">Modalidad</label>
-        <div class="publicar-oferta__options">
+        <p class="etiqueta" id="grupo-modalidad">Modalidad</p>
+        <div class="publicar-oferta__options" role="group" aria-labelledby="grupo-modalidad">
           @for (mo of modalidades; track mo.value) {
             <button type="button" class="publicar-oferta__option"
               [class.is-selected]="modalidad() === mo.value"
@@ -64,8 +64,8 @@
 
       <!-- Horario: dias y franja; se envia como "Lun, Mie · 08:00 a 12:00" -->
       <div class="grupo_campo">
-        <label class="etiqueta">Dias de trabajo</label>
-        <div class="publicar-oferta__options">
+        <p class="etiqueta" id="grupo-dias-de-trabajo">Dias de trabajo</p>
+        <div class="publicar-oferta__options" role="group" aria-labelledby="grupo-dias-de-trabajo">
           @for (d of diasSemana; track d.value) {
             <button type="button" class="publicar-oferta__option"
               [class.is-selected]="dias().includes(d.value)" [attr.aria-pressed]="dias().includes(d.value)"
@@ -104,8 +104,8 @@
 
       <!-- Tareas -->
       <div class="grupo_campo">
-        <label class="etiqueta">Tareas incluidas</label>
-        <ul class="publicar-oferta__chips">
+        <p class="etiqueta" id="grupo-tareas-incluidas">Tareas incluidas</p>
+        <ul class="publicar-oferta__chips" role="group" aria-labelledby="grupo-tareas-incluidas">
           @for (t of tareas; track t) {
             <li>
               <button type="button" class="publicar-oferta__chip"

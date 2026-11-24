@@ -4,7 +4,7 @@
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
-      <label class="etiqueta">Elige tu billetera</label>
+      <label class="etiqueta" for="telefono">Elige tu billetera</label>
       <div class="billetera__options">
         @for (b of billeteras(); track b.value) {
           <button type="button" class="billetera__option"

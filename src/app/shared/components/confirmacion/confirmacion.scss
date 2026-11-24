@@ -1,0 +1,28 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.mensaje_confirmacion {
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-base;
+}
+
+.acciones_confirmacion {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: v.$space-3;
+
+  @include m.until(v.$bp-sm) {
+    flex-direction: column-reverse;
+
+    button { width: 100%; }
+  }
+}
+
+.boton_peligro {
+  @include m.btn-base;
+  background: v.$color-danger;
+  color: v.$color-white;
+
+  &:hover:not(:disabled) { background: #8E1B12; }
+}

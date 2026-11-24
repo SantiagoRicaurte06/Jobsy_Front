@@ -5,16 +5,20 @@
     <!-- Cabecera -->
     <header class="admin-tablero__head">
       <div>
-        <h1 class="admin-tablero__title">Dashboard</h1>
+        <h1 class="admin-tablero__title">Tablero</h1>
         <p class="admin-tablero__updated">
           <span class="admin-tablero__dot" aria-hidden="true"></span>
-          Actualizado hace 3 min &mdash; martes 3 de marzo, 2026
+          Datos cargados {{ cargadoEn() | date: "EEEE d 'de' MMMM, h:mm a" }}
         </p>
       </div>
 
       <div class="admin-tablero__actions">
-        <button type="button" class="boton_simple boton_chico"><jobsy-icon name="download" /> Exportar</button>
-        <button type="button" class="boton_principal boton_chico">+ Nuevo Producto</button>
+        <button type="button" class="boton_simple boton_chico" (click)="cargar()" [disabled]="recargando()">
+          <jobsy-icon name="rotate-cw" /> {{ recargando() ? 'Actualizando…' : 'Actualizar' }}
+        </button>
+        <a routerLink="/admin/productos" [queryParams]="{ nuevo: 1 }" class="boton_principal boton_chico">
+          <jobsy-icon name="plus" /> Nuevo producto
+        </a>
       </div>
     </header>
 
@@ -22,7 +26,7 @@
     <div class="admin-tablero__kpis">
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="banknote" /></span>
-        <span class="admin-tablero__kpi-delta">+18%</span>
+        <span class="admin-tablero__kpi-delta">Hoy {{ stats()!.ingresosHoy | cop }}</span>
         <strong>{{ stats()!.ventasMes | cop }}</strong>
         <span class="admin-tablero__kpi-label">Ventas este mes (COP)</span>
         <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--blue"></div>
@@ -30,7 +34,7 @@
 
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="package" /></span>
-        <span class="admin-tablero__kpi-delta">+24</span>
+        <span class="admin-tablero__kpi-delta">Hoy {{ stats()!.pedidosHoy }}</span>
         <strong>{{ stats()!.pedidosMes }}</strong>
         <span class="admin-tablero__kpi-label">Pedidos este mes</span>
         <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--green"></div>
@@ -38,7 +42,6 @@
 
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="user" /></span>
-        <span class="admin-tablero__kpi-delta">+12</span>
         <strong>{{ stats()!.clientesRegistrados }}</strong>
         <span class="admin-tablero__kpi-label">Clientes registrados</span>
         <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--orange"></div>
@@ -46,9 +49,8 @@
 
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="star" /></span>
-        <span class="admin-tablero__kpi-delta">+0.2</span>
         <strong>{{ stats()!.calificacionPromedio }}</strong>
-        <span class="admin-tablero__kpi-label">Calificacion promedio</span>
+        <span class="admin-tablero__kpi-label">Calificación promedio de productos</span>
         <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--purple"></div>
       </div>
     </div>
@@ -63,13 +65,13 @@
             <span class="admin-tablero__year">{{ ano }}</span>
           </div>
 
-          <jobsy-bar-chart [data]="ventas()" unit="COP (miles)" />
+          <jobsy-bar-chart [data]="ventas()" unit="miles de COP" serie="Ventas del mes" />
         </section>
 
         <!-- Productos mas vendidos -->
         <section class="tarjeta admin-tablero__panel">
           <div class="admin-tablero__panel-head">
-            <h2><jobsy-icon name="shopping-cart" /> Catalogo de la tienda</h2>
+            <h2><jobsy-icon name="shopping-cart" /> Catálogo de la tienda</h2>
             <a routerLink="/admin/productos">Gestionar <jobsy-icon name="arrow-right" /></a>
           </div>
 
@@ -187,4 +189,16 @@
       </div>
     </div>
   </section>
+}
+
+@if (porReembolsar(); as o) {
+  <jobsy-confirmacion
+    [titulo]="'¿Reembolsar el pedido ' + o.numero + '?'"
+    [mensaje]="'Se devolverán ' + (o.total | cop) + ' al cliente por el medio con que pagó. El pedido quedará como reembolsado.'"
+    textoAceptar="Reembolsar"
+    peligro
+    pedirMotivo
+    etiquetaMotivo="Motivo del reembolso"
+    (aceptar)="confirmarReembolso(o, $event)"
+    (cancelar)="porReembolsar.set(null)" />
 }

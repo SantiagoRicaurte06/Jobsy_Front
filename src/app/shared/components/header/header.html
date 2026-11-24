@@ -62,7 +62,8 @@
 
         <div class="desplegable_contenedor_cabecera">
           <button type="button" class="boton_usuario_cabecera" (click)="toggleUserMenu()"
-            [attr.aria-expanded]="userMenuOpen()" aria-controls="menu-usuario-cabecera">
+            [attr.aria-expanded]="userMenuOpen()" aria-controls="menu-usuario-cabecera"
+            [attr.aria-label]="'Menú de la cuenta de ' + (user()?.nombre ?? '')">
             <span class="avatar_cabecera" aria-hidden="true">{{ user()?.nombre?.charAt(0) }}</span>
             <span class="nombre_usuario_cabecera">{{ user()?.nombre }}</span>
             <jobsy-icon name="chevron-down" />

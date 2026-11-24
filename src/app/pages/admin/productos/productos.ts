@@ -1,5 +1,6 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AdminStore } from '../../../core/services';
 import { Product, ProductStatus } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
@@ -33,6 +34,11 @@ const VACIO: ProductForm = {
 })
 export class AdminProductsPage {
   private store = inject(AdminStore);
+
+  constructor() {
+    // El tablero enlaza aquí con ?nuevo=1 para abrir directo el formulario.
+    if (inject(ActivatedRoute).snapshot.queryParamMap.get('nuevo')) queueMicrotask(() => this.nuevo());
+  }
 
   readonly products = this.store.products;
   readonly categories = this.store.categories;

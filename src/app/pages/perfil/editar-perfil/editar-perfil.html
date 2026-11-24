@@ -67,8 +67,8 @@
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta">Especialidades</label>
-        <ul class="fichas_editar_perfil">
+        <p class="etiqueta" id="grupo-especialidades">Especialidades</p>
+        <ul class="fichas_editar_perfil" role="group" aria-labelledby="grupo-especialidades">
           @for (e of opcionesEspecialidad; track e) {
             <li>
               <button type="button" class="ficha_editar_perfil"
