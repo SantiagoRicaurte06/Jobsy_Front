@@ -33,6 +33,7 @@
       <button type="button" class="boton_simple" (click)="filtrarCategoria(null)">Ver todo</button>
     </jobsy-empty-state>
   } @else {
+    <h2 class="oculto">Productos</h2>
     <div class="rejilla_tienda">
       @for (product of products(); track product.id) {
         <jobsy-product-card [product]="product" (agregar)="agregar($event)" />

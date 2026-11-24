@@ -12,13 +12,13 @@
   </div>
 
   <div class="cuerpo_tarjeta_empleo">
-    <p class="vivienda_tarjeta_empleo">
-      {{ vivienda() }} · {{ modalidad() }}
-    </p>
-
     <h3 class="titulo_tarjeta_empleo">
       <a [routerLink]="['/empleos', job().id]">{{ job().titulo }}</a>
     </h3>
+
+    <p class="vivienda_tarjeta_empleo">
+      {{ vivienda() }} · {{ modalidad() }}
+    </p>
 
     <p class="lugar_tarjeta_empleo">
       <jobsy-icon name="map-pin" /> {{ job().direccion }}, {{ job().ciudad }}

@@ -35,6 +35,7 @@
       @if (rol() !== 'empleado') { <a routerLink="/publicar-oferta" class="boton_principal">Publicar una oferta</a> }
     </jobsy-empty-state>
   } @else {
+    <h2 class="oculto">Perfiles</h2>
     <div class="rejilla_empleados">
       @for (employee of employees(); track employee.id) {
         <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />

@@ -73,6 +73,7 @@
         }
       </jobsy-empty-state>
     } @else {
+      <h2 class="oculto">Ofertas</h2>
       <div class="rejilla_empleos">
         @for (job of jobs(); track job.id) {
           <jobsy-job-card [job]="job" />

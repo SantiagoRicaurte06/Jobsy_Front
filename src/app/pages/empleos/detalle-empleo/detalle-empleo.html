@@ -13,11 +13,11 @@
     <a routerLink="/empleos" class="volver_detalle_empleo"><jobsy-icon name="arrow-left" /> Todas las ofertas</a>
 
     <header class="cabeza_detalle_empleo">
+      <h1>{{ j.titulo }}</h1>
       <p class="vivienda_detalle_empleo">
         Vivienda {{ tamanoTexto() | lowercase }}@if (j.esLujo) { de lujo } · {{ modalidadTexto() }}
         @if (j.esNuevo) { <span class="nueva_detalle_empleo">Nueva</span> }
       </p>
-      <h1>{{ j.titulo }}</h1>
       <p class="lugar_detalle_empleo"><jobsy-icon name="map-pin" /> {{ j.direccion }}, {{ j.ciudad }}</p>
     </header>
 

@@ -17,7 +17,7 @@
 
   h1 {
     max-width: 22ch;
-    margin: v.$space-2 0 v.$space-3;
+    margin: 0 0 v.$space-3;
     @include m.display(clamp(2.2rem, 5.2vw, 4rem));
   }
 }
@@ -27,7 +27,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: v.$space-2;
-  margin: 0;
+  margin: 0 0 v.$space-2;
   font-weight: v.$font-weight-semibold;
   color: v.$color-text-muted;
 }

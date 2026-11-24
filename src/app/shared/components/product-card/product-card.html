@@ -16,11 +16,11 @@
   </div>
 
   <div class="cuerpo_tarjeta_producto">
-    <p class="categoria_tarjeta_producto">{{ product().categoria }}</p>
-
     <h3 class="titulo_tarjeta_producto">
       <a [routerLink]="['/tienda/producto', product().id]">{{ product().nombre }}</a>
     </h3>
+
+    <p class="categoria_tarjeta_producto">{{ product().categoria }}</p>
 
     <p class="descripcion_tarjeta_producto">{{ product().descripcion }}</p>
   </div>
