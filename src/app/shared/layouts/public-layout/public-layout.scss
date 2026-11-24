@@ -4,5 +4,9 @@
   min-height: 100vh;
 }
 
-// flex:1 empuja el pie al final aunque la pagina tenga poco contenido.
-.principal_marco_publico { flex: 1; }
+// flex:1 empuja el pie al final aunque la página tenga poco contenido.
+.principal_marco_publico {
+  flex: 1;
+
+  &:focus { outline: none; }
+}

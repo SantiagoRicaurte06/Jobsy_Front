@@ -1,19 +1,37 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Job, TAMANO_TEXTO } from '../../../core/models';
+import { Job, MODALIDAD_TEXTO, TAMANO_TEXTO } from '../../../core/models';
+import { AuthService } from '../../../core/services';
 import { CopPipe } from '../../pipes';
 import { IconComponent } from '../icon/icon';
+import { FranjaSemanaComponent } from '../franja-semana/franja-semana';
 
-/** Tarjeta de oferta de empleo. Se usa en el home y en la busqueda. */
+/**
+ * Tarjeta de oferta de empleo: tarifa, días y horario a la vista.
+ * Toda la tarjeta lleva al detalle; "Postularme" solo aparece a quien puede
+ * postularse (visitantes y cuentas de empleado).
+ */
 @Component({
   selector: 'jobsy-job-card',
   standalone: true,
-  imports: [IconComponent, RouterLink, CopPipe],
+  imports: [IconComponent, RouterLink, CopPipe, FranjaSemanaComponent],
   templateUrl: './job-card.html',
   styleUrl: './job-card.scss',
 })
 export class JobCardComponent {
+  private auth = inject(AuthService);
+
   readonly job = input.required<Job>();
 
-  readonly sizeLabel = computed(() => TAMANO_TEXTO[this.job().tamano]);
+  readonly vivienda = computed(() => {
+    const j = this.job();
+    return `${j.esLujo ? 'Vivienda de lujo' : 'Vivienda'} ${TAMANO_TEXTO[j.tamano].toLowerCase()}`;
+  });
+
+  readonly modalidad = computed(() => MODALIDAD_TEXTO[this.job().modalidad] ?? '');
+
+  readonly puedePostularse = computed(() => {
+    const rol = this.auth.role();
+    return !rol || rol === 'empleado';
+  });
 }

@@ -12,74 +12,105 @@
 .interior_marco_privado {
   @include m.container;
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: v.$space-6;
-  padding-block: v.$space-6;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: v.$space-7;
+  padding-block: v.$space-6 0;
 
   @include m.until(v.$bp-lg) {
-    grid-template-columns: 1fr;
-    gap: v.$space-4;
+    grid-template-columns: minmax(0, 1fr);
+    gap: v.$space-5;
+    padding-top: v.$space-4;
   }
 }
 
-// ---- Menu lateral del usuario ----
-.lateral_marco_privado {
-  @include m.until(v.$bp-lg) { overflow-x: auto; }
-}
-
+// ---- Menú lateral ----
 .menu_marco_privado {
-  @include m.card;
+  position: sticky;
+  top: calc(#{v.$header-height} + #{v.$space-5});
   display: flex;
   flex-direction: column;
-  padding: v.$space-2;
-  position: sticky;
-  top: calc(#{v.$header-height} + #{v.$space-4});
+  gap: 2px;
 
   a {
     display: flex;
     align-items: center;
     gap: v.$space-3;
-    padding: v.$space-3;
-    border-radius: v.$radius-sm;
+    min-height: 44px;
+    padding: 0 v.$space-4;
+    border-radius: v.$radius-pill;
     color: v.$color-text;
-    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    text-decoration: none;
+    transition: background v.$transition-fast, color v.$transition-fast;
 
-    &:hover {
-      background: v.$color-bg;
-      text-decoration: none;
-    }
+    jobsy-icon { font-size: 1.15rem; color: v.$color-text-muted; }
+
+    &:hover { background: v.$color-sand; }
 
     &.is-active {
-      background: v.$color-primary-bg;
-      color: v.$color-primary;
-      font-weight: v.$font-weight-semibold;
+      background: v.$color-ink;
+      color: v.$color-bg;
+
+      jobsy-icon { color: v.$color-cta; }
     }
   }
 
-  // En movil el menu pasa a fila horizontal desplazable.
+  // En celular el menú pasa a una fila desplazable de píldoras.
   @include m.until(v.$bp-lg) {
-    flex-direction: row;
     position: static;
+    flex-direction: row;
+    gap: v.$space-2;
+    margin-inline: calc(-1 * #{v.$space-4});
+    padding-inline: v.$space-4;
+    overflow-x: auto;
+    scrollbar-width: none;
 
-    a { white-space: nowrap; }
+    &::-webkit-scrollbar { display: none; }
+
+    a {
+      flex-shrink: 0;
+      white-space: nowrap;
+      border: v.$border-width solid v.$color-border;
+      background: v.$color-surface;
+
+      &.is-active { border-color: v.$color-ink; }
+    }
   }
 }
 
-.icono_marco_privado { font-size: v.$font-size-base; }
+.principal_marco_privado {
+  min-width: 0;
 
-.principal_marco_privado { min-width: 0; }
+  &:focus { outline: none; }
+}
 
 .aviso_permiso_marco_privado {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: v.$space-3;
-  margin: 0 0 v.$space-4;
+  margin: 0 0 v.$space-5;
   padding: v.$space-3 v.$space-4;
-  border: 1px solid v.$color-warning;
+  border: v.$border-width solid #E8C98A;
   border-radius: v.$radius-md;
   background: v.$color-warning-pale;
+  color: v.$color-ink;
   font-size: v.$font-size-sm;
 
-  button { padding: 0; border: none; background: none; color: inherit; cursor: pointer; }
+  > jobsy-icon { flex-shrink: 0; color: v.$color-warning; font-size: 1.2rem; }
+
+  span { flex: 1; }
+
+  button {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover { background: rgba(19, 35, 58, 0.08); }
+  }
 }

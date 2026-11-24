@@ -1,11 +1,11 @@
 @if (totalPages() > 1) {
-  <nav class="paginado" aria-label="Paginacion">
+  <nav class="paginado" aria-label="Paginación">
     <button
       type="button"
       class="flecha_paginado"
       [disabled]="!canPrev()"
       (click)="go(page() - 1)"
-      aria-label="Pagina anterior">
+      aria-label="Página anterior">
       <jobsy-icon name="chevron-left" />
     </button>
 
@@ -25,7 +25,7 @@
       class="flecha_paginado"
       [disabled]="!canNext()"
       (click)="go(page() + 1)"
-      aria-label="Pagina siguiente">
+      aria-label="Página siguiente">
       <jobsy-icon name="chevron-right" />
     </button>
   </nav>

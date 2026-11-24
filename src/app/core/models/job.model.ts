@@ -18,7 +18,7 @@ export type WorkModality = 'por_horas' | 'jornada_completa' | 'fin_de_semana';
 
 /** Textos para mostrar. En femenino porque acompanan a "casa" o "vivienda". */
 export const TAMANO_TEXTO: Record<JobSize, string> = {
-  pequeno: 'Pequena',
+  pequeno: 'Pequeña',
   mediano: 'Mediana',
   grande: 'Grande',
 };

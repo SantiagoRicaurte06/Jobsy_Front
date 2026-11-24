@@ -2,83 +2,86 @@
 @use 'mixins' as m;
 
 .pie {
-  margin-top: auto;
-  background: v.$color-primary;
-  color: v.$color-text-invert;
+  margin-top: v.$space-8;
+  background: v.$color-ink;
+  color: #D9DEE6;
 }
 
 .interior_pie {
   @include m.container;
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: v.$space-6;
-  padding-block: v.$space-7;
+  grid-template-columns: 1.6fr repeat(3, 1fr);
+  gap: v.$space-7 v.$space-6;
+  padding-block: v.$space-8 v.$space-7;
 
-  @include m.until(v.$bp-lg) { grid-template-columns: repeat(2, 1fr); }
-  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
+  @include m.until(v.$bp-lg) { grid-template-columns: 1fr 1fr 1fr; }
+  @include m.until(v.$bp-md) { grid-template-columns: 1fr 1fr; }
 }
 
-// Columna del logo. No lleva estilos propios, pero se nombra para
-// poder engancharla si hace falta.
-.marca_pie { display: block; }
+.cierre_pie {
+  @include m.until(v.$bp-lg) { grid-column: 1 / -1; }
+}
 
 .lema_pie {
-  margin: v.$space-4 0 0;
-  font-size: v.$font-size-xs;
-  line-height: 1.7;
-  opacity: 0.85;
+  max-width: 18ch;
+  margin: v.$space-5 0 v.$space-4;
+  @include m.display(clamp(1.75rem, 3.4vw, 2.5rem));
+  color: v.$color-bg;
+}
+
+.zona_pie {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  margin: 0;
+  color: v.$color-cta;
+  font-weight: v.$font-weight-bold;
 }
 
 .titulo_columna_pie {
-  margin: 0 0 v.$space-4;
+  margin-bottom: v.$space-4;
+  font-family: v.$font-family-base;
   font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-semibold;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.7;
+  font-weight: v.$font-weight-bold;
+  color: #9AA6B8;
 }
 
 .columna_pie {
-  li { margin-bottom: v.$space-3; }
+  li + li { margin-top: v.$space-2; }
 
   a {
-    color: v.$color-text-invert;
-    font-size: v.$font-size-sm;
-    opacity: 0.9;
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    color: v.$color-bg;
+    text-decoration: none;
 
-    &:hover { opacity: 1; }
+    &:hover { color: v.$color-cta; }
   }
 }
 
-// ---- Franja inferior ----
-.inferior_pie { background: v.$color-primary-dark; }
-
-.interior_inferior_pie {
+.inferior_pie {
   @include m.container;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: v.$space-4;
-  padding-block: v.$space-4;
-
-  @include m.until(v.$bp-sm) { flex-direction: column; }
-}
-
-.copyright_pie {
-  margin: 0;
+  gap: v.$space-3;
+  padding-block: v.$space-5;
+  border-top: 1px solid rgba(251, 245, 236, 0.14);
   font-size: v.$font-size-xs;
-  opacity: 0.75;
-}
+  color: #9AA6B8;
 
-.redes_pie {
-  display: flex;
-  flex-wrap: wrap;
-  gap: v.$space-4;
+  p { margin: 0; }
+
+  nav { display: flex; gap: v.$space-5; }
 
   a {
-    font-size: v.$font-size-xs;
-    color: rgba(255, 255, 255, 0.8);
+    color: #D9DEE6;
+    text-decoration: none;
 
-    &:hover { color: v.$color-text-invert; }
+    &:hover { color: v.$color-cta; }
   }
 }
+
+.pie :focus-visible { outline-color: v.$color-cta; }

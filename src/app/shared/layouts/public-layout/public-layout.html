@@ -1,7 +1,8 @@
 <div class="marco_publico">
+  <button type="button" class="saltar_contenido" (click)="principal.focus()">Saltar al contenido</button>
   <jobsy-header />
 
-  <main class="principal_marco_publico">
+  <main class="principal_marco_publico" #principal tabindex="-1" id="contenido">
     <router-outlet />
   </main>
 

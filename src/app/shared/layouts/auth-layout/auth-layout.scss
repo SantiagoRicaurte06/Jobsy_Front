@@ -2,81 +2,122 @@
 @use 'mixins' as m;
 
 .marco_acceso {
-  position: relative;
+  display: grid;
+  grid-template-columns: minmax(360px, 5fr) 7fr;
+  min-height: 100vh;
+  background: v.$color-bg;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+}
+
+// ---- Campo azul con la propuesta ----
+.campo_marco_acceso {
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background: v.$gradient-login;
+  height: 100vh;
+  padding: v.$space-7 clamp(2rem, 4vw, 4rem);
+  background: v.$color-primary;
+  color: v.$color-white;
   overflow: hidden;
+
+  // Horizonte: una franja naranja al pie del campo, como el sol sobre el llano.
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14px;
+    background: v.$color-cta;
+  }
+
+  @include m.until(v.$bp-lg) {
+    position: static;
+    height: auto;
+    padding: v.$space-5 v.$space-4 v.$space-6;
+
+    &::after { height: 8px; }
+  }
 }
 
-// ---- Manchas suaves del fondo ----
-.mancha_marco_acceso {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  filter: blur(60px);
-  pointer-events: none;
+.marca_marco_acceso {
+  align-self: flex-start;
+  border-radius: v.$radius-sm;
+
+  :focus-visible { outline-color: v.$color-cta; }
 }
 
-.mancha_marco_acceso_1 { top: -80px; left: 5%; width: 380px; height: 300px; }
-.mancha_marco_acceso_2 { top: 12%; right: 8%; width: 300px; height: 260px; }
-.mancha_marco_acceso_3 { bottom: 12%; right: 18%; width: 420px; height: 340px; }
+.tesis_marco_acceso {
+  max-width: 13ch;
+  margin: auto 0 v.$space-6;
+  @include m.display(clamp(2.25rem, 4.2vw, 3.75rem));
+  color: v.$color-white;
+
+  @include m.until(v.$bp-lg) {
+    max-width: 20ch;
+    margin: v.$space-5 0 0;
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+  }
+}
+
+.promesas_marco_acceso {
+  display: grid;
+  gap: v.$space-4;
+  max-width: 34ch;
+  margin-bottom: v.$space-6;
+
+  li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: v.$space-3;
+    align-items: start;
+    color: #E4EEF8;
+    line-height: 1.45;
+  }
+
+  jobsy-icon {
+    margin-top: 2px;
+    font-size: 1.35rem;
+    color: v.$color-cta;
+  }
+
+  @include m.until(v.$bp-lg) { display: none; }
+}
+
+// ---- Lado del formulario ----
+.lado_marco_acceso {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
 .principal_marco_acceso {
-  position: relative;
-  z-index: 1;
   flex: 1;
   display: grid;
   place-items: center;
-  padding: v.$space-6 v.$space-4;
+  padding: v.$space-7 v.$space-5;
+
+  &:focus { outline: none; }
+
+  @include m.until(v.$bp-md) { padding: v.$space-5 v.$space-4; }
 }
 
-// ---- Pie con los enlaces legales ----
 .pie_marco_acceso {
-  position: relative;
-  z-index: 1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: v.$space-4;
+  gap: v.$space-3;
   padding: v.$space-4 v.$space-6;
-  background: v.$color-primary;
-  color: v.$color-text-invert;
+  border-top: v.$border-width solid v.$color-border;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
 
-  @include m.until(v.$bp-sm) { flex-direction: column; }
-}
+  p { margin: 0; }
 
-.enlaces_marco_acceso {
-  display: flex;
-  gap: v.$space-5;
+  nav { display: flex; gap: v.$space-5; }
 
-  a {
-    color: v.$color-text-invert;
-    font-size: v.$font-size-xs;
-    opacity: 0.9;
-
-    &:hover { opacity: 1; }
-  }
-}
-
-.redes_marco_acceso {
-  display: flex;
-  gap: v.$space-2;
-
-  a {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    background: rgba(255, 255, 255, 0.18);
-    border-radius: v.$radius-sm;
-    color: v.$color-text-invert;
-    font-size: v.$font-size-xs;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.3);
-      text-decoration: none;
-    }
-  }
+  a { color: v.$color-text; }
 }

@@ -13,40 +13,51 @@
 }
 
 .estrella {
+  display: inline-flex;
   color: v.$color-border-strong;
-  font-size: v.$font-size-base;
+  font-size: 1rem;
   line-height: 1;
 
-  &.is-filled { color: v.$color-warning; }
-}
+  &.is-filled {
+    color: v.$color-cta;
 
-// ---- Modo editable: cada estrella es un boton clicable ----
-.es_editable .iconos_estrellas { gap: v.$space-1; }
-
-.boton_estrella {
-  background: none;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  color: v.$color-border-strong;
-  font-size: v.$font-size-xl;
-  line-height: 1;
-  transition: color v.$transition-fast, transform v.$transition-fast;
-
-  &.is-filled { color: v.$color-warning; }
-
-  &:hover,
-  &:focus-visible { transform: scale(1.15); }
-
-  &:focus-visible {
-    outline: 2px solid v.$color-primary-light;
-    outline-offset: 2px;
-    border-radius: v.$radius-sm;
+    ::ng-deep svg { fill: currentColor; }
   }
 }
 
-.valor_estrellas { color: v.$color-text; }
+// ---- Modo editable: cada estrella es un botón ----
+.es_editable .iconos_estrellas { gap: v.$space-1; }
+
+.boton_estrella {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  color: v.$color-border-strong;
+  font-size: 1.75rem;
+  transition: color v.$transition-fast, transform v.$transition-fast;
+
+  &.is-filled {
+    color: v.$color-cta;
+
+    ::ng-deep svg { fill: currentColor; }
+  }
+
+  &:hover,
+  &:focus-visible { transform: scale(1.12); }
+}
+
+.valor_estrellas {
+  font-family: v.$font-family-display;
+  font-weight: v.$font-weight-black;
+  color: v.$color-ink;
+}
 
 .resenas_estrellas {
   color: v.$color-text-muted;

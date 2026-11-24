@@ -1,27 +1,37 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .sin_datos {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: v.$space-3;
+  max-width: 520px;
+  margin: v.$space-6 auto;
+  padding: v.$space-7 v.$space-5;
+  border: v.$border-width dashed v.$color-border-strong;
+  border-radius: v.$radius-xl;
   text-align: center;
-  padding: v.$space-8 v.$space-4;
 }
 
 .icono_sin_datos {
-  font-size: v.$font-size-3xl;
-  margin-bottom: v.$space-3;
-  opacity: 0.7;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: v.$color-sand;
+  color: v.$color-ink;
+  font-size: 1.75rem;
 }
 
 .titulo_sin_datos {
-  margin: 0 0 v.$space-2;
-  font-size: v.$font-size-lg;
+  margin: v.$space-2 0 0;
+  @include m.display(v.$font-size-xl, v.$font-weight-bold);
 }
 
 .mensaje_sin_datos {
   max-width: 42ch;
-  margin: 0 0 v.$space-4;
+  margin: 0;
   color: v.$color-text-muted;
-  font-size: v.$font-size-sm;
 }

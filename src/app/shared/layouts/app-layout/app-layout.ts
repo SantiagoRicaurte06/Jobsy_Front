@@ -63,7 +63,7 @@ export class AppLayoutComponent {
       { path: '/app/pedidos', label: 'Mis pedidos', icon: 'package' },
       { path: '/app/reportes', label: 'Soporte', icon: 'message-circle' },
       { path: '/app/cuenta', label: 'Cuenta', icon: 'credit-card' },
-      { path: '/app/configuracion', label: 'Configuracion', icon: 'settings' },
+      { path: '/app/configuracion', label: 'Configuración', icon: 'settings' },
     ];
   });
 }

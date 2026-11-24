@@ -18,14 +18,14 @@
           (mouseenter)="previewRating($index + 1)"
           (focus)="previewRating($index + 1)"
         >
-          &#9733;
+          <jobsy-icon name="star" />
         </button>
       }
     </span>
   } @else {
-    <span class="iconos_estrellas" [attr.aria-label]="'Calificacion ' + value() + ' de 5'">
+    <span class="iconos_estrellas" role="img" [attr.aria-label]="'Calificación ' + value().toFixed(1) + ' de 5'">
       @for (filled of stars(); track $index) {
-        <span class="estrella" [class.is-filled]="filled">&#9733;</span>
+        <span class="estrella" [class.is-filled]="filled"><jobsy-icon name="star" /></span>
       }
     </span>
   }
@@ -35,6 +35,6 @@
   }
 
   @if (reviews() !== null) {
-    <span class="resenas_estrellas">({{ reviews() }})</span>
+    <span class="resenas_estrellas">{{ reviews() }} {{ reviews() === 1 ? 'reseña' : 'reseñas' }}</span>
   }
 </div>
