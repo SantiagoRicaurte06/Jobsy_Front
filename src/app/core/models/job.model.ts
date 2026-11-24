@@ -10,7 +10,11 @@
  */
 export type JobSize = 'pequeno' | 'mediano' | 'grande';
 
-export type WorkModality = 'presencial' | 'por_horas' | 'jornada_completa' | 'fin_de_semana';
+/**
+ * Modalidades que el middleware sabe guardar. 'presencial' se retiro: es una
+ * modalidad de lugar, no de jornada, y la base no tiene donde guardarla.
+ */
+export type WorkModality = 'por_horas' | 'jornada_completa' | 'fin_de_semana';
 
 /** Textos para mostrar. En femenino porque acompanan a "casa" o "vivienda". */
 export const TAMANO_TEXTO: Record<JobSize, string> = {
@@ -24,14 +28,13 @@ export const TAMANOS: JobSize[] = ['pequeno', 'mediano', 'grande'];
 
 /** Sin esto la vista pinta el valor crudo: "jornada_completa" con guion bajo. */
 export const MODALIDAD_TEXTO: Record<WorkModality, string> = {
-  presencial: 'Presencial',
   por_horas: 'Por horas',
   jornada_completa: 'Jornada completa',
   fin_de_semana: 'Fin de semana',
 };
 
 export const MODALIDADES: WorkModality[] = [
-  'por_horas', 'jornada_completa', 'fin_de_semana', 'presencial',
+  'por_horas', 'jornada_completa', 'fin_de_semana',
 ];
 
 export interface Job {

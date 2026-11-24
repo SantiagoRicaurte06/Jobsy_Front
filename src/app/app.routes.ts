@@ -35,7 +35,8 @@ export const routes: Routes = [
       },
       {
         path: 'empleos/:id/postularme',
-        canActivate: [authGuard],
+        // El middleware solo acepta postulaciones de cuentas de empleado.
+        canActivate: [authGuard, roleGuard(['empleado'])],
         loadComponent: () =>
           import('./pages/empleos/asistente-postulacion/asistente-postulacion').then((m) => m.ApplyWizardPage),
         title: 'Postularme — Jobsy',
@@ -67,14 +68,15 @@ export const routes: Routes = [
       },
       {
         path: 'agendar',
-        canActivate: [authGuard],
+        // Agendar y contratar son del empleador: el middleware rechaza al resto.
+        canActivate: [authGuard, roleGuard(['empleador'])],
         loadComponent: () =>
           import('./pages/empleados/agendar/agendar').then((m) => m.SchedulePage),
         title: 'Agendar horario — Jobsy',
       },
       {
         path: 'contratacion/:id',
-        canActivate: [authGuard],
+        canActivate: [authGuard, roleGuard(['empleador'])],
         loadComponent: () => import('./pages/empleados/contratacion/contratacion').then((m) => m.HiringPage),
         title: 'Contratación — Jobsy',
       },

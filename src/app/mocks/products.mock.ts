@@ -3,10 +3,11 @@ import { IMG_PRODUCTS } from './images.mock';
 
 // TEMPORAL: reemplazar por Tienda_APi / Catalogo_api
 export const MOCK_CATEGORIES: Category[] = [
-  { id: 'c1', nombre: 'Insumos de aseo', slug: 'insumos-aseo', cantidadProductos: 12 },
-  { id: 'c2', nombre: 'Equipos', slug: 'equipos', cantidadProductos: 6 },
-  { id: 'c3', nombre: 'Indumentaria', slug: 'indumentaria', cantidadProductos: 4 },
-  { id: 'c4', nombre: 'Proteccion', slug: 'proteccion', cantidadProductos: 8 },
+  // Conteos de productos visibles en la tienda (sin borradores), como el mid.
+  { id: 'c1', nombre: 'Insumos de aseo', slug: 'insumos-aseo', cantidadProductos: 2 },
+  { id: 'c2', nombre: 'Equipos', slug: 'equipos', cantidadProductos: 1 },
+  { id: 'c3', nombre: 'Indumentaria', slug: 'indumentaria', cantidadProductos: 1 },
+  { id: 'c4', nombre: 'Proteccion', slug: 'proteccion', cantidadProductos: 1 },
 ];
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -30,7 +31,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'p4', sku: 'JOBSY-TRP-004', nombre: 'Trapeador Microfibra Pro',
-    categoria: 'Limpieza', descripcion: 'Trapeador de microfibra de alta absorcion.',
+    categoria: 'Equipos', descripcion: 'Trapeador de microfibra de alta absorcion.',
     precio: 38000, moneda: 'COP', stock: 33, calificacion: 4.5, estado: 'borrador',
     imagenUrl: IMG_PRODUCTS['p4'],
   },

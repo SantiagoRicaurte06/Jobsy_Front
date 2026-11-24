@@ -6,7 +6,10 @@ export type ReportAuthor = 'usuario' | 'soporte';
 
 /** Un mensaje dentro de la conversacion de un reporte. */
 export interface ReportMessage {
+  id?: string;
   autor: ReportAuthor;
+  /** Lo calcula el middleware segun quien consulta; vale tambien para el admin. */
+  esMio?: boolean;
   texto: string;
   fecha: string;
 }

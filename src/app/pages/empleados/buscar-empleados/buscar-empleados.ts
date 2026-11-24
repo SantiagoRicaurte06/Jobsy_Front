@@ -7,6 +7,7 @@ import { SearchBarComponent } from '../../../shared/components/search-bar/search
 import { PaginationComponent } from '../../../shared/components/pagination/pagination';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { paginasDisponibles, textoTotal } from '../../../core/utils/paginacion';
 
 @Component({
   selector: 'jobsy-employee-search',
@@ -31,6 +32,7 @@ export class EmployeeSearchPage implements OnInit {
   readonly page = signal(1);
   readonly totalPages = signal(1);
   readonly total = signal(0);
+  readonly textoTotal = signal('');
   readonly busqueda = signal('');
 
   ngOnInit(): void {
@@ -41,8 +43,9 @@ export class EmployeeSearchPage implements OnInit {
     this.cargando.set(true);
     this.employeeService.list(this.busqueda(), this.page(), 6).subscribe((res) => {
       this.employees.set(res.items);
-      this.totalPages.set(res.totalPages);
+      this.totalPages.set(paginasDisponibles(res));
       this.total.set(res.total);
+      this.textoTotal.set(textoTotal(res.total, !!res.hasMore, 'perfil', 'perfiles'));
       this.cargando.set(false);
     });
   }

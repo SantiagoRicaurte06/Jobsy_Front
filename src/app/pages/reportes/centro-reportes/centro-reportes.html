@@ -152,7 +152,7 @@
               @if (m.dia) {
                 <li class="chat__dia"><span>{{ m.dia }}</span></li>
               }
-              <li class="chat__msg" [class.is-mio]="m.autor === 'usuario'">
+              <li class="chat__msg" [class.is-mio]="m.esMio ?? m.autor === 'usuario'">
                 @if (m.autor === 'soporte') {
                   <span class="chat__avatar" aria-hidden="true">J</span>
                 }

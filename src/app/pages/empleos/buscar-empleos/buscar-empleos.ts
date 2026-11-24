@@ -8,6 +8,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { paginasDisponibles, textoTotal } from '../../../core/utils/paginacion';
 
 @Component({
   selector: 'jobsy-job-search',
@@ -32,6 +33,7 @@ export class JobSearchPage implements OnInit {
   readonly page = signal(1);
   readonly totalPages = signal(1);
   readonly total = signal(0);
+  readonly textoTotal = signal('');
   readonly filters = signal<JobFilters>({});
   readonly showFilters = signal(false);
 
@@ -45,8 +47,9 @@ export class JobSearchPage implements OnInit {
     this.cargando.set(true);
     this.jobService.list(this.filters(), this.page(), 6).subscribe((res) => {
       this.jobs.set(res.items);
-      this.totalPages.set(res.totalPages);
+      this.totalPages.set(paginasDisponibles(res));
       this.total.set(res.total);
+      this.textoTotal.set(textoTotal(res.total, !!res.hasMore, 'oferta encontrada', 'ofertas encontradas'));
       this.cargando.set(false);
     });
   }

@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductService, CartService } from '../../../core/services';
 import { Product, Category } from '../../../core/models';
@@ -7,6 +7,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { paginasDisponibles } from '../../../core/utils/paginacion';
 
 @Component({
   selector: 'jobsy-store',
@@ -32,6 +33,13 @@ export class StorePage implements OnInit {
   readonly totalPages = signal(1);
   readonly total = signal(0);
   readonly categoriaActiva = signal<string | null>(null);
+  /**
+   * "Todas" suma los conteos del catalogo. El total del listado es solo una
+   * cota de la pagina actual y no cuadraba con la suma de las categorias.
+   */
+  readonly totalCatalogo = computed(() =>
+    this.categories().reduce((n, c) => n + (c.cantidadProductos ?? 0), 0) || this.total(),
+  );
   readonly added = signal<string | null>(null);
 
   ngOnInit(): void {
@@ -43,7 +51,7 @@ export class StorePage implements OnInit {
     this.cargando.set(true);
     this.productService.list(this.categoriaActiva() ?? undefined, this.page(), 9).subscribe((res) => {
       this.products.set(res.items);
-      this.totalPages.set(res.totalPages);
+      this.totalPages.set(paginasDisponibles(res));
       this.total.set(res.total);
       this.cargando.set(false);
     });

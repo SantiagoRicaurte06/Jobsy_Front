@@ -30,7 +30,6 @@ export class StepWorkPage {
     { value: 'por_horas', icon: 'timer', label: 'Por horas', text: 'Trabajos puntuales de pocas horas.' },
     { value: 'jornada_completa', icon: 'calendar', label: 'Jornada completa', text: 'Dias completos de trabajo.' },
     { value: 'fin_de_semana', icon: 'sun', label: 'Fin de semana', text: 'Solo sabados y domingos.' },
-    { value: 'presencial', icon: 'house', label: 'Presencial fijo', text: 'Contrato estable en un hogar.' },
   ];
 
   readonly opcionesEspecialidad = [
