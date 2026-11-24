@@ -1,6 +1,6 @@
 <section class="configuracion">
   <div class="encabezado_seccion">
-    <h1>Configuracion</h1>
+    <h1>Configuración</h1>
     <button type="button" class="boton_principal boton_chico" [disabled]="guardando()" (click)="guardar()">
       {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
     </button>
@@ -21,7 +21,7 @@
     <ul class="configuracion__switches">
       <li>
         <div>
-          <strong id="cfg-notifCorreo">Correo electronico</strong>
+          <strong id="cfg-notifCorreo">Correo electrónico</strong>
           <span id="cfg-notifCorreo-ayuda">Recibe avisos en tu correo.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="notifCorreo" aria-labelledby="cfg-notifCorreo" aria-describedby="cfg-notifCorreo-ayuda"
@@ -31,7 +31,7 @@
       <li>
         <div>
           <strong id="cfg-notifPlataforma">Avisos en la plataforma</strong>
-          <span id="cfg-notifPlataforma-ayuda">Los veras en tu campana de notificaciones.</span>
+          <span id="cfg-notifPlataforma-ayuda">Los verás en tu campana de notificaciones.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="notifPlataforma" aria-labelledby="cfg-notifPlataforma" aria-describedby="cfg-notifPlataforma-ayuda"
           [ngModel]="valores().notifPlataforma" (ngModelChange)="set('notifPlataforma', $event)" />
@@ -58,7 +58,7 @@
       <li>
         <div>
           <strong id="cfg-notifPostulaciones">Tus postulaciones</strong>
-          <span id="cfg-notifPostulaciones-ayuda">Cuando cambie el estado de una postulacion tuya.</span>
+          <span id="cfg-notifPostulaciones-ayuda">Cuando cambie el estado de una postulación tuya.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="notifPostulaciones" aria-labelledby="cfg-notifPostulaciones" aria-describedby="cfg-notifPostulaciones-ayuda"
           [ngModel]="valores().notifPostulaciones" (ngModelChange)="set('notifPostulaciones', $event)" />
@@ -78,12 +78,12 @@
   <!-- ---- Privacidad ---- -->
   <section class="configuracion__block tarjeta">
     <h2>Privacidad</h2>
-    <p class="configuracion__hint">Controla que ven los demas usuarios de tu perfil.</p>
+    <p class="configuracion__hint">Controla que ven los demás usuarios de tu perfil.</p>
 
     <ul class="configuracion__switches">
       <li>
         <div>
-          <strong id="cfg-perfilPublico">Perfil publico</strong>
+          <strong id="cfg-perfilPublico">Perfil público</strong>
           <span id="cfg-perfilPublico-ayuda">Cualquiera puede abrir tu perfil.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="perfilPublico" aria-labelledby="cfg-perfilPublico" aria-describedby="cfg-perfilPublico-ayuda"
@@ -92,7 +92,7 @@
 
       <li>
         <div>
-          <strong id="cfg-aparecerBusquedas">Aparecer en busquedas</strong>
+          <strong id="cfg-aparecerBusquedas">Aparecer en búsquedas</strong>
           <span id="cfg-aparecerBusquedas-ayuda">Tu perfil sale en el buscador de empleados.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="aparecerBusquedas" aria-labelledby="cfg-aparecerBusquedas" aria-describedby="cfg-aparecerBusquedas-ayuda"
@@ -119,8 +119,8 @@
 
       <li>
         <div>
-          <strong id="cfg-mostrarTelefono">Mostrar telefono</strong>
-          <span id="cfg-mostrarTelefono-ayuda">Solo visible tras confirmar una contratacion.</span>
+          <strong id="cfg-mostrarTelefono">Mostrar teléfono</strong>
+          <span id="cfg-mostrarTelefono-ayuda">Solo visible tras confirmar una contratación.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="mostrarTelefono" aria-labelledby="cfg-mostrarTelefono" aria-describedby="cfg-mostrarTelefono-ayuda"
           [ngModel]="valores().mostrarTelefono" (ngModelChange)="set('mostrarTelefono', $event)" />
@@ -128,7 +128,7 @@
 
       <li>
         <div>
-          <strong id="cfg-mostrarUbicacion">Mostrar ubicacion</strong>
+          <strong id="cfg-mostrarUbicacion">Mostrar ubicación</strong>
           <span id="cfg-mostrarUbicacion-ayuda">Tu ciudad y barrio aparecen en tu perfil.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="mostrarUbicacion" aria-labelledby="cfg-mostrarUbicacion" aria-describedby="cfg-mostrarUbicacion-ayuda"
@@ -144,13 +144,13 @@
 
     <div class="configuracion__row">
       <div class="grupo_campo">
-        <label class="etiqueta" for="passActual">Contrasena actual</label>
+        <label class="etiqueta" for="passActual">Contraseña actual</label>
         <input id="passActual" type="password" class="campo" autocomplete="current-password"
           [ngModel]="passwordActual()" (ngModelChange)="passwordActual.set($event)" name="passActual" />
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="passNueva">Nueva contrasena</label>
+        <label class="etiqueta" for="passNueva">Nueva contraseña</label>
         <input id="passNueva" type="password" class="campo" autocomplete="new-password"
           [ngModel]="passwordNueva()" (ngModelChange)="passwordNueva.set($event)" name="passNueva" />
       </div>
@@ -167,19 +167,19 @@
     }
     @if (passwordCambiada()) {
       <p class="configuracion__saved" role="status">
-        <jobsy-icon name="check" /> Contrasena actualizada.
+        <jobsy-icon name="check" /> Contraseña actualizada.
       </p>
     }
 
     <button type="button" class="boton_secundario boton_chico" (click)="cambiarPassword()">
-      Cambiar contrasena
+      Cambiar contraseña
     </button>
 
     <ul class="configuracion__switches configuracion__switches--top">
       <li>
         <div>
-          <strong id="cfg-dobleFactor">Verificacion en dos pasos</strong>
-          <span id="cfg-dobleFactor-ayuda">Pide un codigo adicional al iniciar sesion.</span>
+          <strong id="cfg-dobleFactor">Verificación en dos pasos</strong>
+          <span id="cfg-dobleFactor-ayuda">Pide un código adicional al iniciar sesión.</span>
         </div>
         <input type="checkbox" role="switch" class="configuracion__switch" name="dobleFactor" aria-labelledby="cfg-dobleFactor" aria-describedby="cfg-dobleFactor-ayuda"
           [ngModel]="valores().dobleFactor" (ngModelChange)="set('dobleFactor', $event)" />
@@ -191,14 +191,14 @@
   <section class="configuracion__block configuracion__danger tarjeta">
     <h2>Eliminar cuenta</h2>
     <p class="configuracion__hint">
-      Tu perfil dejara de aparecer y no podras volver a entrar. Las contrataciones,
-      pedidos y resenas en los que participaste se conservan, porque forman parte del
+      Tu perfil dejará de aparecer y no podrás volver a entrar. Las contrataciones,
+      pedidos y reseñas en los que participaste se conservan, porque forman parte del
       historial de las otras personas.
     </p>
 
     @if (confirmandoBaja()) {
       <div class="grupo_campo">
-        <label class="etiqueta" for="passBaja">Escribe tu contrasena para confirmar</label>
+        <label class="etiqueta" for="passBaja">Escribe tu contraseña para confirmar</label>
         <input id="passBaja" type="password" class="campo" autocomplete="current-password"
           [ngModel]="passwordBaja()" (ngModelChange)="passwordBaja.set($event)" name="passBaja" />
       </div>

@@ -229,7 +229,7 @@ export class AdminStore {
       error: (e: HttpErrorResponse) => {
         if (revertirCat) this._categories.set(revertirCat);
         if (revertirProd) this._products.set(revertirProd);
-        this._error.set(mensaje(e, 'No pudimos guardar la categoria.'));
+        this._error.set(mensaje(e, 'No pudimos guardar la categoría.'));
       },
     });
   }

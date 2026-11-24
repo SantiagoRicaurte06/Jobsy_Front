@@ -19,14 +19,14 @@ export class ChecklistPage {
   readonly rol = this.registration.rol;
 
   private readonly itemsEmpleado = [
-    { icon: '\u{1F464}', title: 'Datos Personales', text: 'Nacionalidad, Genero Y Fecha De Nacimiento.' },
+    { icon: '\u{1F464}', title: 'Datos Personales', text: 'Nacionalidad, Género Y Fecha De Nacimiento.' },
     { icon: '\u{1F4BC}', title: 'Modalidad De Trabajo', text: 'Como Y Cuando Puedes Trabajar.' },
-    { icon: '\u{1F4CD}', title: 'Ubicacion Y Foto', text: 'Tu Ciudad, Radio De Trabajo Y Foto De Perfil.' },
+    { icon: '\u{1F4CD}', title: 'Ubicación Y Foto', text: 'Tu Ciudad, Radio De Trabajo Y Foto De Perfil.' },
   ];
 
   private readonly itemsEmpleador = [
-    { icon: '\u{1F464}', title: 'Datos Personales', text: 'Nacionalidad, Genero Y Fecha De Nacimiento.' },
-    { icon: '\u{1F4CD}', title: 'Ubicacion Y Foto', text: 'Tu Ciudad Y Foto De Perfil.' },
+    { icon: '\u{1F464}', title: 'Datos Personales', text: 'Nacionalidad, Género Y Fecha De Nacimiento.' },
+    { icon: '\u{1F4CD}', title: 'Ubicación Y Foto', text: 'Tu Ciudad Y Foto De Perfil.' },
   ];
 
   readonly items = computed(() =>

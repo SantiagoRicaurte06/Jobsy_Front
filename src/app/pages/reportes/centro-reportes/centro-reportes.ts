@@ -63,17 +63,17 @@ export class ReportCenterPage implements OnInit {
   private readonly vistos = signal<Record<string, number>>(leerVistos());
 
   readonly tipos = [
-    { value: 'Incidencia', icon: 'bug', label: 'Problema tecnico', text: 'Algo no funciona en la plataforma.' },
+    { value: 'Incidencia', icon: 'bug', label: 'Problema técnico', text: 'Algo no funciona en la plataforma.' },
     { value: 'Usuario', icon: 'flag', label: 'Reportar usuario', text: 'Comportamiento inadecuado.' },
     { value: 'Pago', icon: 'credit-card', label: 'Problema de pago', text: 'Cobros o transferencias.' },
     { value: 'Sugerencia', icon: 'lightbulb', label: 'Sugerencia', text: 'Ideas para mejorar Jobsy.' },
   ];
 
   readonly faqs = [
-    { q: 'Como cambio mi contrasena?', a: 'Ve a Configuracion > Seguridad y usa "Cambiar contrasena".' },
-    { q: 'Cuando recibo el pago de un servicio?', a: 'El pago se libera 24 horas despues de que el empleador confirme el servicio.' },
-    { q: 'Como verifico mi perfil?', a: 'Sube tu documento de identidad desde tu perfil. La verificacion tarda 48 horas.' },
-    { q: 'Puedo cancelar una postulacion?', a: 'Si, desde Mis postulaciones mientras siga en estado pendiente.' },
+    { q: 'Como cambio mi contraseña?', a: 'Ve a Configuración > Seguridad y usa "Cambiar contraseña".' },
+    { q: 'Cuando recibo el pago de un servicio?', a: 'El pago se libera 24 horas después de que el empleador confirme el servicio.' },
+    { q: 'Como verifico mi perfil?', a: 'Sube tu documento de identidad desde tu perfil. La verificación tarda 48 horas.' },
+    { q: 'Puedo cancelar una postulación?', a: 'Si, desde Mis postulaciones mientras siga en estado pendiente.' },
   ];
   readonly faqAbierta = signal<number | null>(null);
 
@@ -201,7 +201,7 @@ export class ReportCenterPage implements OnInit {
   enviar(): void {
     const invalido = R.primero(
       R.texto('El asunto', this.asunto(), 3, 120),
-      R.texto('La descripcion', this.descripcion(), 10, 2000),
+      R.texto('La descripción', this.descripcion(), 10, 2000),
     );
     if (invalido) {
       this.error.set(invalido);

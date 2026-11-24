@@ -260,6 +260,8 @@
 /// Oculta visualmente pero lo deja accesible a lectores de pantalla.
 @mixin visually-hidden {
   position: absolute;
+  // Anclado a la izquierda: dentro de una tabla con scroll no empuja el ancho de la página.
+  left: 0;
   width: 1px;
   height: 1px;
   padding: 0;

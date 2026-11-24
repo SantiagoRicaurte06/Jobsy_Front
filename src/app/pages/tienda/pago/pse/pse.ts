@@ -31,7 +31,7 @@ export class PsePage extends CheckoutBase {
     const doc = this.documento().replace(/[. ]/g, '');
     const invalido = R.primero(
       this.tipoPersona() === 'juridica'
-        ? (/^[0-9]{9,10}(-[0-9])?$/.test(doc) ? null : 'El NIT debe tener 9 o 10 digitos, por ejemplo 900123456-7.')
+        ? (/^[0-9]{9,10}(-[0-9])?$/.test(doc) ? null : 'El NIT debe tener 9 o 10 dígitos, por ejemplo 900123456-7.')
         : R.documento(doc, true),
       R.correo(this.email()),
     );

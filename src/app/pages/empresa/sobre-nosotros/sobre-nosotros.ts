@@ -27,7 +27,7 @@ export class AboutPage {
     {
       icon: 'circle-check',
       title: 'Transparencia',
-      text: 'Precios, horarios y condiciones claras desde la primera conversacion, sin letra pequena.',
+      text: 'Precios, horarios y condiciones claras desde la primera conversacion, sin letra pequeña.',
     },
     {
       icon: 'heart',
@@ -37,13 +37,13 @@ export class AboutPage {
     {
       icon: 'zap',
       title: 'Simplicidad',
-      text: 'Publicar una oferta o encontrar trabajo toma minutos, no dias.',
+      text: 'Publicar una oferta o encontrar trabajo toma minutos, no días.',
     },
   ];
 
   readonly team = [
     { nombre: 'Santiago Ricaurte', rol: 'Fundador & Producto' },
     { nombre: 'Equipo de Ingenieria', rol: 'Desarrollo y plataforma' },
-    { nombre: 'Equipo de Soporte', rol: 'Atencion a usuarios' },
+    { nombre: 'Equipo de Soporte', rol: 'Atención a usuarios' },
   ];
 }

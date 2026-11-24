@@ -21,7 +21,7 @@
       <p class="ayuda_hoja_vida">Un parrafo corto que aparece al inicio de tu hoja de vida.</p>
 
       <textarea class="area_texto" maxlength="2000"
-        placeholder="Ej: Profesional del hogar con 6 anos de experiencia en limpieza profunda y cocina."
+        placeholder="Ej: Profesional del hogar con 6 años de experiencia en limpieza profunda y cocina."
         [ngModel]="resumenProfesional()" (ngModelChange)="resumenProfesional.set($event)" name="resumen"></textarea>
     </section>
 
@@ -70,7 +70,7 @@
           </div>
 
           <div class="grupo_campo">
-            <label class="etiqueta" [for]="'hoja-vida-desc-' + i">Descripcion</label>
+            <label class="etiqueta" [for]="'hoja-vida-desc-' + i">Descripción</label>
             <textarea [id]="'hoja-vida-desc-' + i" class="area_texto" placeholder="Tareas principales que realizabas."
               maxlength="500" [(ngModel)]="exp.descripcion" [name]="'desc' + i"></textarea>
           </div>
@@ -98,19 +98,19 @@
 
           <div class="fila_hoja_vida fila_hoja_vida_tres">
             <div class="grupo_campo">
-              <label class="etiqueta" [for]="'hoja-vida-titulo-' + i">Titulo</label>
+              <label class="etiqueta" [for]="'hoja-vida-titulo-' + i">Título</label>
               <input [id]="'hoja-vida-titulo-' + i" type="text" class="campo" placeholder="Bachiller academico"
                 maxlength="150" [(ngModel)]="est.titulo" [name]="'titulo' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta" [for]="'hoja-vida-inst-' + i">Institucion</label>
+              <label class="etiqueta" [for]="'hoja-vida-inst-' + i">Institución</label>
               <input [id]="'hoja-vida-inst-' + i" type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
                 maxlength="150" [(ngModel)]="est.institucion" [name]="'inst' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta" [for]="'hoja-vida-ano-' + i">Ano</label>
+              <label class="etiqueta" [for]="'hoja-vida-ano-' + i">Año</label>
               <input [id]="'hoja-vida-ano-' + i" type="text" class="campo" placeholder="2018"
                 inputmode="numeric" maxlength="4" pattern="[0-9]{4}" [(ngModel)]="est.ano" [name]="'ano' + i" />
             </div>

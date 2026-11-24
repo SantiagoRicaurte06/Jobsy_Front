@@ -121,7 +121,7 @@ export class MyOffersPage implements OnInit {
   }
 
   estadoTexto(estado: string): string {
-    return ({ pendiente: 'Pendiente', en_revision: 'En revision', aceptada: 'Contratada', rechazada: 'Rechazada' } as Record<string, string>)[estado] ?? estado;
+    return ({ pendiente: 'Pendiente', en_revision: 'En revisión', aceptada: 'Contratada', rechazada: 'Rechazada' } as Record<string, string>)[estado] ?? estado;
   }
 
   // ---- Oferta ----
@@ -219,7 +219,7 @@ export class MyOffersPage implements OnInit {
         this.refrescarConteos();
       },
       error: (err: HttpErrorResponse) => {
-        this.aviso.set(this.mensaje(err, 'No se pudo responder la postulacion.'));
+        this.aviso.set(this.mensaje(err, 'No se pudo responder la postulación.'));
         this.ocupado.set(null);
       },
     });
@@ -247,7 +247,7 @@ export class MyOffersPage implements OnInit {
     const invalido = R.primero(
       R.fechaServicio(c.fechaInicio),
       R.hora(c.horaInicio),
-      R.rango('El numero de horas', c.duracionHoras, R.LIMITES.horasMin, R.LIMITES.horasMax),
+      R.rango('El número de horas', c.duracionHoras, R.LIMITES.horasMin, R.LIMITES.horasMax),
       R.tarifa(c.tarifa),
       R.direccion(c.direccion),
     );
@@ -260,8 +260,8 @@ export class MyOffersPage implements OnInit {
         this.ocupado.set(null);
         this.contratoHecho.set(true);
         this.aviso.set(
-          'Contratacion creada. La oferta quedo cerrada y las demas candidatas recibieron un aviso. ' +
-            'Si necesitas a alguien mas, reactiva la oferta.',
+          'Contratación creada. La oferta quedó cerrada y las demás candidatas recibieron un aviso. ' +
+            'Si necesitas a alguien más, reactiva la oferta.',
         );
         // El servidor cerro la oferta y respondio a las demas: se relee todo.
         const id = this.abierta();
@@ -269,7 +269,7 @@ export class MyOffersPage implements OnInit {
         this.refrescarConteos();
       },
       error: (err: HttpErrorResponse) => {
-        this.aviso.set(this.mensaje(err, 'No se pudo crear la contratacion.'));
+        this.aviso.set(this.mensaje(err, 'No se pudo crear la contratación.'));
         this.ocupado.set(null);
       },
     });

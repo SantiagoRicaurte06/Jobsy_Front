@@ -17,16 +17,16 @@
   <!-- Metodos guardados -->
   <section class="tarjeta bloque_metodos_pago">
     <div class="encabezado_metodos_pago">
-      <h2>Metodos de pago guardados</h2>
+      <h2>Métodos de pago guardados</h2>
       <button type="button" class="boton_principal boton_chico" (click)="abrirForm()">
-        + Agregar metodo
+        + Agregar método
       </button>
     </div>
 
     @if (formAbierto()) {
       <form class="form_metodos_pago" (ngSubmit)="guardar()">
         <label>
-          Metodo
+          Método
           <select [ngModel]="metodoId()" (ngModelChange)="metodoId.set($event)" name="metodoId">
             @for (o of opciones(); track o.id) {
               <option [value]="o.id">{{ etiqueta(o.nombre) }}</option>
@@ -47,7 +47,7 @@
         </label>
 
         <label>
-          Numero de la cuenta o tarjeta
+          Número de la cuenta o tarjeta
           <input
             type="text"
             name="numeroCuenta"
@@ -65,7 +65,7 @@
             name="esPrincipal"
             [ngModel]="esPrincipal()"
             (ngModelChange)="esPrincipal.set($event)" />
-          Usarlo como metodo principal
+          Usarlo como método principal
         </label>
 
         <div class="acciones_metodos_pago">
@@ -82,7 +82,7 @@
     @if (cargando()) {
       <p class="vacio_metodos_pago">Cargando...</p>
     } @else if (methods().length === 0) {
-      <p class="vacio_metodos_pago">No tienes metodos de pago guardados.</p>
+      <p class="vacio_metodos_pago">No tienes métodos de pago guardados.</p>
     } @else {
       <ul class="lista_metodos_pago">
         @for (m of methods(); track m.id) {
@@ -111,7 +111,7 @@
     }
 
     <p class="nota_metodos_pago">
-      <jobsy-icon name="lock" /> Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el numero completo de tu tarjeta.
+      <jobsy-icon name="lock" /> Los datos de pago se procesan mediante una pasarela certificada. Jobsy nunca almacena el número completo de tu tarjeta.
     </p>
   </section>
 </div>

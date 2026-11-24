@@ -21,7 +21,7 @@
   } @else if (visibles().length === 0) {
     <div class="tarjeta">
       <jobsy-empty-state icon="calendar" title="Sin contrataciones"
-        message="Cuando contrates a alguien, o te contraten, el servicio aparecera aqui." />
+        message="Cuando contrates a alguien, o te contraten, el servicio aparecera aquí." />
     </div>
   } @else {
     <ul class="lista_contrataciones">
@@ -41,7 +41,7 @@
           <dl class="datos_contratacion">
             <div><dt>Fecha</dt><dd>{{ h.fechaInicio.slice(0, 10) | date: 'longDate' }}</dd></div>
             <div><dt>Hora</dt><dd>{{ h.horaInicio }} · {{ h.duracionHoras }} h</dd></div>
-            <div><dt>Direccion</dt><dd>{{ h.direccion }}</dd></div>
+            <div><dt>Dirección</dt><dd>{{ h.direccion }}</dd></div>
             <div><dt>Tarifa</dt><dd>{{ h.tarifa | cop }} / hora</dd></div>
             <div><dt>Total estimado</dt><dd class="precio">{{ h.totalEstimado | cop }}</dd></div>
           </dl>
@@ -56,13 +56,13 @@
               </button>
             }
             @if (h.soyEmpleador && h.estado === 'completada' && !resenadas().includes(h.id) && resena()?.id !== h.id) {
-              <button type="button" class="boton_principal boton_chico" (click)="abrirResena(h)">Dejar resena</button>
+              <button type="button" class="boton_principal boton_chico" (click)="abrirResena(h)">Dejar reseña</button>
             }
           </div>
 
           @if (resena()?.id === h.id) {
             <form class="form_resena" (ngSubmit)="publicarResena(h)">
-              <label class="etiqueta">Calificacion
+              <label class="etiqueta">Calificación
                 <select class="campo" name="calificacion" [ngModel]="resena()!.calificacion"
                   (ngModelChange)="resena.set({ id: h.id, calificacion: +$event, comentario: resena()!.comentario })">
                   @for (n of [5, 4, 3, 2, 1]; track n) {
@@ -71,12 +71,12 @@
                 </select>
               </label>
               <label class="etiqueta">Comentario
-                <textarea class="area_texto" name="comentario" maxlength="500" placeholder="¿Como fue el servicio?" [ngModel]="resena()!.comentario"
+                <textarea class="area_texto" name="comentario" maxlength="500" placeholder="¿Cómo fue el servicio?" [ngModel]="resena()!.comentario"
                   (ngModelChange)="resena.set({ id: h.id, calificacion: resena()!.calificacion, comentario: $event })"></textarea>
               </label>
               <div class="acciones_contratacion">
                 <button type="button" class="boton_simple boton_chico" (click)="resena.set(null)">Cancelar</button>
-                <button type="submit" class="boton_principal boton_chico" [disabled]="ocupado() === h.id">Publicar resena</button>
+                <button type="submit" class="boton_principal boton_chico" [disabled]="ocupado() === h.id">Publicar reseña</button>
               </div>
             </form>
           }

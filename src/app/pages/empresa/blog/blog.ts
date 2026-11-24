@@ -30,7 +30,7 @@ export class BlogPage {
   readonly posts: Post[] = [
     {
       id: 'p1',
-      titulo: '5 preguntas clave antes de contratar servicio domestico',
+      titulo: '5 preguntas clave antes de contratar servicio doméstico',
       resumen:
         'Una guia corta para verificar experiencia, referencias y disponibilidad antes de agendar la primera visita.',
       categoria: 'Para empleadores',
@@ -40,9 +40,9 @@ export class BlogPage {
     },
     {
       id: 'p2',
-      titulo: 'Como armar un perfil que consiga mas ofertas',
+      titulo: 'Como armar un perfil que consiga más ofertas',
       resumen:
-        'Fotos, descripcion y disponibilidad: los tres ajustes que mas mejoran la visibilidad de tu perfil en Jobsy.',
+        'Fotos, descripción y disponibilidad: los tres ajustes que más mejoran la visibilidad de tu perfil en Jobsy.',
       categoria: 'Para empleados',
       fecha: '30 jul 2026',
       minutos: 5,
@@ -50,7 +50,7 @@ export class BlogPage {
     },
     {
       id: 'p3',
-      titulo: 'Verificacion de identidad: como protegemos cada perfil',
+      titulo: 'Verificación de identidad: como protegemos cada perfil',
       resumen:
         'Repasamos el proceso que sigue Jobsy para validar documentos y referencias antes de publicar un perfil.',
       categoria: 'Seguridad',
@@ -60,9 +60,9 @@ export class BlogPage {
     },
     {
       id: 'p4',
-      titulo: 'Nueva tienda Jobsy: insumos de aseo con envio en Yopal',
+      titulo: 'Nueva tienda Jobsy: insumos de aseo con envío en Yopal',
       resumen:
-        'Lanzamos la tienda dentro de la app para que compres los insumos de limpieza que usas todos los dias.',
+        'Lanzamos la tienda dentro de la app para que compres los insumos de limpieza que usas todos los días.',
       categoria: 'Novedades Jobsy',
       fecha: '02 jul 2026',
       minutos: 3,
@@ -70,9 +70,9 @@ export class BlogPage {
     },
     {
       id: 'p5',
-      titulo: 'Jardineria basica: mantenimiento mes a mes',
+      titulo: 'Jardinería basica: mantenimiento mes a mes',
       resumen:
-        'Una checklist simple para dejar cualquier jardin en buen estado durante todo el ano.',
+        'Una checklist simple para dejar cualquier jardin en buen estado durante todo el año.',
       categoria: 'Para empleados',
       fecha: '20 jun 2026',
       minutos: 4,
@@ -82,7 +82,7 @@ export class BlogPage {
       id: 'p6',
       titulo: 'Como calificar bien y por que importa',
       resumen:
-        'Las calificaciones alimentan la confianza de toda la comunidad. Te contamos como dejar una buena resena.',
+        'Las calificaciones alimentan la confianza de toda la comunidad. Te contamos como dejar una buena reseña.',
       categoria: 'Para empleadores',
       fecha: '05 jun 2026',
       minutos: 3,

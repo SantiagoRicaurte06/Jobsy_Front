@@ -55,8 +55,8 @@ export class RegistrationService {
   /** Pasos visibles en la barra de progreso. El empleador no elige modalidad de trabajo. */
   readonly steps = computed(() =>
     this.rol() === 'empleador'
-      ? ['Datos personales', 'Ubicacion y foto']
-      : ['Datos personales', 'Modalidad de trabajo', 'Ubicacion y foto']
+      ? ['Datos personales', 'Ubicación y foto']
+      : ['Datos personales', 'Modalidad de trabajo', 'Ubicación y foto']
   );
 
   patch(partial: Partial<RegistrationDraft>): void {

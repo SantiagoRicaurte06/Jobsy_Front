@@ -34,7 +34,7 @@
 
     @if (visibles().length === 0) {
       <jobsy-empty-state icon="package" title="Sin resultados"
-        message="Ningun producto coincide con el filtro.">
+        message="Ningún producto coincide con el filtro.">
         <button type="button" class="boton_principal" (click)="nuevo()">Crear producto</button>
       </jobsy-empty-state>
     } @else {
@@ -43,7 +43,7 @@
           <thead>
             <tr>
               <th>Producto</th>
-              <th>Categoria</th>
+              <th>Categoría</th>
               <th>Precio</th>
               <th>Stock</th>
               <th>Estado</th>
@@ -124,7 +124,7 @@
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="f-cat">Categoria</label>
+        <label class="etiqueta" for="f-cat">Categoría</label>
         <select id="f-cat" class="lista"
           [ngModel]="form().categoria" (ngModelChange)="set('categoria', $event)" name="f-cat">
           <option value="">Selecciona...</option>
@@ -160,7 +160,7 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="f-desc">Descripcion</label>
+      <label class="etiqueta" for="f-desc">Descripción</label>
       <textarea id="f-desc" class="area_texto" maxlength="1000" placeholder="Para que sirve el producto."
         [ngModel]="form().descripcion" (ngModelChange)="set('descripcion', $event)" name="f-desc"></textarea>
     </div>
@@ -192,7 +192,7 @@
 @if (porBorrar(); as p) {
   <jobsy-modal title="Eliminar producto" (cerrar)="porBorrar.set(null)">
     <p class="admin-productos__confirm">
-      Vas a eliminar <strong>{{ p.nombre }}</strong>. Esta accion no se puede deshacer.
+      Vas a eliminar <strong>{{ p.nombre }}</strong>. Esta acción no se puede deshacer.
     </p>
 
     <footer class="admin-productos__modal-actions">

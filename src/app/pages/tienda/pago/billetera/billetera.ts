@@ -63,7 +63,7 @@ export class DigitalWalletPage extends CheckoutBase implements OnInit {
       return;
     }
     if (!this.telefono()) {
-      this.error.set('Escribe el telefono de tu billetera.');
+      this.error.set('Escribe el teléfono de tu billetera.');
       return;
     }
     const invalido = R.telefono(this.telefono());

@@ -47,7 +47,7 @@ export abstract class CheckoutBase {
         this.procesando.set(false);
 
         if (pedido.estadoPago === 'rechazado') {
-          this.error.set('La entidad rechazo el pago. Prueba con otro metodo.');
+          this.error.set('La entidad rechazo el pago. Prueba con otro método.');
           return;
         }
 

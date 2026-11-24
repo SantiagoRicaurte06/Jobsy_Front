@@ -92,7 +92,7 @@ export class HiringsPage implements OnInit {
       next: (act) => {
         this.lista.update((l) => l.map((x) => (x.id === h.id ? { ...x, ...act, titulo: x.titulo, contraparte: x.contraparte } : x)));
         this.ocupado.set(null);
-        this.aviso.set('Servicio finalizado. Ahora puedes dejar una resena.');
+        this.aviso.set('Servicio finalizado. Ahora puedes dejar una reseña.');
         this.resena.set({ id: h.id, calificacion: 5, comentario: '' });
       },
       error: (err: HttpErrorResponse) => {
@@ -110,11 +110,11 @@ export class HiringsPage implements OnInit {
     const r = this.resena();
     if (!r || !h.contraparteId) return;
     if (!r.comentario.trim()) {
-      this.aviso.set('Escribe un comentario para la resena.');
+      this.aviso.set('Escribe un comentario para la reseña.');
       return;
     }
     if (r.comentario.trim().length > 500) {
-      this.aviso.set('El comentario admite como maximo 500 caracteres.');
+      this.aviso.set('El comentario admite como máximo 500 caracteres.');
       return;
     }
     this.ocupado.set(h.id);
@@ -125,10 +125,10 @@ export class HiringsPage implements OnInit {
           this.resenadas.update((l) => [...l, h.id]);
           this.resena.set(null);
           this.ocupado.set(null);
-          this.aviso.set(`Gracias. Tu resena para ${h.contraparte ?? 'esta persona'} quedo publicada.`);
+          this.aviso.set(`Gracias. Tu reseña para ${h.contraparte ?? 'esta persona'} quedó publicada.`);
         },
         error: (err: HttpErrorResponse) => {
-          this.aviso.set(err?.error?.error?.mensaje ?? 'No se pudo publicar la resena.');
+          this.aviso.set(err?.error?.error?.mensaje ?? 'No se pudo publicar la reseña.');
           this.ocupado.set(null);
         },
       });

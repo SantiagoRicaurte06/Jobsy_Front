@@ -24,10 +24,10 @@ export class CardPage extends CheckoutBase {
   pagar(): void {
     const numero = this.numero().replace(/\D/g, '');
     const invalido = R.primero(
-      /^\d{13,19}$/.test(numero) && luhn(numero) ? null : 'El numero de tarjeta no es valido.',
+      /^\d{13,19}$/.test(numero) && luhn(numero) ? null : 'El número de tarjeta no es válido.',
       R.nombrePersona('El nombre del titular', this.titular()),
       vencimientoValido(this.vencimiento()) ? null : 'La fecha de vencimiento debe ser MM/AA y no estar vencida.',
-      /^\d{3,4}$/.test(this.cvv().trim()) ? null : 'El CVV debe tener 3 o 4 digitos.',
+      /^\d{3,4}$/.test(this.cvv().trim()) ? null : 'El CVV debe tener 3 o 4 dígitos.',
     );
     if (invalido) {
       this.error.set(invalido);

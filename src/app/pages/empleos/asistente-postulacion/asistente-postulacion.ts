@@ -58,7 +58,7 @@ export class ApplyWizardPage implements OnInit {
     this.error.set('');
 
     if (this.step() === 1 && !this.dias().length) {
-      this.error.set('Selecciona al menos un dia disponible.');
+      this.error.set('Selecciona al menos un día disponible.');
       return;
     }
     if (this.step() === 1) {
@@ -94,7 +94,7 @@ export class ApplyWizardPage implements OnInit {
     this.applicationService.apply(this.id(), this.mensaje()).subscribe({
       next: () => this.router.navigate(['/app/mis-postulaciones']),
       error: () => {
-        this.error.set('No pudimos enviar tu postulacion. Intenta de nuevo.');
+        this.error.set('No pudimos enviar tu postulación. Intenta de nuevo.');
         this.sending.set(false);
       },
     });

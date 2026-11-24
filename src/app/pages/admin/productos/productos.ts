@@ -103,7 +103,7 @@ export class AdminProductsPage {
     const f = this.form();
 
     if (!f.nombre.trim()) return this.error.set('El nombre es obligatorio.');
-    if (!f.categoria) return this.error.set('Elige una categoria.');
+    if (!f.categoria) return this.error.set('Elige una categoría.');
     if (f.precio <= 0) return this.error.set('El precio debe ser mayor que cero.');
     if (f.stock < 0) return this.error.set('El stock no puede ser negativo.');
 

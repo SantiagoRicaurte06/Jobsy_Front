@@ -18,12 +18,12 @@ export class PressPage {
     },
     {
       medio: 'Emprendimiento Llanero',
-      titulo: 'Jobsy: la app que le apuesta a la formalizacion del trabajo domestico',
+      titulo: 'Jobsy: la app que le apuesta a la formalizacion del trabajo doméstico',
       fecha: 'Marzo 2026',
     },
     {
       medio: 'Radio Casanare',
-      titulo: 'Entrevista: como funciona la verificacion de perfiles en Jobsy',
+      titulo: 'Entrevista: como funciona la verificación de perfiles en Jobsy',
       fecha: 'Enero 2026',
     },
   ];

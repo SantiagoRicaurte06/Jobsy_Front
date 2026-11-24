@@ -5,14 +5,14 @@
     <!-- Datos de la cuenta -->
     <section class="tarjeta bloque_info_cuenta">
       <div class="encabezado_info_cuenta">
-        <h2>Informacion de la cuenta</h2>
+        <h2>Información de la cuenta</h2>
         <a routerLink="/app/perfil/editar" class="boton_simple boton_chico">Editar</a>
       </div>
 
       <dl class="datos_info_cuenta">
         <div><dt>Nombre completo</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
-        <div><dt>Correo electronico</dt><dd>{{ user()?.email }}</dd></div>
-        <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
+        <div><dt>Correo electrónico</dt><dd>{{ user()?.email }}</dd></div>
+        <div><dt>Teléfono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
         <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
         <div><dt>Tipo de cuenta</dt><dd class="rol_info_cuenta">{{ user()?.rol }}</dd></div>
         <div>
@@ -36,7 +36,7 @@
         <p class="vacio_info_cuenta">Aun no has hecho pedidos en la tienda.</p>
       } @else {
         <p class="vacio_info_cuenta">
-          Tienes {{ orders().length }} pedido(s); el ultimo es <strong>{{ orders()[0].numero }}</strong>
+          Tienes {{ orders().length }} pedido(s); el último es <strong>{{ orders()[0].numero }}</strong>
           del {{ orders()[0].fecha | date: 'mediumDate' }}.
         </p>
       }

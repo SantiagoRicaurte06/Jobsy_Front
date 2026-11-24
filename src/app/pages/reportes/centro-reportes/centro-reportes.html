@@ -5,7 +5,7 @@
       <p class="soporte__sub">Reporta un problema y conversa con el equipo de Jobsy. Respondemos en menos de 48 horas.</p>
     </div>
     <div class="soporte__head-acciones">
-      <a routerLink="/app/reportes/visual" class="boton_simple boton_chico">Estadisticas</a>
+      <a routerLink="/app/reportes/visual" class="boton_simple boton_chico">Estadísticas</a>
       <button type="button" class="boton_principal boton_chico" (click)="nuevo()">
         <jobsy-icon name="square-pen" /> Nuevo reporte
       </button>
@@ -107,11 +107,11 @@
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta" for="descripcion">Descripcion</label>
+              <label class="etiqueta" for="descripcion">Descripción</label>
               <textarea id="descripcion" class="area_texto" maxlength="2000"
-                placeholder="Que paso, cuando y en que pantalla. Si es un pago, incluye el numero de pedido."
+                placeholder="Que paso, cuando y en que pantalla. Si es un pago, incluye el número de pedido."
                 [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
-              <p class="ayuda">Minimo 10 caracteres · {{ descripcion().length }}/2000</p>
+              <p class="ayuda">Mínimo 10 caracteres · {{ descripcion().length }}/2000</p>
             </div>
 
             @if (error()) {
@@ -169,7 +169,7 @@
               <li class="chat__aviso">Cargando conversacion...</li>
             } @else if (!r.mensajes?.length && puedeChatear()) {
               <li class="chat__aviso">
-                <jobsy-icon name="clock" /> Tu reporte llego a soporte. Te avisaremos aqui cuando respondan.
+                <jobsy-icon name="clock" /> Tu reporte llego a soporte. Te avisaremos aquí cuando respondan.
               </li>
             }
           </ul>
@@ -199,7 +199,7 @@
         <div class="detalle__vacio">
           <jobsy-icon name="message-circle" />
           <h2>Selecciona un reporte</h2>
-          <p>Aqui veras la conversacion con soporte. Las respuestas aparecen solas, sin recargar.</p>
+          <p>Aquí verás la conversacion con soporte. Las respuestas aparecen solas, sin recargar.</p>
           <button type="button" class="boton_principal boton_chico" (click)="nuevo()">Nuevo reporte</button>
         </div>
       }

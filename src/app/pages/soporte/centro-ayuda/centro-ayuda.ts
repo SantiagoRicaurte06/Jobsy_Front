@@ -22,9 +22,9 @@ export class HelpCenterPage {
   readonly categorias = [
     { icon: 'briefcase', title: 'Empleos', text: 'Buscar y postularme a ofertas' },
     { icon: 'user', title: 'Empleados', text: 'Contratar y calificar perfiles' },
-    { icon: 'credit-card', title: 'Pagos', text: 'Metodos de pago y facturas' },
+    { icon: 'credit-card', title: 'Pagos', text: 'Métodos de pago y facturas' },
     { icon: 'settings', title: 'Mi cuenta', text: 'Datos, seguridad y perfil' },
-    { icon: 'shopping-cart', title: 'Tienda', text: 'Pedidos, envios y devoluciones' },
+    { icon: 'shopping-cart', title: 'Tienda', text: 'Pedidos, envíos y devoluciones' },
   ];
 
   readonly termino = signal('');
@@ -34,11 +34,11 @@ export class HelpCenterPage {
       categoria: 'Empleos',
       pregunta: 'Como me postulo a una oferta?',
       respuesta:
-        'Entra al detalle de la oferta que te interese y presiona "Postularme". Te pediremos confirmar tu hoja de vida antes de enviar la postulacion.',
+        'Entra al detalle de la oferta que te interese y presiona "Postularme". Te pediremos confirmar tu hoja de vida antes de enviar la postulación.',
     },
     {
       categoria: 'Empleos',
-      pregunta: 'Puedo editar mi postulacion despues de enviarla?',
+      pregunta: 'Puedo editar mi postulación después de enviarla?',
       respuesta:
         'Puedes retirarla desde "Mis Postulaciones" y volver a postularte con datos actualizados mientras la oferta siga abierta.',
     },
@@ -50,21 +50,21 @@ export class HelpCenterPage {
     },
     {
       categoria: 'Pagos',
-      pregunta: 'Que metodos de pago aceptan en la tienda?',
+      pregunta: 'Que métodos de pago aceptan en la tienda?',
       respuesta:
-        'Aceptamos PSE, tarjeta de credito o debito, billetera digital y saldo Jobsy. Puedes elegir el metodo en el ultimo paso del checkout.',
+        'Aceptamos PSE, tarjeta de crédito o débito, billetera digital y saldo Jobsy. Puedes elegir el método en el último paso del checkout.',
     },
     {
       categoria: 'Pagos',
       pregunta: 'Como pido una factura de mi compra?',
       respuesta:
-        'La factura se genera automaticamente y queda disponible en "Mi Cuenta > Metodos de pago" una vez confirmado el pago.',
+        'La factura se genera automáticamente y queda disponible en "Mi Cuenta > Métodos de pago" una vez confirmado el pago.',
     },
     {
       categoria: 'Mi cuenta',
-      pregunta: 'Como cambio mi contrasena?',
+      pregunta: 'Como cambio mi contraseña?',
       respuesta:
-        'Ve a Configuracion desde el menu de tu cuenta y selecciona "Seguridad" para actualizar tu contrasena en cualquier momento.',
+        'Ve a Configuración desde el menú de tu cuenta y selecciona "Seguridad" para actualizar tu contraseña en cualquier momento.',
     },
     {
       categoria: 'Mi cuenta',
@@ -74,9 +74,9 @@ export class HelpCenterPage {
     },
     {
       categoria: 'Tienda',
-      pregunta: 'Cuanto tarda el envio en Yopal?',
+      pregunta: 'Cuanto tarda el envío en Yopal?',
       respuesta:
-        'Los pedidos dentro de Yopal se entregan en 24 a 48 horas habiles despues de confirmado el pago.',
+        'Los pedidos dentro de Yopal se entregan en 24 a 48 horas habiles después de confirmado el pago.',
     },
   ];
 

@@ -1,6 +1,6 @@
 <div class="contenedor agenda">
   <h1 class="agenda__title">Agendar horario</h1>
-  <p class="agenda__subtitle">Elige el dia y la franja en la que necesitas el servicio.</p>
+  <p class="agenda__subtitle">Elige el día y la franja en la que necesitas el servicio.</p>
 
   @if (!empleadoId()) {
     <p class="error" role="alert">{{ error() }}</p>
@@ -9,7 +9,7 @@
       <span aria-hidden="true"><jobsy-icon name="check" /></span>
       <h2>Horario agendado</h2>
       <p>
-        Reservaste el dia <strong>{{ diaSeleccionado() }}</strong> de {{ nombreMes() }},
+        Reservaste el día <strong>{{ diaSeleccionado() }}</strong> de {{ nombreMes() }},
         franja <strong>{{ slotSeleccionado() }}</strong>, con
         <strong>{{ empleado()?.nombre }}</strong>.
       </p>
@@ -55,14 +55,14 @@
           @if (diaSeleccionado()) {
             Franjas del {{ diaSeleccionado() }}
           } @else {
-            Selecciona un dia
+            Selecciona un día
           }
         </h2>
 
         @if (diaSeleccionado()) {
           @if (franjasDelDia().length === 0) {
             <p class="texto_chico texto_gris">
-              {{ empleado()?.nombre || 'Esta persona' }} no tiene franjas disponibles ese dia.
+              {{ empleado()?.nombre || 'Esta persona' }} no tiene franjas disponibles ese día.
             </p>
           } @else {
             <ul class="agenda__slot-list">
@@ -81,7 +81,7 @@
           }
 
           <div class="grupo_campo">
-            <label class="etiqueta" for="direccion">Direccion del servicio</label>
+            <label class="etiqueta" for="direccion">Dirección del servicio</label>
             <input id="direccion" type="text" class="campo" maxlength="120" autocomplete="street-address"
               placeholder="Calle 7 # 33-20"
               [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
@@ -91,7 +91,7 @@
           <div class="grupo_campo">
             <label class="etiqueta" for="notas">Notas para el empleado</label>
             <textarea id="notas" class="area_texto" maxlength="500"
-              placeholder="Ej: timbre del apartamento 302, hay un perro pequeno."
+              placeholder="Ej: timbre del apartamento 302, hay un perro pequeño."
               [ngModel]="notas()" (ngModelChange)="notas.set($event)" name="notas"></textarea>
           </div>
 
@@ -104,7 +104,7 @@
             {{ enviando() ? 'Agendando...' : 'Confirmar horario' }}
           </button>
         } @else {
-          <p class="texto_chico texto_gris">Elige un dia en el calendario para ver las franjas disponibles.</p>
+          <p class="texto_chico texto_gris">Elige un día en el calendario para ver las franjas disponibles.</p>
         }
       </div>
     </div>

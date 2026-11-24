@@ -66,7 +66,7 @@
               <span class="texto_mini texto_gris">
                 {{ quien(r) }} &middot; #{{ r.id }} &middot; {{ r.fecha | date: 'mediumDate' }}
                 @if (r.totalMensajes) { &middot; {{ r.totalMensajes }} mensaje(s) }
-                &middot; ultima actividad {{ cuando(r.actividad ?? r.fecha) }}
+                &middot; última actividad {{ cuando(r.actividad ?? r.fecha) }}
               </span>
             </div>
 
@@ -122,7 +122,7 @@
     <div class="grupo_campo">
       <label class="etiqueta" for="respuesta">Responder al usuario</label>
       <textarea id="respuesta" class="area_texto" maxlength="2000" (keydown)="alTeclear($event)"
-        placeholder="Escribe tu respuesta; el usuario la vera en su chat (Ctrl + Enter para enviar)."
+        placeholder="Escribe tu respuesta; el usuario la verá en su chat (Ctrl + Enter para enviar)."
         [ngModel]="respuesta()" (ngModelChange)="respuesta.set($event)" name="respuesta"></textarea>
       <button type="button" class="boton_secundario boton_chico" [disabled]="!respuesta().trim()"
         (click)="responder()">

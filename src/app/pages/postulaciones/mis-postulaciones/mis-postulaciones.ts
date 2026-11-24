@@ -17,7 +17,7 @@ interface ApplicationRow {
 
 const STATUS_LABEL: Record<ApplicationStatus, string> = {
   pendiente: 'Pendiente',
-  en_revision: 'En revision',
+  en_revision: 'En revisión',
   aceptada: 'Aceptada',
   rechazada: 'Rechazada',
 };
@@ -48,7 +48,7 @@ export class MyApplicationsPage implements OnInit {
   readonly filtros: { value: ApplicationStatus | 'todas'; label: string }[] = [
     { value: 'todas', label: 'Todas' },
     { value: 'pendiente', label: 'Pendientes' },
-    { value: 'en_revision', label: 'En revision' },
+    { value: 'en_revision', label: 'En revisión' },
     { value: 'aceptada', label: 'Aceptadas' },
     { value: 'rechazada', label: 'Rechazadas' },
   ];

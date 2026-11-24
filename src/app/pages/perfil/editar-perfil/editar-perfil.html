@@ -33,14 +33,14 @@
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="email">Correo electronico</label>
+        <label class="etiqueta" for="email">Correo electrónico</label>
         <input id="email" type="email" class="campo" [value]="email()" disabled />
-        <p class="ayuda">El correo no se puede cambiar desde aqui.</p>
+        <p class="ayuda">El correo no se puede cambiar desde aquí.</p>
       </div>
 
       <div class="fila_editar_perfil">
         <div class="grupo_campo">
-          <label class="etiqueta" for="telefono">Telefono</label>
+          <label class="etiqueta" for="telefono">Teléfono</label>
           <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
             maxlength="16" inputmode="tel" autocomplete="tel-national"
             [class.is-invalid]="intentado() && errores().telefono"
@@ -57,10 +57,10 @@
         </div>
       </div>
 
-      <h2 class="leyenda_editar_perfil">Perfil publico</h2>
+      <h2 class="leyenda_editar_perfil">Perfil público</h2>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="descripcion">Descripcion</label>
+        <label class="etiqueta" for="descripcion">Descripción</label>
         <textarea id="descripcion" class="area_texto"
           placeholder="Cuenta brevemente quien eres y como trabajas."
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>

@@ -100,14 +100,14 @@ export class ResumePage implements OnInit {
         R.mesPasado('La fecha de inicio', e.desde),
         e.hasta ? R.mesPasado('La fecha de fin', e.hasta) : null,
         e.hasta && e.hasta < e.desde ? 'La fecha de fin no puede ser anterior a la de inicio.' : null,
-        R.texto('La descripcion', e.descripcion, 0, 500),
+        R.texto('La descripción', e.descripcion, 0, 500),
       );
       if (err) return `Experiencia ${i + 1}: ${err}`;
     }
     for (const [i, e] of this.educacion().entries()) {
       const err = R.primero(
-        R.texto('El titulo', e.titulo, 2, 150),
-        R.texto('La institucion', e.institucion, 2, 150),
+        R.texto('El título', e.titulo, 2, 150),
+        R.texto('La institución', e.institucion, 2, 150),
         R.anio(e.ano),
       );
       if (err) return `Estudio ${i + 1}: ${err}`;

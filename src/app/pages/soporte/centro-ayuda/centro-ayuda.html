@@ -10,7 +10,7 @@
       <input
         type="search"
         class="campo_buscador_ayuda"
-        placeholder="Busca por palabra clave, por ejemplo: pago, postulacion..."
+        placeholder="Busca por palabra clave, por ejemplo: pago, postulación..."
         [ngModel]="termino()"
         (ngModelChange)="termino.set($event)"
         aria-label="Buscar en el centro de ayuda" />
@@ -49,7 +49,7 @@
   </div>
 
   @if (faqsFiltradas().length === 0) {
-    <jobsy-empty-state icon="frown" title="No encontramos resultados" message="Intenta con otra palabra clave o revisa las categorias de arriba." />
+    <jobsy-empty-state icon="frown" title="No encontramos resultados" message="Intenta con otra palabra clave o revisa las categorías de arriba." />
   } @else {
     <div class="lista_faq">
       @for (faq of faqsFiltradas(); track faq.pregunta; let i = $index) {

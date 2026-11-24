@@ -176,13 +176,13 @@ export const routes: Routes = [
       {
         path: 'legal/terminos',
         loadComponent: () => import('./pages/legal/terminos/terminos').then((m) => m.TermsPage),
-        title: 'Terminos y Condiciones — Jobsy',
+        title: 'Términos y Condiciones — Jobsy',
       },
       {
         path: 'legal/privacidad',
         loadComponent: () =>
           import('./pages/legal/privacidad/privacidad').then((m) => m.PrivacyPage),
-        title: 'Politica de Privacidad — Jobsy',
+        title: 'Política de Privacidad — Jobsy',
       },
     ],
   },

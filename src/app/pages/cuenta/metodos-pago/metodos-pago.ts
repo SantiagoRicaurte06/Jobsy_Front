@@ -76,7 +76,7 @@ export class PaymentMethodsPage implements OnInit {
       },
       error: (e: HttpErrorResponse) => {
         this.cargando.set(false);
-        this.error.set(e.error?.error?.mensaje ?? 'No pudimos cargar tus metodos de pago.');
+        this.error.set(e.error?.error?.mensaje ?? 'No pudimos cargar tus métodos de pago.');
       },
     });
   }
@@ -117,12 +117,12 @@ export class PaymentMethodsPage implements OnInit {
 
   guardar(): void {
     if (!this.metodoId() || !this.numeroCuenta().trim()) {
-      this.error.set('Elige un metodo y escribe el numero de la cuenta.');
+      this.error.set('Elige un método y escribe el número de la cuenta.');
       return;
     }
     const invalido = R.primero(
       R.texto('El nombre para identificarlo', this.alias(), 2, 40),
-      /^[0-9]{6,20}$/.test(this.numeroCuenta().replace(/[ -]/g, '')) ? null : 'El numero de cuenta debe tener entre 6 y 20 digitos.',
+      /^[0-9]{6,20}$/.test(this.numeroCuenta().replace(/[ -]/g, '')) ? null : 'El número de cuenta debe tener entre 6 y 20 dígitos.',
     );
     if (invalido) {
       this.error.set(invalido);
@@ -140,12 +140,12 @@ export class PaymentMethodsPage implements OnInit {
         next: () => {
           this.guardando.set(false);
           this.formAbierto.set(false);
-          this.avisar('Metodo guardado.');
+          this.avisar('Método guardado.');
           this.cargar();
         },
         error: (e: HttpErrorResponse) => {
           this.guardando.set(false);
-          this.error.set(e.error?.error?.mensaje ?? 'No pudimos guardar el metodo.');
+          this.error.set(e.error?.error?.mensaje ?? 'No pudimos guardar el método.');
         },
       });
   }
@@ -161,17 +161,17 @@ export class PaymentMethodsPage implements OnInit {
     this.metodoId.set(m.metodoId);
     this.alias.set(m.alias);
     this.esPrincipal.set(true);
-    this.error.set('Confirma el numero de la cuenta para marcarla como principal.');
+    this.error.set('Confirma el número de la cuenta para marcarla como principal.');
   }
 
   eliminar(id: string): void {
     const antes = this.methods();
     this.methods.update((list) => list.filter((m) => m.id !== id));
     this.wallet.deleteMethod(id).subscribe({
-      next: () => this.avisar('Metodo eliminado.'),
+      next: () => this.avisar('Método eliminado.'),
       error: (e: HttpErrorResponse) => {
         this.methods.set(antes);
-        this.error.set(e.error?.error?.mensaje ?? 'No pudimos eliminar el metodo.');
+        this.error.set(e.error?.error?.mensaje ?? 'No pudimos eliminar el método.');
       },
     });
   }

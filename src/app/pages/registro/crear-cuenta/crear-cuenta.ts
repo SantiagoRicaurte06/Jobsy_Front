@@ -40,15 +40,15 @@ export class CreateAccountPage {
       return;
     }
     if (this.password().length < 8) {
-      this.error.set('La contrasena debe tener al menos 8 caracteres.');
+      this.error.set('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
     if (this.password() !== this.confirm()) {
-      this.error.set('Las contrasenas no coinciden.');
+      this.error.set('Las contraseñas no coinciden.');
       return;
     }
     if (!this.acepta()) {
-      this.error.set('Debes aceptar los terminos y condiciones.');
+      this.error.set('Debes aceptar los términos y condiciones.');
       return;
     }
 

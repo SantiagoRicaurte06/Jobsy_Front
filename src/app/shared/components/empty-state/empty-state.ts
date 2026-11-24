@@ -11,6 +11,6 @@ import { IconComponent } from '../icon/icon';
 export class EmptyStateComponent {
   /** Nombre del icono de Lucide (ver icons.ts). */
   readonly icon = input('inbox');
-  readonly title = input('No hay nada por aqui');
+  readonly title = input('No hay nada por aquí');
   readonly message = input('');
 }

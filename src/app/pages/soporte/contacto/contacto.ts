@@ -8,8 +8,8 @@ import * as R from '../../../core/validation/reglas';
 
 /** Tipo de reporte de Soporte_API segun el motivo elegido en el formulario. */
 const TIPO_POR_MOTIVO: Record<string, string> = {
-  'Soporte tecnico': 'tecnico',
-  'Pagos y facturacion': 'pago',
+  'Soporte técnico': 'tecnico',
+  'Pagos y facturación': 'pago',
   'Reportar un perfil': 'usuario',
   'Alianzas y prensa': 'sugerencia',
   Otro: 'sugerencia',
@@ -27,7 +27,7 @@ export class ContactPage {
   readonly canales = [
     {
       icon: 'mail',
-      title: 'Correo electronico',
+      title: 'Correo electrónico',
       text: 'soporte@jobsy.co',
       nota: 'Respuesta en menos de 24 horas habiles.',
     },
@@ -35,7 +35,7 @@ export class ContactPage {
       icon: 'message-circle',
       title: 'Chat en la app',
       text: 'Desde el Centro de Ayuda',
-      nota: 'Lunes a sabado, 8:00 am - 6:00 pm.',
+      nota: 'Lunes a sábado, 8:00 am - 6:00 pm.',
     },
     {
       icon: 'map-pin',
@@ -45,7 +45,7 @@ export class ContactPage {
     },
   ];
 
-  readonly motivos = ['Soporte tecnico', 'Pagos y facturacion', 'Reportar un perfil', 'Alianzas y prensa', 'Otro'];
+  readonly motivos = ['Soporte técnico', 'Pagos y facturación', 'Reportar un perfil', 'Alianzas y prensa', 'Otro'];
 
   readonly nombre = signal('');
   readonly correo = signal('');

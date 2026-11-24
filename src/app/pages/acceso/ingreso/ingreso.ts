@@ -29,9 +29,9 @@ export class LoginPage {
 
   /** Por que se llego al login: la sesion vencio o hacia falta entrar para ver algo. */
   readonly motivo = this.route.snapshot.queryParamMap.get('motivo') === 'sesion'
-    ? 'Tu sesion expiro. Inicia sesion de nuevo para continuar.'
+    ? 'Tu sesión expiró. Inicia sesión de nuevo para continuar.'
     : this.route.snapshot.queryParamMap.get('redirect')
-      ? 'Inicia sesion para continuar.'
+      ? 'Inicia sesión para continuar.'
       : '';
 
   togglePassword(): void {
@@ -54,8 +54,8 @@ export class LoginPage {
         // servidor caido o por demasiados intentos.
         if (e.status === 0) this.error.set('No pudimos conectar con el servidor. Revisa tu conexion.');
         else if (e.status === 429) this.error.set('Demasiados intentos. Espera un minuto y vuelve a intentarlo.');
-        else if (e.status >= 500) this.error.set('El servicio no esta disponible en este momento. Intenta mas tarde.');
-        else this.error.set(e.error?.error?.mensaje ?? 'Usuario o contrasena incorrectos.');
+        else if (e.status >= 500) this.error.set('El servicio no esta disponible en este momento. Intenta más tarde.');
+        else this.error.set(e.error?.error?.mensaje ?? 'Usuario o contraseña incorrectos.');
         this.cargando.set(false);
       },
     });

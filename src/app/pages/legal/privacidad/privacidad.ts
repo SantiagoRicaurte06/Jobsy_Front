@@ -22,17 +22,17 @@ export class PrivacyPage {
       id: 'introduccion',
       titulo: '1. Introduccion',
       parrafos: [
-        'En Jobsy nos tomamos en serio la proteccion de tus datos personales, en linea con la Ley 1581 de 2012 y demas normas aplicables en Colombia sobre proteccion de datos.',
-        'Esta politica explica que informacion recogemos, para que la usamos y que derechos tienes sobre ella.',
+        'En Jobsy nos tomamos en serio la protección de tus datos personales, en linea con la Ley 1581 de 2012 y demás normas aplicables en Colombia sobre protección de datos.',
+        'Esta política explica que información recogemos, para que la usamos y que derechos tienes sobre ella.',
       ],
     },
     {
       id: 'datos-recogidos',
       titulo: '2. Datos que recogemos',
       parrafos: [
-        'Datos de registro: nombre, correo electronico, telefono y ciudad.',
-        'Datos de perfil: fotografia, experiencia, documento de identidad y referencias, en el caso de empleados que se verifican en la plataforma.',
-        'Datos de uso: paginas visitadas, busquedas realizadas y compras en la tienda, para mejorar la experiencia de la plataforma.',
+        'Datos de registro: nombre, correo electrónico, teléfono y ciudad.',
+        'Datos de perfil: fotografía, experiencia, documento de identidad y referencias, en el caso de empleados que se verifican en la plataforma.',
+        'Datos de uso: páginas visitadas, búsquedas realizadas y compras en la tienda, para mejorar la experiencia de la plataforma.',
       ],
     },
     {
@@ -47,29 +47,29 @@ export class PrivacyPage {
       id: 'derechos',
       titulo: '4. Tus derechos',
       parrafos: [
-        'Puedes conocer, actualizar, rectificar o solicitar la eliminacion de tus datos personales en cualquier momento desde "Mi Cuenta" o escribiendo a soporte@jobsy.co.',
-        'Tambien puedes revocar la autorizacion para el tratamiento de tus datos, sujeto a las obligaciones legales que Jobsy deba conservar (por ejemplo, registros de pagos).',
+        'Puedes conocer, actualizar, rectificar o solicitar la eliminación de tus datos personales en cualquier momento desde "Mi Cuenta" o escribiendo a soporte@jobsy.co.',
+        'También puedes revocar la autorizacion para el tratamiento de tus datos, sujeto a las obligaciones legales que Jobsy deba conservar (por ejemplo, registros de pagos).',
       ],
     },
     {
       id: 'seguridad',
-      titulo: '5. Seguridad de la informacion',
+      titulo: '5. Seguridad de la información',
       parrafos: [
-        'Aplicamos medidas tecnicas y organizativas razonables para proteger tus datos frente a acceso no autorizado, perdida o alteracion, incluyendo cifrado en el transporte de la informacion.',
+        'Aplicamos medidas tecnicas y organizativas razonables para proteger tus datos frente a acceso no autorizado, perdida o alteracion, incluyendo cifrado en el transporte de la información.',
       ],
     },
     {
       id: 'cookies',
       titulo: '6. Cookies y tecnologias similares',
       parrafos: [
-        'Usamos cookies esenciales para el funcionamiento de la plataforma (por ejemplo, mantener tu sesion iniciada) y cookies analiticas para entender como se usa Jobsy y mejorar el producto.',
+        'Usamos cookies esenciales para el funcionamiento de la plataforma (por ejemplo, mantener tu sesión iniciada) y cookies analíticas para entender como se usa Jobsy y mejorar el producto.',
       ],
     },
     {
       id: 'menores',
       titulo: '7. Menores de edad',
       parrafos: [
-        'Jobsy no esta dirigido a menores de 18 anos. Si detectamos una cuenta creada por un menor sin autorizacion, procederemos a eliminarla.',
+        'Jobsy no esta dirigido a menores de 18 años. Si detectamos una cuenta creada por un menor sin autorizacion, procederemos a eliminarla.',
       ],
     },
     {

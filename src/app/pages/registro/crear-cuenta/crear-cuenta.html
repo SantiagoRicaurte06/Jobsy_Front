@@ -24,31 +24,31 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="email">Correo electronico</label>
+      <label class="etiqueta" for="email">Correo electrónico</label>
       <input id="email" type="email" class="campo" placeholder="tucorreo@ejemplo.com"
         autocomplete="email" maxlength="150"
         [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="password">Contrasena</label>
-      <input id="password" type="password" class="campo" placeholder="Minimo 8 caracteres"
+      <label class="etiqueta" for="password">Contraseña</label>
+      <input id="password" type="password" class="campo" placeholder="Mínimo 8 caracteres"
         autocomplete="new-password"
         [ngModel]="password()" (ngModelChange)="password.set($event)" name="password" />
-      <p class="ayuda">Usa al menos 8 caracteres, con letras y numeros.</p>
+      <p class="ayuda">Usa al menos 8 caracteres, con letras y números.</p>
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="confirm">Confirmar contrasena</label>
-      <input id="confirm" type="password" class="campo" placeholder="Repite tu contrasena"
+      <label class="etiqueta" for="confirm">Confirmar contraseña</label>
+      <input id="confirm" type="password" class="campo" placeholder="Repite tu contraseña"
         autocomplete="new-password"
         [ngModel]="confirm()" (ngModelChange)="confirm.set($event)" name="confirm" />
     </div>
 
     <label class="casilla terminos_crear_cuenta">
       <input type="checkbox" [ngModel]="acepta()" (ngModelChange)="acepta.set($event)" name="acepta" />
-      Acepto los <a routerLink="/legal/terminos" target="_blank">terminos y condiciones</a> y la
-      <a routerLink="/legal/privacidad" target="_blank">politica de privacidad</a>.
+      Acepto los <a routerLink="/legal/terminos" target="_blank">términos y condiciones</a> y la
+      <a routerLink="/legal/privacidad" target="_blank">política de privacidad</a>.
     </label>
 
     @if (error()) {
@@ -59,6 +59,6 @@
   </form>
 
   <p class="acceso_crear_cuenta">
-    &iquest;Ya tienes cuenta? <a routerLink="/auth/login">Iniciar sesion</a>
+    &iquest;Ya tienes cuenta? <a routerLink="/auth/login">Iniciar sesión</a>
   </p>
 </div>

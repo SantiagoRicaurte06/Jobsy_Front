@@ -10,7 +10,7 @@
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
-      <label class="etiqueta" for="numero">Numero de tarjeta</label>
+      <label class="etiqueta" for="numero">Número de tarjeta</label>
       <input id="numero" type="text" class="campo" placeholder="0000 0000 0000 0000"
         inputmode="numeric" maxlength="23" autocomplete="cc-number"
         [ngModel]="numero()" (ngModelChange)="numero.set($event)" name="numero" />
@@ -38,7 +38,7 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="cuotas">Numero de cuotas</label>
+      <label class="etiqueta" for="cuotas">Número de cuotas</label>
       <select id="cuotas" class="lista"
         [ngModel]="cuotas()" (ngModelChange)="cuotas.set(+$event)" name="cuotas">
         @for (c of opcionesCuotas; track c) {
