@@ -53,7 +53,7 @@
     @if (ofertaDestacada(); as o) {
       <a class="acuerdo" [routerLink]="['/empleos', o.id]" [attr.aria-label]="'Ver la oferta ' + o.titulo">
         <div class="foto_acuerdo">
-          @if (o.imagenUrl) { <img [src]="o.imagenUrl" alt="" /> }
+          @if (o.imagenUrl) { <img [src]="o.imagenUrl" alt="" fetchpriority="high" /> }
         </div>
         <div class="papel_acuerdo">
           <p class="lugar_acuerdo"><jobsy-icon name="map-pin" /> {{ o.ciudad }}</p>

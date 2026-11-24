@@ -56,7 +56,7 @@
                 <td>
                   <div class="admin-productos__product">
                     @if (p.imagenUrl) {
-                      <img [src]="p.imagenUrl" [alt]="p.nombre" class="admin-productos__thumb" />
+                      <img loading="lazy" decoding="async" [src]="p.imagenUrl" [alt]="p.nombre" class="admin-productos__thumb" />
                     } @else {
                       <span class="admin-productos__icon" aria-hidden="true"><jobsy-icon name="sparkles" /></span>
                     }
@@ -171,7 +171,7 @@
         [ngModel]="form().imagenUrl" (ngModelChange)="set('imagenUrl', $event)" name="f-img" />
 
       @if (form().imagenUrl) {
-        <img [src]="form().imagenUrl" alt="Vista previa" class="admin-productos__preview" />
+        <img loading="lazy" decoding="async" [src]="form().imagenUrl" alt="Vista previa" class="admin-productos__preview" />
       }
     </div>
 
