@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { describirHorario, horaLegible, leerHorario } from './horario';
+import { describirHorario, diaDe, horaLegible, leerHorario } from './horario';
 
 describe('leerHorario', () => {
   it('lee el formato que valida el middleware', () => {
@@ -15,6 +15,12 @@ describe('leerHorario', () => {
   it('entiende nombres completos con o sin tilde', () => {
     expect(leerHorario('Sábados: 8:30 am - 4:30 pm').dias).toEqual(['Sab']);
     expect(leerHorario('martes y jueves').dias).toEqual(['Mar', 'Jue']);
+  });
+
+  it('reconoce días sueltos con tilde', () => {
+    expect(diaDe('Miércoles')).toBe('Mie');
+    expect(diaDe('SÁBADO')).toBe('Sab');
+    expect(diaDe('feriado')).toBeNull();
   });
 
   it('tolera textos sin horario', () => {

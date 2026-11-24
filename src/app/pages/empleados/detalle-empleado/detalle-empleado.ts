@@ -1,4 +1,4 @@
-import { Component, inject, input, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, input, signal, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -9,11 +9,13 @@ import { RatingStarsComponent } from '../../../shared/components/rating-stars/ra
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { FranjaSemanaComponent } from '../../../shared/components/franja-semana/franja-semana';
+import { CopPipe } from '../../../shared/pipes';
 
 @Component({
   selector: 'jobsy-employee-detail',
   standalone: true,
-  imports: [IconComponent, RouterLink, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent, DatePipe],
+  imports: [IconComponent, RouterLink, RatingStarsComponent, LoadingSpinnerComponent, EmptyStateComponent, DatePipe, FranjaSemanaComponent, CopPipe],
   templateUrl: './detalle-empleado.html',
   styleUrl: './detalle-empleado.scss',
 })
@@ -25,6 +27,7 @@ export class EmployeeDetailPage implements OnInit {
 
   /** Solo los usuarios con sesion pueden dejar una calificacion. */
   readonly isLoggedIn = this.auth.isLoggedIn;
+  readonly rol = this.auth.role;
 
   readonly employee = signal<Employee | undefined>(undefined);
   readonly cargando = signal(true);
@@ -34,6 +37,7 @@ export class EmployeeDetailPage implements OnInit {
 
   /** Franjas en las que esa persona puede trabajar. */
   readonly disponibilidad = signal<ScheduleSlot[]>([]);
+  readonly diasDisponibles = computed(() => this.disponibilidad().map((f) => f.dia));
 
   // ---- Formulario "deja tu resena" ----
   readonly nuevaCalificacion = signal(0);

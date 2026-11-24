@@ -1,151 +1,186 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.detalle_empleo {
-  padding-block: v.$space-6;
+.detalle_empleo { padding-top: v.$space-5; }
+
+.volver_detalle_empleo {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  min-height: 44px;
+  color: v.$color-ink;
+  font-weight: v.$font-weight-bold;
 }
 
-.migas_detalle_empleo {
-  margin-bottom: v.$space-4;
-  font-size: v.$font-size-sm;
+.cabeza_detalle_empleo {
+  margin: v.$space-3 0 v.$space-6;
+
+  h1 {
+    max-width: 22ch;
+    margin: v.$space-2 0 v.$space-3;
+    @include m.display(clamp(2.2rem, 5.2vw, 4rem));
+  }
+}
+
+.vivienda_detalle_empleo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: v.$space-2;
+  margin: 0;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-muted;
+}
+
+.nueva_detalle_empleo { @include m.badge(v.$color-cta, v.$color-cta-ink); }
+
+.lugar_detalle_empleo {
+  display: flex;
+  align-items: center;
+  gap: v.$space-2;
+  margin: 0;
+  font-size: v.$font-size-base;
+  color: v.$color-text;
 }
 
 .rejilla_detalle_empleo {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: minmax(0, 1fr) 380px;
   align-items: start;
-  gap: v.$space-5;
+  gap: v.$space-7;
 
-  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: v.$space-6;
+  }
 }
 
 // ---- Columna principal ----
-.principal_detalle_empleo { overflow: hidden; }
-
 .imagen_detalle_empleo {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 21 / 9;
-  background: v.$color-primary-pale;
-  font-size: v.$font-size-4xl;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: v.$radius-xl;
+  background: v.$color-sand;
 
   img { width: 100%; height: 100%; object-fit: cover; }
-}
 
-.cuerpo_detalle_empleo { padding: v.$space-5; }
-
-.etiquetas_detalle_empleo {
-  display: flex;
-  gap: v.$space-2;
-  margin-bottom: v.$space-3;
-}
-
-.titulo_detalle_empleo {
-  margin: 0 0 v.$space-2;
-  font-size: v.$font-size-xl;
-}
-
-.precio_detalle_empleo {
-  display: flex;
-  align-items: baseline;
-  gap: v.$space-2;
-  margin: 0 0 v.$space-5;
-  font-size: v.$font-size-xl;
-}
-
-// ---- Datos clave ----
-.datos_detalle_empleo {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: v.$space-4;
-  margin: 0 0 v.$space-5;
-  padding: v.$space-4;
-  background: v.$color-bg;
-  border-radius: v.$radius-md;
-
-  dt {
-    margin-bottom: v.$space-1;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-semibold;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: v.$color-text-muted;
+  > span {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-size: 3rem;
+    color: v.$color-border-strong;
   }
-
-  dd {
-    margin: 0;
-    font-size: v.$font-size-sm;
-  }
-
-  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
 }
 
 .seccion_detalle_empleo {
-  margin-bottom: v.$space-5;
+  padding-top: v.$space-6;
 
-  h2 {
-    margin-bottom: v.$space-3;
-    font-size: v.$font-size-base;
+  h2 { margin-bottom: v.$space-4; font-size: v.$font-size-xl; }
+}
+
+.tareas_detalle_empleo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space-2;
+    min-height: 44px;
+    padding: 0 v.$space-4;
+    border-radius: v.$radius-pill;
+    background: v.$color-sand;
+    color: v.$color-ink;
+    font-weight: v.$font-weight-semibold;
+
+    jobsy-icon { color: v.$color-success; }
   }
 }
 
-.lista_detalle_empleo {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: v.$space-2;
-  font-size: v.$font-size-sm;
-  color: v.$color-success;
+.descripcion_detalle_empleo {
+  max-width: 68ch;
+  margin: 0;
+  font-size: v.$font-size-base;
+  line-height: 1.65;
+  white-space: pre-line;
 }
 
-// ---- Panel lateral ----
-.lateral_detalle_empleo {
+.seguridad_detalle_empleo ul {
+  display: grid;
+  gap: v.$space-3;
+
+  li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: v.$space-3;
+    color: v.$color-text;
+  }
+
+  jobsy-icon { margin-top: 3px; color: v.$color-primary; font-size: 1.15rem; }
+}
+
+// ---- Panel del acuerdo ----
+.acuerdo_detalle_empleo {
+  position: sticky;
+  top: calc(#{v.$header-height} + #{v.$space-5});
   display: flex;
   flex-direction: column;
   gap: v.$space-4;
-  position: sticky;
-  top: calc(#{v.$header-height} + #{v.$space-4});
+  padding: v.$space-6;
+  border: v.$border-width solid v.$color-ink;
+  border-radius: v.$radius-xl;
+  background: v.$color-surface;
+  box-shadow: v.$shadow-md;
 
-  @include m.until(v.$bp-lg) { position: static; }
+  @include m.until(v.$bp-lg) {
+    position: static;
+    order: -1;
+  }
 }
 
-.llamada_detalle_empleo {
-  padding: v.$space-5;
-  text-align: center;
-
-  .boton_principal { margin-block: v.$space-4 v.$space-2; }
-}
-
-.precio_llamada_detalle_empleo {
+.tarifa_detalle_empleo {
+  display: flex;
+  align-items: baseline;
+  gap: v.$space-2;
   margin: 0;
-  font-size: v.$font-size-2xl;
+  color: v.$color-text-muted;
+  font-weight: v.$font-weight-semibold;
+
+  .cifra {
+    font-family: v.$font-family-display;
+    font-size: clamp(2.5rem, 5vw, 3.25rem);
+    font-weight: v.$font-weight-black;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: v.$color-ink;
+  }
 }
 
-.nota_detalle_empleo {
-  margin: v.$space-3 0 0;
+.franja_detalle_empleo {
+  padding: v.$space-4 0;
+  border-block: v.$border-width dashed v.$color-border;
+
+  h2 {
+    margin: 0 0 v.$space-3;
+    font-family: v.$font-family-base;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-muted;
+  }
+}
+
+.publicada_detalle_empleo {
+  margin: 0;
   font-size: v.$font-size-xs;
   color: v.$color-text-muted;
 }
 
-.seguridad_detalle_empleo {
-  padding: v.$space-4;
+.boton_grande_detalle { min-height: 56px; font-size: v.$font-size-base; }
 
-  h3 {
-    margin-bottom: v.$space-3;
-    font-size: v.$font-size-sm;
-  }
-
-  li {
-    margin-bottom: v.$space-2;
-    padding-left: v.$space-4;
-    position: relative;
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-
-    &::before {
-      content: '2';
-      position: absolute;
-      left: 0;
-      color: v.$color-accent;
-    }
-  }
+.nota_detalle_empleo {
+  margin: 0;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
 }

@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import {
-  DIAS_SEMANA, DIA_INICIAL, DIA_NOMBRE, DiaSemana, describirHorario, horaLegible, leerHorario,
+  DIAS_SEMANA, DIA_INICIAL, DIA_NOMBRE, DiaSemana, describirHorario, diaDe, horaLegible, leerHorario,
 } from '../../../core/utils/horario';
 
 /**
@@ -44,7 +44,7 @@ export class FranjaSemanaComponent {
     const dias = this.dias();
     if (dias) {
       return {
-        dias: DIAS_SEMANA.filter((d) => dias.some((x) => x.slice(0, 3).toLowerCase() === d.toLowerCase())) as DiaSemana[],
+        dias: DIAS_SEMANA.filter((d) => dias.some((x) => diaDe(x) === d)) as DiaSemana[],
         inicio: this.inicio(),
         fin: this.fin(),
       };

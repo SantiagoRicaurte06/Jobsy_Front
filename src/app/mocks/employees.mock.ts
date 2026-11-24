@@ -5,10 +5,10 @@ import { avatar } from './images.mock';
 export const MOCK_EMPLOYEES: Employee[] = [
   {
     id: 'e1', nombre: 'Martha C.',
-    descripcion: 'Anos de experiencia en el cuidado de grandes superficies y entornos, con mucho carino y profundidad.',
+    descripcion: 'Años de experiencia en el cuidado de grandes superficies y entornos, con mucho cariño y profundidad.',
     calificacion: 5.0, totalServicios: 23, verificado: true,
     especialidades: ['Limpieza profunda', 'Zonas verdes', 'Cocina'],
-    experiencia: '6 anos trabajando en Sirivana y Manchas, Yopal',
+    experiencia: '6 años trabajando en Sirivana y Manchas, Yopal',
     ciudad: 'Yopal', disponible: true,
     fotoUrl: avatar('Martha'),
   },
@@ -26,7 +26,7 @@ export const MOCK_EMPLOYEES: Employee[] = [
     descripcion: 'Amante de los animales, dedicada a dejar los hogares libres de pelos y alergias.',
     calificacion: 4.8, totalServicios: 15, verificado: true,
     especialidades: ['Limpieza', 'Mascotas', 'Planchado'],
-    experiencia: 'Preferida por familias en El Alcaravan por su buen trato',
+    experiencia: 'Preferida por familias en El Alcaraván por su buen trato',
     ciudad: 'Yopal', disponible: true,
     fotoUrl: avatar('Carmen'),
   },

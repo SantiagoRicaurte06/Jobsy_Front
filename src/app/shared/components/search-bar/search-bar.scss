@@ -38,13 +38,18 @@
   & + & { border-left: v.$border-width solid v.$color-border; }
 
   @include m.until(v.$bp-md) {
+    flex: none;
     min-height: 52px;
 
     & + & { border-left: 0; border-top: v.$border-width solid v.$color-border; border-radius: 0; }
   }
 }
 
-.campo_barra_busqueda_ciudad { flex: 0 1 240px; }
+.campo_barra_busqueda_ciudad {
+  flex: 0 1 240px;
+
+  @include m.until(v.$bp-md) { flex: none; }
+}
 
 .icono_barra_busqueda {
   flex-shrink: 0;

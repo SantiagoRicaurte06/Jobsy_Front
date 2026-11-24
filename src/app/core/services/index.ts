@@ -14,7 +14,6 @@ export * from './subscription.service';
 export * from './report.service';
 export * from './admin.service';
 export * from './admin-store.service';
-export * from './review.service';
 export * from './wallet.service';
 export * from './settings.service';
 export * from './notification.service';

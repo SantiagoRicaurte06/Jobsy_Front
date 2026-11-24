@@ -28,7 +28,8 @@ export interface HorarioLeido {
 
 const sinTildes = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
-function diaDe(token: string): DiaSemana | null {
+/** "Miércoles", "mie", "MIÉ" → "Mie". */
+export function diaDe(token: string): DiaSemana | null {
   const t = sinTildes(token).slice(0, 3);
   const i = ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'].indexOf(t);
   return i >= 0 ? DIAS_SEMANA[i] : null;

@@ -8,11 +8,12 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { paginasDisponibles } from '../../../core/utils/paginacion';
+import { CopPipe } from '../../../shared/pipes';
 
 @Component({
   selector: 'jobsy-store',
   standalone: true,
-  imports: [IconComponent, 
+  imports: [IconComponent, CopPipe, 
     RouterLink,
     ProductCardComponent,
     PaginationComponent,
@@ -32,6 +33,8 @@ export class StorePage implements OnInit {
   readonly page = signal(1);
   readonly totalPages = signal(1);
   readonly total = signal(0);
+  /** Envío fijo por pedido; el mismo valor que aplica el middleware. */
+  readonly envio = 8000;
   readonly categoriaActiva = signal<string | null>(null);
   /**
    * "Todas" suma los conteos del catalogo. El total del listado es solo una

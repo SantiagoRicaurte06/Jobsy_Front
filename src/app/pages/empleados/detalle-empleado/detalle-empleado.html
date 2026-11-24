@@ -1,150 +1,142 @@
 <div class="contenedor detalle_empleado">
   @if (cargando()) {
-    <jobsy-loading-spinner />
+    <jobsy-loading-spinner label="Cargando el perfil…" />
   } @else if (!employee()) {
-    <jobsy-empty-state icon="frown" title="Perfil no encontrado">
-      <a routerLink="/empleados" class="boton_principal">Ver otros empleados</a>
+    <jobsy-empty-state icon="frown" title="Este perfil no está disponible"
+      message="Puede que la persona lo haya ocultado o que el enlace esté mal escrito.">
+      <a routerLink="/empleados" class="boton_principal">Ver otras personas</a>
     </jobsy-empty-state>
   } @else {
-    <nav class="migas_detalle_empleado">
-      <a routerLink="/empleados"><jobsy-icon name="arrow-left" /> Volver a empleados</a>
-    </nav>
+    @let e = employee()!;
+    <a routerLink="/empleados" class="volver_detalle_empleado"><jobsy-icon name="arrow-left" /> Todas las personas</a>
 
     <div class="rejilla_detalle_empleado">
-      <!-- ---- Perfil ---- -->
-      <article class="principal_detalle_empleado tarjeta">
-        <header class="encabezado_detalle_empleado">
-          <div class="avatar_detalle_empleado">
-            @if (employee()!.fotoUrl) {
-              <img [src]="employee()!.fotoUrl" [alt]="employee()!.nombre" />
+      <article class="principal_detalle_empleado">
+        <header class="cabeza_detalle_empleado">
+          <div class="avatar_detalle_empleado" [class.is-disponible]="e.disponible">
+            @if (e.fotoUrl) {
+              <img [src]="e.fotoUrl" [alt]="'Foto de ' + e.nombre" />
             } @else {
-              <span>{{ employee()!.nombre.charAt(0) }}</span>
+              <span aria-hidden="true">{{ e.nombre.charAt(0) }}</span>
             }
           </div>
 
           <div>
-            <h1 class="nombre_detalle_empleado">{{ employee()!.nombre }}</h1>
-
-            <div class="pildoras_detalle_empleado">
-              @if (employee()!.verificado) { <span class="pildora_exito"><jobsy-icon name="check" /> Verificado</span> }
-              @if (employee()!.disponible) { <span class="pildora_info">Disponible</span> }
+            <h1>{{ e.nombre }}</h1>
+            <p class="ciudad_detalle_empleado">
+              <jobsy-icon name="map-pin" /> {{ e.ciudad }}
+              @if (e.disponible) { <span class="disponible_detalle_empleado">· Disponible</span> }
+            </p>
+            <div class="sellos_detalle_empleado">
+              @if (e.verificado) { <span class="pildora_exito"><jobsy-icon name="badge-check" /> Documentos verificados</span> }
+              @if (e.totalServicios > 0) {
+                <jobsy-rating-stars [value]="e.calificacion" />
+              } @else {
+                <span class="pildora_info">Nuevo en Jobsy</span>
+              }
             </div>
-
-            <jobsy-rating-stars
-              [value]="employee()!.calificacion"
-              [reviews]="employee()!.totalServicios" />
-
-            <p class="ciudad_detalle_empleado"><jobsy-icon name="map-pin" /> {{ employee()!.ciudad }}</p>
           </div>
         </header>
 
         <section class="seccion_detalle_empleado">
-          <h2>Sobre mi</h2>
-          <p class="texto_chico texto_gris">{{ employee()!.descripcion }}</p>
+          <h2>Sobre mí</h2>
+          <p class="texto_detalle_empleado">{{ e.descripcion }}</p>
         </section>
 
-        <section class="seccion_detalle_empleado">
-          <h2>Experiencia</h2>
-          <p class="texto_chico texto_gris">{{ employee()!.experiencia }}</p>
-        </section>
+        @if (e.experiencia) {
+          <section class="seccion_detalle_empleado">
+            <h2>Experiencia</h2>
+            <p class="texto_detalle_empleado">{{ e.experiencia }}</p>
+          </section>
+        }
 
-        <section class="seccion_detalle_empleado">
-          <h2>Especialidades</h2>
-          <ul class="habilidades_detalle_empleado">
-            @for (skill of employee()!.especialidades; track skill) {
-              <li class="pildora_info">{{ skill }}</li>
-            }
-          </ul>
-        </section>
-
-        <section class="seccion_detalle_empleado">
-          <h2>Resenas ({{ resenas().length }})</h2>
-
-          @if (isLoggedIn()) {
-            <form class="formulario_resena_detalle_empleado" (submit)="enviarResena($event)">
-              <p class="etiqueta_resena_detalle_empleado">Deja tu calificacion</p>
-
-              <div class="estrellas_picker_detalle_empleado" role="radiogroup"
-                aria-label="Calificacion en estrellas">
-                @for (star of [1, 2, 3, 4, 5]; track star) {
-                  <button type="button" class="estrella_picker_detalle_empleado"
-                    [class.is-active]="star <= nuevaCalificacion()"
-                    (click)="setCalificacion(star)"
-                    [attr.aria-label]="star + ' estrellas'">&#9733;</button>
-                }
-              </div>
-
-              <textarea class="campo_resena_detalle_empleado" rows="3" maxlength="500"
-                placeholder="Cuenta como te fue con esta persona"
-                [value]="nuevoComentario()"
-                (input)="nuevoComentario.set($any($event.target).value)"></textarea>
-
-              @if (errorResena()) {
-                <p class="error" role="alert">{{ errorResena() }}</p>
-              }
-
-              <button type="submit" class="boton_principal"
-                [disabled]="nuevaCalificacion() === 0 || enviandoResena()">
-                {{ enviandoResena() ? 'Publicando...' : 'Publicar resena' }}
-              </button>
-              <p class="texto_mini texto_gris">
-                Solo puedes valorar a alguien con quien hayas trabajado.
-              </p>
-            </form>
-          } @else {
-            <p class="aviso_resena_detalle_empleado">
-              <a routerLink="/auth/login">Inicia sesion</a> para dejar tu calificacion.
-            </p>
-          }
-
-          @if (resenas().length === 0) {
-            <p class="texto_mini texto_gris">Todavia no tiene resenas.</p>
-          }
-
-          <ul class="resenas_detalle_empleado">
-            @for (review of resenas(); track $index) {
-              <li class="resena_detalle_empleado">
-                <div class="encabezado_resena_detalle_empleado">
-                  <strong>{{ review.autor }}</strong>
-                  <jobsy-rating-stars [value]="review.estrellas" [showValue]="false" />
-                </div>
-                <p>{{ review.texto }}</p>
-                <span class="texto_mini texto_gris">{{ review.fecha | date: 'mediumDate' }}</span>
-              </li>
-            }
-          </ul>
-        </section>
-      </article>
-
-      <!-- ---- Contratar ---- -->
-      <aside class="lateral_detalle_empleado tarjeta">
-        <p class="servicios_detalle_empleado">
-          <strong>{{ employee()!.totalServicios }}</strong> servicios completados
-        </p>
-
-        <a [routerLink]="['/contratacion', employee()!.id]" class="boton_principal boton_ancho">
-          Solicitar contratacion
-        </a>
-        <a [routerLink]="['/agendar']" [queryParams]="{ empleado: employee()!.id }"
-          class="boton_secundario boton_ancho">Agendar horario</a>
-
-        @if (disponibilidad().length > 0) {
-          <section class="disponibilidad_detalle_empleado">
-            <h3 class="texto_mini">Disponibilidad</h3>
-            <ul>
-              @for (franja of disponibilidad(); track $index) {
-                <li class="texto_mini texto_gris">
-                  {{ franja.dia }}: {{ franja.horaInicio }} - {{ franja.horaFin }}
-                </li>
+        @if (e.especialidades.length) {
+          <section class="seccion_detalle_empleado">
+            <h2>Sabe hacer</h2>
+            <ul class="habilidades_detalle_empleado">
+              @for (skill of e.especialidades; track skill) {
+                <li><jobsy-icon name="check" /> {{ skill }}</li>
               }
             </ul>
           </section>
         }
-        <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar perfil</button>
 
-        <p class="nota_detalle_empleado">
-          Todos los pagos y acuerdos se gestionan dentro de Jobsy para tu seguridad.
+        <section class="seccion_detalle_empleado" aria-labelledby="titulo-resenas">
+          <h2 id="titulo-resenas">Reseñas de hogares ({{ resenas().length }})</h2>
+
+          @if (resenas().length === 0) {
+            <p class="texto_detalle_empleado texto_gris">Todavía no tiene reseñas. Aparecen cuando un hogar termina un servicio con esta persona.</p>
+          } @else {
+            <ul class="resenas_detalle_empleado">
+              @for (review of resenas(); track $index) {
+                <li class="resena_detalle_empleado">
+                  <div class="encabezado_resena_detalle_empleado">
+                    <strong>{{ review.autor }}</strong>
+                    <jobsy-rating-stars [value]="review.estrellas" [showValue]="false" />
+                  </div>
+                  <p>{{ review.texto }}</p>
+                  <span class="fecha_resena_detalle_empleado">{{ review.fecha | date: "d 'de' MMMM 'de' y" }}</span>
+                </li>
+              }
+            </ul>
+          }
+
+          @if (rol() === 'empleador') {
+            <form class="formulario_resena_detalle_empleado" (submit)="enviarResena($event)">
+              <h3>¿Trabajó en tu casa? Cuéntalo</h3>
+              <jobsy-rating-stars [value]="nuevaCalificacion()" [editable]="true" [showValue]="false"
+                (valueChange)="setCalificacion($event)" />
+
+              <label class="oculto" for="comentario-resena">Comentario</label>
+              <textarea id="comentario-resena" class="area_texto" rows="3" maxlength="500"
+                placeholder="¿Cómo te fue? Puntualidad, cuidado, trato…"
+                [value]="nuevoComentario()"
+                (input)="nuevoComentario.set($any($event.target).value)"></textarea>
+
+              @if (errorResena()) {
+                <p class="error" role="alert"><jobsy-icon name="circle-alert" /> {{ errorResena() }}</p>
+              }
+
+              <div class="acciones_resena_detalle_empleado">
+                <button type="submit" class="boton_principal" [disabled]="nuevaCalificacion() === 0 || enviandoResena()">
+                  {{ enviandoResena() ? 'Publicando…' : 'Publicar reseña' }}
+                </button>
+                <p class="ayuda">Solo se aceptan reseñas de hogares que contrataron a esta persona en Jobsy.</p>
+              </div>
+            </form>
+          }
+        </section>
+      </article>
+
+      <aside class="lateral_detalle_empleado" aria-label="Disponibilidad y contratación">
+        @if (e.tarifaHora) {
+          <p class="tarifa_detalle_empleado"><span class="cifra">{{ e.tarifaHora | cop }}</span> por hora</p>
+        } @else {
+          <p class="tarifa_detalle_empleado tarifa_pendiente">Tarifa por acordar</p>
+        }
+
+        <div class="disponibilidad_detalle_empleado">
+          <h2>Cuándo puede trabajar</h2>
+          @if (disponibilidad().length) {
+            <jobsy-franja-semana [dias]="diasDisponibles()" tamano="grande" />
+            <ul>
+              @for (franja of disponibilidad(); track $index) {
+                <li><strong>{{ franja.dia }}</strong> {{ franja.horaInicio }} – {{ franja.horaFin }}</li>
+              }
+            </ul>
+          } @else {
+            <p class="texto_gris">No ha publicado horarios. Puedes proponerlos al contratar.</p>
+          }
+        </div>
+
+        <p class="servicios_detalle_empleado">
+          <strong>{{ e.totalServicios }}</strong> {{ e.totalServicios === 1 ? 'servicio terminado' : 'servicios terminados' }} en Jobsy
         </p>
+
+        @if (!rol() || rol() === 'empleador') {
+          <a [routerLink]="['/contratacion', e.id]" class="boton_principal boton_ancho boton_grande_detalle">Contratar</a>
+          <a routerLink="/agendar" [queryParams]="{ empleado: e.id }" class="boton_simple boton_ancho">Ver su agenda y proponer horario</a>
+        }
       </aside>
     </div>
   }

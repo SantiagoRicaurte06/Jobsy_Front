@@ -24,9 +24,10 @@
       <span class="pildora_exito"><jobsy-icon name="badge-check" /> Verificado</span>
     }
     @if (employee().totalServicios > 0) {
-      <jobsy-rating-stars [value]="employee().calificacion" [reviews]="employee().totalServicios" />
+      <jobsy-rating-stars [value]="employee().calificacion" />
+      <span class="servicios_tarjeta_empleado">{{ employee().totalServicios }} {{ employee().totalServicios === 1 ? 'servicio' : 'servicios' }}</span>
     } @else {
-      <span class="pildora_info">Sin reseñas aún</span>
+      <span class="pildora_info">Nuevo en Jobsy</span>
     }
   </div>
 

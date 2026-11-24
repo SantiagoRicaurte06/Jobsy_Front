@@ -7,13 +7,14 @@ import { CopPipe } from '../../../shared/pipes';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { FranjaSemanaComponent } from '../../../shared/components/franja-semana/franja-semana';
 
 @Component({
   selector: 'jobsy-job-detail',
   standalone: true,
   imports: [
     DatePipe, LowerCasePipe, IconComponent, RouterLink, CopPipe,
-    LoadingSpinnerComponent, EmptyStateComponent,
+    LoadingSpinnerComponent, EmptyStateComponent, FranjaSemanaComponent,
   ],
   templateUrl: './detalle-empleo.html',
   styleUrl: './detalle-empleo.scss',

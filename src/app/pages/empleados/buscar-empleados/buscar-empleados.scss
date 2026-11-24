@@ -1,40 +1,48 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.portada_empleados {
-  background: v.$gradient-band;
-  color: v.$color-text-invert;
+.cabeza_empleados {
+  padding-block: v.$space-7 v.$space-6;
+  background: v.$color-sand;
+  border-bottom: v.$border-width solid v.$color-border;
+
+  jobsy-search-bar { max-width: 720px; }
 }
 
-.interior_portada_empleados {
-  @include m.container;
+.titulo_empleados {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: v.$space-5;
-  padding-block: v.$space-6;
+  gap: v.$space-3 v.$space-5;
+  margin-bottom: v.$space-3;
 
-  @include m.until(v.$bp-lg) {
-    flex-direction: column;
-    text-align: center;
+  h1 {
+    margin: 0;
+    max-width: 16ch;
+    @include m.display(clamp(2.2rem, 5vw, 3.75rem));
   }
 }
 
-.titulo_portada_empleados {
-  margin: 0 0 v.$space-2;
-  font-size: v.$font-size-2xl;
+.texto_empleados {
+  max-width: 60ch;
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-base;
+  color: v.$color-text;
 }
 
-.texto_portada_empleados {
-  margin: 0;
-  font-size: v.$font-size-sm;
-  opacity: 0.9;
+
+.resultados_empleados { padding-top: v.$space-6; }
+
+.conteo_empleados {
+  min-height: 1.6em;
+  margin: 0 0 v.$space-4;
+  font-family: v.$font-family-display;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-ink;
 }
 
-.buscar_empleados {
-  padding-block: v.$space-6;
+.rejilla_empleados {
+  @include m.grid-cards(300px);
 }
-
-.encabezado_buscar_empleados { margin-top: v.$space-5; }
-
-.rejilla_buscar_empleados { @include m.grid-cards(300px); }

@@ -2,44 +2,76 @@
 @use 'mixins' as m;
 
 .panel_filtros {
-  @include m.card;
-  padding: v.$space-4;
-}
-
-.titulo_panel_filtros {
-  margin: 0 0 v.$space-4;
-  font-size: v.$font-size-base;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-5;
 }
 
 .grupo_panel_filtros {
-  margin: 0 0 v.$space-5;
+  margin: 0;
   padding: 0;
   border: none;
-
-  .casilla { margin-bottom: v.$space-2; }
 }
 
 .leyenda_panel_filtros {
-  margin-bottom: v.$space-2;
+  margin-bottom: v.$space-3;
   padding: 0;
-  font-size: v.$font-size-xs;
+  font-family: v.$font-family-display;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-ink;
+}
+
+.fichas_panel_filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+.ficha_panel_filtros {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 v.$space-4;
+  border: v.$border-width solid v.$color-border;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  font-size: v.$font-size-sm;
   font-weight: v.$font-weight-semibold;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: v.$color-text-muted;
+  cursor: pointer;
+  transition: border-color v.$transition-fast, background v.$transition-fast;
+
+  &:hover { border-color: v.$color-ink; }
+
+  &:focus-within { outline: 3px solid v.$color-primary; outline-offset: 2px; }
+
+  &.is-activa {
+    border-color: v.$color-ink;
+    background: v.$color-ink;
+    color: v.$color-bg;
+  }
 }
 
 .rango_panel_filtros {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: v.$space-2;
 
-  input { min-width: 0; }
-  span { color: v.$color-text-muted; }
+  .campo { min-height: 44px; }
 }
 
-.acciones_panel_filtros {
-  display: flex;
-  flex-direction: column;
-  gap: v.$space-2;
+.limpiar_panel_filtros {
+  align-self: flex-start;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: v.$color-primary-light;
+  font-weight: v.$font-weight-bold;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
 }
