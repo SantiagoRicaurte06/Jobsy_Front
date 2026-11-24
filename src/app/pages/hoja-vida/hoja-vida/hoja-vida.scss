@@ -74,6 +74,7 @@
 }
 
 .quitar_hoja_vida {
+  min-height: 44px; // objetivo táctil
   padding: 0;
   background: none;
   border: none;
@@ -122,14 +123,21 @@
   font-size: v.$font-size-xs;
   color: v.$color-primary;
 
+  // El círculo visible es chico, pero el área táctil llega a 32 px
+  // (con el espaciado entre fichas cumple el mínimo de 24 px de WCAG 2.5.8).
   button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin: -6px -8px -6px 0;
     padding: 0;
     background: none;
     border: none;
+    border-radius: 50%;
     color: v.$color-primary;
     cursor: pointer;
-    opacity: 0.6;
 
-    &:hover { opacity: 1; }
+    &:hover { background: rgba(22, 104, 179, 0.12); }
   }
 }

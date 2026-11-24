@@ -10,6 +10,7 @@
 }
 
 .filtro_mis_postulaciones {
+  min-height: 44px; // objetivo táctil
   padding: v.$space-2 v.$space-4;
   background: v.$color-surface;
   border: 1px solid v.$color-border;
@@ -78,6 +79,7 @@
 }
 
 .cancelar_mis_postulaciones {
+  min-height: 44px; // objetivo táctil
   padding: 0;
   background: none;
   border: none;

@@ -14,7 +14,7 @@
 
   <div class="bandeja tarjeta" [class.bandeja--detalle]="seleccionado() || creando()">
     <!-- ================= Lista ================= -->
-    <aside class="bandeja__lista">
+    <section class="bandeja__lista">
       <nav class="bandeja__filtros" aria-label="Filtrar reportes">
         <button type="button" [class.is-active]="filtro() === 'activos'" (click)="filtro.set('activos')">
           Activos <span>{{ conteo().activos }}</span>
@@ -68,7 +68,7 @@
           }
         </ul>
       }
-    </aside>
+    </section>
 
     <!-- ================= Detalle ================= -->
     <section class="bandeja__detalle">

@@ -5,10 +5,10 @@
       <p class="subtitulo_analiticas">Metricas generales de la plataforma</p>
     </div>
 
-    <nav class="periodos_analiticas">
+    <nav class="periodos_analiticas" aria-label="Periodo">
       @for (p of periodos; track p.value) {
         <button type="button"
-          [class.is-active]="periodo() === p.value"
+          [class.is-active]="periodo() === p.value" [attr.aria-pressed]="periodo() === p.value"
           (click)="periodo.set(p.value)">
           {{ p.label }}
         </button>

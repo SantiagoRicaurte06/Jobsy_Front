@@ -66,6 +66,7 @@
   }
 
   &__day {
+    min-height: 44px; // objetivo táctil
     aspect-ratio: 1;
     display: grid;
     place-items: center;

@@ -188,6 +188,7 @@
   }
 
   &__bulk {
+    min-height: 44px; // objetivo táctil
     width: auto !important;
     padding-inline: v.$space-2;
     font-size: v.$font-size-xs !important;

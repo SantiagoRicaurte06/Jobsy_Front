@@ -32,7 +32,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 v.$space-4;
   border: v.$border-width solid v.$color-border;
   border-radius: v.$radius-pill;
@@ -65,7 +65,7 @@
 
 .limpiar_panel_filtros {
   align-self: flex-start;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0;
   border: 0;
   background: none;

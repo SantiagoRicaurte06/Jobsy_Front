@@ -47,12 +47,11 @@
 }
 
 .columna_pie {
-  li + li { margin-top: v.$space-2; }
 
   a {
     display: inline-flex;
     align-items: center;
-    min-height: 36px;
+    min-height: 44px;
     color: v.$color-bg;
     text-decoration: none;
 
@@ -77,6 +76,9 @@
   nav { display: flex; gap: v.$space-5; }
 
   a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     color: #D9DEE6;
     text-decoration: none;
 

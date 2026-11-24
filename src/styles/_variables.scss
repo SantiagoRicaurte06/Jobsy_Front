@@ -119,10 +119,12 @@ $header-height: 72px;
 $sidebar-width: 248px;
 
 // ---- Breakpoints ----
-$bp-sm: 576px;
-$bp-md: 768px;
-$bp-lg: 1024px;
-$bp-xl: 1280px;
+// En em para que respondan también cuando la persona agranda el texto del
+// navegador (no solo el zoom): con letra al 200 % el menú se colapsa a tiempo.
+$bp-sm: 36em;  // 576px
+$bp-md: 48em;  // 768px
+$bp-lg: 64em;  // 1024px
+$bp-xl: 80em;  // 1280px
 
 // ---- Campos de color (antes degradados; ahora planos) ----
 $gradient-hero:       linear-gradient($color-primary, $color-primary);

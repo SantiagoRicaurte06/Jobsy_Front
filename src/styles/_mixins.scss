@@ -7,7 +7,7 @@
 
 /// Media query "hasta este breakpoint".
 @mixin until($bp) {
-  @media (max-width: ($bp - 1px)) { @content; }
+  @media (max-width: ($bp - 0.01em)) { @content; }
 }
 
 /// Contenedor centrado con ancho máximo.

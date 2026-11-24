@@ -38,6 +38,7 @@
   }
 
   &__option {
+    min-height: 44px; // objetivo táctil
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -84,6 +85,7 @@
   }
 
   &__chip {
+    min-height: 44px; // objetivo táctil
     padding: v.$space-2 v.$space-3;
     background: v.$color-bg;
     border: 1px solid v.$color-border;

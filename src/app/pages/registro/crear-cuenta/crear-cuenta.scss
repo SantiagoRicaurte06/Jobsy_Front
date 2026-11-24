@@ -4,8 +4,9 @@
 .crear_cuenta {
   width: 100%;
   max-width: 460px;
-  padding: v.$space-7 v.$space-8; // igualado al padding de .acceso / .recuperar
-  border-top: 4px solid v.$color-accent; // la franja naranja que faltaba
+  min-width: 0;
+  padding: clamp(1.5rem, 6vw, 3rem) clamp(1.25rem, 6vw, 3.5rem);
+  // (sin franja superior: el campo azul del layout ya da la marca)
   border-radius: v.$radius-lg;
   box-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.04),

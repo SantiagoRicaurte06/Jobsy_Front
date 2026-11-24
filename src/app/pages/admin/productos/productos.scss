@@ -136,6 +136,7 @@
   }
 
   &__mini {
+    min-height: 44px; // objetivo táctil
     margin-left: v.$space-2;
     padding: 2px v.$space-2;
     background: v.$color-primary-bg;
@@ -171,6 +172,7 @@
   }
 
   &__delete {
+    min-height: 44px; // objetivo táctil
     padding: 0;
     background: none;
     border: none;

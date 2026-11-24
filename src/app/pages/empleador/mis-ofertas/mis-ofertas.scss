@@ -44,6 +44,7 @@
 }
 
 .filtro_mis_ofertas {
+  min-height: 44px; // objetivo táctil
   padding: v.$space-2 v.$space-4;
   background: v.$color-surface;
   border: 1px solid v.$color-border;
