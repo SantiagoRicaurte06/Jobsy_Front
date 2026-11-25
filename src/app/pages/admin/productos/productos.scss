@@ -12,7 +12,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-2xl;
+    @include m.display(v.$font-size-2xl);
   }
 
   &__subtitle {
@@ -68,9 +68,9 @@
       &:hover { border-color: v.$color-primary-light; }
 
       &.is-active {
-        background: v.$color-primary-light;
-        border-color: v.$color-primary-light;
-        color: v.$color-text-invert;
+        background: v.$color-ink;
+        border-color: v.$color-ink;
+        color: v.$color-bg;
         font-weight: v.$font-weight-semibold;
       }
     }
@@ -148,7 +148,7 @@
     font-weight: v.$font-weight-bold;
     cursor: pointer;
 
-    &:hover { background: v.$color-primary-light; color: v.$color-text-invert; }
+    &:hover { background: v.$color-primary; color: v.$color-text-invert; }
   }
 
   // Select que se ve como una pildora de estado
@@ -224,6 +224,6 @@
     background: v.$color-danger;
     color: v.$color-text-invert;
 
-    &:hover { background: #b93a3a; }
+    &:hover { background: v.$color-danger-hover; }
   }
 }

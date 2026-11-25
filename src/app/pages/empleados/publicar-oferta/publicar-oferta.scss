@@ -12,7 +12,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-xl);
   }
 
   &__subtitle {
@@ -50,9 +50,8 @@
     &:hover { border-color: v.$color-primary-light; }
 
     &.is-selected {
-      background: v.$color-accent;
-      border-color: v.$color-accent;
-      color: v.$color-text-invert;
+      border-color: v.$color-ink;
+      background: v.$color-primary-bg;
       font-weight: v.$font-weight-semibold;
     }
   }
@@ -77,9 +76,9 @@
     transition: all v.$transition-fast;
 
     &.is-selected {
-      background: v.$color-primary-light;
-      border-color: v.$color-primary-light;
-      color: v.$color-text-invert;
+      background: v.$color-ink;
+      border-color: v.$color-ink;
+      color: v.$color-bg;
       font-weight: v.$font-weight-semibold;
     }
   }

@@ -1,6 +1,29 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+// ---- Encabezado editorial con acento naranja ----
+.cabecera_contrataciones {
+  margin-bottom: v.$space-6;
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
+
+  h1 {
+    margin: 0;
+    @include m.display(v.$font-size-2xl);
+  }
+}
+
+.kicker_contrataciones {
+  display: block;
+  margin-bottom: v.$space-1;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$color-primary;
+}
+
+// ---- Aviso ----
 .aviso_contrataciones {
   display: flex;
   justify-content: space-between;
@@ -14,6 +37,7 @@
   button { background: transparent; border: 0; cursor: pointer; color: v.$color-text-muted; }
 }
 
+// ---- Filtros ----
 .filtros_contrataciones {
   display: flex;
   flex-wrap: wrap;
@@ -21,6 +45,7 @@
   margin-bottom: v.$space-4;
 
   button {
+    min-height: 44px;
     padding: v.$space-2 v.$space-4;
     background: v.$color-surface;
     border: 1px solid v.$color-border;
@@ -29,27 +54,51 @@
     font-size: v.$font-size-xs;
     color: v.$color-text-muted;
     cursor: pointer;
+    transition: all v.$transition-fast;
+
+    &:hover { border-color: v.$color-border-strong; }
 
     &.is-active {
-      background: v.$color-primary-light;
-      border-color: v.$color-primary-light;
-      color: v.$color-text-invert;
+      background: v.$color-ink;
+      border-color: v.$color-ink;
+      color: v.$color-bg;
       font-weight: v.$font-weight-semibold;
     }
   }
 }
 
+// ---- Lista ----
 .lista_contrataciones {
   display: flex;
   flex-direction: column;
-  gap: v.$space-3;
+  gap: v.$space-4;
 }
 
+// ---- Tarjeta de acuerdo ----
 .contratacion {
+  padding: 0;
+  overflow: hidden;
+  border-left: 4px solid v.$color-primary;
+
+  &[data-estado="completada"] { border-left-color: v.$color-success; }
+  &[data-estado="cancelada"] { border-left-color: v.$color-danger; }
+}
+
+// ---- Layout documento: cuerpo + panel lateral ----
+.acuerdo_contratacion {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+
+  @include m.until(v.$bp-md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cuerpo_contratacion {
   display: flex;
   flex-direction: column;
-  gap: v.$space-3;
-  padding: v.$space-4;
+  gap: v.$space-4;
+  padding: v.$space-5;
 }
 
 .cabeza_contratacion {
@@ -57,38 +106,111 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: v.$space-3;
-  text-transform: none;
 
-  h2 { margin: 0; font-size: v.$font-size-lg; }
+  h2 { margin: 0; @include m.display(v.$font-size-lg); }
   p { margin: 2px 0 0; }
   > span { text-transform: capitalize; }
 }
 
-.datos_contratacion {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: v.$space-3;
+.detalles_contratacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-3 v.$space-5;
   margin: 0;
+  padding-top: v.$space-3;
+  border-top: 1px solid v.$color-border;
 
-  @include m.until(v.$bp-md) { grid-template-columns: 1fr 1fr; }
-
-  dt { font-size: v.$font-size-xs; color: v.$color-text-muted; }
-  dd { margin: 0; font-size: v.$font-size-sm; font-weight: v.$font-weight-medium; }
+  dt {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    margin-bottom: 2px;
+  }
+  dd {
+    margin: 0;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+  }
 }
 
+// ---- Panel de tarifa (sidebar tinta) ----
+.panel_contratacion {
+  display: flex;
+  flex-direction: column;
+  background: v.$color-ink;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+
+  @include m.until(v.$bp-md) {
+    flex-direction: row;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.tarifa_contratacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: v.$space-5 v.$space-4;
+  text-align: center;
+}
+
+.tarifa_etiqueta {
+  font-size: v.$font-size-xs;
+  color: v.$color-on-dark-muted;
+  margin-bottom: v.$space-2;
+}
+
+.tarifa_monto {
+  @include m.display(v.$font-size-2xl);
+  font-variant-numeric: tabular-nums;
+  color: v.$color-bg;
+}
+
+.tarifa_unidad {
+  font-size: v.$font-size-xs;
+  color: v.$color-on-dark-muted;
+  margin-top: v.$space-1;
+}
+
+.total_contratacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: v.$space-4;
+  background: rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.total_etiqueta {
+  font-size: v.$font-size-xs;
+  color: v.$color-on-dark-muted;
+  margin-bottom: 2px;
+}
+
+.total_monto {
+  @include m.display(v.$font-size-xl);
+  font-variant-numeric: tabular-nums;
+  color: v.$color-cta;
+}
+
+// ---- Acciones ----
 .acciones_contratacion {
   display: flex;
   flex-wrap: wrap;
   gap: v.$space-2;
 }
 
+// ---- Reseña ----
 .form_resena {
   display: flex;
   flex-direction: column;
   gap: v.$space-3;
-  padding: v.$space-3;
+  padding: v.$space-4 v.$space-5;
   background: v.$color-bg;
-  border-radius: v.$radius-md;
+  border-top: v.$border-width solid v.$color-border;
 
   label { display: flex; flex-direction: column; gap: v.$space-1; }
 }

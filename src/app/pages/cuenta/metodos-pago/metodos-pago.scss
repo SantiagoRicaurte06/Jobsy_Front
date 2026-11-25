@@ -23,7 +23,8 @@
 .monto_saldo_metodos_pago {
   display: block;
   margin-top: v.$space-1;
-  font-size: v.$font-size-2xl;
+  @include m.display(v.$font-size-2xl);
+  font-variant-numeric: tabular-nums;
 }
 
 // ---- Bloque ----

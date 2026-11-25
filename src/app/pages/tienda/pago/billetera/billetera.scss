@@ -54,8 +54,8 @@
     &:hover { border-color: v.$color-primary-light; }
 
     &.is-selected {
-      border-color: v.$color-accent;
-      background: v.$color-accent-pale;
+      border-color: v.$color-ink;
+      background: v.$color-primary-bg;
       font-weight: v.$font-weight-semibold;
     }
   }

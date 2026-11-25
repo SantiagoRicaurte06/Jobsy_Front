@@ -2,13 +2,8 @@
   @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="encabezado_seccion">
-      <h1>Mi perfil</h1>
-      <a routerLink="/app/perfil/editar" class="boton_principal boton_chico">Editar perfil</a>
-    </div>
-
-    <!-- Cabecera -->
-    <header class="perfil__head tarjeta">
+    <!-- Cabecera con campo azul -->
+    <header class="perfil__head">
       <div class="perfil__avatar">
         @if (user()?.fotoUrl) {
           <img loading="lazy" decoding="async" [src]="user()!.fotoUrl" [alt]="'Foto de perfil de' +user()!.nombre" />
@@ -19,7 +14,8 @@
       </div>
 
       <div class="perfil__identity">
-        <h2 class="perfil__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
+        <span class="perfil__kicker">Mi perfil</span>
+        <h1 class="perfil__name">{{ user()?.nombre }} {{ user()?.apellido }}</h1>
 
         <div class="perfil__badges">
           <span class="pildora_info">{{ user()?.rol }}</span>
@@ -35,7 +31,10 @@
         <p class="perfil__city"><jobsy-icon name="map-pin" /> {{ user()?.ciudad }}</p>
       </div>
 
-      <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico">Cambiar foto</a>
+      <div class="perfil__head-actions">
+        <a routerLink="/app/perfil/editar" class="boton_inicio_privado">Editar perfil</a>
+        <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico perfil__btn-foto">Cambiar foto</a>
+      </div>
     </header>
 
     <div class="perfil__grid">
@@ -61,7 +60,7 @@
             @for (skill of e.especialidades; track skill) {
               <li class="pildora_info">{{ skill }}</li>
             } @empty {
-              <li>Aun no tienes especialidades registradas.</li>
+              <li>Aún no tienes especialidades registradas.</li>
             }
           </ul>
 

@@ -42,7 +42,12 @@
     gap: v.$space-3;
 
     .tarjeta { display: flex; flex-direction: column; padding: v.$space-4; }
-    strong { font-size: v.$font-size-lg; }
+    strong {
+      font-family: v.$font-family-display;
+      font-size: v.$font-size-lg;
+      font-weight: v.$font-weight-black;
+      font-variant-numeric: tabular-nums;
+    }
     span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
     @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
   }
@@ -62,7 +67,7 @@
       color: v.$color-text-muted;
       cursor: pointer;
 
-      &.is-active { border-color: v.$color-primary; background: v.$color-primary-bg; color: v.$color-primary; }
+      &.is-active { background: v.$color-ink; border-color: v.$color-ink; color: v.$color-bg; font-weight: v.$font-weight-semibold; }
     }
   }
 

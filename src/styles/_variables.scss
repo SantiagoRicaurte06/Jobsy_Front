@@ -52,6 +52,22 @@ $color-ink:            #13233A;
 $color-sidebar:        #13233A; // panel admin en tinta
 $color-sidebar-hover:  #1F3554;
 
+// ---- Texto sobre fondo tinta (pie, barra lateral admin) ----
+$color-on-dark:        #D9DEE6; // texto principal sobre tinta
+$color-on-dark-muted:  #9AA6B8; // texto secundario sobre tinta
+$color-on-dark-subtle: #8D99AB; // etiquetas de grupo sobre tinta
+$color-on-dark-link:   #B7C2D2; // enlaces sobre tinta
+$color-on-dark-border: rgba(251, 245, 236, 0.14); // separadores sobre tinta
+
+// ---- Fondo translúcido (cabecera sticky, barra superior) ----
+$color-bg-translucent: rgba(251, 245, 236, 0.94);
+
+// ---- Hover de peligro ----
+$color-danger-hover:   #8E1B12;
+
+// ---- Gráficas ----
+$color-chart-purple:   #8B5CF6;
+
 // ---- Superficies (antes "liquid glass"; ahora sólidas) ----
 // Se mantienen los nombres para no romper componentes; ya no hay blur.
 $glass-bg:          $color-surface;

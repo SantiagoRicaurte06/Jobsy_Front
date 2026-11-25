@@ -2,14 +2,14 @@
 <div class="paso-trabajo tarjeta">
   <jobsy-step-progress [steps]="steps()" [current]="1" />
 
-  <h1 class="paso-trabajo__title">Modalidad De Trabajo</h1>
-  <p class="paso-trabajo__subtitle">Cuentanos Como Prefieres Trabajar. Puedes Elejir Varias</p>
+  <h1 class="paso-trabajo__title">Modalidad de trabajo</h1>
+  <p class="paso-trabajo__subtitle">Cuéntanos cómo prefieres trabajar. Puedes elegir varias.</p>
 
   <form (ngSubmit)="next()">
 
     <!-- MODALIDADES -->
     <div class="grupo_campo">
-      <p class="etiqueta" id="grupo-modalidades-disponibles">Modalidades Disponibles</p>
+      <p class="etiqueta" id="grupo-modalidades-disponibles">Modalidades disponibles</p>
       <div class="paso-trabajo__grid" role="group" aria-labelledby="grupo-modalidades-disponibles">
         @for (op of opcionesModalidad; track op.value) {
           <button
@@ -30,6 +30,7 @@
     <!-- ESPECIALIDADES -->
     <div class="grupo_campo">
       <p class="etiqueta" id="grupo-especialidades">Especialidades</p>
+
       <ul class="paso-trabajo__chips" aria-labelledby="grupo-especialidades">
         @for (e of opcionesEspecialidad; track e) {
           <li>
@@ -49,11 +50,11 @@
     <!--EXPERIENCIA-->
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="experiencia">Cuentanos Tu Experiencia</label>
+      <label class="etiqueta" for="experiencia">Cuéntanos tu experiencia</label>
       <textarea id="experiencia" class="area_texto" maxlength="1000"
-      placeholder="Ej: 6 Años De Experiencia En Hogares De Yopal, Con Enfasis En Limpieza Profunda Y Cocina"
+      placeholder="Ej: 6 años de experiencia en hogares de Yopal, con énfasis en limpieza profunda y cocina"
       [ngModel]="experiencia()" (ngModelChange)="experiencia.set($event)" name="experiencia"></textarea>
-    <p class="ayuda">Este Texto Aparecera En Tu Perfil Público.</p>
+    <p class="ayuda">Este texto aparecerá en tu perfil público.</p>
     </div>
 
     @if (error()) {
@@ -61,7 +62,7 @@
     }
 
     <div class="paso-trabajo__actions">
-      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="button" class="boton_simple" (click)="back()">Atrás</button>
       <button type="submit" class="boton_principal">Siguiente</button>
     </div>
   </form>

@@ -17,7 +17,7 @@
 
   .titulo_elegir_rol{
     margin: v.$space-4 0 v.$space-1;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-xl);
   }
 
   .subtitulo_elegir_rol {
@@ -52,8 +52,8 @@
     &:hover {border-color: v.$color-primary-light;}
 
     &.is-selected {
-      border-color: v.$color-accent;
-      background: v.$color-accent-pale;
+      border-color: v.$color-ink;
+      background: v.$color-primary-bg;
     }
   }
 

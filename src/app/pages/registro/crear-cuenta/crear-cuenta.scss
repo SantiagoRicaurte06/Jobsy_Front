@@ -2,6 +2,7 @@
 @use 'mixins' as m;
 
 .crear_cuenta {
+
   width: 100%;
   max-width: 460px;
   min-width: 0;
@@ -20,7 +21,7 @@
 
 .titulo_crear_cuenta {
   margin: v.$space-5 0 v.$space-2;
-  font-size: v.$font-size-xl; // igualado a .titulo_acceso para consistencia entre pantallas
+  @include m.display(v.$font-size-xl);
 }
 
 .encabezado_crear_cuenta {

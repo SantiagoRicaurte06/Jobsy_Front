@@ -6,7 +6,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-2xl;
+    @include m.display(v.$font-size-2xl);
   }
 
   &__subtitle {
@@ -141,6 +141,6 @@
     background: v.$color-danger;
     color: v.$color-text-invert;
 
-    &:hover { background: #b93a3a; }
+    &:hover { background: v.$color-danger-hover; }
   }
 }

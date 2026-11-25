@@ -5,7 +5,7 @@
     <!-- Antes se podia llenar todo el checkout de un pedido de $0. -->
     <div class="tarjeta pago__vacio">
       <jobsy-icon name="shopping-cart" />
-      <h2>Tu carrito esta vacio</h2>
+      <h2>Tu carrito está vacío</h2>
       <p>Agrega productos de la tienda para poder finalizar una compra.</p>
       <a routerLink="/tienda" class="boton_principal">Ir a la tienda</a>
     </div>
@@ -20,7 +20,7 @@
       @if (!entrega.confirmados()) {
         <!-- ===== Paso 1: datos de entrega ===== -->
         <form class="pago__panel tarjeta entrega" (ngSubmit)="continuar()" novalidate>
-          <h2 class="entrega__titulo"><jobsy-icon name="truck" /> ¿A donde llevamos tu pedido?</h2>
+          <h2 class="entrega__titulo"><jobsy-icon name="truck" /> ¿Adónde llevamos tu pedido?</h2>
 
           <div class="entrega__fila">
             <div class="grupo_campo">
@@ -80,13 +80,13 @@
 
           <label class="casilla">
             <input type="checkbox" [ngModel]="recordar()" (ngModelChange)="recordar.set($event)" name="recordar" />
-            Recordar estos datos en este equipo para mi proxima compra
+            Recordar estos datos en este equipo para mi próxima compra
           </label>
 
           <button type="submit" class="boton_principal boton_ancho" [disabled]="cart.isEmpty()">
             Continuar al pago <jobsy-icon name="arrow-right" />
           </button>
-          @if (cart.isEmpty()) { <p class="ayuda">Tu carrito esta vacio.</p> }
+          @if (cart.isEmpty()) { <p class="ayuda">Tu carrito está vacío.</p> }
         </form>
       } @else {
         <!-- ===== Paso 2: pago ===== -->

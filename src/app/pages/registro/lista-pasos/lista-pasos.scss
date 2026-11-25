@@ -1,5 +1,6 @@
 
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .lista_pasos {
   width: 100%;
@@ -17,7 +18,7 @@
 
 .titulo_lista_pasos {
   margin: v.$space-4 0 v.$space-2;
-  font-size: v.$font-size-lg;
+  @include m.display(v.$font-size-xl);
 }
 
 .subtitulo_lista_pasos {

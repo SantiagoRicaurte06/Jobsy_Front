@@ -12,7 +12,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-2xl;
+    @include m.display(v.$font-size-2xl);
   }
 
   &__subtitle {
@@ -36,7 +36,8 @@
 
     strong {
       display: block;
-      font-size: v.$font-size-2xl;
+      @include m.display(v.$font-size-2xl);
+      font-variant-numeric: tabular-nums;
       color: v.$color-primary;
     }
 
@@ -72,9 +73,9 @@
       &:hover { border-color: v.$color-primary-light; }
 
       &.is-active {
-        background: v.$color-primary-light;
-        border-color: v.$color-primary-light;
-        color: v.$color-text-invert;
+        background: v.$color-ink;
+        border-color: v.$color-ink;
+        color: v.$color-bg;
         font-weight: v.$font-weight-semibold;
       }
     }

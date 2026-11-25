@@ -52,7 +52,7 @@ $crema-calida: #FFE2C2; // segunda línea del titular: 4.6:1 sobre el azul
   margin: 0 0 v.$space-6;
   font-size: v.$font-size-lg;
   line-height: 1.5;
-  color: #E4EEF8;
+  color: v.$color-primary-bg;
 
   @include m.until(v.$bp-md) { font-size: v.$font-size-base; }
 }
@@ -272,8 +272,8 @@ $crema-calida: #FFE2C2; // segunda línea del titular: 4.6:1 sobre el azul
 }
 
 .paso_oferta   { background: v.$color-sand; color: v.$color-ink; }
-.paso_postula  { background: v.$color-primary; color: v.$color-white; p { color: #E4EEF8; } }
-.paso_contrata { background: v.$color-ink; color: v.$color-bg; p { color: #C9D2DE; } > jobsy-icon { color: v.$color-cta; } }
+.paso_postula  { background: v.$color-primary; color: v.$color-white; p { color: v.$color-primary-bg; } }
+.paso_contrata { background: v.$color-ink; color: v.$color-bg; p { color: v.$color-on-dark; } > jobsy-icon { color: v.$color-cta; } }
 .paso_resena   { background: v.$color-cta; color: v.$color-ink; }
 
 // ---- Fichas de tareas ----

@@ -6,7 +6,7 @@
 
   &__title {
     margin: 0 0 v.$space-5;
-    font-size: v.$font-size-xl;
+    @include m.display(v.$font-size-xl);
   }
 
   &__grid {
@@ -56,8 +56,8 @@
     overflow: hidden;
 
     button {
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       background: v.$color-bg;
       border: none;
       cursor: pointer;
@@ -135,7 +135,12 @@
     font-size: v.$font-size-base !important;
     font-weight: v.$font-weight-semibold;
 
-    dd { font-size: v.$font-size-lg; }
+    dd {
+      font-family: v.$font-family-display;
+      font-size: v.$font-size-lg;
+      font-weight: v.$font-weight-black;
+      font-variant-numeric: tabular-nums;
+    }
   }
 
   &__note {

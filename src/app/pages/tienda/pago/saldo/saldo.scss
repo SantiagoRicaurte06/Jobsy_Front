@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .saldo {
   &__title {
@@ -29,7 +30,10 @@
     opacity: 0.85;
   }
 
-  &__amount { font-size: v.$font-size-2xl; }
+  &__amount {
+    @include m.display(v.$font-size-2xl);
+    font-variant-numeric: tabular-nums;
+  }
 
   // ---- Calculo ----
   &__calc {

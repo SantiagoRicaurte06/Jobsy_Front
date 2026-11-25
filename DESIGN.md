@@ -17,8 +17,13 @@ Los valores viven en `src/styles/_variables.scss` y los patrones en `src/styles/
 | Azul Jobsy | `$color-primary` | `#1668B3` | Campos de "cielo" (portada, acceso), enlaces, foco. |
 | Naranja de marca | `$color-cta` | `#F5821F` | Acción principal y campos; **siempre con texto tinta** (6:1). |
 | Naranja tostado | `$color-accent` | `#B84F06` | Naranja como texto o fondo con blanco (AA). |
-| Verde morichal | `$color-success` | `#1E7A4C` | Verificado, disponible, aceptado. |
-| Ámbar / Rojo | `$color-warning` / `$color-danger` | `#9A5B00` / `#B42318` | Avisos y errores. |
+| Verde morichal | `$color-success` | `#1A6E44` | Verificado, disponible, aceptado. |
+| Ámbar / Rojo | `$color-warning` / `$color-danger` | `#8A5100` / `#B42318` | Avisos y errores. |
+| Peligro hover | `$color-danger-hover` | `#8E1B12` | Hover de acciones destructivas. |
+| Texto sobre tinta | `$color-on-dark` | `#D9DEE6` | Texto en pie de página y barra lateral admin. |
+| Texto tinta tenue | `$color-on-dark-muted` | `#9AA6B8` | Secundario sobre fondo tinta. |
+| Fondo translúcido | `$color-bg-translucent` | `rgba(251, 245, 236, 0.94)` | Cabecera sticky y barra superior admin. |
+| Gráfica lila | `$color-chart-purple` | `#8B5CF6` | Barras del tablero admin. |
 
 Reglas:
 

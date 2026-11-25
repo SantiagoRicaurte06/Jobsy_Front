@@ -1,19 +1,19 @@
 <section class="mis_postulaciones">
-  <div class="encabezado_seccion">
-    <h1>Mis Postulaciones</h1>
-    </div>
+  <header class="cabecera_postulaciones">
+    <span class="kicker_postulaciones">Seguimiento</span>
+    <h1>Mis postulaciones</h1>
+  </header>
 
-<!--Filstros por estado-->
- <nav class="filtros_mis_postulaciones">
-  @for (f of filtros; track f.value) {
-    <button type="button"
-      class="filtro_mis_postulaciones"
-      [class.is-active]="filtro() === f.value"
-      (click)="filtro.set(f.value)">
-      {{ f.label }}
-    </button>
-  }
- </nav>
+  <nav class="filtros_mis_postulaciones">
+    @for (f of filtros; track f.value) {
+      <button type="button"
+        class="filtro_mis_postulaciones"
+        [class.is-active]="filtro() === f.value"
+        (click)="filtro.set(f.value)">
+        {{ f.label }}
+      </button>
+    }
+  </nav>
 
   @if (cargando()) {
     <jobsy-loading-spinner />
@@ -22,14 +22,14 @@
       <jobsy-empty-state
         icon="clipboard-list"
         title="Sin postulaciones"
-        message="cuando te postules a una oferta, aparecera aquí.">
+        message="Cuando te postules a una oferta, aparecerá aquí.">
         <a routerLink="/empleos" class="boton_principal">Buscar empleos</a>
-        </jobsy-empty-state>
+      </jobsy-empty-state>
     </div>
-  }@else {
+  } @else {
     <ul class="lista_mis_postulaciones">
       @for (row of visibles(); track row.application.id) {
-        <li class="elemento_mis_postulaciones tarjeta">
+        <li class="elemento_mis_postulaciones tarjeta" [attr.data-estado]="row.application.estado">
           <div class="imagen_mis_postulaciones" aria-hidden="true"><jobsy-icon name="house" /></div>
 
           <div class="info_mis_postulaciones">
@@ -38,7 +38,7 @@
               {{ row.job?.direccion }}@if (row.job) {, {{ row.job.ciudad }}}
             </p>
             @if (row.job) {
-              <p class="precio">{{ row.job.precioHora | cop }} / hora</p>
+              <p class="tarifa_postulacion">{{ row.job.precioHora | cop }} <span>/ hora</span></p>
             }
             <p class="texto_mini texto_gris">Postulado el {{ row.application.fechaPostulacion | date: 'longDate' }}</p>
           </div>

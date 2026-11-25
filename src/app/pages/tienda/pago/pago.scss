@@ -6,7 +6,7 @@
 
   &__title {
     margin: 0 0 v.$space-5;
-    font-size: v.$font-size-xl;
+    @include m.display(v.$font-size-xl);
   }
 
   &__grid {
@@ -51,9 +51,9 @@
     }
 
     &.is-active {
-      border-color: v.$color-accent;
-      background: v.$color-accent-pale;
-      color: v.$color-accent-dark;
+      border-color: v.$color-ink;
+      background: v.$color-primary-bg;
+      color: v.$color-ink;
       font-weight: v.$font-weight-semibold;
     }
   }
@@ -111,7 +111,12 @@
     border-top: 1px solid v.$color-border;
     font-weight: v.$font-weight-semibold;
 
-    dd { font-size: v.$font-size-lg; }
+    dd {
+      font-family: v.$font-family-display;
+      font-size: v.$font-size-lg;
+      font-weight: v.$font-weight-black;
+      font-variant-numeric: tabular-nums;
+    }
   }
 
   &__back {
