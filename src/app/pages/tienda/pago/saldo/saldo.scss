@@ -4,7 +4,7 @@
 .saldo {
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-lg, v.$font-weight-bold);
   }
 
   &__subtitle {
@@ -20,18 +20,20 @@
     gap: v.$space-1;
     padding: v.$space-5;
     margin-bottom: v.$space-4;
-    background: v.$gradient-hero;
+    background: v.$color-primary;
+    border-bottom: 6px solid v.$color-cta;
     border-radius: v.$radius-lg;
-    color: v.$color-text-invert;
+    color: v.$color-white;
   }
 
   &__label {
-    font-size: v.$font-size-xs;
-    opacity: 0.85;
+    @include m.kicker;
+    margin: 0;
+    color: v.$color-primary-bg;
   }
 
   &__amount {
-    @include m.display(v.$font-size-2xl);
+    @include m.display(v.$font-size-3xl);
     font-variant-numeric: tabular-nums;
   }
 

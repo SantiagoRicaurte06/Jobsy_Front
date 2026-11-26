@@ -4,9 +4,15 @@
 .pago {
   padding-block: v.$space-6;
 
+  &__header {
+    margin-bottom: v.$space-5;
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
+  }
+
   &__title {
-    margin: 0 0 v.$space-5;
-    @include m.display(v.$font-size-xl);
+    margin: 0;
+    @include m.display(v.$font-size-2xl);
   }
 
   &__grid {
@@ -55,6 +61,7 @@
       background: v.$color-primary-bg;
       color: v.$color-ink;
       font-weight: v.$font-weight-semibold;
+      box-shadow: inset 0 -4px 0 v.$color-cta;
     }
   }
 
@@ -63,6 +70,7 @@
   // ---- Resumen ----
   &__summary {
     padding: v.$space-5;
+    border-color: v.$color-ink;
     position: sticky;
     top: calc(#{v.$header-height} + #{v.$space-4});
 
@@ -70,8 +78,8 @@
   }
 
   &__summary-title {
+    @include m.kicker;
     margin: 0 0 v.$space-4;
-    font-size: v.$font-size-base;
   }
 
   &__items {
@@ -111,10 +119,13 @@
     border-top: 1px solid v.$color-border;
     font-weight: v.$font-weight-semibold;
 
+    align-items: baseline;
+
     dd {
       font-family: v.$font-family-display;
-      font-size: v.$font-size-lg;
+      font-size: v.$font-size-2xl;
       font-weight: v.$font-weight-black;
+      letter-spacing: -0.04em;
       font-variant-numeric: tabular-nums;
     }
   }
@@ -130,19 +141,34 @@
 // ---- Pasos y datos de entrega ----
 .pago__pasos {
   display: flex;
-  gap: v.$space-4;
-  margin: 0 0 v.$space-4;
+  gap: v.$space-2;
+  margin: 0 0 v.$space-5;
   padding: 0;
   list-style: none;
   font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   color: v.$color-text-muted;
 
-  .is-actual { font-weight: v.$font-weight-semibold; color: v.$color-primary; }
-  .is-hecho { color: v.$color-success; }
+  li {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: v.$space-2;
+
+    &::before {
+      content: '';
+      height: 6px;
+      border-radius: 6px;
+      background: v.$color-border;
+    }
+  }
+
+  .is-actual { font-weight: v.$font-weight-bold; color: v.$color-ink; &::before { background: v.$color-cta; } }
+  .is-hecho { color: v.$color-ink; &::before { background: v.$color-ink; } }
 }
 
 .entrega {
-  &__titulo { display: flex; align-items: center; gap: v.$space-2; margin: 0 0 v.$space-4; font-size: v.$font-size-base; }
+  &__titulo { display: flex; align-items: center; gap: v.$space-2; margin: 0 0 v.$space-4; @include m.display(v.$font-size-lg, v.$font-weight-bold); }
 
   &__fila {
     display: grid;
@@ -161,6 +187,7 @@
     gap: v.$space-3;
     margin-bottom: v.$space-4;
     padding: v.$space-4;
+    border-left: 4px solid v.$color-primary;
 
     > div { flex: 1; min-width: 0; }
     p { margin: 2px 0 0; font-size: v.$font-size-sm; }

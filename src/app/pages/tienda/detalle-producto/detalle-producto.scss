@@ -57,10 +57,9 @@
   }
 }
 
-.categoria_detalle_producto {
-  margin: 0;
-  font-weight: v.$font-weight-semibold;
-  color: v.$color-text-muted;
+.cabecera_detalle_producto {
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
 }
 
 .precio_detalle_producto {
@@ -87,8 +86,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: v.$space-3;
-  padding: v.$space-5 0;
-  border-block: v.$border-width dashed v.$color-border;
+  padding: v.$space-5;
+  background: v.$color-surface;
+  border: v.$border-width solid v.$color-ink;
+  border-radius: v.$radius-lg;
 
   .boton_principal { min-height: 52px; padding-inline: v.$space-6; }
 }
