@@ -91,7 +91,9 @@
   border: v.$border-width solid v.$color-ink;
   border-radius: v.$radius-lg;
 
-  .boton_principal { min-height: 52px; padding-inline: v.$space-6; }
+  .boton_principal { flex: 1; min-height: 52px; padding-inline: v.$space-6; }
+  // "Comprar ahora" ocupa su propia fila completa bajo la cantidad y el carrito.
+  .boton_simple { flex-basis: 100%; }
 }
 
 .cantidad_detalle_producto {

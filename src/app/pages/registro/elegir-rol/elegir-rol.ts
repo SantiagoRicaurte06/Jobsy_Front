@@ -23,14 +23,14 @@ export class SelectRolePage {
       value: 'empleado',
       icon: 'sparkles',
       title: 'Busco trabajo',
-      text: 'Soy Profesional Del Hogar Y Quiero Recibir Ofertas.',
-      perks: ['Perfil verificado', 'Postulaciones ilimitadas', 'Hoja de vida en linea'],
+      text: 'Soy profesional del hogar y quiero recibir ofertas.',
+      perks: ['Perfil verificado', 'Postulaciones ilimitadas', 'Hoja de vida en línea'],
     },
     {
       value: 'empleador',
       icon: 'house',
       title: 'Busco empleado',
-      text: 'Necesito Contratar Personal Para Mi Hogar.',
+      text: 'Necesito contratar personal para mi hogar.',
       perks: ['Publicar ofertas', 'Perfiles verificados', 'Agendar horarios'],
     },
   ];

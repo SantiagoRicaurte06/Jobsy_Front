@@ -1,4 +1,5 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { SubscriptionService } from '../../../core/services';
 import { Plan, Subscription } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
@@ -8,7 +9,7 @@ import { IconComponent } from '../../../shared/components/icon/icon';
 @Component({
   selector: 'jobsy-account-plan',
   standalone: true,
-  imports: [IconComponent, CopPipe, LoadingSpinnerComponent],
+  imports: [IconComponent, CopPipe, LoadingSpinnerComponent, DatePipe],
   templateUrl: './plan.html',
   styleUrl: './plan.scss',
 })

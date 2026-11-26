@@ -8,7 +8,7 @@
      <div>
       <span class="etiqueta_plan_cuenta">Tu plan actual</span>
       <strong class="nombre_plan_cuenta">{{ currentPlanName() }}</strong>
-      <span class="texto_mini texto_gris">Renueva el {{ sub.fechaRenovacion }}</span>
+      <span class="texto_mini texto_gris">Renueva el {{ sub.fechaRenovacion | date: 'longDate' }}</span>
      </div>
 
      <span [class]="sub.activa ? 'pildora_exito' : 'pildora_aviso'">
