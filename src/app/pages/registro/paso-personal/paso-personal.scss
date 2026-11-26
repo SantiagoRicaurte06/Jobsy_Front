@@ -6,16 +6,9 @@
   max-width: 520px;
   padding: v.$space-6;
 
-  &__title {
-    margin: 0 0 v.$space-1;
-    @include m.display(v.$font-size-xl);
-  }
+  &__header { @include m.cabecera-editorial; }
 
-  &__subtitle {
-    margin: 0 0 v.$space-5;
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-  }
+  &__kicker { @include m.kicker; }
 
   // ---- Radios en formato tarjeta ----
   &__options {

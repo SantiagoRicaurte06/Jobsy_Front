@@ -4,12 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services';
 import * as R from '../../../core/validation/reglas';
-import { LogoComponent } from '../../../shared/components/logo/logo';
 
 @Component ({
   selector: 'jobsy-create-account',
   standalone: true,
-  imports: [FormsModule, RouterLink, LogoComponent],
+  imports: [FormsModule, RouterLink],
   templateUrl: './crear-cuenta.html',
   styleUrl: './crear-cuenta.scss',
 })

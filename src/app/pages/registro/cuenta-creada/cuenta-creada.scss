@@ -8,7 +8,42 @@
   text-align: center;
   width: 100%;
   max-width: 460px;
-  padding: v.$space-6;
+  padding: 0;
+  overflow: hidden;
+}
+
+// ---- Campo azul con horizonte naranja ----
+.campo_cuenta_creada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: v.$space-6 v.$space-5 v.$space-5;
+  background: v.$color-primary;
+  border-bottom: 6px solid v.$color-cta;
+  color: v.$color-white;
+}
+
+.kicker_cuenta_creada {
+  @include m.kicker;
+  color: v.$color-primary-bg;
+}
+
+.cuerpo_cuenta_creada {
+  width: 100%;
+  padding: v.$space-5 v.$space-6 v.$space-6;
+
+  @include m.until(v.$bp-sm) { padding: v.$space-5 v.$space-4; }
+}
+
+.etiqueta_pasos_cuenta_creada {
+  margin: 0 0 v.$space-2;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$color-text-muted;
 }
 
 .check_cuenta_creada {
@@ -16,16 +51,17 @@
   place-items: center;
   width: 64px;
   height: 64px;
-  margin: v.$space-5 0 v.$space-4;
-  background: v.$color-success-pale;
+  margin-bottom: v.$space-4;
+  background: v.$color-cta;
   border-radius: 50%;
-  color: v.$color-success;
+  color: v.$color-ink;
   font-size: v.$font-size-xl;
 }
 
 .titulo_cuenta_creada {
-  margin: 0 0 v.$space-2;
+  margin: 0;
   @include m.display(v.$font-size-xl);
+  color: v.$color-white;
 }
 
 .texto_cuenta_creada {
@@ -49,6 +85,7 @@
     gap: v.$space-3;
     padding: v.$space-3 v.$space-4;
     background: v.$color-bg;
+    border-left: 4px solid v.$color-primary;
     border-radius: v.$radius-md;
     color: v.$color-text;
     font-size: v.$font-size-sm;

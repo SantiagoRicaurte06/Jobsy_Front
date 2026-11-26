@@ -3,13 +3,12 @@ import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegistrationService } from '../../../core/services';
 import { UserRole } from '../../../core/models';
-import { LogoComponent } from '../../../shared/components/logo/logo';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-select-role',
   standalone: true,
-  imports: [IconComponent, LogoComponent],
+  imports: [IconComponent],
   templateUrl: './elegir-rol.html',
   styleUrl: './elegir-rol.scss',
 })

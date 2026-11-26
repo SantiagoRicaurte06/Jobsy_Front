@@ -1,13 +1,16 @@
 <div class="cuenta_creada tarjeta">
-  <jobsy-logo variant="color" size="grande" />
+  <header class="campo_cuenta_creada">
+    <span class="check_cuenta_creada" aria-hidden="true"><jobsy-icon name="check" /></span>
+    <span class="kicker_cuenta_creada">Registro completo</span>
+    <h1 class="titulo_cuenta_creada">&iexcl;Cuenta creada con éxito!</h1>
+  </header>
 
-  <span class="check_cuenta_creada" aria-hidden="true"><jobsy-icon name="check" /></span>
-
-  <h1 class="titulo_cuenta_creada">&iexcl;Cuenta creada con éxito!</h1>
+  <div class="cuerpo_cuenta_creada">
   <p class="texto_cuenta_creada">
     Ya eres parte de Jobsy. Te enviamos un correo de confirmación para verificar tu cuenta.
   </p>
 
+  <p class="etiqueta_pasos_cuenta_creada">Lo que sigue</p>
   <ul class="pasos_cuenta_creada">
     @for (step of nextSteps; track step.title) {
       <li>
@@ -21,4 +24,5 @@
   </ul>
 
   <a routerLink="/auth/login" class="boton_principal boton_ancho">Iniciar sesión</a>
+  </div>
 </div>

@@ -40,6 +40,36 @@
   text-wrap: balance;
 }
 
+/// Kicker editorial: etiqueta corta en azul sobre el titular.
+@mixin kicker {
+  display: block;
+  margin-bottom: v.$space-1;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$color-primary;
+}
+
+/// Cabecera editorial: kicker + titular cerrados con un acento naranja.
+@mixin cabecera-editorial($size: v.$font-size-xl) {
+  margin-bottom: v.$space-5;
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
+
+  h1 {
+    margin: 0;
+    @include display($size);
+  }
+
+  p {
+    margin: v.$space-2 0 0;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    line-height: 1.5;
+  }
+}
+
 // ============================================================
 //  Superficies
 //  Se conservan los nombres "glass" por compatibilidad; ahora son

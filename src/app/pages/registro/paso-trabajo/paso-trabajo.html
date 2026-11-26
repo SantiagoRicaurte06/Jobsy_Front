@@ -2,8 +2,11 @@
 <div class="paso-trabajo tarjeta">
   <jobsy-step-progress [steps]="steps()" [current]="1" />
 
-  <h1 class="paso-trabajo__title">Modalidad de trabajo</h1>
-  <p class="paso-trabajo__subtitle">Cuéntanos cómo prefieres trabajar. Puedes elegir varias.</p>
+  <header class="paso-trabajo__header">
+    <span class="paso-trabajo__kicker">Paso 2 de {{ steps().length }}</span>
+    <h1>Modalidad de trabajo</h1>
+    <p>Cuéntanos cómo prefieres trabajar. Puedes elegir varias.</p>
+  </header>
 
   <form (ngSubmit)="next()">
 

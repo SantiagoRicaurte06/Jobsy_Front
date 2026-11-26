@@ -8,25 +8,9 @@
   padding: v.$space-6;
 }
 
-.encabezado_lista_pasos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: v.$space-5;
-}
+.cabecera_lista_pasos { @include m.cabecera-editorial; }
 
-.titulo_lista_pasos {
-  margin: v.$space-4 0 v.$space-2;
-  @include m.display(v.$font-size-xl);
-}
-
-.subtitulo_lista_pasos {
-  margin: 0;
-  font-size: v.$font-size-xs;
-  color: v.$color-text-muted;
-  line-height: 1.6;
-}
+.kicker_lista_pasos { @include m.kicker; }
 
 // ---- lista de pasos ----
 
@@ -40,14 +24,16 @@
 .elemento_lista_pasos {
   display: flex;
   align-items: center;
-  gap: v.$space-3;
+  gap: v.$space-4;
   padding: v.$space-4;
-  background: v.$color-bg;
+  background: v.$color-surface;
+  border: v.$border-width solid v.$color-border;
+  border-left: 4px solid v.$color-primary;
   border-radius: v.$radius-md;
 
   strong {
     display: block;
-    font-size: v.$font-size-sm;
+    font-size: v.$font-size-base;
   }
 
   > div > span {
@@ -56,20 +42,21 @@
   }
 }
 
+// Número protagonista, como las tarifas.
 .numero_lista_pasos {
-  display: grid;
-  place-items: center;
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  background: v.$color-primary-light;
-  border-radius: 50%;
-  color: v.$color-text-invert;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-bold;
+  min-width: 1.4ch;
+  @include m.display(v.$font-size-2xl);
+  color: v.$color-accent;
+  font-variant-numeric: tabular-nums;
 }
 
-.icono_lista_pasos { font-size: v.$font-size-lg; }
+.icono_lista_pasos {
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: v.$font-size-lg;
+  color: v.$color-primary;
+}
 
 .omitir_lista_pasos {
   margin: v.$space-4 0 0;

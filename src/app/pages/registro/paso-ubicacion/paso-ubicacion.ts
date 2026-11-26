@@ -7,13 +7,14 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { RegistrationService, AuthService, ProfileService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
+import { IconComponent } from '../../../shared/components/icon/icon';
 import { StepProgressComponent } from '../../../shared/components/step-progress/step-progress';
 import * as R from '../../../core/validation/reglas';
 
 @Component({
   selector: 'jobsy-step-location',
   standalone: true,
-  imports: [FormsModule, StepProgressComponent],
+  imports: [FormsModule, IconComponent, StepProgressComponent],
   templateUrl: './paso-ubicacion.html',
   styleUrl: './paso-ubicacion.scss',
 })

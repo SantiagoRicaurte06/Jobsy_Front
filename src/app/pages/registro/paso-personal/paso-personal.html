@@ -1,8 +1,11 @@
 <div class="paso-personal tarjeta">
   <jobsy-step-progress [steps]="steps()" [current]="0" />
 
-  <h1 class="paso-personal__title">Datos personales</h1>
-  <p class="paso-personal__subtitle">Esta información nos ayuda a verificar tu identidad.</p>
+  <header class="paso-personal__header">
+    <span class="paso-personal__kicker">Paso 1 de {{ steps().length }}</span>
+    <h1>Datos personales</h1>
+    <p>Esta información nos ayuda a verificar tu identidad.</p>
+  </header>
 
   <form (ngSubmit)="next()">
     <div class="grupo_campo">

@@ -2,23 +2,28 @@
 <div class="paso-ubicacion tarjeta">
   <jobsy-step-progress [steps]="steps()" [current]="steps().length - 1" />
 
-  <h1 class="paso-ubicacion__title">Ubicación y foto</h1>
-  <p class="paso-ubicacion__subtitle">Último paso. Así los empleadores cercanos podrán encontrarte.</p>
+  <header class="paso-ubicacion__header">
+    <span class="paso-ubicacion__kicker">Paso {{ steps().length }} de {{ steps().length }}</span>
+    <h1>Ubicación y foto</h1>
+    <p>Último paso. Así los empleadores cercanos podrán encontrarte.</p>
+  </header>
 
   <form (ngSubmit)="finish()">
     <!--FOTO DE PERFIL-->
     <div class="grupo_campo paso-ubicacion__photo-group">
-      @if (fotoPreview()) {
-        <img [src]="fotoPreview()" alt="Vista previa de tu foto" />
-      } @else {
-        <span aria-hidden="true">&#128247;</span>
-      }
-    </div>
+      <span class="paso-ubicacion__avatar">
+        @if (fotoPreview()) {
+          <img [src]="fotoPreview()" alt="Vista previa de tu foto" />
+        } @else {
+          <jobsy-icon name="camera" aria-hidden="true" />
+        }
+      </span>
 
-    <div>
-      <label class="boton_simple boton_chico" for="foto">Subir foto</label>
-      <input id="foto" type="file" accept="image/*" class="oculto" (change)="onlife($event)" />
-      <p class="ayuda">JPG o PNG, máximo 2 MB.</p>
+      <div>
+        <label class="boton_simple boton_chico" for="foto">Subir foto</label>
+        <input id="foto" type="file" accept="image/*" class="oculto" (change)="onlife($event)" />
+        <p class="ayuda">JPG o PNG, máximo 2 MB.</p>
+      </div>
     </div>
 
     <div class="grupo_campo">
