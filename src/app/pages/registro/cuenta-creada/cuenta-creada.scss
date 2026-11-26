@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .cuenta_creada {
   display: flex;
@@ -24,7 +25,7 @@
 
 .titulo_cuenta_creada {
   margin: 0 0 v.$space-2;
-  font-size: v.$font-size-lg;
+  @include m.display(v.$font-size-xl);
 }
 
 .texto_cuenta_creada {

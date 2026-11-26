@@ -2,7 +2,7 @@
   <header class="pedidos__head">
     <div>
       <h1>Mis pedidos</h1>
-      <p class="pedidos__sub">Tus compras en la tienda Jobsy y en que va cada una.</p>
+      <p class="pedidos__sub">Tus compras en la tienda Jobsy y en qué va cada una.</p>
     </div>
     <a routerLink="/tienda" class="boton_simple boton_chico"><jobsy-icon name="shopping-cart" /> Ir a la tienda</a>
   </header>
@@ -27,7 +27,7 @@
   } @else if (error()) {
     <p class="error" role="alert">{{ error() }}</p>
   } @else if (pedidos().length === 0) {
-    <jobsy-empty-state icon="package" title="Aun no has comprado nada"
+    <jobsy-empty-state icon="package" title="Aún no has comprado nada"
       message="Cuando hagas un pedido en la tienda lo verás aquí con su estado." />
     <div class="pedidos__centro"><a routerLink="/tienda" class="boton_principal">Explorar la tienda</a></div>
   } @else {
@@ -56,7 +56,7 @@
             <span class="pedido__datos">
               <strong>{{ p.numero }}</strong>
               <span class="texto_mini texto_gris">
-                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} articulo(s) · {{ metodo(p.metodoPago) }}
+                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} artículo(s) · {{ metodo(p.metodoPago) }}
               </span>
             </span>
             <span [class]="badgeClass(p.estado)">{{ etiqueta(p.estado) }}</span>

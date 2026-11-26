@@ -4,7 +4,7 @@
 .pie {
   margin-top: v.$space-8;
   background: v.$color-ink;
-  color: v.$color-on-ink;
+  color: v.$color-on-dark;
 }
 
 .interior_pie {
@@ -43,7 +43,7 @@
   font-family: v.$font-family-base;
   font-size: v.$font-size-xs;
   font-weight: v.$font-weight-bold;
-  color: v.$color-on-ink-muted;
+  color: v.$color-on-dark-muted;
 }
 
 .columna_pie {
@@ -67,9 +67,9 @@
   justify-content: space-between;
   gap: v.$space-3;
   padding-block: v.$space-5;
-  border-top: 1px solid rgba(251, 245, 236, 0.14);
+  border-top: 1px solid v.$color-on-dark-border;
   font-size: v.$font-size-xs;
-  color: v.$color-on-ink-muted;
+  color: v.$color-on-dark-muted;
 
   p { margin: 0; }
 
@@ -79,7 +79,7 @@
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    color: v.$color-on-ink;
+    color: v.$color-on-dark;
     text-decoration: none;
 
     &:hover { color: v.$color-cta; }

@@ -26,7 +26,7 @@
     </div>
     <div class="tarjeta admin-inventario__stat admin-inventario__stat--danger">
       <strong>{{ criticos() }}</strong>
-      <span>Stock critico</span>
+      <span>Stock crítico</span>
     </div>
   </div>
 
@@ -93,7 +93,7 @@
       <label class="etiqueta" for="stock">Nuevo valor</label>
       <input id="stock" type="number" min="0" max="100000" class="campo"
         [ngModel]="nuevoStock()" (ngModelChange)="nuevoStock.set(+$event)" name="stock" />
-      <p class="ayuda">Usa esto tras un conteo fisico para cuadrar la cifra real.</p>
+      <p class="ayuda">Usa esto tras un conteo físico para cuadrar la cifra real.</p>
     </div>
 
     <footer class="admin-inventario__modal-actions">

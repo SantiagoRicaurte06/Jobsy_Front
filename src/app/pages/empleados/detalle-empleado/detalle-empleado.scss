@@ -97,7 +97,7 @@
 .seccion_detalle_empleado {
   padding-top: v.$space-6;
 
-  h2 { margin-bottom: v.$space-3; font-size: v.$font-size-xl; }
+  h2 { margin-bottom: v.$space-3; @include m.display(v.$font-size-xl); }
 }
 
 .texto_detalle_empleado {

@@ -17,7 +17,7 @@
 
 .titulo_analiticas {
   margin: 0 0 v.$space-1;
-  font-size: v.$font-size-2xl;
+  @include m.display(v.$font-size-2xl);
 }
 
 .subtitulo_analiticas {
@@ -82,7 +82,10 @@
   color: v.$color-text-muted;
 }
 
-.valor_metrica_analiticas { font-size: v.$font-size-2xl; }
+.valor_metrica_analiticas {
+  @include m.display(v.$font-size-2xl);
+  font-variant-numeric: tabular-nums;
+}
 
 .delta_metrica_analiticas {
   font-size: v.$font-size-xs;

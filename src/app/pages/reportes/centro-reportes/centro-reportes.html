@@ -36,13 +36,13 @@
       } @else if (visibles().length === 0) {
         <div class="bandeja__vacio">
           <jobsy-icon name="inbox" />
-          <p>{{ filtro() === 'resueltos' ? 'Aun no tienes reportes resueltos.' : 'No tienes reportes activos.' }}</p>
+          <p>{{ filtro() === 'resueltos' ? 'Aún no tienes reportes resueltos.' : 'No tienes reportes activos.' }}</p>
           @if (filtro() !== 'resueltos') {
             <button type="button" class="boton_simple boton_chico" (click)="nuevo()">Crear un reporte</button>
           }
         </div>
       } @else {
-        <ul class="bandeja__items">
+        <ul class="bandeja__items" role="list">
           @for (r of visibles(); track r.id) {
             <li>
               <button type="button" class="item" [class.is-active]="seleccionadoId() === r.id"
@@ -81,7 +81,7 @@
             </button>
             <div>
               <h2>Nuevo reporte</h2>
-              <p class="texto_mini texto_gris">Cuentanos que paso; soporte te respondera en este mismo chat.</p>
+              <p class="texto_mini texto_gris">Cuéntanos qué pasó; soporte te responderá en este mismo chat.</p>
             </div>
           </header>
 
@@ -102,14 +102,14 @@
 
             <div class="grupo_campo">
               <label class="etiqueta" for="asunto">Asunto</label>
-              <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una linea" maxlength="120"
+              <input id="asunto" type="text" class="campo" placeholder="Resume el problema en una línea" maxlength="120"
                 [ngModel]="asunto()" (ngModelChange)="asunto.set($event)" name="asunto" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta" for="descripcion">Descripción</label>
               <textarea id="descripcion" class="area_texto" maxlength="2000"
-                placeholder="Que paso, cuando y en que pantalla. Si es un pago, incluye el número de pedido."
+                placeholder="Qué pasó, cuándo y en qué pantalla. Si es un pago, incluye el número de pedido."
                 [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
               <p class="ayuda">Mínimo 10 caracteres · {{ descripcion().length }}/2000</p>
             </div>
@@ -142,7 +142,7 @@
           </header>
 
           <ol class="seguimiento" aria-label="Seguimiento del reporte">
-            @for (p of ['Recibido', 'En revision', r.estado === 'cerrado' ? 'Cerrado' : 'Resuelto']; track $index) {
+            @for (p of ['Recibido', 'En revisión', r.estado === 'cerrado' ? 'Cerrado' : 'Resuelto']; track $index) {
               <li [class.is-hecho]="paso(r.estado) >= $index" [class.is-actual]="paso(r.estado) === $index">{{ p }}</li>
             }
           </ol>
@@ -166,10 +166,10 @@
               </li>
             }
             @if (cargandoHilo()) {
-              <li class="chat__aviso">Cargando conversacion...</li>
+              <li class="chat__aviso">Cargando conversación…</li>
             } @else if (!r.mensajes?.length && puedeChatear()) {
               <li class="chat__aviso">
-                <jobsy-icon name="clock" /> Tu reporte llego a soporte. Te avisaremos aquí cuando respondan.
+                <jobsy-icon name="clock" /> Tu reporte llegó a soporte. Te avisaremos aquí cuando respondan.
               </li>
             }
           </ul>
@@ -184,14 +184,14 @@
                 {{ enviandoMensaje() ? 'Enviando...' : 'Enviar' }}
               </button>
             </form>
-            <p class="chat__pista texto_mini texto_gris">Enter para enviar · Shift + Enter para salto de linea</p>
+            <p class="chat__pista texto_mini texto_gris">Enter para enviar · Shift + Enter para salto de línea</p>
             @if (errorChat()) {
               <p class="error" role="alert">{{ errorChat() }}</p>
             }
           } @else {
             <p class="chat__cerrado">
               <jobsy-icon name="circle-check" />
-              Este reporte esta {{ etiqueta(r.estado).toLowerCase() }}. Si el problema sigue, crea un reporte nuevo.
+              Este reporte está {{ etiqueta(r.estado).toLowerCase() }}. Si el problema sigue, crea un reporte nuevo.
             </p>
           }
         </div>
@@ -199,7 +199,7 @@
         <div class="detalle__vacio">
           <jobsy-icon name="message-circle" />
           <h2>Selecciona un reporte</h2>
-          <p>Aquí verás la conversacion con soporte. Las respuestas aparecen solas, sin recargar.</p>
+          <p>Aquí verás la conversación con soporte. Las respuestas aparecen solas, sin recargar.</p>
           <button type="button" class="boton_principal boton_chico" (click)="nuevo()">Nuevo reporte</button>
         </div>
       }

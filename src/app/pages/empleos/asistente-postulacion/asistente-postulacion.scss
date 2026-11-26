@@ -5,15 +5,28 @@
   padding-block: v.$space-6;
 }
 
-.tarjeta_asistente_postulacion {
-  max-width: 640px;
+// ---- Composición de dos columnas: formulario + oferta ----
+.composicion_postulacion {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: v.$space-5;
+  align-items: start;
+  max-width: 920px;
   margin-inline: auto;
+
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: 1fr;
+    max-width: 640px;
+  }
+}
+
+.tarjeta_asistente_postulacion {
   padding: v.$space-6;
 }
 
 .titulo_asistente_postulacion {
   margin: 0 0 v.$space-1;
-  font-size: v.$font-size-lg;
+  @include m.display(v.$font-size-xl);
 }
 
 .subtitulo_asistente_postulacion {
@@ -22,7 +35,7 @@
   color: v.$color-text-muted;
 }
 
-// ---- Resumen de la oferta (paso 1) ----
+// ---- Resumen de la oferta inline (paso 1) ----
 .empleo_asistente_postulacion {
   display: flex;
   gap: v.$space-4;
@@ -40,12 +53,29 @@
   flex-shrink: 0;
   width: 88px;
   height: 88px;
-  background: v.$color-primary-pale;
+  background: v.$color-primary-bg;
   border-radius: v.$radius-md;
   font-size: v.$font-size-2xl;
+  color: v.$color-primary;
 }
 
-// ---- Dias de la semana ----
+.precio_empleo_postulacion {
+  font-family: v.$font-family-display;
+  font-weight: v.$font-weight-black;
+  font-size: v.$font-size-lg;
+  letter-spacing: v.$tracking-display;
+  font-variant-numeric: tabular-nums;
+  color: v.$color-ink;
+
+  span {
+    font-family: v.$font-family-base;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-muted;
+  }
+}
+
+// ---- Días de la semana ----
 .dias_asistente_postulacion {
   display: flex;
   flex-wrap: wrap;
@@ -66,9 +96,9 @@
   &:hover { border-color: v.$color-primary-light; }
 
   &.is-selected {
-    background: v.$color-accent;
-    border-color: v.$color-accent;
-    color: v.$color-text-invert;
+    background: v.$color-ink;
+    border-color: v.$color-ink;
+    color: v.$color-bg;
     font-weight: v.$font-weight-semibold;
   }
 }
@@ -81,7 +111,7 @@
   @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
 }
 
-// ---- Resumen final ----
+// ---- Resumen final (paso 4) ----
 .resumen_asistente_postulacion {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -123,4 +153,79 @@
   margin-top: v.$space-5;
   padding-top: v.$space-5;
   border-top: 1px solid v.$color-border;
+}
+
+// ---- Sidebar: resumen persistente de la oferta ----
+.sidebar_postulacion {
+  @include m.sticky-sidebar;
+  @include m.card;
+  overflow: hidden;
+  padding: 0;
+
+  @include m.until(v.$bp-lg) {
+    position: static;
+    order: -1;
+  }
+}
+
+.panel_oferta_postulacion {
+  padding: v.$space-5 v.$space-4;
+  background: v.$color-ink;
+  color: v.$color-bg;
+  text-align: center;
+}
+
+.kicker_oferta_postulacion {
+  display: block;
+  margin-bottom: v.$space-2;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$color-on-dark-muted;
+}
+
+.titulo_oferta_postulacion {
+  margin: 0 0 v.$space-3;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-bg;
+}
+
+.tarifa_oferta_postulacion {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: v.$space-1;
+}
+
+.monto_oferta_postulacion {
+  @include m.display(v.$font-size-2xl);
+  font-variant-numeric: tabular-nums;
+  color: v.$color-cta;
+}
+
+.unidad_oferta_postulacion {
+  font-size: v.$font-size-xs;
+  color: v.$color-on-dark-muted;
+}
+
+.datos_oferta_postulacion {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  margin: 0;
+  padding: v.$space-4;
+
+  dt {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    margin-bottom: 2px;
+  }
+
+  dd {
+    margin: 0;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+  }
 }

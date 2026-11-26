@@ -33,7 +33,7 @@
     <section class="tarjeta bloque_info_cuenta">
       <h2>Mis pedidos</h2>
       @if (orders().length === 0) {
-        <p class="vacio_info_cuenta">Aun no has hecho pedidos en la tienda.</p>
+        <p class="vacio_info_cuenta">Aún no has hecho pedidos en la tienda.</p>
       } @else {
         <p class="vacio_info_cuenta">
           Tienes {{ orders().length }} pedido(s); el último es <strong>{{ orders()[0].numero }}</strong>

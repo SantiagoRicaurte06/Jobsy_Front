@@ -5,6 +5,7 @@
     <!-- Cabecera -->
     <header class="admin-tablero__head">
       <div>
+        <span class="admin-tablero__kicker">Panel de administración</span>
         <h1 class="admin-tablero__title">Tablero</h1>
         <p class="admin-tablero__updated">
           <span class="admin-tablero__dot" aria-hidden="true"></span>
@@ -51,7 +52,7 @@
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="star" /></span>
         <strong>{{ stats()!.calificacionPromedio }}</strong>
         <span class="admin-tablero__kpi-label">Calificación promedio de productos</span>
-        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--ink"></div>
+        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--purple"></div>
       </div>
     </div>
 
@@ -149,7 +150,7 @@
                 <span class="admin-tablero__order-num">{{ o.numero }}</span>
                 <div class="admin-tablero__order-info">
                   <strong>{{ o.items[0]?.nombre ?? 'Pedido' }}</strong>
-                  <span class="texto_mini texto_gris">{{ o.items.length }} articulo(s)</span>
+                  <span class="texto_mini texto_gris">{{ o.items.length }} artículo(s)</span>
                 </div>
                 <div class="admin-tablero__order-right">
                   <strong>{{ o.total | cop }}</strong>

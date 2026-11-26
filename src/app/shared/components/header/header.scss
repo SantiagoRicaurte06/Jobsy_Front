@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(251, 245, 236, 0.94);
+  background: v.$color-bg-translucent;
   border-bottom: v.$border-width solid v.$color-border;
 
   @supports (backdrop-filter: blur(1px)) {
@@ -107,7 +107,7 @@
   border: 2px solid v.$color-bg;
   background: v.$color-cta;
   color: v.$color-cta-ink;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: v.$font-weight-black;
   line-height: 16px;
   text-align: center;
@@ -181,7 +181,7 @@
     display: flex;
     align-items: center;
     gap: v.$space-2;
-    min-height: 42px;
+    min-height: 44px;
     padding: 0 v.$space-3;
     border: 0;
     border-radius: v.$radius-sm;

@@ -23,7 +23,7 @@ Registro de las auditorías, los errores encontrados, las acciones aplicadas, el
 | 2 | Sistema visual, cabecera, pie, layouts y componentes base | Hecha |
 | 3 | Portada, empleos, empleados, tienda y sus detalles | Hecha |
 | 4 | Flujos: contratación, checkout, mis pedidos, registro, postulación | En curso |
-| 5 | Paneles privados y administración | Pendiente |
+| 5 | Paneles privados y administración | Identidad aplicada (`84fc24f`); falta auditar |
 
 ---
 
@@ -78,7 +78,7 @@ Registro de las auditorías, los errores encontrados, las acciones aplicadas, el
 - `DESIGN.md` tenía el verde y el ámbar antiguos (`#1E7A4C`, `#9A5B00`).
 - Unos 20 colores escritos a mano en componentes (pie, admin, portada, layouts, confirmación, tablero).
 - Hover de los botones de peligro del admin con un rojo distinto (`#b93a3a`) al del diálogo de confirmación.
-- Barra morada `#8B5CF6` en el tablero, fuera de la paleta.
+- Barra morada `#8B5CF6` en el tablero sin token. Se decidió conservarla como color de gráficas (`$color-chart-purple`), nunca como color de marca.
 
 ### 2.5 Fase 4: contrataciones y checkout (2026-11-26)
 
@@ -104,7 +104,8 @@ Registro de las auditorías, los errores encontrados, las acciones aplicadas, el
 | `48e1dd0` | Verde `#1A6E44` (5.5:1) y ámbar `#8A5100` (5.5:1); nada por debajo de 12 px; título primero en tarjetas; orden de encabezados. |
 | `f9e5e39` | Breakpoints en em, cero desbordes a 390 px, objetivos táctiles de 44 px. |
 | `5b0cb8b` | Tildes en todo el texto visible; plurales; tabla del admin sin desborde. |
-| `ffe88ea` | Colores sueltos pasados a tokens (`$color-on-ink`, `-soft`, `-muted`, `$color-on-primary`, `$color-danger-dark`, `$color-warning-border`). `DESIGN.md` al día. |
+| `ffe88ea` | Colores sueltos pasados a tokens y `DESIGN.md` al día. Al integrar con `84fc24f` se adoptaron los nombres de ese commit. |
+| `84fc24f` | Identidad editorial en páginas privadas y admin. Tokens definitivos: `$color-on-dark`, `-muted`, `-subtle`, `-link`, `-border`, `$color-bg-translucent`, `$color-danger-hover`, `$color-chart-purple`. |
 | `e26ede4` | Contrataciones como documento de acuerdo: estado, tarifa en display, franja, fecha/hora/duración, dirección y total estimado ("referencia, no un cobro"). Solo estados activa y completada. |
 | `79b9c4e` | Checkout: pasos numerados, método elegido en tinta, resumen con borde tinta y total en display, monto en el botón de pagar, saldo sin cifras falsas, campo azul con horizonte, tildes. |
 
@@ -133,14 +134,16 @@ Dirección: **Editorial Workflows × Warm SaaS**. Se conserva la identidad exist
 
 ### Fase 5
 
+- [ ] Auditar lo aplicado en `84fc24f` (páginas privadas y admin) con el mismo criterio: datos reales, 44 px, contraste, 390 px.
 - [ ] Inicio privado con dos composiciones por rol (empleado y empleador).
 - [ ] Mis postulaciones, mis ofertas y candidatos con estados en texto, no solo color.
 - [ ] Perfil, hoja de vida y configuración por secciones, con estados de guardado.
-- [ ] Admin: tablero, categorías, inventario, productos y reportes con tablas densas, filtros y paginación. Gráficos solo con la paleta (azul, verde, naranja tostado, tinta).
+- [ ] Admin: tablero, categorías, inventario, productos y reportes con tablas densas, filtros y paginación. Gráficos con la paleta y `$color-chart-purple` solo como serie de datos.
 
 ### Coherencia y deuda técnica
 
 - [ ] El menú dice "Mis trabajos" y la página dice "Contrataciones" (`header.html`, `inicio-privado.ts`). Unificar el nombre.
+- [ ] En `84fc24f` hay una etiqueta en mayúsculas sobre titulares (patrón "kicker"), que `DESIGN.md` descarta. Está en tablero, mis ofertas, asistente de postulación, perfil y mis postulaciones.
 - [ ] Quedan 5 usos de tokens `$gradient-*` en componentes. Aunque hoy son colores sólidos, renombrarlos o eliminarlos para que el nombre no invite a usar degradados.
 - [ ] `saldo.ts` (`formatear`) aún formatea con `toLocaleString` en lugar del pipe `cop`.
 - [ ] Añadir mocks para contrataciones y saldo, para poder revisar esas pantallas en modo `mocks` sin inyectar respuestas a mano.

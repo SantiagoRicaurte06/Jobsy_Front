@@ -1,8 +1,11 @@
 <section class="mis_ofertas">
-  <div class="encabezado_seccion">
-    <h1>Mis ofertas</h1>
+  <header class="cabecera_mis_ofertas">
+    <div>
+      <span class="kicker_mis_ofertas">Gestión de empleo</span>
+      <h1>Mis ofertas</h1>
+    </div>
     <a routerLink="/publicar-oferta" class="boton_principal boton_chico"><jobsy-icon name="square-pen" /> Publicar oferta</a>
-  </div>
+  </header>
 
   @if (!cargando() && ofertas().length) {
     <div class="resumen_mis_ofertas">
@@ -58,7 +61,7 @@
             <div class="info_oferta">
               <h2>{{ o.titulo }}</h2>
               <p class="texto_mini texto_gris">{{ o.direccion }}, {{ o.ciudad }}</p>
-              <p class="precio">{{ o.precioHora | cop }} / hora</p>
+              <p class="tarifa_mis_ofertas">{{ o.precioHora | cop }} <span>/ hora</span></p>
               <p class="texto_mini texto_gris">Publicada el {{ o.fechaPublicacion | date: 'longDate' }}</p>
             </div>
 
@@ -181,7 +184,7 @@
                     }
                   </div>
                 } @empty {
-                  <p class="texto_gris">Todavia nadie se ha postulado a esta oferta.</p>
+                  <p class="texto_gris">Todavía nadie se ha postulado a esta oferta.</p>
                 }
               }
             </div>

@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .paso-personal {
   width: 100%;
@@ -7,7 +8,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-xl);
   }
 
   &__subtitle {
@@ -38,12 +39,12 @@
     &:hover { border-color: v.$color-primary-light; }
 
     &.is-selected {
-      border-color: v.$color-accent;
-      background: v.$color-accent-pale;
+      border-color: v.$color-ink;
+      background: v.$color-primary-bg;
       font-weight: v.$font-weight-medium;
     }
 
-    input { accent-color: v.$color-accent; }
+    input { accent-color: v.$color-primary; }
   }
 
   &__actions {

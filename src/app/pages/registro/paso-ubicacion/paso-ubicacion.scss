@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .paso-ubicacion {
   width: 100%;
@@ -7,7 +8,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-xl);
   }
 
   &__subtitle {
@@ -47,7 +48,7 @@
   // ---- Slider de distancia ----
   &__range {
     width: 100%;
-    accent-color: v.$color-accent;
+    accent-color: v.$color-primary;
   }
 
   &__range-labels {

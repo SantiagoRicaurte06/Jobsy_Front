@@ -22,7 +22,7 @@
 .nombre_plan_cuenta {
   display: block;
   margin-block: v.$space-1;
-  font-size: v.$font-size-xl;
+  @include m.display(v.$font-size-xl);
   color: v.$color-primary;
 }
 
@@ -78,7 +78,11 @@
   padding-bottom: v.$space-4;
   border-bottom: 1px solid v.$color-border;
 
-  strong { font-size: v.$font-size-2xl; color: v.$color-primary; }
+  strong {
+    @include m.display(v.$font-size-2xl);
+    font-variant-numeric: tabular-nums;
+    color: v.$color-primary;
+  }
   span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
 }
 

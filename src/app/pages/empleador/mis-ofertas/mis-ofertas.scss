@@ -1,7 +1,35 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-// ---- Resumen ----
+// ---- Encabezado editorial ----
+.cabecera_mis_ofertas {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: v.$space-4;
+  margin-bottom: v.$space-6;
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
+
+  h1 {
+    margin: 0;
+    @include m.display(v.$font-size-2xl);
+  }
+
+  @include m.until(v.$bp-md) { flex-direction: column; }
+}
+
+.kicker_mis_ofertas {
+  display: block;
+  margin-bottom: v.$space-1;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$color-primary;
+}
+
+// ---- Resumen con acento lateral ----
 .resumen_mis_ofertas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -11,13 +39,29 @@
   @include m.until(v.$bp-md) { grid-template-columns: 1fr; }
 
   > div {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: v.$space-4;
+    padding: v.$space-4 v.$space-4 v.$space-4 v.$space-5;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: v.$space-3;
+      bottom: v.$space-3;
+      width: 3px;
+      background: v.$color-cta;
+      border-radius: 2px;
+    }
   }
 
-  strong { font-size: v.$font-size-xl; color: v.$color-primary; }
+  strong {
+    @include m.display(v.$font-size-xl);
+    font-variant-numeric: tabular-nums;
+    color: v.$color-primary;
+  }
   span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
 }
 
@@ -57,9 +101,9 @@
   &:hover { border-color: v.$color-primary-light; }
 
   &.is-active {
-    background: v.$color-primary-light;
-    border-color: v.$color-primary-light;
-    color: v.$color-text-invert;
+    background: v.$color-ink;
+    border-color: v.$color-ink;
+    color: v.$color-bg;
     font-weight: v.$font-weight-semibold;
   }
 }
@@ -76,6 +120,28 @@
   flex-direction: column;
   gap: v.$space-3;
   padding: v.$space-4;
+  border-left: 4px solid v.$color-primary;
+
+  &:has(.pildora_exito) { border-left-color: v.$color-success; }
+  &:has(.pildora_peligro) { border-left-color: v.$color-danger; }
+  &:has(.pildora_gris) { border-left-color: v.$color-text-muted; }
+}
+
+.tarifa_mis_ofertas {
+  font-family: v.$font-family-display;
+  font-weight: v.$font-weight-black;
+  font-size: v.$font-size-lg;
+  letter-spacing: v.$tracking-display;
+  font-variant-numeric: tabular-nums;
+  color: v.$color-ink;
+  margin: v.$space-1 0 !important;
+
+  span {
+    font-family: v.$font-family-base;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-muted;
+  }
 }
 
 .cabeza_oferta {

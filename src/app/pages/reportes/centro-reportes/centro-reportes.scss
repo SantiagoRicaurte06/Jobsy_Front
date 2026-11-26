@@ -44,6 +44,7 @@
 
     button {
       flex: 1;
+      min-height: 44px;
       padding: v.$space-1 v.$space-2;
       border: 1px solid transparent;
       border-radius: v.$radius-pill;
@@ -55,7 +56,7 @@
 
       span { margin-left: 2px; font-weight: v.$font-weight-semibold; }
       &:hover { color: v.$color-primary; }
-      &.is-active { background: v.$color-primary-bg; border-color: v.$color-primary-light; color: v.$color-primary; }
+      &.is-active { background: v.$color-ink; border-color: v.$color-ink; color: v.$color-bg; font-weight: v.$font-weight-semibold; }
     }
   }
 

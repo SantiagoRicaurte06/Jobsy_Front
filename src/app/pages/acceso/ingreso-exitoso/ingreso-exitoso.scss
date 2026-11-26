@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .ingreso-exitoso {
   display: flex;
@@ -23,7 +24,7 @@
 
   &__title {
     margin: 0 0 v.$space-2;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-lg);
   }
 
   &__text {

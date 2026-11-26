@@ -26,7 +26,8 @@
   }
 
   &__kpi-value {
-    font-size: v.$font-size-2xl;
+    @include m.display(v.$font-size-2xl);
+    font-variant-numeric: tabular-nums;
     color: v.$color-text;
   }
 

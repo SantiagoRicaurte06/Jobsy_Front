@@ -2,23 +2,23 @@
 <div class="paso-ubicacion tarjeta">
   <jobsy-step-progress [steps]="steps()" [current]="steps().length - 1" />
 
-  <h1 class="paso-ubicacion__title">Ubicación Y Foto</h1>
-  <p class="paso-ubicacion__subtitle">Último Paso. Asi los Empleadores Cercanos Podran Encontrarse. </p>
+  <h1 class="paso-ubicacion__title">Ubicación y foto</h1>
+  <p class="paso-ubicacion__subtitle">Último paso. Así los empleadores cercanos podrán encontrarte.</p>
 
   <form (ngSubmit)="finish()">
     <!--FOTO DE PERFIL-->
     <div class="grupo_campo paso-ubicacion__photo-group">
       @if (fotoPreview()) {
-        <img [src]="fotoPreview()" alt="Vista Previa De Tu Foto" />
+        <img [src]="fotoPreview()" alt="Vista previa de tu foto" />
       } @else {
         <span aria-hidden="true">&#128247;</span>
       }
     </div>
 
     <div>
-      <label class="boton_simple boton_chico" for="foto">Subir Foto</label>
+      <label class="boton_simple boton_chico" for="foto">Subir foto</label>
       <input id="foto" type="file" accept="image/*" class="oculto" (change)="onlife($event)" />
-      <p class="ayuda">JPG o PNG, Máximo 2 MB.</p>
+      <p class="ayuda">JPG o PNG, máximo 2 MB.</p>
     </div>
 
     <div class="grupo_campo">
@@ -41,13 +41,13 @@
     @if (rol() !== 'empleador') {
      <div class="grupo_campo">
       <label class="etiqueta" for="distancia">
-        Distancia Máxima De Trabajo: <strong>{{ distanciaKm() }} Km</strong>
+        Distancia máxima de trabajo: <strong>{{ distanciaKm() }} km</strong>
         </label>
         <input id="distancia" type="range" min="1" max="50" class="paso-ubicacion__range"
         [ngModel]="distanciaKm()" (ngModelChange)="distanciaKm.set(+$event)" name="distancia" />
         <div class="paso-ubicacion__range-labels">
-          <span>1 Km</span>
-          <span>50 Km</span>
+          <span>1 km</span>
+          <span>50 km</span>
         </div>
      </div>
     }
@@ -57,9 +57,9 @@
      }
 
      <div class="paso-ubicacion__actions">
-      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="button" class="boton_simple" (click)="back()">Atrás</button>
       <button type="submit" class="boton_principal" [disabled]="cargando()">
-        {{ cargando() ? 'Creando Cuenta...' : 'Finalizar Registro'}}
+        {{ cargando() ? 'Creando cuenta...' : 'Finalizar registro'}}
       </button>
      </div>
   </form>

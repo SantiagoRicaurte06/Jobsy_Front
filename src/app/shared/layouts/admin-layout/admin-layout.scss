@@ -19,7 +19,7 @@
   height: 100vh;
   padding: v.$space-5 v.$space-4;
   background: v.$color-ink;
-  color: v.$color-on-ink;
+  color: v.$color-on-dark;
 
   :focus-visible { outline-color: v.$color-cta; }
 
@@ -65,7 +65,7 @@
     min-height: 44px;
     padding: 0 v.$space-3;
     border-radius: v.$radius-pill;
-    color: v.$color-on-ink;
+    color: v.$color-on-dark;
     font-weight: v.$font-weight-semibold;
     text-decoration: none;
     transition: background v.$transition-fast, color v.$transition-fast;
@@ -94,7 +94,7 @@
   margin: v.$space-5 v.$space-3 v.$space-2;
   font-size: 0.78rem;
   font-weight: v.$font-weight-bold;
-  color: v.$color-on-ink-muted;
+  color: v.$color-on-dark-subtle;
 
   &:first-child { margin-top: 0; }
 
@@ -135,7 +135,7 @@
     white-space: nowrap;
   }
 
-  a { color: v.$color-on-ink-soft; font-size: v.$font-size-xs; }
+  a { color: v.$color-on-dark-link; font-size: v.$font-size-xs; }
 
   @include m.until(v.$bp-lg) {
     margin: 0 0 0 auto;
@@ -168,7 +168,7 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: v.$color-on-ink;
+  color: v.$color-on-dark;
   font-size: 1.15rem;
   cursor: pointer;
 
@@ -186,7 +186,7 @@
   align-items: center;
   min-height: 64px;
   padding: 0 v.$space-6;
-  background: rgba(251, 245, 236, 0.94);
+  background: v.$color-bg-translucent;
   border-bottom: v.$border-width solid v.$color-border;
 
   @include m.until(v.$bp-md) { padding: 0 v.$space-4; }
