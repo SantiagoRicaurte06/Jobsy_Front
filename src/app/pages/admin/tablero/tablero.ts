@@ -1,3 +1,4 @@
+import { descargarCsv } from '../../../core/utils/csv';
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -117,5 +118,23 @@ export class AdminDashboardPage implements OnInit {
     if (estado === 'enviado') return 'pildora_info';
     if (estado === 'cancelado') return 'pildora_error';
     return 'pildora_aviso';
+  }
+
+  /** Descarga el tablero en CSV: resumen, ventas por mes, pedidos recientes e inventario. */
+  exportar(): void {
+    const s = this.stats();
+    const filas: unknown[][] = [['Tablero Jobsy', new Date().toLocaleString('es-CO')], []];
+    if (s) {
+      filas.push(['Resumen', 'Valor']);
+      filas.push(['Ventas del mes', s.ventasMes], ['Pedidos del mes', s.pedidosMes], ['Clientes registrados', s.clientesRegistrados],
+        ['Ingresos hoy', s.ingresosHoy], ['Pedidos hoy', s.pedidosHoy], ['Stock critico', s.stockCritico],
+        ['Calificacion promedio', s.calificacionPromedio], ['Satisfaccion %', s.satisfaccion], []);
+    }
+    filas.push([`Ventas ${this.ano} (miles COP)`, 'Valor'], ...this.ventas().map((v) => [v.label, v.value]), []);
+    filas.push(['Pedido', 'Fecha', 'Estado', 'Metodo', 'Total']);
+    filas.push(...this.recentOrders().map((o) => [o.numero, o.fecha, o.estado, o.metodoPago, o.total]), []);
+    filas.push(['Producto', 'Stock', 'Precio']);
+    filas.push(...this.topProducts().map((p) => [p.nombre, p.stock, p.precio]));
+    descargarCsv(`jobsy-tablero-${new Date().toISOString().slice(0, 10)}.csv`, filas);
   }
 }

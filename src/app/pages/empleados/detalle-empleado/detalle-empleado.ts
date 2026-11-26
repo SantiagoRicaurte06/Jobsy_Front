@@ -1,7 +1,8 @@
 import { Component, inject, input, signal, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EmployeeService, AuthService } from '../../../core/services';
 import { Employee, EmployeeReview } from '../../../core/models';
 import { ScheduleSlot } from '../../../core/services';
@@ -20,6 +21,7 @@ import { IconComponent } from '../../../shared/components/icon/icon';
 export class EmployeeDetailPage implements OnInit {
   private employeeService = inject(EmployeeService);
   private auth = inject(AuthService);
+  private router = inject(Router);
 
   readonly id = input.required<string>();
 
@@ -41,7 +43,19 @@ export class EmployeeDetailPage implements OnInit {
   readonly enviandoResena = signal(false);
   readonly errorResena = signal('');
 
+  // ---- Guardar perfil ----
+  readonly guardado = signal(false);
+  readonly guardando = signal(false);
+  readonly errorGuardado = signal('');
+
   ngOnInit(): void {
+    if (this.isLoggedIn()) {
+      this.employeeService.saved().subscribe({
+        next: (lista) => this.guardado.set(lista.some((e) => e.id === this.id())),
+        error: () => this.guardado.set(false),
+      });
+    }
+
     this.employeeService.getById(this.id()).subscribe({
       next: (e) => {
         this.employee.set(e);
@@ -58,6 +72,30 @@ export class EmployeeDetailPage implements OnInit {
     this.employeeService.availability(this.id()).subscribe({
       next: (d) => this.disponibilidad.set(d ?? []),
       error: () => this.disponibilidad.set([]),
+    });
+  }
+
+  /** Guarda o quita el perfil de la lista del usuario; sin sesion, lleva al login. */
+  alternarGuardado(): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/auth/login'], { queryParams: { redirect: this.router.url } });
+      return;
+    }
+    const quitar = this.guardado();
+    this.guardando.set(true);
+    this.errorGuardado.set('');
+    const peticion: Observable<unknown> = quitar
+      ? this.employeeService.unsave(this.id())
+      : this.employeeService.save(this.id());
+    peticion.subscribe({
+      next: () => {
+        this.guardado.set(!quitar);
+        this.guardando.set(false);
+      },
+      error: (e: HttpErrorResponse) => {
+        this.guardando.set(false);
+        this.errorGuardado.set(e.error?.error?.mensaje ?? 'No pudimos guardar el perfil. Intenta de nuevo.');
+      },
     });
   }
 

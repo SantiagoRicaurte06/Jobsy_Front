@@ -1,5 +1,7 @@
-import { Component, inject, computed } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Component, inject, computed, signal } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 import { AuthService, AdminStore, ReportService } from '../../../core/services';
 import { LogoComponent } from '../../components/logo/logo';
 import { IconComponent } from '../../components/icon/icon';
@@ -19,6 +21,12 @@ export class AdminLayoutComponent {
   private reportService = inject(ReportService);
 
   readonly user = this.auth.user;
+
+  constructor() {
+    // Contadores del menu, la campana y el tablero: antes solo se cargaban al
+    // abrir Reportes, y en el resto del panel salian en 0.
+    this.reportService.cargar(true, true);
+  }
 
   /** Los contadores del menu salen del almacen, asi que se actualizan solos. */
   readonly groups = computed(() => [
@@ -44,6 +52,36 @@ export class AdminLayoutComponent {
       ],
     },
   ]);
+
+  private url = toSignal(
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd), map(() => this.router.url)),
+    { initialValue: this.router.url },
+  );
+
+  /** Seccion actual para la miga de pan, segun la ruta. */
+  readonly seccion = computed(() => {
+    const ruta = this.url().split('?')[0];
+    for (const g of this.groups()) {
+      const item = g.items.find((i) => ruta.startsWith(i.path));
+      if (item) return { grupo: g.title, label: item.label };
+    }
+    return { grupo: 'Admin', label: 'Dashboard' };
+  });
+
+  // ---- Avisos de la campana: lo que el admin tiene pendiente ----
+  readonly avisosAbiertos = signal(false);
+  readonly avisos = computed(() => [
+    ...(this.reportService.reportesAbiertos() > 0
+      ? [{ texto: `${this.reportService.reportesAbiertos()} reporte(s) de soporte por atender`, ruta: '/admin/reportes', icon: 'flag' }]
+      : []),
+    ...(this.store.stockCritico() > 0
+      ? [{ texto: `${this.store.stockCritico()} producto(s) con stock critico`, ruta: '/admin/inventario', icon: 'triangle-alert' }]
+      : []),
+  ]);
+
+  buscar(termino: string): void {
+    this.router.navigate(['/admin/productos'], { queryParams: { q: termino.trim() || null } });
+  }
 
   logout(): void {
     this.auth.logout();

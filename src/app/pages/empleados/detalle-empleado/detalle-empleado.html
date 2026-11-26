@@ -140,7 +140,15 @@
             </ul>
           </section>
         }
-        <button type="button" class="boton_simple boton_ancho"><jobsy-icon name="heart" /> Guardar perfil</button>
+        <button type="button" class="boton_simple boton_ancho" [disabled]="guardando()" (click)="alternarGuardado()"
+          [attr.aria-pressed]="guardado()">
+          <jobsy-icon name="heart" /> {{ guardado() ? 'Perfil guardado' : 'Guardar perfil' }}
+        </button>
+        @if (errorGuardado()) {
+          <p class="pildora_error" role="alert">{{ errorGuardado() }}</p>
+        } @else if (guardado()) {
+          <a routerLink="/app/guardados" class="texto_mini">Ver mis perfiles guardados</a>
+        }
 
         <p class="nota_detalle_empleado">
           Todos los pagos y acuerdos se gestionan dentro de Jobsy para tu seguridad.

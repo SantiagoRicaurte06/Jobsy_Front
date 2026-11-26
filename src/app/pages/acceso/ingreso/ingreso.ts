@@ -1,11 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, inject, signal, viewChild } from '@angular/core';
 import { LogoComponent } from '../../../shared/components/logo/logo';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../core/services';
 import { IconComponent } from '../../../shared/components/icon/icon';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'jobsy-login',
@@ -14,7 +13,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './ingreso.html',
   styleUrl: './ingreso.scss',
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   private auth = inject(AuthService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -24,8 +23,41 @@ export class LoginPage {
   readonly showPassword = signal(false);
   readonly cargando = signal(false);
   readonly error = signal('');
-  /** El acceso con Google solo existe en modo mocks: el middleware no lo implementa. */
-  readonly googleDisponible = environment.useMocks;
+  /** El boton de Google aparece solo si el servidor tiene un Client ID configurado. */
+  readonly googleDisponible = signal(false);
+  private readonly botonGoogle = viewChild<ElementRef<HTMLElement>>('botonGoogle');
+  private zone = inject(NgZone);
+
+  ngOnInit(): void {
+    this.auth.googleClientId().subscribe({
+      next: ({ clientId }) => { if (clientId) this.iniciarGoogle(clientId); },
+      error: () => this.googleDisponible.set(false),
+    });
+  }
+
+  /** Carga Google Identity Services y pinta su boton oficial. */
+  private iniciarGoogle(clientId: string): void {
+    const pintar = () => {
+      const g = (window as unknown as { google?: GoogleId }).google;
+      if (!g) return;
+      g.accounts.id.initialize({
+        client_id: clientId,
+        callback: (r: { credential: string }) => this.zone.run(() => this.google(r.credential)),
+      });
+      this.googleDisponible.set(true);
+      // El contenedor existe tras el siguiente render.
+      setTimeout(() => {
+        const el = this.botonGoogle()?.nativeElement;
+        if (el) g.accounts.id.renderButton(el, { theme: 'outline', size: 'large', width: el.clientWidth || 320, text: 'continue_with', locale: 'es' });
+      });
+    };
+    if ((window as unknown as { google?: GoogleId }).google) return pintar();
+    const s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client';
+    s.async = true;
+    s.onload = pintar;
+    document.head.appendChild(s);
+  }
 
   /** Por que se llego al login: la sesion vencio o hacia falta entrar para ver algo. */
   readonly motivo = this.route.snapshot.queryParamMap.get('motivo') === 'sesion'
@@ -61,11 +93,15 @@ export class LoginPage {
     });
   }
 
-  google(): void {
+  google(credencial: string): void {
     this.cargando.set(true);
-    this.auth.loginWithGoogle().subscribe({
+    this.error.set('');
+    this.auth.loginWithGoogle(credencial).subscribe({
       next: () => this.redirect(),
-      error: () => this.cargando.set(false),
+      error: (e: HttpErrorResponse) => {
+        this.cargando.set(false);
+        this.error.set(e.error?.error?.mensaje ?? 'No pudimos entrar con Google.');
+      },
     });
   }
 
@@ -75,4 +111,14 @@ export class LoginPage {
     const target = pedido.startsWith('/') && !pedido.startsWith('//') ? pedido : '/auth/exito';
     this.router.navigateByUrl(target);
   }
+}
+
+/** Lo que se usa de Google Identity Services (https://accounts.google.com/gsi/client). */
+interface GoogleId {
+  accounts: {
+    id: {
+      initialize(o: { client_id: string; callback: (r: { credential: string }) => void }): void;
+      renderButton(el: HTMLElement, o: Record<string, unknown>): void;
+    };
+  };
 }

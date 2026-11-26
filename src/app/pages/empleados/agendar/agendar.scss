@@ -77,7 +77,7 @@
     cursor: pointer;
     transition: all v.$transition-fast;
 
-    &:hover:not(&--empty) {
+    &:hover:not(&--empty):not(.is-selected) {
       background: v.$color-primary-bg;
       border-color: v.$color-primary-light;
     }

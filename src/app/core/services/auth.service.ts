@@ -1,5 +1,5 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { StorageService, StorageKeys } from './storage.service';
@@ -37,13 +37,21 @@ export class AuthService {
       .pipe(tap((r) => this.persist(r)));
   }
 
-  loginWithGoogle(): Observable<LoginResponse> {
-    // TEMPORAL: integrar OAuth de Google contra Usuarios_Api
+  /** Client ID de Google que tiene configurado el servidor; vacio si no hay login con Google. */
+  googleClientId(): Observable<{ clientId: string }> {
+    if (environment.useMocks) return mockResponse({ clientId: '' });
+    return this.api.get<{ clientId: string }>(`${environment.endpoints.usuarios}/login/google`);
+  }
+
+  /** Entra con el ID token que entrega Google Identity Services; el servidor lo valida con Google. */
+  loginWithGoogle(credencial: string): Observable<LoginResponse> {
     if (environment.useMocks) {
       const res: LoginResponse = { token: 'mock-token-google', user: MOCK_USERS[1] };
       return mockResponse(res).pipe(tap((r) => this.persist(r)));
     }
-    return throwError(() => new Error('OAuth de Google no implementado'));
+    return this.api
+      .post<LoginResponse>(`${environment.endpoints.usuarios}/login/google`, { credencial })
+      .pipe(tap((r) => this.persist(r)));
   }
 
   /**

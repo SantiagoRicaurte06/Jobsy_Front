@@ -29,8 +29,8 @@ export class PressPage {
   ];
 
   readonly kit = [
-    { icon: 'download', title: 'Logo en alta resolucion', text: 'PNG y SVG, fondo claro y oscuro.' },
-    { icon: 'file-text', title: 'Reseña de la empresa', text: 'Texto breve listo para publicar.' },
-    { icon: 'camera', title: 'Banco de imagenes', text: 'Fotografias del equipo y producto.' },
+    { icon: 'download', title: 'Logo en alta resolucion', text: 'PNG de 1024 x 614 px.', href: '/logo.png', archivo: 'jobsy-logo.png', accion: 'Descargar' },
+    { icon: 'file-text', title: 'Reseña de la empresa', text: 'Texto breve listo para publicar.', href: '/prensa/jobsy-resena.txt', archivo: 'jobsy-resena.txt', accion: 'Descargar' },
+    { icon: 'camera', title: 'Banco de imagenes', text: 'Fotografias del equipo y producto, a pedido.', href: 'mailto:prensa@jobsy.co?subject=Solicitud%20de%20imagenes%20de%20Jobsy', archivo: null, accion: 'Solicitar' },
   ];
 }

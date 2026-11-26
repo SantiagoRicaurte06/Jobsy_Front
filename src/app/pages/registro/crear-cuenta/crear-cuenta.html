@@ -47,8 +47,8 @@
 
     <label class="casilla terminos_crear_cuenta">
       <input type="checkbox" [ngModel]="acepta()" (ngModelChange)="acepta.set($event)" name="acepta" />
-      Acepto los <a routerLink="/legal/terminos" target="_blank">terminos y condiciones</a> y la
-      <a routerLink="/legal/privacidad" target="_blank">politica de privacidad</a>.
+      <span>Acepto los <a routerLink="/legal/terminos" target="_blank">terminos y condiciones</a> y la
+      <a routerLink="/legal/privacidad" target="_blank">politica de privacidad</a>.</span>
     </label>
 
     @if (error()) {

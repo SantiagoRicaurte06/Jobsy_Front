@@ -81,4 +81,24 @@ export class EmployeeService {
   setMyAvailability(franjas: ScheduleSlot[]): Observable<ScheduleSlot[]> {
     return this.api.put<ScheduleSlot[]>(`${this.path}/disponibilidad`, franjas);
   }
+
+  // ============================================================
+  //  Perfiles guardados
+  // ============================================================
+
+  /** Empleados que el usuario guardo con "Guardar perfil". */
+  saved(): Observable<Employee[]> {
+    if (environment.useMocks) return mockResponse<Employee[]>([]);
+    return this.api.get<Employee[]>(`${this.path}/guardados`);
+  }
+
+  save(employeeId: string): Observable<Employee> {
+    if (environment.useMocks) return mockResponse(MOCK_EMPLOYEES.find((e) => e.id === employeeId)!);
+    return this.api.post<Employee>(`${this.path}/guardados`, { empleadoId: employeeId });
+  }
+
+  unsave(employeeId: string): Observable<void> {
+    if (environment.useMocks) return mockResponse(undefined as void);
+    return this.api.delete<void>(`${this.path}/guardados/${employeeId}`);
+  }
 }

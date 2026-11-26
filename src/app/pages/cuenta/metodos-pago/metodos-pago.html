@@ -5,7 +5,13 @@
       <span class="etiqueta_saldo_metodos_pago">Saldo Jobsy</span>
       <strong class="monto_saldo_metodos_pago">${{ saldoJobsy().toLocaleString('es-CO') }}</strong>
     </div>
+    @if (!recargando()) {
+      <button type="button" class="boton_principal boton_chico" (click)="recargando.set(true)">+ Recargar</button>
+    }
   </section>
+  @if (recargando()) {
+    <jobsy-recarga-saldo (recargado)="alRecargar($event)" (cancelar)="recargando.set(false)" />
+  }
 
   @if (aviso()) {
     <p class="pildora_exito">{{ aviso() }}</p>

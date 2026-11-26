@@ -38,18 +38,36 @@
   <!-- Contenido -->
   <div class="contenido_marco_admin">
     <header class="barra_superior_marco_admin">
-      <nav class="ruta_marco_admin">
-        <a routerLink="/tienda">Tienda</a>
+      <nav class="ruta_marco_admin" aria-label="Ubicacion">
+        <a routerLink="/admin/dashboard">{{ seccion().grupo }}</a>
         <span aria-hidden="true">/</span>
-        <strong>Dashboard</strong>
+        <strong>{{ seccion().label }}</strong>
       </nav>
 
       <div class="herramientas_marco_admin">
-        <input type="search" class="buscador_marco_admin" placeholder="Buscar productos, pedidos..." aria-label="Buscar" />
-        <button type="button" class="boton_icono_marco_admin" aria-label="Notificaciones">
-          <jobsy-icon name="bell" /><span class="punto_marco_admin"></span>
-        </button>
-        <button type="button" class="boton_icono_marco_admin" aria-label="Nuevo">+</button>
+        <input #q type="search" class="buscador_marco_admin" placeholder="Buscar productos por nombre o SKU..." aria-label="Buscar productos"
+          (keydown.enter)="buscar(q.value)" />
+        <div class="avisos_marco_admin">
+          <button type="button" class="boton_icono_marco_admin" aria-label="Notificaciones"
+            [attr.aria-expanded]="avisosAbiertos()" (click)="avisosAbiertos.set(!avisosAbiertos())">
+            <jobsy-icon name="bell" />
+            @if (avisos().length) {
+              <span class="punto_marco_admin"></span>
+            }
+          </button>
+          @if (avisosAbiertos()) {
+            <div class="panel_avisos_marco_admin" role="menu">
+              @for (a of avisos(); track a.ruta) {
+                <a [routerLink]="a.ruta" role="menuitem" (click)="avisosAbiertos.set(false)">
+                  <jobsy-icon [name]="a.icon" /> {{ a.texto }}
+                </a>
+              } @empty {
+                <p>No tienes pendientes.</p>
+              }
+            </div>
+          }
+        </div>
+        <a routerLink="/admin/productos" [queryParams]="{ nuevo: 1 }" class="boton_icono_marco_admin" aria-label="Nuevo producto" title="Nuevo producto">+</a>
       </div>
     </header>
 

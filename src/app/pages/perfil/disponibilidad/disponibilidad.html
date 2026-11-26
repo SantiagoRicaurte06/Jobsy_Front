@@ -1,0 +1,48 @@
+<section class="disponibilidad">
+  <div class="encabezado_seccion">
+    <div>
+      <h1>Mi disponibilidad</h1>
+      <p class="texto_gris">Los dias y horas en que puedes trabajar. Los empleadores agendan sobre estas franjas.
+        Por dia puedes tener una franja de manana (antes de las 12), una de tarde y una de noche (desde las 18).</p>
+    </div>
+    <button type="button" class="boton_principal boton_chico" [disabled]="guardando() || cargando()" (click)="guardar()">
+      {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
+    </button>
+  </div>
+
+  @if (guardado()) {
+    <p class="pildora_exito" role="status"><jobsy-icon name="check" /> Disponibilidad guardada.</p>
+  }
+  @if (error()) {
+    <p class="pildora_error" role="alert">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+    <jobsy-loading-spinner />
+  } @else {
+    <ul class="disponibilidad__dias">
+      @for (d of dias; track d.value) {
+        <li class="disponibilidad__dia tarjeta">
+          <strong class="disponibilidad__nombre">{{ d.label }}</strong>
+          <div class="disponibilidad__franjas">
+            @for (f of de(d.value); track $index) {
+              <div class="disponibilidad__franja">
+                <input type="time" class="campo" [value]="f.horaInicio" [attr.aria-label]="'Inicio ' + d.label"
+                  (change)="cambiar(f, 'horaInicio', $any($event.target).value)" />
+                <span aria-hidden="true">a</span>
+                <input type="time" class="campo" [value]="f.horaFin" [attr.aria-label]="'Fin ' + d.label"
+                  (change)="cambiar(f, 'horaFin', $any($event.target).value)" />
+                <button type="button" class="boton_simple boton_chico" (click)="quitar(f)" [attr.aria-label]="'Quitar franja del ' + d.label">
+                  <jobsy-icon name="x" />
+                </button>
+              </div>
+            } @empty {
+              <span class="texto_mini texto_gris">No disponible</span>
+            }
+          </div>
+          <button type="button" class="boton_simple boton_chico" (click)="agregar(d.value)">+ Franja</button>
+        </li>
+      }
+    </ul>
+  }
+</section>

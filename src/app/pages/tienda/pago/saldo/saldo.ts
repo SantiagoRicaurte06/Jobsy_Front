@@ -2,11 +2,12 @@ import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { WalletService, PaymentRecord } from '../../../../core/services';
 import { CheckoutBase } from '../checkout-base';
+import { RecargaSaldoComponent } from '../../../../shared/components/recarga-saldo/recarga-saldo';
 
 @Component({
   selector: 'jobsy-balance',
   standalone: true,
-  imports: [],
+  imports: [RecargaSaldoComponent],
   templateUrl: './saldo.html',
   styleUrl: './saldo.scss',
 })
@@ -22,7 +23,19 @@ export class BalancePage extends CheckoutBase implements OnInit {
   readonly restante = computed(() => this.saldo() - this.cart.total());
   readonly faltante = computed(() => this.cart.total() - this.saldo());
 
+  readonly recargando = signal(false);
+
   ngOnInit(): void {
+    this.cargarSaldo();
+  }
+
+  /** Tras recargar se vuelve a pedir saldo y movimientos al servidor. */
+  alRecargar(): void {
+    this.recargando.set(false);
+    this.cargarSaldo();
+  }
+
+  private cargarSaldo(): void {
     forkJoin({ saldo: this.wallet.balance(), pagos: this.wallet.payments() }).subscribe({
       next: ({ saldo, pagos }) => {
         this.saldo.set(saldo.disponible);
@@ -44,11 +57,13 @@ export class BalancePage extends CheckoutBase implements OnInit {
   /** "aprobado" suma, el resto resta o queda pendiente. */
   concepto(m: PaymentRecord): string {
     const metodo = m.metodo ? ` con ${m.metodo}` : '';
+    if (m.concepto) return `${m.concepto}${metodo}`;
     return m.pedidoId ? `Pedido ${m.pedidoId}${metodo}` : `Movimiento${metodo}`;
   }
 
+  /** Las recargas suman al saldo; los pagos restan. */
   formatear(m: PaymentRecord): string {
-    return `-$${Math.abs(m.monto).toLocaleString('es-CO')}`;
+    return `${m.concepto ? '+' : '-'}$${Math.abs(m.monto).toLocaleString('es-CO')}`;
   }
 
   cuando(fecha: string): string {

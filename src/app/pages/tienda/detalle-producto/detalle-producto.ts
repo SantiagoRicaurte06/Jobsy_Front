@@ -2,6 +2,7 @@ import { Component, inject, input, signal, computed, OnInit } from '@angular/cor
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ProductService, CartService, ReviewService, AuthService } from '../../../core/services';
 import { Product, ProductReview } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
@@ -39,10 +40,14 @@ export class ProductDetailPage implements OnInit {
 
   // Formulario
   nuevaCalificacion = 5;
-  nuevoAutor = '';
   nuevoTitulo = '';
   nuevoComentario = '';
+  /** Vistas previas (data URL) y archivos que se suben, en el mismo orden. */
   nuevasFotos: string[] = [];
+  private archivosFotos: File[] = [];
+
+  readonly isLoggedIn = this.authService.isLoggedIn;
+  readonly maxFotos = this.reviewService.maxFotos;
 
   readonly totalResenas = computed(() => this.reviews().length);
 
@@ -69,11 +74,6 @@ export class ProductDetailPage implements OnInit {
   });
 
   ngOnInit(): void {
-    const user = this.authService.user();
-    if (user) {
-      this.nuevoAutor = `${user.nombre} ${user.apellido || ''}`.trim();
-    }
-
     this.productService.getById(this.id()).subscribe((p) => {
       this.product.set(p);
       this.cargando.set(false);
@@ -82,8 +82,10 @@ export class ProductDetailPage implements OnInit {
   }
 
   cargarResenas(): void {
-    const list = this.reviewService.getByProductId(this.id());
-    this.reviews.set(list);
+    this.reviewService.getByProductId(this.id()).subscribe({
+      next: (list) => this.reviews.set(list ?? []),
+      error: () => this.reviews.set([]),
+    });
   }
 
   cambiarCantidad(delta: number): void {
@@ -100,6 +102,10 @@ export class ProductDetailPage implements OnInit {
   }
 
   toggleFormulario(): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/auth/login'], { queryParams: { redirect: this.router.url } });
+      return;
+    }
     this.mostrarFormulario.update((v) => !v);
     this.mensajeError.set(null);
     this.mensajeExito.set(null);
@@ -114,7 +120,7 @@ export class ProductDetailPage implements OnInit {
     if (!input.files || input.files.length === 0) return;
 
     const files = Array.from(input.files);
-    const maxFotos = 4;
+    const maxFotos = this.maxFotos;
     const maxBytes = 3 * 1024 * 1024; // 3MB por foto
 
     if (this.nuevasFotos.length + files.length > maxFotos) {
@@ -138,6 +144,7 @@ export class ProductDetailPage implements OnInit {
         const base64 = e.target?.result as string;
         if (base64 && this.nuevasFotos.length < maxFotos) {
           this.nuevasFotos.push(base64);
+          this.archivosFotos.push(file);
         }
       };
       reader.readAsDataURL(file);
@@ -149,16 +156,12 @@ export class ProductDetailPage implements OnInit {
 
   eliminarFoto(index: number): void {
     this.nuevasFotos.splice(index, 1);
+    this.archivosFotos.splice(index, 1);
   }
 
   enviarResena(): void {
     this.mensajeError.set(null);
     this.mensajeExito.set(null);
-
-    if (!this.nuevoAutor.trim()) {
-      this.mensajeError.set('Por favor ingresa tu nombre.');
-      return;
-    }
 
     if (!this.nuevoTitulo.trim()) {
       this.mensajeError.set('Por favor ingresa un título para tu reseña.');
@@ -172,30 +175,30 @@ export class ProductDetailPage implements OnInit {
 
     this.guardandoResena.set(true);
 
-    try {
-      this.reviewService.addReview({
-        productoId: this.id(),
-        autor: this.nuevoAutor,
+    this.reviewService
+      .addReview(this.id(), {
         calificacion: this.nuevaCalificacion,
         titulo: this.nuevoTitulo,
         comentario: this.nuevoComentario,
-        fotos: [...this.nuevasFotos],
+        fotos: [...this.archivosFotos],
+      })
+      .subscribe({
+        next: (creada) => {
+          this.reviews.update((l) => [creada, ...l]);
+          this.nuevoTitulo = '';
+          this.nuevoComentario = '';
+          this.nuevasFotos = [];
+          this.archivosFotos = [];
+          this.nuevaCalificacion = 5;
+          this.guardandoResena.set(false);
+          this.mostrarFormulario.set(false);
+          this.mensajeExito.set('¡Gracias por tu opinión! Tu reseña ha sido publicada con éxito.');
+        },
+        error: (e: HttpErrorResponse) => {
+          this.guardandoResena.set(false);
+          this.mensajeError.set(e.error?.error?.mensaje ?? 'Ocurrió un error al guardar la reseña. Inténtalo de nuevo.');
+        },
       });
-
-      this.cargarResenas();
-
-      // Limpiar formulario
-      this.nuevoTitulo = '';
-      this.nuevoComentario = '';
-      this.nuevasFotos = [];
-      this.nuevaCalificacion = 5;
-      this.guardandoResena.set(false);
-      this.mostrarFormulario.set(false);
-      this.mensajeExito.set('¡Gracias por tu opinión! Tu reseña ha sido publicada con éxito.');
-    } catch {
-      this.guardandoResena.set(false);
-      this.mensajeError.set('Ocurrió un error al guardar la reseña. Inténtalo de nuevo.');
-    }
   }
 }
 

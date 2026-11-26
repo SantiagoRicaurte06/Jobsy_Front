@@ -1,0 +1,28 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.guardados {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-4;
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: v.$space-3;
+
+    h1 { margin: 0; }
+  }
+
+  &__sub { margin: v.$space-1 0 0; font-size: v.$font-size-sm; color: v.$color-text-muted; }
+  &__centro { text-align: center; }
+  &__rejilla { @include m.grid-cards(300px); }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-2;
+  }
+}

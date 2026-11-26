@@ -123,4 +123,9 @@ export class LandingPage implements OnInit, OnDestroy {
   setFilter(f: string): void {
     this.activeFilter.set(f);
   }
+
+  /** "Solicitar" en la tarjeta de un empleado destacado: lleva a contratarlo. */
+  solicitar(employee: Employee): void {
+    this.router.navigate(['/contratacion', employee.id]);
+  }
 }
