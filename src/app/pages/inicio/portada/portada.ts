@@ -6,6 +6,7 @@ import { textoTotal } from '../../../core/utils/paginacion';
 import { IMG_SITE } from '../../../mocks/images.mock';
 import { CopPipe } from '../../../shared/pipes';
 import { JobCardComponent } from '../../../shared/components/job-card/job-card';
+import { EmployeeCardComponent } from '../../../shared/components/employee-card/employee-card';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
@@ -19,6 +20,7 @@ import { AcuerdoAppComponent } from './acuerdo/acuerdo';
     RouterLink,
     CopPipe,
     JobCardComponent,
+    EmployeeCardComponent,
     LoadingSpinnerComponent,
     EmptyStateComponent,
     IconComponent,

@@ -29,7 +29,18 @@
       <span class="unidad_tarjeta_empleo">por hora</span>
     </p>
 
-    <jobsy-franja-semana [horario]="job().horario" />
+    <jobsy-franja-semana [horario]="job().horario" [mios]="misDias()" />
+
+    @if (coincidencia(); as c) {
+      @if (c.comunes.length) {
+        <p class="coincide_tarjeta_empleo">
+          <span>{{ c.comunes.length }} de tus {{ c.elegidos }} días</span>
+          <strong class="cifra">{{ c.total | cop }} <small>por semana</small></strong>
+        </p>
+      } @else {
+        <p class="coincide_tarjeta_empleo no_coincide">Ninguno de tus días</p>
+      }
+    }
 
     @if (job().etiquetas.length) {
       <ul class="tareas_tarjeta_empleo" aria-label="Tareas">

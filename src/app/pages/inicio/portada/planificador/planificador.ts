@@ -3,22 +3,12 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Employee, Job } from '../../../../core/models';
-import { DIAS_SEMANA, DIA_INICIAL, DIA_NOMBRE, DiaSemana, leerHorario } from '../../../../core/utils/horario';
+import { DIAS_SEMANA, DIA_INICIAL, DIA_NOMBRE, DiaSemana } from '../../../../core/utils/horario';
+import { coincideOficio, oficiosDe, pagoSemana, semanaEnUrl } from '../../../../core/utils/semana';
 import { CopPipe } from '../../../../shared/pipes';
 import { IconComponent } from '../../../../shared/components/icon/icon';
 
 export type ModoPlan = 'contratar' | 'trabajar';
-
-const sinTildes = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-
-/** Horas entre "08:30" y "16:30". Null si el horario no trae horas. */
-function horasDe(inicio: string | null, fin: string | null): number | null {
-  if (!inicio || !fin) return null;
-  const [hi, mi] = inicio.split(':').map(Number);
-  const [hf, mf] = fin.split(':').map(Number);
-  const h = (hf * 60 + mf - (hi * 60 + mi)) / 60;
-  return h > 0 ? h : null;
-}
 
 function mediana(valores: number[]): number | null {
   if (!valores.length) return null;
@@ -56,22 +46,13 @@ export class PlanificadorComponent {
   readonly horas = signal(6);
 
   /** Oficios que de verdad aparecen en ofertas y perfiles. */
-  readonly oficios = computed(() => {
-    const vistos = new Map<string, string>();
-    const agregar = (t: string) => {
-      const k = sinTildes(t.trim());
-      if (k && !vistos.has(k)) vistos.set(k, t.trim());
-    };
-    this.jobs().forEach((j) => j.etiquetas.forEach(agregar));
-    this.employees().forEach((e) => e.especialidades.forEach(agregar));
-    return ['Todos', ...Array.from(vistos.values()).slice(0, 6)];
-  });
+  readonly oficios = computed(() => [
+    'Todos',
+    ...oficiosDe([...this.jobs().map((j) => j.etiquetas), ...this.employees().map((e) => e.especialidades)]),
+  ]);
 
   private coincideOficio(lista: string[]): boolean {
-    const o = this.oficio();
-    if (o === 'Todos') return true;
-    const k = sinTildes(o);
-    return lista.some((t) => sinTildes(t).includes(k) || k.includes(sinTildes(t)));
+    return coincideOficio(lista, this.oficio());
   }
 
   alternarDia(d: DiaSemana): void {
@@ -105,10 +86,8 @@ export class PlanificadorComponent {
     return this.jobs()
       .filter((j) => this.coincideOficio(j.etiquetas))
       .map((j) => {
-        const h = leerHorario(j.horario);
-        const comunes = h.dias.filter((d) => mis.includes(d));
-        const horasDia = horasDe(h.inicio, h.fin) ?? this.horas();
-        return { job: j, comunes, semana: Math.round(j.precioHora * horasDia * comunes.length) };
+        const { comunes, total } = pagoSemana(j.horario, j.precioHora, { dias: mis, horas: this.horas() });
+        return { job: j, comunes, semana: total };
       })
       .filter((o) => o.comunes.length > 0)
       .sort((a, b) => b.semana - a.semana);
@@ -123,9 +102,12 @@ export class PlanificadorComponent {
   readonly cifra = computed(() => (this.modo() === 'contratar' ? this.costoSemana() : this.mejorSemana()));
 
   readonly enlace = computed(() => (this.modo() === 'contratar' ? '/empleados' : '/empleos'));
-  readonly consulta = computed(() =>
-    this.oficio() === 'Todos' || this.cantidad() === 0 ? {} : { q: this.oficio() },
-  );
+  /** La semana armada viaja a la lista: cada tarjeta dirá cuánto cuesta o paga. */
+  readonly consulta = computed(() => {
+    const oficio = this.oficio() === 'Todos' || this.cantidad() === 0 ? null : this.oficio();
+    const semana = semanaEnUrl({ dias: this.dias(), horas: this.horas() });
+    return this.modo() === 'contratar' ? { oficio, ...semana } : { oficio, dias: semana.dias };
+  });
 
   /** La cifra cuenta hacia su nuevo valor; sin movimiento si el sistema lo pide. */
   readonly cifraMostrada = signal(0);

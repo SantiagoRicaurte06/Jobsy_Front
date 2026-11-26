@@ -4,12 +4,12 @@
       <h1>Personas para ayudarte en casa</h1>
       @if (rol() === 'empleador') {
         <a routerLink="/publicar-oferta" class="boton_simple boton_chico">
-          <jobsy-icon name="square-pen" /> Mejor público una oferta
+          <jobsy-icon name="square-pen" /> Mejor publico una oferta
         </a>
       }
     </div>
     <p class="texto_empleados">
-      Perfiles con documentos verificados y reseñas de hogares que ya contrataron. Contrata directo o publica una oferta y deja que se postulen.
+      Elige los días y las horas que necesitas: cada perfil te dice cuánto costaría tu semana con esa persona.
     </p>
 
     <jobsy-search-bar
@@ -17,12 +17,20 @@
       [showCity]="false"
       [terminoInicial]="busqueda()"
       (buscar)="buscar($event)" />
+
+    <jobsy-tu-semana class="semana_empleados"
+      [oficios]="oficios()"
+      [oficio]="oficio()"
+      [semana]="semana()"
+      (cambio)="cambiarSemana($event)" />
   </div>
 </section>
 
 <div class="contenedor resultados_empleados">
   <p class="conteo_empleados" aria-live="polite">
-    @if (!cargando()) { {{ textoTotal() }} }
+    @if (!cargando()) {
+      {{ textoTotal() }}@if (oficio()) { <span> para {{ oficio()!.toLowerCase() }}</span> }@if (semana()) { <span class="dias_conteo"> · {{ diasTexto() }}, {{ semana()!.horas }} h</span> }
+    }
   </p>
 
   @if (cargando()) {
@@ -31,16 +39,18 @@
     <jobsy-empty-state
       icon="users"
       title="Nadie con esa búsqueda todavía"
-      message="Revisa el nombre o publica una oferta: las personas interesadas se postularán.">
+      message="Prueba con otro oficio o publica una oferta: las personas interesadas se postularán.">
       @if (rol() !== 'empleado') { <a routerLink="/publicar-oferta" class="boton_principal">Publicar una oferta</a> }
     </jobsy-empty-state>
   } @else {
     <h2 class="oculto">Perfiles</h2>
-    <div class="rejilla_empleados">
-      @for (employee of employees(); track employee.id) {
-        <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />
+    <ul class="rejilla_empleados">
+      @for (employee of employees(); track employee.id; let i = $index) {
+        <li [style.--i]="i">
+          <jobsy-employee-card [employee]="employee" [semana]="semana()" (solicitar)="solicitar($event)" />
+        </li>
       }
-    </div>
+    </ul>
 
     <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
   }

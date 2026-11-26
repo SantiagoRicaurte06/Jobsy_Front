@@ -9,9 +9,15 @@ import { FilterPanelComponent } from '../../../shared/components/filter-panel/fi
 import { PaginationComponent } from '../../../shared/components/pagination/pagination';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { CambioSemana, TuSemanaComponent } from '../../../shared/components/tu-semana/tu-semana';
+import { coincideOficio, leerSemana, oficiosDe, pagoSemana, semanaEnUrl } from '../../../core/utils/semana';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar';
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { CopPipe } from '../../../shared/pipes';
+
+const POR_PAGINA = 9;
+/** Con oficio o días elegidos se trae una muestra amplia y se filtra aquí. */
+const MUESTRA = 50;
 
 interface FichaFiltro {
   texto: string;
@@ -28,7 +34,7 @@ interface FichaFiltro {
   standalone: true,
   imports: [
     IconComponent, RouterLink, JobCardComponent, FilterPanelComponent, PaginationComponent,
-    LoadingSpinnerComponent, EmptyStateComponent, SearchBarComponent,
+    LoadingSpinnerComponent, EmptyStateComponent, SearchBarComponent, TuSemanaComponent,
   ],
   providers: [CopPipe],
   templateUrl: './buscar-empleos.html',
@@ -51,6 +57,10 @@ export class JobSearchPage {
 
   readonly filters = computed<JobFilters>(() => leerFiltros(this.params()));
   readonly page = computed(() => Math.max(1, Number(this.params().get('page')) || 1));
+  readonly oficio = computed(() => this.params().get('oficio'));
+  readonly semana = computed(() => leerSemana(this.params()));
+  readonly misDias = computed(() => this.semana()?.dias ?? null);
+  readonly oficios = signal<string[]>([]);
 
   /** Fichas de los filtros activos, cada una con su forma de quitarse. */
   readonly fichas = computed<FichaFiltro[]>(() => {
@@ -72,29 +82,66 @@ export class JobSearchPage {
   constructor() {
     // Cada cambio de la URL recarga el listado.
     this.route.queryParamMap.subscribe(() => this.load());
+    this.jobService.list({}, 1, MUESTRA).subscribe({
+      next: (res) => this.oficios.set(oficiosDe(res.items.map((j) => j.etiquetas))),
+      error: () => {},
+    });
   }
 
   private load(): void {
     this.cargando.set(true);
-    this.jobService.list(this.filters(), this.page(), 9).subscribe({
+    const oficio = this.oficio();
+    const semana = this.semana();
+
+    // Sin oficio ni días, el servidor pagina.
+    if (!oficio && !semana) {
+      this.jobService.list(this.filters(), this.page(), POR_PAGINA).subscribe({
+        next: (res) => {
+          this.jobs.set(res.items);
+          this.totalPages.set(paginasDisponibles(res));
+          this.textoTotal.set(textoTotal(res.total, !!res.hasMore, 'oferta', 'ofertas'));
+          this.cargando.set(false);
+        },
+        error: () => this.sinResultados(),
+      });
+      return;
+    }
+
+    // Con oficio o días: muestra amplia, filtro aquí y, con días, la que más paga primero.
+    this.jobService.list(this.filters(), 1, MUESTRA).subscribe({
       next: (res) => {
-        this.jobs.set(res.items);
-        this.totalPages.set(paginasDisponibles(res));
-        this.textoTotal.set(textoTotal(res.total, !!res.hasMore, 'oferta', 'ofertas'));
+        let lista = res.items.filter((j) => coincideOficio(j.etiquetas, oficio));
+        if (semana) {
+          lista = lista
+            .map((j) => ({ j, pago: pagoSemana(j.horario, j.precioHora, semana) }))
+            .filter((x) => x.pago.comunes.length > 0)
+            .sort((a, b) => b.pago.total - a.pago.total)
+            .map((x) => x.j);
+        }
+        const inicio = (this.page() - 1) * POR_PAGINA;
+        this.jobs.set(lista.slice(inicio, inicio + POR_PAGINA));
+        this.totalPages.set(Math.max(1, Math.ceil(lista.length / POR_PAGINA)));
+        this.textoTotal.set(textoTotal(lista.length, false, 'oferta', 'ofertas'));
         this.cargando.set(false);
       },
-      error: () => {
-        this.jobs.set([]);
-        this.textoTotal.set('');
-        this.cargando.set(false);
-      },
+      error: () => this.sinResultados(),
     });
   }
 
-  private navegar(f: JobFilters, page = 1): void {
+  private sinResultados(): void {
+    this.jobs.set([]);
+    this.textoTotal.set('');
+    this.cargando.set(false);
+  }
+
+  private navegar(f: JobFilters, page = 1, extra: Record<string, unknown> = {}): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
+        oficio: this.oficio(),
+        ...semanaEnUrl(this.semana()),
+        horas: null,
+        ...extra,
         q: f.busqueda || null,
         ciudad: f.ciudad || null,
         modalidad: f.modalidad?.length ? f.modalidad : null,
@@ -108,6 +155,10 @@ export class JobSearchPage {
 
   buscar(e: { termino: string; ciudad: string }): void {
     this.navegar({ ...this.filters(), busqueda: e.termino.trim() || undefined, ciudad: e.ciudad.trim() || undefined });
+  }
+
+  cambiarSemana(c: CambioSemana): void {
+    this.navegar(this.filters(), 1, { oficio: c.oficio, dias: semanaEnUrl(c.semana).dias });
   }
 
   applyFilters(f: JobFilters): void {

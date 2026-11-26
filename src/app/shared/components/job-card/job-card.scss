@@ -148,6 +148,27 @@
   }
 }
 
+// Cuánto pagaría la oferta en los días que eligió quien mira.
+.coincide_tarjeta_empleo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: v.$space-1 v.$space-3;
+  margin: 0;
+  padding: v.$space-2 v.$space-3;
+  border-radius: v.$radius-md;
+  background: v.$color-primary;
+  color: v.$color-primary-bg;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+
+  .cifra { font-size: v.$font-size-base; color: v.$color-white; }
+  small { font-size: v.$font-size-xs; font-weight: v.$font-weight-semibold; color: v.$color-primary-bg; }
+
+  &.no_coincide { background: v.$color-sand; color: v.$color-text-muted; }
+}
+
 // ---- Acción ----
 .acciones_tarjeta_empleo {
   position: relative;

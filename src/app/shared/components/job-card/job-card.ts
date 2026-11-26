@@ -1,6 +1,8 @@
 import { Component, input, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Job, MODALIDAD_TEXTO, TAMANO_TEXTO } from '../../../core/models';
+import { HORAS_DEFECTO, pagoSemana } from '../../../core/utils/semana';
+import { DiaSemana } from '../../../core/utils/horario';
 import { AuthService } from '../../../core/services';
 import { CopPipe } from '../../pipes';
 import { IconComponent } from '../icon/icon';
@@ -22,6 +24,15 @@ export class JobCardComponent {
   private auth = inject(AuthService);
 
   readonly job = input.required<Job>();
+  /** Días que puede trabajar quien mira; la tarjeta dice cuánto le pagaría esa semana. */
+  readonly misDias = input<DiaSemana[] | null>(null);
+
+  readonly coincidencia = computed(() => {
+    const dias = this.misDias();
+    if (!dias?.length) return null;
+    const j = this.job();
+    return { ...pagoSemana(j.horario, j.precioHora, { dias, horas: HORAS_DEFECTO }), elegidos: dias.length };
+  });
 
   readonly vivienda = computed(() => {
     const j = this.job();

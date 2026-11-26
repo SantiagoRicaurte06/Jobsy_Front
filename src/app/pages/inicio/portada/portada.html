@@ -46,33 +46,8 @@
     </div>
     <ul class="fila_personas">
       @for (p of protagonistas(); track p.id) {
-        <li class="persona">
-          <a class="retrato_persona" [routerLink]="['/empleados', p.id]" [attr.aria-label]="'Ver el perfil de ' + p.nombre">
-            @if (p.fotoUrl) { <img [src]="p.fotoUrl" alt="" loading="lazy" /> } @else { <span class="inicial_persona">{{ iniciales(p.nombre) }}</span> }
-            <span class="nombre_persona">
-              <strong>{{ p.nombre }}</strong>
-              @if (p.verificado) { <span class="sello_persona"><jobsy-icon name="badge-check" /> Verificada</span> }
-            </span>
-          </a>
-          <div class="cuerpo_persona">
-            <p class="nota_persona">
-              <jobsy-icon name="star" /> <strong>{{ p.calificacion.toFixed(1) }}</strong>
-              <span>· {{ p.totalServicios }} servicios terminados</span>
-            </p>
-            @if (p.especialidades.length) {
-              <p class="oficios_persona">{{ p.especialidades.slice(0, 3).join(' · ') }}</p>
-            }
-            <div class="pie_persona">
-              @if (p.tarifaHora) {
-                <p class="tarifa_persona"><span class="cifra">{{ p.tarifaHora | cop }}</span> por hora</p>
-              } @else {
-                <p class="tarifa_persona tarifa_acordar">Tarifa por acordar</p>
-              }
-              @if (rol() !== 'empleado') {
-                <button type="button" class="boton_principal boton_chico" (click)="contratar(p)">Contratar</button>
-              }
-            </div>
-          </div>
+        <li class="celda_persona">
+          <jobsy-employee-card [employee]="p" [conDescripcion]="false" (solicitar)="contratar($event)" />
         </li>
       }
     </ul>

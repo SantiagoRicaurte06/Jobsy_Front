@@ -28,6 +28,10 @@
       animation: encender 0.5s v.$ease-out both;
       animation-delay: calc(var(--i) * 45ms);
     }
+
+    // Día que eligió quien mira: anillo de tinta; si coincide, naranja con anillo.
+    &.is-mio { box-shadow: inset 0 0 0 2px v.$color-ink; color: v.$color-ink; }
+    &.is-mio:not(.is-dia) { border-style: dashed; border-color: v.$color-ink; box-shadow: none; }
   }
 }
 

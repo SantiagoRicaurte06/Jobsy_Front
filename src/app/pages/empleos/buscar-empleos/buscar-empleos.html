@@ -18,6 +18,14 @@
       [terminoInicial]="filters().busqueda ?? ''"
       [ciudadInicial]="filters().ciudad ?? ''"
       (buscar)="buscar($event)" />
+
+    <jobsy-tu-semana class="semana_empleos"
+      titulo="Los días que puedes"
+      [conHoras]="false"
+      [oficios]="oficios()"
+      [oficio]="oficio()"
+      [semana]="semana()"
+      (cambio)="cambiarSemana($event)" />
   </div>
 </section>
 
@@ -38,7 +46,7 @@
   <div class="resultados_empleos">
     <div class="barra_resultados_empleos">
       <p class="conteo_empleos" aria-live="polite">
-        @if (!cargando()) { {{ textoTotal() }} }
+        @if (!cargando()) { {{ textoTotal() }}@if (semana()) { <span class="orden_empleos"> · la que más paga primero</span> } }
       </p>
 
       <button type="button" class="boton_simple boton_chico abrir_filtros_empleos"
@@ -75,8 +83,8 @@
     } @else {
       <h2 class="oculto">Ofertas</h2>
       <div class="rejilla_empleos">
-        @for (job of jobs(); track job.id) {
-          <jobsy-job-card [job]="job" />
+        @for (job of jobs(); track job.id; let i = $index) {
+          <jobsy-job-card [job]="job" [misDias]="misDias()" [style.--i]="i" />
         }
       </div>
 

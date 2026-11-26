@@ -1,166 +1,187 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-:host { display: block; }
+:host { display: block; height: 100%; }
 
-.tarjeta_empleado {
-  position: relative;
+.persona {
   display: flex;
   flex-direction: column;
-  gap: v.$space-4;
   height: 100%;
-  padding: v.$space-5;
+  border-radius: v.$radius-xl;
+  overflow: hidden;
   background: v.$color-surface;
-  border: v.$border-width solid v.$color-border;
-  border-radius: v.$radius-lg;
-  transition: border-color v.$transition-base, box-shadow v.$transition-base, transform v.$transition-base;
+  color: v.$color-ink;
+  box-shadow: 0 0 0 1px v.$color-border, 0 18px 40px -30px rgba(19, 35, 58, 0.5);
+  transition: transform v.$transition-base, box-shadow v.$transition-base;
 
-  &:hover {
-    border-color: v.$color-ink;
-    box-shadow: v.$shadow-md;
-    transform: translateY(-3px);
-  }
-
-  &:focus-within { border-color: v.$color-ink; }
-
-  @media (prefers-reduced-motion: reduce) { &:hover { transform: none; } }
+  &:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px v.$color-border, 0 26px 46px -26px rgba(19, 35, 58, 0.55); }
 }
 
-.encabezado_tarjeta_empleado {
-  display: flex;
-  align-items: center;
-  gap: v.$space-4;
-}
-
-.avatar_tarjeta_empleado {
+.retrato_persona {
   position: relative;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: v.$color-primary;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: v.$color-primary-bg;
   color: v.$color-white;
-  font-family: v.$font-family-display;
-  font-size: 1.35rem;
-  font-weight: v.$font-weight-black;
+  text-decoration: none;
 
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+  img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s v.$ease-out; }
+  &:hover img { transform: scale(1.04); }
 
-  // Punto verde de disponibilidad.
-  &.is-disponible::after {
+  &::after {
     content: '';
     position: absolute;
-    right: 1px;
-    bottom: 1px;
-    width: 16px;
-    height: 16px;
-    border: 3px solid v.$color-surface;
+    inset: 45% 0 0;
+    background: linear-gradient(transparent, rgba(19, 35, 58, 0.85));
+  }
+}
+
+.inicial_persona {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  @include m.display(4rem);
+  color: v.$color-primary;
+}
+
+.disponible_persona {
+  position: absolute;
+  top: v.$space-4;
+  left: v.$space-4;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-1 v.$space-3;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: v.$color-success;
+    animation: latido 2.4s ease-out infinite;
   }
 }
 
-.identidad_tarjeta_empleado { min-width: 0; }
-
-.nombre_tarjeta_empleado {
-  margin: 0;
-  font-size: 1.3rem;
-
-  a {
-    color: v.$color-ink;
-    text-decoration: none;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-
-    &:focus-visible { outline: none; }
-    &:focus-visible::after { outline: 3px solid v.$color-primary; outline-offset: -3px; border-radius: v.$radius-lg; }
-  }
+@keyframes latido {
+  0% { box-shadow: 0 0 0 0 rgba(26, 110, 68, 0.45); }
+  70%, 100% { box-shadow: 0 0 0 7px rgba(26, 110, 68, 0); }
 }
 
-.ciudad_tarjeta_empleado {
-  display: flex;
+.nombre_persona {
+  position: absolute;
+  left: v.$space-5;
+  right: v.$space-5;
+  bottom: v.$space-4;
+  z-index: 1;
+  display: grid;
+  gap: v.$space-1;
+
+  strong { @include m.display(v.$font-size-xl, v.$font-weight-bold); color: v.$color-white; }
+}
+
+.sello_persona {
+  display: inline-flex;
   align-items: center;
   gap: v.$space-1;
-  margin: v.$space-1 0 0;
-  font-size: v.$font-size-xs;
-  color: v.$color-text-muted;
-}
-
-.disponible_tarjeta_empleado {
+  width: fit-content;
+  padding: 2px v.$space-2;
+  border-radius: v.$radius-pill;
+  background: v.$color-success-pale;
   color: v.$color-success;
+  font-size: v.$font-size-xs;
   font-weight: v.$font-weight-bold;
 }
 
-.sellos_tarjeta_empleado {
+.cuerpo_persona {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: v.$space-2 v.$space-3;
+  flex-direction: column;
+  gap: v.$space-3;
+  flex: 1;
+  padding: v.$space-5;
 }
 
-.descripcion_tarjeta_empleado {
-  @include m.line-clamp(3);
+.nota_persona {
+  display: flex;
+  align-items: center;
+  gap: v.$space-1;
   margin: 0;
   font-size: v.$font-size-sm;
-  color: v.$color-text;
+
+  jobsy-icon { color: v.$color-cta; }
+  span { color: v.$color-text-muted; }
 }
 
-.habilidades_tarjeta_empleado {
+.nuevo_persona { font-weight: v.$font-weight-semibold; }
+
+.oficios_persona {
+  margin: 0;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-ink;
+}
+
+.descripcion_persona {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: v.$font-size-sm;
+  line-height: 1.5;
+  color: v.$color-text-muted;
+}
+
+// Lo que costaría la semana elegida con esta persona.
+.semana_persona {
   display: flex;
   flex-wrap: wrap;
-  gap: v.$space-1;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: v.$space-1 v.$space-3;
+  margin: 0;
+  padding: v.$space-3 v.$space-4;
+  border-radius: v.$radius-md;
+  background: v.$color-primary;
+  color: v.$color-primary-bg;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
 
-  li {
-    padding: 0.15rem v.$space-3;
-    border-radius: v.$radius-pill;
-    background: v.$color-sand;
-    color: v.$color-ink;
-    font-size: 0.8rem;
-    font-weight: v.$font-weight-semibold;
-  }
+  strong { color: v.$color-white; font-weight: v.$font-weight-bold; }
+  .cifra { @include m.display(v.$font-size-lg); color: v.$color-white; }
+
+  // Sin tarifa no hay cifra que destacar: solo las horas.
+  &.sin_tarifa { background: v.$color-sand; color: v.$color-text-muted; strong { color: v.$color-ink; } }
 }
 
-.pie_tarjeta_empleado {
-  position: relative;
-  z-index: 2;
+.pie_persona {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: v.$space-3;
   margin-top: auto;
-  padding-top: v.$space-4;
-  border-top: v.$border-width dashed v.$color-border;
+  padding-top: v.$space-3;
+  border-top: 1px solid v.$color-border;
 }
 
-.tarifa_tarjeta_empleado {
+.tarifa_persona {
   margin: 0;
   font-size: v.$font-size-xs;
   color: v.$color-text-muted;
 
-  .cifra {
-    font-family: v.$font-family-display;
-    font-size: 1.4rem;
-    font-weight: v.$font-weight-black;
-    letter-spacing: -0.03em;
-    color: v.$color-ink;
-  }
+  .cifra { @include m.display(v.$font-size-xl); color: v.$color-ink; }
 }
 
-.tarifa_pendiente { font-weight: v.$font-weight-semibold; }
+.tarifa_acordar { font-weight: v.$font-weight-semibold; }
 
-.servicios_tarjeta_empleado {
-  font-size: v.$font-size-xs;
-  color: v.$color-text-muted;
+@media (prefers-reduced-motion: reduce) {
+  .persona, .retrato_persona img { transition: none; }
+  .disponible_persona::before { animation: none; }
 }

@@ -1,59 +1,59 @@
-<article class="tarjeta_empleado">
-  <header class="encabezado_tarjeta_empleado">
-    <div class="avatar_tarjeta_empleado" [class.is-disponible]="employee().disponible">
-      @if (employee().fotoUrl) {
-        <img [src]="employee().fotoUrl" alt="" loading="lazy" />
-      } @else {
-        <span aria-hidden="true">{{ initials(employee().nombre) }}</span>
-      }
-    </div>
-
-    <div class="identidad_tarjeta_empleado">
-      <h3 class="nombre_tarjeta_empleado">
-        <a [routerLink]="['/empleados', employee().id]">{{ employee().nombre }}</a>
-      </h3>
-      <p class="ciudad_tarjeta_empleado">
-        <jobsy-icon name="map-pin" /> {{ employee().ciudad }}
-        @if (employee().disponible) { <span class="disponible_tarjeta_empleado">· Disponible</span> }
-      </p>
-    </div>
-  </header>
-
-  <div class="sellos_tarjeta_empleado">
-    @if (employee().verificado) {
-      <span class="pildora_exito"><jobsy-icon name="badge-check" /> Verificado</span>
+<article class="persona">
+  <a class="retrato_persona" [routerLink]="['/empleados', employee().id]" [attr.aria-label]="'Ver el perfil de ' + employee().nombre">
+    @if (employee().fotoUrl) {
+      <img [src]="employee().fotoUrl" alt="" loading="lazy" />
+    } @else {
+      <span class="inicial_persona" aria-hidden="true">{{ initials(employee().nombre) }}</span>
     }
+    @if (employee().disponible) {
+      <span class="disponible_persona">Disponible</span>
+    }
+    <span class="nombre_persona">
+      <strong>{{ employee().nombre }}</strong>
+      @if (employee().verificado) {
+        <span class="sello_persona"><jobsy-icon name="badge-check" /> Verificada</span>
+      }
+    </span>
+  </a>
+
+  <div class="cuerpo_persona">
     @if (employee().totalServicios > 0) {
-      <jobsy-rating-stars [value]="employee().calificacion" />
-      <span class="servicios_tarjeta_empleado">{{ employee().totalServicios }} {{ employee().totalServicios === 1 ? 'servicio' : 'servicios' }}</span>
-    } @else {
-      <span class="pildora_info">Nuevo en Jobsy</span>
-    }
-  </div>
-
-  <p class="descripcion_tarjeta_empleado">{{ employee().descripcion }}</p>
-
-  @if (employee().especialidades.length) {
-    <ul class="habilidades_tarjeta_empleado" aria-label="Especialidades">
-      @for (skill of employee().especialidades; track skill) {
-        <li>{{ skill }}</li>
-      }
-    </ul>
-  }
-
-  <footer class="pie_tarjeta_empleado">
-    @if (employee().tarifaHora) {
-      <p class="tarifa_tarjeta_empleado">
-        <span class="cifra">{{ employee().tarifaHora | cop }}</span> <span>por hora</span>
+      <p class="nota_persona">
+        <jobsy-icon name="star" /> <strong>{{ employee().calificacion.toFixed(1) }}</strong>
+        <span>· {{ employee().totalServicios }} {{ employee().totalServicios === 1 ? 'servicio terminado' : 'servicios terminados' }}</span>
       </p>
     } @else {
-      <p class="tarifa_tarjeta_empleado tarifa_pendiente">Tarifa por acordar</p>
+      <p class="nota_persona"><span class="nuevo_persona">Nueva en Jobsy</span></p>
     }
 
-    @if (puedeContratar()) {
-      <button type="button" class="boton_principal boton_chico" (click)="solicitar.emit(employee())">
-        Contratar
-      </button>
+    @if (employee().especialidades.length) {
+      <p class="oficios_persona">{{ employee().especialidades.slice(0, 3).join(' · ') }}</p>
     }
-  </footer>
+
+    @if (conDescripcion() && employee().descripcion) {
+      <p class="descripcion_persona">{{ employee().descripcion }}</p>
+    }
+
+    @if (semana(); as s) {
+      <p class="semana_persona" [class.sin_tarifa]="!costoSemana()">
+        <span>Tu semana · {{ s.dias.length }} {{ s.dias.length === 1 ? 'día' : 'días' }} × {{ s.horas }} h</span>
+        @if (costoSemana()) {
+          <strong class="cifra">{{ costoSemana() | cop }}</strong>
+        } @else {
+          <strong>{{ horasSemana() }} h, tarifa por acordar</strong>
+        }
+      </p>
+    }
+
+    <footer class="pie_persona">
+      @if (employee().tarifaHora) {
+        <p class="tarifa_persona"><span class="cifra">{{ employee().tarifaHora | cop }}</span> por hora</p>
+      } @else {
+        <p class="tarifa_persona tarifa_acordar">Tarifa por acordar</p>
+      }
+      @if (puedeContratar()) {
+        <button type="button" class="boton_principal boton_chico" (click)="solicitar.emit(employee())">Contratar</button>
+      }
+    </footer>
+  </div>
 </article>

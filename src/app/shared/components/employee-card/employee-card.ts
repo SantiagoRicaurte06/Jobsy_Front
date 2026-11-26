@@ -1,19 +1,21 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Employee } from '../../../core/models';
+import { Semana } from '../../../core/utils/semana';
 import { AuthService } from '../../../core/services';
 import { CopPipe } from '../../pipes';
-import { RatingStarsComponent } from '../rating-stars/rating-stars';
 import { IconComponent } from '../icon/icon';
 
 /**
- * Tarjeta de empleado: verificación, reseñas reales y tarifa antes de abrir
- * el perfil. "Contratar" solo aparece a visitantes y cuentas de hogar.
+ * Tarjeta de persona en formato retrato: la cara primero, luego verificación,
+ * reseñas reales y tarifa. Con una semana elegida (días y horas) dice cuánto
+ * costaría esa semana con esa persona. "Contratar" solo aparece a visitantes
+ * y cuentas de hogar.
  */
 @Component({
   selector: 'jobsy-employee-card',
   standalone: true,
-  imports: [IconComponent, RouterLink, RatingStarsComponent, CopPipe],
+  imports: [IconComponent, RouterLink, CopPipe],
   templateUrl: './employee-card.html',
   styleUrl: './employee-card.scss',
 })
@@ -21,8 +23,19 @@ export class EmployeeCardComponent {
   private auth = inject(AuthService);
 
   readonly employee = input.required<Employee>();
+  /** Semana elegida en la portada o en la lista; null si no hay. */
+  readonly semana = input<Semana | null>(null);
+  /** Muestra la descripción (lista completa) o la omite (fila de la portada). */
+  readonly conDescripcion = input(true);
 
   readonly solicitar = output<Employee>();
+
+  readonly horasSemana = computed(() => {
+    const s = this.semana();
+    return s ? s.dias.length * s.horas : 0;
+  });
+
+  readonly costoSemana = computed(() => (this.employee().tarifaHora ?? 0) * this.horasSemana());
 
   readonly puedeContratar = computed(() => {
     const rol = this.auth.role();

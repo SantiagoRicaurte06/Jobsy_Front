@@ -17,7 +17,7 @@ import {
     <div class="franja" [class]="'franja_' + tamano()" role="img" [attr.aria-label]="'Horario: ' + descripcion()">
       <ol class="dias_franja" aria-hidden="true">
         @for (d of semana; track d; let i = $index) {
-          <li [class.is-dia]="leido().dias.includes(d)" [style.--i]="i" [attr.title]="nombre[d]">{{ inicial[d] }}</li>
+          <li [class.is-dia]="leido().dias.includes(d)" [class.is-mio]="mios()?.includes(d)" [style.--i]="i" [attr.title]="nombre[d]">{{ inicial[d] }}</li>
         }
       </ol>
       @if (horas(); as h) {
@@ -35,6 +35,8 @@ export class FranjaSemanaComponent {
   readonly inicio = input<string | null>(null);
   readonly fin = input<string | null>(null);
   readonly tamano = input<'chica' | 'grande'>('chica');
+  /** Días que eligió quien mira: se marcan con un anillo para ver la coincidencia. */
+  readonly mios = input<readonly string[] | null>(null);
 
   readonly semana = DIAS_SEMANA;
   readonly inicial = DIA_INICIAL;

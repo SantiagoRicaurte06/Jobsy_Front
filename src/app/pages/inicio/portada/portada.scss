@@ -149,18 +149,16 @@
   gap: v.$space-5;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: v.$space-2 max(v.$space-5, calc((100vw - 1240px) / 2)) v.$space-5;
+  // Arranca alineada con el contenedor y se sale por la derecha.
+  padding: v.$space-2 max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6})) v.$space-5;
+  scroll-padding-inline: max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6}));
+
+  @include m.until(v.$bp-md) { padding-inline: v.$space-4; scroll-padding-inline: v.$space-4; }
   scrollbar-color: v.$color-cta transparent;
 }
 
-.persona {
+.celda_persona {
   scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  border-radius: v.$radius-xl;
-  overflow: hidden;
-  background: v.$color-surface;
-  color: v.$color-ink;
 
   @supports (animation-timeline: view()) {
     animation: entrar linear both;
@@ -173,99 +171,6 @@
   from { opacity: 0.35; transform: scale(0.94); }
   to { opacity: 1; transform: none; }
 }
-
-.retrato_persona {
-  position: relative;
-  display: block;
-  aspect-ratio: 1;
-  background: v.$color-primary-bg;
-  color: v.$color-white;
-  text-decoration: none;
-
-  img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s v.$ease-out; }
-  &:hover img { transform: scale(1.04); }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 45% 0 0;
-    background: linear-gradient(transparent, rgba(19, 35, 58, 0.85));
-  }
-}
-
-.inicial_persona {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  @include m.display(4rem);
-  color: v.$color-primary;
-}
-
-.nombre_persona {
-  position: absolute;
-  left: v.$space-5;
-  right: v.$space-5;
-  bottom: v.$space-4;
-  z-index: 1;
-  display: grid;
-  gap: v.$space-1;
-
-  strong { @include m.display(v.$font-size-xl, v.$font-weight-bold); color: v.$color-white; }
-}
-
-.sello_persona {
-  display: inline-flex;
-  align-items: center;
-  gap: v.$space-1;
-  width: fit-content;
-  padding: 2px v.$space-2;
-  border-radius: v.$radius-pill;
-  background: v.$color-success-pale;
-  color: v.$color-success;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-bold;
-}
-
-.cuerpo_persona {
-  display: flex;
-  flex-direction: column;
-  gap: v.$space-3;
-  flex: 1;
-  padding: v.$space-5;
-}
-
-.nota_persona {
-  display: flex;
-  align-items: center;
-  gap: v.$space-1;
-  margin: 0;
-  font-size: v.$font-size-sm;
-
-  jobsy-icon { color: v.$color-cta; }
-  span { color: v.$color-text-muted; }
-}
-
-.oficios_persona { margin: 0; font-size: v.$font-size-xs; color: v.$color-text-muted; }
-
-.pie_persona {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: v.$space-3;
-  margin-top: auto;
-  padding-top: v.$space-3;
-  border-top: 1px solid v.$color-border;
-}
-
-.tarifa_persona {
-  margin: 0;
-  font-size: v.$font-size-xs;
-  color: v.$color-text-muted;
-
-  .cifra { @include m.display(v.$font-size-xl); color: v.$color-ink; }
-}
-
-.tarifa_acordar { font-weight: v.$font-weight-semibold; }
 
 // ============================================================
 //  Secciones
@@ -333,5 +238,5 @@
 .enlace_sol { color: v.$color-ink; font-weight: v.$font-weight-bold; }
 
 @media (prefers-reduced-motion: reduce) {
-  .flotantes li, .persona { animation: none; }
+  .flotantes li, .celda_persona { animation: none; }
 }

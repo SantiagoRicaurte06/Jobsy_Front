@@ -180,3 +180,19 @@ jobsy-search-bar { max-width: 860px; }
 .rejilla_empleos {
   @include m.grid-cards(280px);
 }
+
+.semana_empleos { margin-top: v.$space-5; }
+
+.orden_empleos { color: v.$color-text-muted; font-weight: v.$font-weight-semibold; }
+
+// Las tarjetas entran escalonadas cada vez que cambia la lista.
+.rejilla_empleos jobsy-job-card { animation: subir 0.5s v.$ease-out both; animation-delay: calc(var(--i) * 50ms); }
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rejilla_empleos jobsy-job-card { animation: none; }
+}
