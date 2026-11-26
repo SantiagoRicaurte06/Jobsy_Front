@@ -19,7 +19,7 @@
   height: 100vh;
   padding: v.$space-5 v.$space-4;
   background: v.$color-ink;
-  color: #D9DEE6;
+  color: v.$color-on-ink;
 
   :focus-visible { outline-color: v.$color-cta; }
 
@@ -65,7 +65,7 @@
     min-height: 44px;
     padding: 0 v.$space-3;
     border-radius: v.$radius-pill;
-    color: #D9DEE6;
+    color: v.$color-on-ink;
     font-weight: v.$font-weight-semibold;
     text-decoration: none;
     transition: background v.$transition-fast, color v.$transition-fast;
@@ -94,7 +94,7 @@
   margin: v.$space-5 v.$space-3 v.$space-2;
   font-size: 0.78rem;
   font-weight: v.$font-weight-bold;
-  color: #8D99AB;
+  color: v.$color-on-ink-muted;
 
   &:first-child { margin-top: 0; }
 
@@ -135,7 +135,7 @@
     white-space: nowrap;
   }
 
-  a { color: #B7C2D2; font-size: v.$font-size-xs; }
+  a { color: v.$color-on-ink-soft; font-size: v.$font-size-xs; }
 
   @include m.until(v.$bp-lg) {
     margin: 0 0 0 auto;
@@ -168,7 +168,7 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #D9DEE6;
+  color: v.$color-on-ink;
   font-size: 1.15rem;
   cursor: pointer;
 

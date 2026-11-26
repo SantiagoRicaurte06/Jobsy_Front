@@ -224,6 +224,6 @@
     background: v.$color-danger;
     color: v.$color-text-invert;
 
-    &:hover { background: #b93a3a; }
+    &:hover { background: v.$color-danger-dark; }
   }
 }

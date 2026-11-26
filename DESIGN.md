@@ -17,8 +17,9 @@ Los valores viven en `src/styles/_variables.scss` y los patrones en `src/styles/
 | Azul Jobsy | `$color-primary` | `#1668B3` | Campos de "cielo" (portada, acceso), enlaces, foco. |
 | Naranja de marca | `$color-cta` | `#F5821F` | Acción principal y campos; **siempre con texto tinta** (6:1). |
 | Naranja tostado | `$color-accent` | `#B84F06` | Naranja como texto o fondo con blanco (AA). |
-| Verde morichal | `$color-success` | `#1E7A4C` | Verificado, disponible, aceptado. |
-| Ámbar / Rojo | `$color-warning` / `$color-danger` | `#9A5B00` / `#B42318` | Avisos y errores. |
+| Verde morichal | `$color-success` | `#1A6E44` (pálido `#E4F3E9`) | Verificado, disponible, aceptado. |
+| Ámbar / Rojo | `$color-warning` / `$color-danger` | `#8A5100` / `#B42318` (pálidos `#FBEBCB` / `#FBE3E0`) | Avisos y errores. |
+| Sobre tinta / azul | `$color-on-ink` · `-soft` · `-muted` / `$color-on-primary` | `#D9DEE6` · `#B7C2D2` · `#9AA6B8` / `#E4EEF8` | Texto en pie, panel admin y campos azules. |
 
 Reglas:
 
