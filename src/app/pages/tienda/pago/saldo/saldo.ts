@@ -2,11 +2,12 @@ import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { WalletService, PaymentRecord } from '../../../../core/services';
 import { CheckoutBase } from '../checkout-base';
+import { CopPipe } from '../../../../shared/pipes';
 
 @Component({
   selector: 'jobsy-balance',
   standalone: true,
-  imports: [],
+  imports: [CopPipe],
   templateUrl: './saldo.html',
   styleUrl: './saldo.scss',
 })
@@ -15,6 +16,8 @@ export class BalancePage extends CheckoutBase implements OnInit {
 
   readonly saldo = signal(0);
   readonly cargando = signal(true);
+  /** Solo con el saldo consultado se muestra la cifra: un fallo no es "$0". */
+  readonly consultado = signal(false);
   /** Movimientos reales de la cuenta; antes eran tres lineas de ejemplo. */
   readonly movimientos = signal<PaymentRecord[]>([]);
 
@@ -26,6 +29,7 @@ export class BalancePage extends CheckoutBase implements OnInit {
     forkJoin({ saldo: this.wallet.balance(), pagos: this.wallet.payments() }).subscribe({
       next: ({ saldo, pagos }) => {
         this.saldo.set(saldo.disponible);
+        this.consultado.set(true);
         this.movimientos.set((pagos ?? []).slice(0, 5));
         this.cargando.set(false);
       },
@@ -37,7 +41,7 @@ export class BalancePage extends CheckoutBase implements OnInit {
   }
 
   pagar(): void {
-    if (!this.suficiente()) return;
+    if (!this.consultado() || !this.suficiente()) return;
     this.pagarCon('saldo_jobsy');
   }
 
@@ -49,6 +53,12 @@ export class BalancePage extends CheckoutBase implements OnInit {
 
   formatear(m: PaymentRecord): string {
     return `-$${Math.abs(m.monto).toLocaleString('es-CO')}`;
+  }
+
+  /** Estado del pago tal como lo deja el MID, en palabras. */
+  estadoTexto(estado: string): string {
+    const textos: Record<string, string> = { aprobado: 'Aprobado', pagado: 'Pagado', pendiente: 'Pendiente', rechazado: 'Rechazado', reembolsado: 'Reembolsado' };
+    return textos[estado] ?? estado;
   }
 
   cuando(fecha: string): string {

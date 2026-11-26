@@ -4,10 +4,12 @@ import { IconComponent } from '../../../../shared/components/icon/icon';
 import { CheckoutBase } from '../checkout-base';
 import * as R from '../../../../core/validation/reglas';
 
+import { CopPipe } from '../../../../shared/pipes';
+
 @Component({
   selector: 'jobsy-card',
   standalone: true,
-  imports: [IconComponent, FormsModule],
+  imports: [IconComponent, FormsModule, CopPipe],
   templateUrl: './tarjeta.html',
   styleUrl: './tarjeta.scss',
 })

@@ -6,6 +6,7 @@
     font-size: v.$font-size-lg;
   }
 
+
   &__subtitle {
     margin: 0 0 v.$space-4;
     font-size: v.$font-size-xs;
@@ -19,17 +20,26 @@
     gap: v.$space-1;
     padding: v.$space-5;
     margin-bottom: v.$space-4;
-    background: v.$gradient-hero;
+    // Campo azul con su horizonte naranja: el saldo es un dato de marca.
+    background: v.$color-primary;
+    border-bottom: 10px solid v.$color-cta;
     border-radius: v.$radius-lg;
-    color: v.$color-text-invert;
+    color: v.$color-white;
   }
 
   &__label {
     font-size: v.$font-size-xs;
-    opacity: 0.85;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-on-primary;
   }
 
-  &__amount { font-size: v.$font-size-2xl; }
+  &__amount {
+    font-family: v.$font-family-display;
+    font-size: v.$font-size-3xl;
+    font-weight: v.$font-weight-black;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
 
   // ---- Calculo ----
   &__calc {

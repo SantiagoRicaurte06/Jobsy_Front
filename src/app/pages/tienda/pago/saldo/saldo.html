@@ -2,65 +2,73 @@
   <h2 class="saldo__title">Saldo Jobsy</h2>
   <p class="saldo__subtitle">Paga al instante con el saldo de tu cuenta.</p>
 
-  <!-- Tarjeta de saldo -->
-  <div class="saldo__card">
-    <span class="saldo__label">Saldo disponible</span>
-    <strong class="saldo__amount">${{ saldo().toLocaleString('es-CO') }}</strong>
-  </div>
-
-  <!-- Calculo del pago -->
-  <dl class="saldo__calc">
-    <div>
-      <dt>Total del pedido</dt>
-      <dd>${{ cart.total().toLocaleString('es-CO') }}</dd>
+  @if (cargando()) {
+    <p class="texto_gris" role="status">Consultando tu saldo...</p>
+  } @else if (!consultado()) {
+    <p class="pildora_error" role="alert">{{ error() || 'No pudimos consultar tu saldo.' }}</p>
+    <p class="texto_mini texto_gris">Elige otro método de pago o inténtalo más tarde.</p>
+  } @else {
+    <!-- Tarjeta de saldo -->
+    <div class="saldo__card">
+      <span class="saldo__label">Saldo disponible</span>
+      <strong class="saldo__amount cifra">{{ saldo() | cop }}</strong>
     </div>
 
+    <!-- Cálculo del pago -->
+    <dl class="saldo__calc">
+      <div>
+        <dt>Total del pedido</dt>
+        <dd class="cifra">{{ cart.total() | cop }}</dd>
+      </div>
+
+      @if (suficiente()) {
+        <div class="saldo__calc-ok">
+          <dt>Saldo restante</dt>
+          <dd class="cifra">{{ restante() | cop }}</dd>
+        </div>
+      } @else {
+        <div class="saldo__calc-bad">
+          <dt>Saldo faltante</dt>
+          <dd class="cifra">{{ faltante() | cop }}</dd>
+        </div>
+      }
+    </dl>
+
+    @if (error()) {
+      <p class="pildora_error">{{ error() }}</p>
+    }
+
     @if (suficiente()) {
-      <div class="saldo__calc-ok">
-        <dt>Saldo restante</dt>
-        <dd>${{ restante().toLocaleString('es-CO') }}</dd>
-      </div>
+      <button type="button" class="boton_principal boton_ancho" [disabled]="procesando()" (click)="pagar()">
+        {{ procesando() ? 'Procesando...' : 'Pagar ' + (cart.total() | cop) + ' con saldo' }}
+      </button>
     } @else {
-      <div class="saldo__calc-bad">
-        <dt>Saldo faltante</dt>
-        <dd>${{ faltante().toLocaleString('es-CO') }}</dd>
-      </div>
+      <p class="saldo__warning">
+        No tienes saldo suficiente para este pedido. Elige otro método de pago.
+      </p>
     }
-  </dl>
-
-  @if (error()) {
-    <p class="pildora_error">{{ error() }}</p>
   }
 
-  @if (suficiente()) {
-    <button type="button" class="boton_principal boton_ancho" [disabled]="procesando()" (click)="pagar()">
-      {{ procesando() ? 'Procesando...' : 'Pagar con saldo Jobsy' }}
-    </button>
-  } @else {
-    <p class="saldo__warning">
-      No tienes saldo suficiente. Recarga tu cuenta o elige otro método de pago.
-    </p>
-    <button type="button" class="boton_secundario boton_ancho">Recargar saldo</button>
+  @if (consultado()) {
+    <!-- Movimientos -->
+    <section class="saldo__history">
+      <h3>Movimientos recientes</h3>
+
+      @if (movimientos().length === 0) {
+        <p class="texto_mini texto_gris">Todavía no tienes movimientos.</p>
+      } @else {
+        <ul>
+          @for (mov of movimientos(); track mov.id) {
+            <li>
+              <div>
+                <strong>{{ concepto(mov) }}</strong>
+                <span class="texto_mini texto_gris">{{ cuando(mov.fecha) }} &middot; {{ estadoTexto(mov.estado) }}</span>
+              </div>
+              <span class="saldo__out">{{ formatear(mov) }}</span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
   }
-
-  <!-- Movimientos -->
-  <section class="saldo__history">
-    <h3>Movimientos recientes</h3>
-
-    @if (movimientos().length === 0) {
-      <p class="texto_mini texto_gris">Todavia no tienes movimientos.</p>
-    } @else {
-      <ul>
-        @for (mov of movimientos(); track mov.id) {
-          <li>
-            <div>
-              <strong>{{ concepto(mov) }}</strong>
-              <span class="texto_mini texto_gris">{{ cuando(mov.fecha) }} &middot; {{ mov.estado }}</span>
-            </div>
-            <span class="saldo__out">{{ formatear(mov) }}</span>
-          </li>
-        }
-      </ul>
-    }
-  </section>
 </section>

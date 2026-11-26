@@ -16,10 +16,12 @@ const NOMBRES: Record<string, string> = {
   daviplata: 'Daviplata',
 };
 
+import { CopPipe } from '../../../../shared/pipes';
+
 @Component({
   selector: 'jobsy-digital-wallet',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CopPipe],
   templateUrl: './billetera.html',
   styleUrl: './billetera.scss',
 })
