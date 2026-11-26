@@ -2,8 +2,11 @@
   @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="encabezado_seccion">
-      <h1>Hoja de vida</h1>
+    <div class="encabezado_seccion cabecera_hoja_vida">
+      <div>
+        <span class="kicker_hoja_vida">Tu perfil profesional</span>
+        <h1>Hoja de vida</h1>
+      </div>
       <button type="button" class="boton_principal boton_chico" [disabled]="guardando()" (click)="guardar()">
         {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
       </button>
@@ -18,7 +21,7 @@
     <!-- ---- Resumen profesional ---- -->
     <section class="bloque_hoja_vida tarjeta">
       <h2>Resumen profesional</h2>
-      <p class="ayuda_hoja_vida">Un parrafo corto que aparece al inicio de tu hoja de vida.</p>
+      <p class="ayuda_hoja_vida">Un párrafo corto que aparece al inicio de tu hoja de vida.</p>
 
       <textarea class="area_texto" maxlength="2000"
         placeholder="Ej: Profesional del hogar con 6 años de experiencia en limpieza profunda y cocina."
@@ -52,7 +55,7 @@
 
             <div class="grupo_campo">
               <label class="etiqueta" [for]="'hoja-vida-empresa-' + i">Empleador</label>
-              <input [id]="'hoja-vida-empresa-' + i" type="text" class="campo" placeholder="Familia Rodriguez"
+              <input [id]="'hoja-vida-empresa-' + i" type="text" class="campo" placeholder="Familia Rodríguez"
                 maxlength="150" [(ngModel)]="exp.empresa" [name]="'empresa' + i" />
             </div>
           </div>
@@ -81,7 +84,7 @@
     <!-- ---- Estudios ---- -->
     <section class="bloque_hoja_vida tarjeta">
       <div class="encabezado_bloque_hoja_vida">
-        <h2>Formacion academica</h2>
+        <h2>Formación académica</h2>
         <button type="button" class="boton_simple boton_chico" (click)="agregarEstudio()">+ Agregar</button>
       </div>
 
@@ -99,13 +102,13 @@
           <div class="fila_hoja_vida fila_hoja_vida_tres">
             <div class="grupo_campo">
               <label class="etiqueta" [for]="'hoja-vida-titulo-' + i">Título</label>
-              <input [id]="'hoja-vida-titulo-' + i" type="text" class="campo" placeholder="Bachiller academico"
+              <input [id]="'hoja-vida-titulo-' + i" type="text" class="campo" placeholder="Bachiller académico"
                 maxlength="150" [(ngModel)]="est.titulo" [name]="'titulo' + i" />
             </div>
 
             <div class="grupo_campo">
               <label class="etiqueta" [for]="'hoja-vida-inst-' + i">Institución</label>
-              <input [id]="'hoja-vida-inst-' + i" type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
+              <input [id]="'hoja-vida-inst-' + i" type="text" class="campo" placeholder="Colegio Braulio González"
                 maxlength="150" [(ngModel)]="est.institucion" [name]="'inst' + i" />
             </div>
 
@@ -125,7 +128,7 @@
       <p class="ayuda_hoja_vida">Agrega las habilidades que te diferencian.</p>
 
       <div class="agregar_habilidad_hoja_vida">
-        <input type="text" class="campo" placeholder="Ej: Manejo de quimicos de aseo"
+        <input type="text" class="campo" placeholder="Ej: Manejo de químicos de aseo"
           maxlength="50" [ngModel]="nuevaHabilidad()" (ngModelChange)="nuevaHabilidad.set($event)" name="nuevaHabilidad"
           (keydown.enter)="$event.preventDefault(); agregarHabilidad()" />
         <button type="button" class="boton_secundario" (click)="agregarHabilidad()">Agregar</button>

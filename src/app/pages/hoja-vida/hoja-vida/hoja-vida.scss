@@ -1,6 +1,16 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+// ---- Cabecera editorial ----
+.cabecera_hoja_vida {
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
+
+  h1 { @include m.display(v.$font-size-2xl); }
+}
+
+.kicker_hoja_vida { @include m.kicker; }
+
 .guardado_hoja_vida {
   padding: v.$space-3 v.$space-4;
   margin-bottom: v.$space-4;
@@ -14,10 +24,11 @@
 .bloque_hoja_vida {
   padding: v.$space-5;
   margin-bottom: v.$space-4;
+  border-left: 4px solid v.$color-primary;
 
   h2 {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-base;
+    @include m.display(v.$font-size-lg, v.$font-weight-bold);
   }
 }
 
@@ -51,6 +62,7 @@
   padding: v.$space-4;
   margin-bottom: v.$space-3;
   background: v.$color-bg;
+  border: v.$border-width solid v.$color-border;
   border-radius: v.$radius-md;
 }
 
@@ -61,16 +73,11 @@
   margin-bottom: v.$space-3;
 }
 
+// Número protagonista, como las tarifas.
 .numero_entrada_hoja_vida {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  background: v.$color-primary-light;
-  border-radius: 50%;
-  color: v.$color-text-invert;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-bold;
+  @include m.display(v.$font-size-xl);
+  color: v.$color-accent;
+  font-variant-numeric: tabular-nums;
 }
 
 .quitar_hoja_vida {

@@ -2,8 +2,11 @@
   @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="encabezado_seccion">
-      <h1>Editar perfil</h1>
+    <div class="encabezado_seccion cabecera_editar_perfil">
+      <div>
+        <span class="kicker_editar_perfil">Mi perfil</span>
+        <h1>Editar perfil</h1>
+      </div>
       <a routerLink="/app/perfil" class="boton_simple boton_chico">Cancelar</a>
     </div>
 
@@ -62,7 +65,7 @@
       <div class="grupo_campo">
         <label class="etiqueta" for="descripcion">Descripción</label>
         <textarea id="descripcion" class="area_texto"
-          placeholder="Cuenta brevemente quien eres y como trabajas."
+          placeholder="Cuenta brevemente quién eres y cómo trabajas."
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
       </div>
 
@@ -73,6 +76,7 @@
             <li>
               <button type="button" class="ficha_editar_perfil"
                 [class.is-selected]="especialidades().includes(e)"
+                [attr.aria-pressed]="especialidades().includes(e)"
                 (click)="toggleEspecialidad(e)">
                 {{ e }}
               </button>

@@ -1,9 +1,10 @@
 <section class="cuenta">
-  <div class="encabezado_seccion">
+  <header class="cabecera_cuenta">
+    <span class="kicker_cuenta">Tu cuenta</span>
     <h1>Mi cuenta</h1>
-  </div>
+  </header>
 
-  <nav class="pestanas_cuenta">
+  <nav class="pestanas_cuenta" aria-label="Secciones de la cuenta">
     @for (tab of tabs; track tab.path) {
       <a [routerLink]="tab.path" routerLinkActive="is-active">{{ tab.label }}</a>
     }
