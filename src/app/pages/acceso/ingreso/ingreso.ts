@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { LogoComponent } from '../../../shared/components/logo/logo';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -10,7 +9,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'jobsy-login',
   standalone: true,
-  imports: [IconComponent, FormsModule, LogoComponent, RouterLink],
+  imports: [IconComponent, FormsModule, RouterLink],
   templateUrl: './ingreso.html',
   styleUrl: './ingreso.scss',
 })

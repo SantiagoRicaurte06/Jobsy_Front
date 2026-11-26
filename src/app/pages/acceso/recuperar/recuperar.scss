@@ -14,19 +14,13 @@
     0 24px 48px rgba(0, 0, 0, 0.06);
 
   &__head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
     margin-bottom: v.$space-6;
-  }
-
-  &__marca {
-    &:hover { text-decoration: none; }
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
   }
 
   &__title {
-    margin: v.$space-5 0 v.$space-2;
+    margin: 0 0 v.$space-2;
     @include m.display(v.$font-size-xl);
   }
 

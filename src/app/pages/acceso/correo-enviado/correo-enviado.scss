@@ -11,8 +11,9 @@
   padding: v.$space-6;
 
   &__icon {
-    margin: v.$space-5 0 v.$space-3;
+    margin: 0 0 v.$space-3;
     font-size: v.$font-size-3xl;
+    color: v.$color-primary;
   }
 
   &__title {

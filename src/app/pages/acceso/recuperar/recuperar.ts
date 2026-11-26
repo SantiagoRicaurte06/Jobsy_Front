@@ -2,13 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services';
-import { LogoComponent } from '../../../shared/components/logo/logo';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-forgot-password',
   standalone: true,
-  imports: [IconComponent, FormsModule, RouterLink, LogoComponent],
+  imports: [IconComponent, FormsModule, RouterLink],
   templateUrl: './recuperar.html',
   styleUrl: './recuperar.scss',
 })
