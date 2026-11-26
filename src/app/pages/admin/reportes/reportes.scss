@@ -2,7 +2,11 @@
 @use 'mixins' as m;
 
 .admin-reportes {
-  &__head { margin-bottom: v.$space-5; }
+  &__head {
+    margin-bottom: v.$space-5;
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
+  }
 
   &__title {
     margin: 0 0 v.$space-1;

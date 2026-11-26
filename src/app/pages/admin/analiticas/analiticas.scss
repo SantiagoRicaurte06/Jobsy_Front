@@ -11,6 +11,8 @@
   justify-content: space-between;
   gap: v.$space-4;
   margin-bottom: v.$space-5;
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
 
   @include m.until(v.$bp-md) { flex-direction: column; }
 }
