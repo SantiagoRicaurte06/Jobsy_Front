@@ -1,0 +1,50 @@
+<div class="paneles">
+    <article class="panel">
+      <div class="lienzo_panel lienzo_azul" aria-hidden="true">
+        <div class="telefono">
+          @if (oferta(); as o) {
+            <p class="mini_gris">{{ o.ciudad }} · {{ o.etiquetas.slice(0, 2).join(', ') }}</p>
+            <p class="mini_titulo">{{ o.titulo }}</p>
+            <p class="mini_cifra cifra">{{ o.precioHora | cop }} <small>/ hora</small></p>
+            <jobsy-franja-semana [horario]="o.horario" />
+            <span class="mini_boton">Postularme</span>
+          }
+        </div>
+      </div>
+      <h3>Ofertas con la tarifa clara</h3>
+      <p>Cada oferta dice cuánto paga por hora, qué días y en qué horario.</p>
+    </article>
+
+    <article class="panel">
+      <div class="lienzo_panel lienzo_naranja" aria-hidden="true">
+        <div class="telefono telefono_centro">
+          @if (persona(); as p) {
+            @if (p.fotoUrl) { <img class="mini_cara" [src]="p.fotoUrl" alt="" /> }
+            <p class="mini_titulo">{{ p.nombre }}</p>
+            <p class="mini_gris">{{ p.especialidades.slice(0, 2).join(' · ') }}</p>
+            @if (p.verificado) { <span class="mini_sello"><jobsy-icon name="badge-check" /> Documentos verificados</span> }
+            <p class="mini_gris">{{ p.calificacion.toFixed(1) }} · {{ p.totalServicios }} servicios</p>
+          }
+        </div>
+      </div>
+      <h3>Perfiles verificados</h3>
+      <p>Documentos revisados y reseñas de otros hogares antes de contratar.</p>
+    </article>
+
+    <article class="panel">
+      <div class="lienzo_panel lienzo_tinta" aria-hidden="true">
+        <div class="telefono">
+          @if (oferta(); as o) {
+            <p class="mini_titulo">Contratación</p>
+            <p class="mini_fila"><span>Lugar</span><b>{{ o.ciudad }}</b></p>
+            <p class="mini_fila"><span>Horas</span><b>8</b></p>
+            <p class="mini_fila"><span>Tarifa</span><b>{{ o.precioHora | cop }}</b></p>
+            <p class="mini_fila mini_total"><span>Total</span><b class="cifra">{{ o.precioHora * 8 | cop }}</b></p>
+            <span class="mini_boton mini_boton_tinta">Confirmar</span>
+          }
+        </div>
+      </div>
+      <h3>Contratación registrada</h3>
+      <p>Dirección, fecha, horas y total quedan escritos. Al terminar, una reseña.</p>
+    </article>
+  </div>

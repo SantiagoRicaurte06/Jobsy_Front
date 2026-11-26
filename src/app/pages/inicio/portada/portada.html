@@ -1,120 +1,96 @@
-<!-- ============ PRIMER VISTAZO: el acuerdo a la vista ============ -->
-<section class="cielo" aria-labelledby="titulo-portada">
-  <div class="interior_cielo">
-    <div class="columna_cielo">
-      <h1 class="titulo_cielo" id="titulo-portada">
-        Ayuda en casa,<br />
-        <span>con condiciones claras.</span>
-      </h1>
-
-      <p class="texto_cielo">
-        Hogares de Yopal y trabajadores del hogar verificados se encuentran aquí,
-        con la tarifa por hora, los días y el horario escritos desde el primer momento.
-      </p>
-
-      <div class="buscador_cielo">
-        @if (!rol()) {
-        <div class="puertas_cielo" role="group" aria-label="¿Qué buscas?">
-          <button type="button" class="puerta_cielo"
-            [class.is-activa]="modo() === 'contratar'" [attr.aria-pressed]="modo() === 'contratar'"
-            (click)="modo.set('contratar')">
-            <jobsy-icon name="house" /> Necesito ayuda en casa
-          </button>
-          <button type="button" class="puerta_cielo"
-            [class.is-activa]="modo() === 'trabajar'" [attr.aria-pressed]="modo() === 'trabajar'"
-            (click)="modo.set('trabajar')">
-            <jobsy-icon name="briefcase" /> Busco trabajo
-          </button>
-        </div>
-        }
-
-        @if (modo() === 'trabajar') {
-          <jobsy-search-bar
-            placeholder="¿Qué sabes hacer? Limpieza, cocina, jardín…"
-            (buscar)="buscar($event)" />
-        } @else {
-          <div class="acciones_cielo">
-            <a routerLink="/publicar-oferta" class="boton_principal">
-              <jobsy-icon name="square-pen" /> Publicar mi oferta
-            </a>
-            <a routerLink="/empleados" class="boton_cielo">
-              <jobsy-icon name="users" /> Ver personas con perfil
-            </a>
-          </div>
-        }
-
-        @if (resumen(); as r) {
-          <p class="resumen_cielo">{{ r }}</p>
-        }
-      </div>
+<!-- ============ PRIMER VISTAZO: arma tu semana ============ -->
+<section class="inicio" aria-labelledby="titulo-portada">
+  <div class="interior_inicio">
+    <!-- Escena: una persona trabajando y quienes ya están en Jobsy -->
+    <div class="escena">
+      <img class="foto_escena" [src]="fotoPortada" alt="Una trabajadora del hogar limpia una ventana" fetchpriority="high" />
+      @if (flotantes().length) {
+        <ul class="flotantes" aria-label="Personas con perfil en Jobsy">
+          @for (p of flotantes(); track p.id; let i = $index) {
+            <li [style.--i]="i">
+              <a class="flotante" [routerLink]="['/empleados', p.id]">
+                @if (p.fotoUrl) { <img [src]="p.fotoUrl" alt="" /> } @else { <span class="inicial_flotante">{{ iniciales(p.nombre) }}</span> }
+                <span class="datos_flotante">
+                  <strong>{{ p.nombre }}</strong>
+                  <span>
+                    @if (p.verificado) { <jobsy-icon name="badge-check" /> }
+                    {{ p.calificacion.toFixed(1) }} · {{ p.totalServicios }} servicios
+                  </span>
+                  @if (p.tarifaHora) { <span class="tarifa_flotante cifra">{{ p.tarifaHora | cop }} / hora</span> }
+                </span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
     </div>
 
-    <!-- La prueba: una oferta real, tal como la ve quien se postula -->
-    @if (ofertaDestacada(); as o) {
-      <a class="acuerdo" [routerLink]="['/empleos', o.id]" [attr.aria-label]="'Ver la oferta ' + o.titulo">
-        <div class="foto_acuerdo">
-          @if (o.imagenUrl) { <img [src]="o.imagenUrl" alt="" fetchpriority="high" /> }
-        </div>
-        <div class="papel_acuerdo">
-          <p class="lugar_acuerdo"><jobsy-icon name="map-pin" /> {{ o.ciudad }}</p>
-          <p class="titulo_acuerdo">{{ o.titulo }}</p>
-          <p class="tarifa_acuerdo">
-            <span class="cifra">{{ o.precioHora | cop }}</span> por hora
-          </p>
-          <jobsy-franja-semana [horario]="o.horario" tamano="grande" />
-          @if (o.etiquetas.length) {
-            <p class="tareas_acuerdo">{{ o.etiquetas.join(' · ') }}</p>
-          }
-        </div>
-      </a>
-    } @else if (cargando()) {
-      <div class="acuerdo acuerdo_cargando" aria-hidden="true"></div>
-    }
+    <div class="panel_inicio">
+      <h1 class="titulo_inicio" id="titulo-portada">Arma tu semana y mira cuánto cuesta.</h1>
+      <p class="texto_inicio">
+        Elige el oficio, los días y las horas. Jobsy te muestra con datos reales
+        quién está disponible en Yopal y cuánto se paga, antes de crear tu cuenta.
+      </p>
+      <jobsy-planificador [jobs]="jobs()" [employees]="employees()" [modoFijo]="modoFijo()" [(modo)]="modo" />
+      @if (resumen(); as r) { <p class="resumen_inicio">{{ r }}</p> }
+    </div>
   </div>
 </section>
 
-<!-- ============ CÓMO FUNCIONA ============ -->
-<section class="contenedor seccion_portada" aria-labelledby="titulo-como">
-  <h2 class="titulo_seccion_portada" id="titulo-como">Todo el acuerdo pasa por Jobsy</h2>
-
-  <ol class="camino">
-    <li class="paso_camino paso_oferta">
-      <jobsy-icon name="square-pen" />
-      <h3>El hogar publica</h3>
-      <p>Tamaño de la vivienda, tareas, tarifa por hora, días y horario. Nada queda “por hablar”.</p>
-    </li>
-    <li class="paso_camino paso_postula">
-      <jobsy-icon name="clipboard-list" />
-      <h3>Quien trabaja se postula</h3>
-      <p>Con su hoja de vida, sus documentos verificados y las reseñas de otros hogares.</p>
-    </li>
-    <li class="paso_camino paso_contrata">
-      <jobsy-icon name="handshake" />
-      <h3>Se contrata aquí</h3>
-      <p>La contratación queda registrada con dirección, fecha, horas y total estimado.</p>
-    </li>
-    <li class="paso_camino paso_resena">
-      <jobsy-icon name="star" />
-      <h3>Al terminar, una reseña</h3>
-      <p>Cada servicio terminado suma confianza para el próximo hogar y la próxima persona.</p>
-    </li>
-  </ol>
-</section>
+<!-- ============ PERSONAS PROTAGONISTAS ============ -->
+@if (protagonistas().length) {
+  <section class="personas" aria-labelledby="titulo-personas">
+    <div class="contenedor encabezado_personas">
+      <h2 id="titulo-personas">Las personas detrás de cada acuerdo</h2>
+      <a routerLink="/empleados" class="enlace_portada">Ver todas</a>
+    </div>
+    <ul class="fila_personas">
+      @for (p of protagonistas(); track p.id) {
+        <li class="persona">
+          <a class="retrato_persona" [routerLink]="['/empleados', p.id]" [attr.aria-label]="'Ver el perfil de ' + p.nombre">
+            @if (p.fotoUrl) { <img [src]="p.fotoUrl" alt="" loading="lazy" /> } @else { <span class="inicial_persona">{{ iniciales(p.nombre) }}</span> }
+            <span class="nombre_persona">
+              <strong>{{ p.nombre }}</strong>
+              @if (p.verificado) { <span class="sello_persona"><jobsy-icon name="badge-check" /> Verificada</span> }
+            </span>
+          </a>
+          <div class="cuerpo_persona">
+            <p class="nota_persona">
+              <jobsy-icon name="star" /> <strong>{{ p.calificacion.toFixed(1) }}</strong>
+              <span>· {{ p.totalServicios }} servicios terminados</span>
+            </p>
+            @if (p.especialidades.length) {
+              <p class="oficios_persona">{{ p.especialidades.slice(0, 3).join(' · ') }}</p>
+            }
+            <div class="pie_persona">
+              @if (p.tarifaHora) {
+                <p class="tarifa_persona"><span class="cifra">{{ p.tarifaHora | cop }}</span> por hora</p>
+              } @else {
+                <p class="tarifa_persona tarifa_acordar">Tarifa por acordar</p>
+              }
+              @if (rol() !== 'empleado') {
+                <button type="button" class="boton_principal boton_chico" (click)="contratar(p)">Contratar</button>
+              }
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  </section>
+}
 
 <!-- ============ OFERTAS ABIERTAS ============ -->
 <section class="contenedor seccion_portada" aria-labelledby="titulo-ofertas">
-  <div class="encabezado_seccion">
+  <div class="encabezado_personas">
     <h2 id="titulo-ofertas">Ofertas abiertas</h2>
-    <a routerLink="/empleos" class="boton_simple boton_chico">Ver todas <jobsy-icon name="arrow-right" /></a>
+    <a routerLink="/empleos" class="enlace_portada">Ver todas</a>
   </div>
 
   <ul class="tareas_portada" aria-label="Filtrar por tarea">
     @for (f of filtrosRapidos(); track f) {
       <li>
         <button type="button" class="ficha_portada" [class.is-activa]="filtro() === f"
-          [attr.aria-pressed]="filtro() === f" (click)="filtro.set(f)">
-          {{ f }}
-        </button>
+          [attr.aria-pressed]="filtro() === f" (click)="filtro.set(f)">{{ f }}</button>
       </li>
     }
   </ul>
@@ -135,25 +111,13 @@
   }
 </section>
 
-<!-- ============ PERSONAS ============ -->
-@if (employees().length) {
-  <section class="banda_portada" aria-labelledby="titulo-personas">
-    <div class="contenedor">
-      <div class="encabezado_seccion">
-        <h2 id="titulo-personas">Personas con perfil en Jobsy</h2>
-        <a routerLink="/empleados" class="boton_simple boton_chico">Ver todas <jobsy-icon name="arrow-right" /></a>
-      </div>
+<!-- ============ TODO EL ACUERDO, EN LA APP ============ -->
+<section class="contenedor seccion_portada" aria-labelledby="titulo-acuerdo">
+  <h2 class="titulo_acuerdo" id="titulo-acuerdo">Todo el acuerdo queda en Jobsy</h2>
+  <jobsy-acuerdo-app [oferta]="ofertaMuestra()" [persona]="personaMuestra()" />
+</section>
 
-      <div class="rejilla_portada">
-        @for (employee of employees(); track employee.id) {
-          <jobsy-employee-card [employee]="employee" (solicitar)="contratar($event)" />
-        }
-      </div>
-    </div>
-  </section>
-}
-
-<!-- ============ PARA QUIEN TRABAJA ============ -->
+<!-- ============ CIERRE ============ -->
 @if (!rol() || rol() === 'empleado') {
   <section class="contenedor seccion_portada">
     <div class="sol">
@@ -170,7 +134,7 @@
         } @else {
           <a routerLink="/registro/crear-cuenta" class="boton_borde">Crear mi perfil</a>
         }
-        <a routerLink="/empleos" class="enlace_sol">Ver ofertas <jobsy-icon name="arrow-right" /></a>
+        <a routerLink="/empleos" class="enlace_sol">Ver ofertas</a>
       </div>
     </div>
   </section>

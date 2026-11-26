@@ -1,0 +1,111 @@
+<div class="plan">
+  @if (!modoFijo()) {
+    <div class="pestanas_plan" role="group" aria-label="¿Qué buscas?">
+      <button type="button" [class.is-activa]="modo() === 'contratar'" [attr.aria-pressed]="modo() === 'contratar'"
+        (click)="modo.set('contratar')">
+        <jobsy-icon name="house" /> Necesito ayuda
+      </button>
+      <button type="button" [class.is-activa]="modo() === 'trabajar'" [attr.aria-pressed]="modo() === 'trabajar'"
+        (click)="modo.set('trabajar')">
+        <jobsy-icon name="briefcase" /> Busco trabajo
+      </button>
+    </div>
+  }
+
+  <fieldset class="grupo_plan">
+    <legend>{{ modo() === 'contratar' ? '¿Qué necesitas?' : '¿Qué sabes hacer?' }}</legend>
+    <div class="oficios_plan">
+      @for (o of oficios(); track o) {
+        <button type="button" class="oficio_plan" [class.is-activa]="oficio() === o"
+          [attr.aria-pressed]="oficio() === o" (click)="oficio.set(o)">{{ o }}</button>
+      }
+    </div>
+  </fieldset>
+
+  <fieldset class="grupo_plan">
+    <legend>{{ modo() === 'contratar' ? '¿Qué días?' : '¿Qué días puedes?' }}</legend>
+    <div class="dias_plan">
+      @for (d of semana; track d) {
+        <button type="button" class="dia_plan" [class.is-activa]="dias().includes(d)"
+          [attr.aria-pressed]="dias().includes(d)" [attr.aria-label]="nombreDia[d]" (click)="alternarDia(d)">
+          {{ inicial[d] }}
+        </button>
+      }
+    </div>
+  </fieldset>
+
+  @if (modo() === 'contratar') {
+    <div class="horas_plan">
+      <span class="etiqueta_horas_plan" id="horas-plan">Horas por día</span>
+      <div class="control_horas_plan" role="group" aria-labelledby="horas-plan">
+        <button type="button" (click)="cambiarHoras(-1)" [disabled]="horas() <= 2" aria-label="Una hora menos">
+          <jobsy-icon name="minus" />
+        </button>
+        <output aria-live="polite">{{ horas() }} h</output>
+        <button type="button" (click)="cambiarHoras(1)" [disabled]="horas() >= 10" aria-label="Una hora más">
+          <jobsy-icon name="plus" />
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Resultado en vivo con datos de la API -->
+  <div class="resultado_plan" aria-live="polite">
+    @if (modo() === 'contratar') {
+      <div class="cifra_plan">
+        <span class="rotulo_plan">Costo estimado por semana</span>
+        <strong class="cifra">{{ cifraMostrada() | cop }}</strong>
+        @if (tarifaReferencia(); as t) {
+          <span class="detalle_plan">{{ dias().length }} días × {{ horas() }} h × {{ t | cop }} por hora</span>
+        } @else {
+          <span class="detalle_plan">Aún no hay tarifas publicadas para ese oficio.</span>
+        }
+      </div>
+      <div class="gente_plan">
+        <div class="caras_plan" aria-hidden="true">
+          @for (e of personas().slice(0, 4); track e.id) {
+            @if (e.fotoUrl) { <img [src]="e.fotoUrl" alt="" /> } @else { <span>{{ iniciales(e.nombre) }}</span> }
+          }
+        </div>
+        <span>
+          <strong>{{ cantidad() }}</strong>
+          {{ cantidad() === 1 ? 'persona verificada' : 'personas verificadas' }} para esto
+        </span>
+      </div>
+    } @else {
+      <div class="cifra_plan">
+        <span class="rotulo_plan">Podrías ganar hasta, por semana</span>
+        <strong class="cifra">{{ cifraMostrada() | cop }}</strong>
+        <span class="detalle_plan">
+          @if (ofertas()[0]; as m) {
+            Con «{{ m.job.titulo }}», {{ m.comunes.length }} {{ m.comunes.length === 1 ? 'día' : 'días' }} que coinciden
+          } @else {
+            Ninguna oferta abierta cae en esos días.
+          }
+        </span>
+      </div>
+      @if (ofertas().length) {
+        <ul class="ofertas_plan">
+          @for (o of ofertas().slice(0, 3); track o.job.id) {
+            <li>
+              <a [routerLink]="['/empleos', o.job.id]">
+                <span class="titulo_oferta_plan">{{ o.job.titulo }}</span>
+                <span class="tarifa_oferta_plan cifra">{{ o.job.precioHora | cop }}/h</span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+    }
+  </div>
+
+  <a class="boton_principal boton_ancho accion_plan" [routerLink]="enlace()" [queryParams]="consulta()">
+    @if (cantidad() === 0) {
+      {{ modo() === 'contratar' ? 'Ver todas las personas' : 'Ver todas las ofertas' }}
+    } @else if (modo() === 'contratar') {
+      Ver {{ cantidad() === 1 ? 'a esa persona' : 'las ' + cantidad() + ' personas' }}
+    } @else {
+      Ver {{ cantidad() === 1 ? 'la oferta' : 'las ' + cantidad() + ' ofertas' }}
+    }
+  </a>
+</div>

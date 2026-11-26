@@ -1,0 +1,260 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.plan {
+  display: grid;
+  gap: v.$space-4;
+}
+
+// ---- Pestañas: dos lados del acuerdo ----
+.pestanas_plan {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space-1;
+  padding: v.$space-1;
+  background: v.$color-sand;
+  border-radius: v.$radius-md;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: v.$space-2;
+    min-height: 46px;
+    border: 0;
+    border-radius: v.$radius-sm;
+    background: transparent;
+    font: inherit;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-muted;
+    cursor: pointer;
+    transition: background v.$transition-fast, color v.$transition-fast, box-shadow v.$transition-fast;
+
+    &.is-activa {
+      background: v.$color-surface;
+      color: v.$color-ink;
+      font-weight: v.$font-weight-bold;
+      box-shadow: 0 2px 6px -2px rgba(19, 35, 58, 0.25);
+    }
+  }
+}
+
+.grupo_plan {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+
+  legend {
+    padding: 0;
+    margin-bottom: v.$space-2;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-ink;
+  }
+}
+
+// ---- Oficios ----
+.oficios_plan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+}
+
+.oficio_plan {
+  min-height: 40px;
+  padding: 0 v.$space-4;
+  border: 1.5px solid v.$color-border;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  font: inherit;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text;
+  cursor: pointer;
+  transition: border-color v.$transition-fast, background v.$transition-fast, color v.$transition-fast;
+
+  &:hover { border-color: v.$color-ink; }
+
+  &.is-activa {
+    background: v.$color-ink;
+    border-color: v.$color-ink;
+    color: v.$color-bg;
+  }
+}
+
+// ---- Semana: siete teclas ----
+.dias_plan {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: v.$space-2;
+}
+
+.dia_plan {
+  height: 52px;
+  border: 1.5px solid v.$color-border;
+  border-radius: v.$radius-md;
+  background: v.$color-surface;
+  font-family: v.$font-family-display;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-text-muted;
+  cursor: pointer;
+  transition: transform v.$transition-fast, background v.$transition-base, border-color v.$transition-base, color v.$transition-base;
+
+  &:hover { border-color: v.$color-ink; color: v.$color-ink; }
+  &:active { transform: scale(0.94); }
+
+  &.is-activa {
+    background: v.$color-cta;
+    border-color: v.$color-cta;
+    color: v.$color-ink;
+    animation: encender 0.4s v.$ease-out;
+  }
+}
+
+@keyframes encender {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+// ---- Horas ----
+.horas_plan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+}
+
+.etiqueta_horas_plan {
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+}
+
+.control_horas_plan {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid v.$color-border;
+  border-radius: v.$radius-pill;
+
+  button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: v.$color-ink;
+    cursor: pointer;
+
+    &:hover:not(:disabled) { background: v.$color-sand; }
+    &:disabled { opacity: 0.35; cursor: not-allowed; }
+  }
+
+  output {
+    min-width: 4ch;
+    text-align: center;
+    font-weight: v.$font-weight-bold;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ---- Resultado ----
+.resultado_plan {
+  display: grid;
+  gap: v.$space-4;
+  padding: v.$space-5;
+  background: v.$color-primary;
+  border-radius: v.$radius-lg;
+  color: v.$color-white;
+}
+
+.cifra_plan {
+  display: grid;
+  gap: v.$space-1;
+
+  strong {
+    @include m.display(clamp(2.4rem, 4.4vw, 3.25rem));
+    font-variant-numeric: tabular-nums;
+    color: v.$color-white;
+  }
+}
+
+.rotulo_plan {
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-primary-bg;
+}
+
+.detalle_plan {
+  font-size: v.$font-size-xs;
+  color: v.$color-primary-bg;
+}
+
+.gente_plan {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  padding-top: v.$space-4;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: v.$font-size-sm;
+
+  strong { font-weight: v.$font-weight-bold; }
+}
+
+.caras_plan {
+  display: flex;
+  flex-shrink: 0;
+
+  img, span {
+    width: 38px;
+    height: 38px;
+    margin-left: -10px;
+    border: 2px solid v.$color-primary;
+    border-radius: 50%;
+    background: v.$color-primary-bg;
+    object-fit: cover;
+
+    &:first-child { margin-left: 0; }
+  }
+
+  span {
+    display: grid;
+    place-items: center;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-ink;
+  }
+}
+
+.ofertas_plan {
+  display: grid;
+  gap: v.$space-1;
+  padding-top: v.$space-3;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    gap: v.$space-3;
+    min-height: 44px;
+    align-items: center;
+    color: v.$color-white;
+    text-decoration: none;
+
+    &:hover .titulo_oferta_plan { text-decoration: underline; }
+  }
+}
+
+.titulo_oferta_plan {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarifa_oferta_plan { font-weight: v.$font-weight-bold; }
+
+.accion_plan { min-height: 56px; font-size: v.$font-size-base; }

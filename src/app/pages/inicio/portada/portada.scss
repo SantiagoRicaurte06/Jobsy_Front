@@ -1,282 +1,277 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-$crema-calida: #FFE2C2; // segunda línea del titular: 4.6:1 sobre el azul
+// ============================================================
+//  Primer vistazo: escena + planificador
+// ============================================================
+.inicio { padding-block: v.$space-5 v.$space-7; }
 
-// ============================================================
-//  Cielo: primer vistazo
-// ============================================================
-.cielo {
+.interior_inicio {
+  @include m.container;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: v.$space-7;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-6; }
+}
+
+// La foto enmarcada con las personas flotando encima.
+.escena {
   position: relative;
-  background: v.$color-primary;
-  color: v.$color-white;
+  align-self: start;
+  height: 720px;
+  border-radius: v.$radius-xl;
   overflow: hidden;
+  background: v.$color-ink;
 
-  // Horizonte naranja: el sol sobre el llano.
+  @include m.until(v.$bp-lg) { order: 2; height: 460px; }
+}
+
+.foto_escena {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% 35%;
+}
+
+.flotantes {
+  position: absolute;
+  left: v.$space-5;
+  right: v.$space-5;
+  bottom: v.$space-5;
+  display: grid;
+  gap: v.$space-3;
+  justify-items: start;
+
+  li { animation: aparecer 0.7s v.$ease-out both; animation-delay: calc(0.25s + var(--i) * 0.14s); }
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.flotante {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3;
+  padding: v.$space-2 v.$space-4 v.$space-2 v.$space-2;
+  border-radius: v.$radius-lg;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  text-decoration: none;
+  box-shadow: 0 18px 32px -18px rgba(8, 20, 40, 0.65);
+  transition: transform v.$transition-base;
+
+  &:hover { transform: translateX(4px); text-decoration: none; }
+
+  img, .inicial_flotante {
+    width: 48px;
+    height: 48px;
+    border-radius: v.$radius-md;
+    background: v.$color-primary-bg;
+    object-fit: cover;
+  }
+}
+
+.inicial_flotante { display: grid; place-items: center; font-weight: v.$font-weight-bold; }
+
+.datos_flotante {
+  display: grid;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+
+  strong { font-size: v.$font-size-sm; color: v.$color-ink; }
+  span { display: inline-flex; align-items: center; gap: v.$space-1; }
+  jobsy-icon { color: v.$color-success; }
+}
+
+.tarifa_flotante { font-weight: v.$font-weight-bold; color: v.$color-ink; }
+
+.panel_inicio { padding-top: v.$space-2; }
+
+.titulo_inicio {
+  margin: 0 0 v.$space-3;
+  @include m.display(clamp(2.2rem, 4vw, 3.25rem));
+}
+
+.texto_inicio {
+  max-width: 48ch;
+  margin: 0 0 v.$space-5;
+  font-size: v.$font-size-base;
+  line-height: 1.5;
+  color: v.$color-text-muted;
+}
+
+.resumen_inicio {
+  margin: v.$space-4 0 0;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-muted;
+}
+
+// ============================================================
+//  Personas protagonistas: fila que se desliza
+// ============================================================
+.personas {
+  padding-block: v.$space-8;
+  background: v.$color-ink;
+  color: v.$color-bg;
+
+  h2 { color: v.$color-bg; }
+  .enlace_portada { color: v.$color-bg; }
+}
+
+.encabezado_personas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: v.$space-4;
+  margin-bottom: v.$space-6;
+
+  h2 { margin: 0; max-width: 20ch; @include m.display(clamp(2rem, 4.2vw, 3.25rem)); }
+}
+
+.enlace_portada {
+  font-weight: v.$font-weight-bold;
+  text-underline-offset: 4px;
+  padding-block: v.$space-3;
+}
+
+.fila_personas {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 320px);
+  gap: v.$space-5;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: v.$space-2 max(v.$space-5, calc((100vw - 1240px) / 2)) v.$space-5;
+  scrollbar-color: v.$color-cta transparent;
+}
+
+.persona {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  border-radius: v.$radius-xl;
+  overflow: hidden;
+  background: v.$color-surface;
+  color: v.$color-ink;
+
+  @supports (animation-timeline: view()) {
+    animation: entrar linear both;
+    animation-timeline: view(inline);
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@keyframes entrar {
+  from { opacity: 0.35; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+.retrato_persona {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  background: v.$color-primary-bg;
+  color: v.$color-white;
+  text-decoration: none;
+
+  img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s v.$ease-out; }
+  &:hover img { transform: scale(1.04); }
+
   &::after {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 14px;
-    background: v.$color-cta;
+    inset: 45% 0 0;
+    background: linear-gradient(transparent, rgba(19, 35, 58, 0.85));
   }
 }
 
-.interior_cielo {
-  @include m.container;
+.inicial_persona {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  align-items: center;
-  gap: v.$space-7;
-  padding-block: v.$space-8 calc(#{v.$space-8} + 14px);
-
-  @include m.until(v.$bp-lg) {
-    grid-template-columns: minmax(0, 1fr);
-    gap: v.$space-6;
-    padding-block: v.$space-6 calc(#{v.$space-7} + 14px);
-  }
+  place-items: center;
+  height: 100%;
+  @include m.display(4rem);
+  color: v.$color-primary;
 }
 
-.titulo_cielo {
-  margin: 0 0 v.$space-5;
-  @include m.display(clamp(2.6rem, 6.4vw, 5.25rem));
-  color: v.$color-white;
-
-  span { color: $crema-calida; }
-}
-
-.texto_cielo {
-  max-width: 50ch;
-  margin: 0 0 v.$space-6;
-  font-size: v.$font-size-lg;
-  line-height: 1.5;
-  color: v.$color-primary-bg;
-
-  @include m.until(v.$bp-md) { font-size: v.$font-size-base; }
-}
-
-.buscador_cielo {
-  max-width: 640px;
-
-  :focus-visible { outline-color: v.$color-cta; }
-}
-
-.puertas_cielo {
-  display: inline-flex;
+.nombre_persona {
+  position: absolute;
+  left: v.$space-5;
+  right: v.$space-5;
+  bottom: v.$space-4;
+  z-index: 1;
+  display: grid;
   gap: v.$space-1;
-  margin-bottom: v.$space-3;
-  padding: 4px;
-  border-radius: v.$radius-pill;
-  background: rgba(19, 35, 58, 0.28);
 
-  @include m.until(v.$bp-sm) { display: flex; }
+  strong { @include m.display(v.$font-size-xl, v.$font-weight-bold); color: v.$color-white; }
 }
 
-.puerta_cielo {
+.sello_persona {
   display: inline-flex;
-  flex: 1;
   align-items: center;
-  justify-content: center;
-  gap: v.$space-2;
-  min-height: 44px;
-  padding: 0 v.$space-4;
-  border: 0;
+  gap: v.$space-1;
+  width: fit-content;
+  padding: 2px v.$space-2;
   border-radius: v.$radius-pill;
-  background: transparent;
-  color: v.$color-white;
+  background: v.$color-success-pale;
+  color: v.$color-success;
+  font-size: v.$font-size-xs;
   font-weight: v.$font-weight-bold;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background v.$transition-fast, color v.$transition-fast;
-
-  &:hover:not(.is-activa) { background: rgba(255, 255, 255, 0.12); }
-
-  &.is-activa {
-    background: v.$color-bg;
-    color: v.$color-ink;
-  }
-
-  @include m.until(v.$bp-sm) {
-    padding: 0 v.$space-2;
-    font-size: v.$font-size-xs;
-
-    jobsy-icon { display: none; }
-  }
 }
 
-.resumen_cielo {
-  margin: v.$space-4 0 0;
-  font-size: v.$font-size-sm;
-  font-weight: v.$font-weight-semibold;
-  color: $crema-calida;
+.cuerpo_persona {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-3;
+  flex: 1;
+  padding: v.$space-5;
 }
 
-// ---- La prueba: una oferta real como un papel apoyado ----
-.acuerdo {
-  position: relative;
-  display: block;
-  max-width: 440px;
-  justify-self: end;
-  overflow: hidden;
-  border-radius: v.$radius-xl;
-  background: v.$color-bg;
-  color: v.$color-ink;
-  text-decoration: none;
-  box-shadow: 0 30px 60px -20px rgba(7, 22, 40, 0.55);
-  transform: rotate(-2.5deg);
-  transition: transform 0.5s v.$ease-out;
-  animation: apoyar 0.9s v.$ease-out both;
-
-  &:hover,
-  &:focus-visible { transform: rotate(0deg) translateY(-4px); text-decoration: none; }
-
-  @include m.until(v.$bp-lg) {
-    justify-self: stretch;
-    max-width: none;
-    transform: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-    &:hover { transform: rotate(-2.5deg); }
-  }
-}
-
-.acuerdo_cargando {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  background: rgba(251, 245, 236, 0.18);
-  box-shadow: none;
-  animation: none;
-}
-
-.foto_acuerdo {
-  aspect-ratio: 16 / 8;
-  background: v.$color-sand;
-
-  img { width: 100%; height: 100%; object-fit: cover; }
-}
-
-.papel_acuerdo {
-  display: grid;
-  gap: v.$space-2;
-  padding: v.$space-5 v.$space-6 v.$space-6;
-
-  @include m.until(v.$bp-md) { padding: v.$space-4 v.$space-5 v.$space-5; }
-}
-
-.lugar_acuerdo {
+.nota_persona {
   display: flex;
   align-items: center;
   gap: v.$space-1;
   margin: 0;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-semibold;
-  color: v.$color-text-muted;
-}
-
-.titulo_acuerdo {
-  margin: 0;
-  font-family: v.$font-family-display;
-  font-size: 1.45rem;
-  font-weight: v.$font-weight-bold;
-  line-height: 1.15;
-}
-
-.tarifa_acuerdo {
-  margin: 0 0 v.$space-2;
   font-size: v.$font-size-sm;
-  font-weight: v.$font-weight-semibold;
-  color: v.$color-text-muted;
 
-  .cifra {
-    font-family: v.$font-family-display;
-    font-size: 2.6rem;
-    font-weight: v.$font-weight-black;
-    letter-spacing: -0.04em;
-    color: v.$color-ink;
-  }
+  jobsy-icon { color: v.$color-cta; }
+  span { color: v.$color-text-muted; }
 }
 
-.tareas_acuerdo {
-  margin: v.$space-2 0 0;
+.oficios_persona { margin: 0; font-size: v.$font-size-xs; color: v.$color-text-muted; }
+
+.pie_persona {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  margin-top: auto;
+  padding-top: v.$space-3;
+  border-top: 1px solid v.$color-border;
+}
+
+.tarifa_persona {
+  margin: 0;
   font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-semibold;
   color: v.$color-text-muted;
+
+  .cifra { @include m.display(v.$font-size-xl); color: v.$color-ink; }
 }
 
-@keyframes apoyar {
-  from { opacity: 0; transform: rotate(4deg) translateY(30px); }
-}
+.tarifa_acordar { font-weight: v.$font-weight-semibold; }
 
 // ============================================================
 //  Secciones
 // ============================================================
-.seccion_portada {
-  padding-top: v.$space-8;
-}
+.seccion_portada { padding-top: v.$space-8; }
 
-.titulo_seccion_portada {
-  max-width: 18ch;
-  margin-bottom: v.$space-6;
-  @include m.display(clamp(2rem, 4.4vw, 3.25rem));
-}
-
-// ---- El camino del acuerdo ----
-.camino {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: v.$space-3;
-  counter-reset: paso;
-
-  @include m.until(v.$bp-lg) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @include m.until(v.$bp-sm) { grid-template-columns: minmax(0, 1fr); }
-}
-
-.paso_camino {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: v.$space-3;
-  min-height: 260px;
-  padding: v.$space-5;
-  border-radius: v.$radius-xl;
-  counter-increment: paso;
-
-  // El orden importa: cada paso lleva su número.
-  &::before {
-    content: counter(paso);
-    position: absolute;
-    top: v.$space-4;
-    right: v.$space-5;
-    font-family: v.$font-family-display;
-    font-size: 3.5rem;
-    font-weight: v.$font-weight-black;
-    line-height: 1;
-    opacity: 0.22;
-  }
-
-  > jobsy-icon { font-size: 1.75rem; }
-
-  h3 {
-    margin: auto 0 0;
-    font-size: 1.4rem;
-    color: inherit;
-  }
-
-  p { margin: 0; font-size: v.$font-size-sm; line-height: 1.5; }
-
-  @include m.until(v.$bp-sm) { min-height: 0; }
-}
-
-.paso_oferta   { background: v.$color-sand; color: v.$color-ink; }
-.paso_postula  { background: v.$color-primary; color: v.$color-white; p { color: v.$color-primary-bg; } }
-.paso_contrata { background: v.$color-ink; color: v.$color-bg; p { color: v.$color-on-dark; } > jobsy-icon { color: v.$color-cta; } }
-.paso_resena   { background: v.$color-cta; color: v.$color-ink; }
-
-// ---- Fichas de tareas ----
 .tareas_portada {
   display: flex;
   flex-wrap: wrap;
@@ -293,34 +288,26 @@ $crema-calida: #FFE2C2; // segunda línea del titular: 4.6:1 sobre el azul
   color: v.$color-ink;
   font-weight: v.$font-weight-semibold;
   cursor: pointer;
-  transition: border-color v.$transition-fast, background v.$transition-fast;
 
   &:hover { border-color: v.$color-ink; }
-
-  &.is-activa {
-    border-color: v.$color-ink;
-    background: v.$color-ink;
-    color: v.$color-bg;
-  }
+  &.is-activa { border-color: v.$color-ink; background: v.$color-ink; color: v.$color-bg; }
 }
 
-.rejilla_portada {
-  @include m.grid-cards(300px);
+.rejilla_portada { @include m.grid-cards(300px); }
+
+// ---- El acuerdo en la app: tres lienzos de color ----
+.titulo_acuerdo {
+  margin: 0 0 v.$space-6;
+  @include m.display(clamp(2rem, 4.2vw, 3.25rem));
 }
 
-// ---- Banda arena con personas ----
-.banda_portada {
-  margin-top: v.$space-8;
-  padding-block: v.$space-8;
-  background: v.$color-sand;
-}
-
-// ---- Bloque naranja para quien trabaja ----
+// ---- Cierre ----
 .sol {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   align-items: end;
   gap: v.$space-6;
+  margin-bottom: v.$space-8;
   padding: clamp(2rem, 5vw, 4rem);
   border-radius: v.$radius-xl;
   background: v.$color-cta;
@@ -329,20 +316,8 @@ $crema-calida: #FFE2C2; // segunda línea del titular: 4.6:1 sobre el azul
   @include m.until(v.$bp-md) { grid-template-columns: minmax(0, 1fr); }
 }
 
-.titulo_sol {
-  max-width: 16ch;
-  margin: 0 0 v.$space-4;
-  @include m.display(clamp(2rem, 4.6vw, 3.5rem));
-}
-
-.texto_sol {
-  max-width: 46ch;
-  margin: 0;
-  font-size: v.$font-size-lg;
-  line-height: 1.5;
-
-  @include m.until(v.$bp-md) { font-size: v.$font-size-base; }
-}
+.titulo_sol { max-width: 16ch; margin: 0 0 v.$space-4; @include m.display(clamp(2rem, 4.6vw, 3.5rem)); }
+.texto_sol { max-width: 46ch; margin: 0; font-size: v.$font-size-lg; line-height: 1.5; }
 
 .acciones_sol {
   display: flex;
@@ -352,34 +327,11 @@ $crema-calida: #FFE2C2; // segunda línea del titular: 4.6:1 sobre el azul
   gap: v.$space-4;
 
   .boton_borde { min-height: 52px; padding-inline: v.$space-6; }
-
   @include m.until(v.$bp-md) { justify-content: flex-start; }
 }
 
-.enlace_sol {
-  display: inline-flex;
-  align-items: center;
-  gap: v.$space-2;
-  color: v.$color-ink;
-  font-weight: v.$font-weight-bold;
-}
+.enlace_sol { color: v.$color-ink; font-weight: v.$font-weight-bold; }
 
-// ---- Acciones del hogar en el primer vistazo ----
-.acciones_cielo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: v.$space-3;
-
-  .boton_principal { min-height: 56px; padding-inline: v.$space-6; font-size: v.$font-size-base; }
-}
-
-.boton_cielo {
-  @include m.btn-base;
-  min-height: 56px;
-  padding-inline: v.$space-6;
-  border-color: rgba(255, 255, 255, 0.55);
-  color: v.$color-white;
-  font-size: v.$font-size-base;
-
-  &:hover { border-color: v.$color-white; background: rgba(255, 255, 255, 0.1); text-decoration: none; }
+@media (prefers-reduced-motion: reduce) {
+  .flotantes li, .persona { animation: none; }
 }
