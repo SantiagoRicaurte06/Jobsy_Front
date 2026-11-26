@@ -2,6 +2,16 @@
 @use 'mixins' as m;
 
 .reporte-visual {
+  // ---- Cabecera editorial ----
+  &__header {
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
+
+    h1 { @include m.display(v.$font-size-2xl); }
+  }
+
+  &__kicker { @include m.kicker; }
+
   // ---- KPIs ----
   &__kpis {
     display: grid;
@@ -18,15 +28,18 @@
     flex-direction: column;
     gap: v.$space-1;
     padding: v.$space-4;
+    border-left: 4px solid v.$color-primary;
   }
 
   &__kpi-label {
-    font-size: v.$font-size-xs;
+    @include m.kicker;
+    margin: 0;
     color: v.$color-text-muted;
   }
 
+  // Cifra protagonista, como las tarifas.
   &__kpi-value {
-    @include m.display(v.$font-size-2xl);
+    @include m.display(v.$font-size-3xl);
     font-variant-numeric: tabular-nums;
     color: v.$color-text;
   }
@@ -51,7 +64,7 @@
   &__breakdown {
     padding: v.$space-5;
 
-    h2 { margin: 0; font-size: v.$font-size-base; }
+    h2 { margin: 0; @include m.display(v.$font-size-lg, v.$font-weight-bold); }
   }
 
   &__breakdown {
@@ -65,6 +78,8 @@
     justify-content: space-between;
     margin-bottom: v.$space-2;
     font-size: v.$font-size-sm;
+
+    strong { font-variant-numeric: tabular-nums; }
   }
 
   &__meter {
@@ -76,7 +91,8 @@
     span {
       display: block;
       height: 100%;
-      background: v.$gradient-band;
+      // Superficie sólida: el sistema no usa degradados.
+      background: v.$color-cta;
       border-radius: v.$radius-pill;
     }
   }

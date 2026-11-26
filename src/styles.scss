@@ -211,6 +211,9 @@ table,
 .pildora_info    { @include m.badge(v.$color-primary-bg, v.$color-primary-dark); }
 .pildora_naranja { @include m.badge(v.$color-accent-pale, v.$color-accent-dark); }
 
+// ---- Kicker editorial (versión global del mixin m.kicker) ----
+.kicker { @include m.kicker; }
+
 // ---- Cabecera de sección ----
 .encabezado_seccion {
   display: flex;

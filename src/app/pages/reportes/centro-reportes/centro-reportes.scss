@@ -12,8 +12,10 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: v.$space-3;
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
 
-    h1 { margin: 0; }
+    h1 { margin: 0; font-size: v.$font-size-2xl; }
   }
 
   &__sub { margin: v.$space-1 0 0; font-size: v.$font-size-sm; color: v.$color-text-muted; }
