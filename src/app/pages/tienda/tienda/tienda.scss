@@ -2,39 +2,174 @@
 @use 'mixins' as m;
 
 .cabeza_tienda {
-  padding-block: v.$space-7 v.$space-6;
+  padding-block: v.$space-7;
   background: v.$color-sand;
   border-bottom: v.$border-width solid v.$color-border;
 
   h1 {
-    margin: 0 0 v.$space-3;
+    max-width: 14ch;
+    margin: 0 0 v.$space-4;
     @include m.display(clamp(2.2rem, 5vw, 3.75rem));
   }
 }
 
+.interior_tienda {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: v.$space-7;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-6; }
+}
+
 .texto_tienda {
-  max-width: 52ch;
-  margin: 0 0 v.$space-4;
+  max-width: 46ch;
+  margin: 0 0 v.$space-5;
   font-size: v.$font-size-lg;
+  line-height: 1.5;
 
   @include m.until(v.$bp-md) { font-size: v.$font-size-base; }
 }
 
 .hechos_tienda {
-  display: flex;
-  flex-wrap: wrap;
-  gap: v.$space-2 v.$space-5;
+  display: grid;
+  gap: v.$space-3;
 
   li {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: v.$space-2;
+    gap: v.$space-3;
     font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-semibold;
-    color: v.$color-ink;
+    color: v.$color-text;
   }
 
-  jobsy-icon { color: v.$color-accent; font-size: 1.15rem; }
+  strong { color: v.$color-ink; }
+
+  .icono_hecho {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: v.$color-surface;
+    color: v.$color-accent;
+    font-size: 1.05rem;
+  }
+}
+
+// ---- Producto destacado ----
+.destacado_tienda {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: v.$radius-xl;
+  background: v.$color-surface;
+  box-shadow: 0 30px 60px -40px rgba(19, 35, 58, 0.6);
+
+  @include m.until(v.$bp-sm) { grid-template-columns: minmax(0, 1fr); }
+}
+
+.foto_destacado {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  overflow: hidden;
+  background: v.$color-primary-bg;
+  color: v.$color-primary;
+  font-size: 3rem;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s v.$ease-out;
+  }
+
+  &:hover img { transform: scale(1.04); }
+
+  @include m.until(v.$bp-sm) { min-height: 220px; }
+}
+
+.sello_destacado {
+  position: absolute;
+  top: v.$space-4;
+  left: v.$space-4;
+  padding: v.$space-1 v.$space-3;
+  border-radius: v.$radius-pill;
+  background: v.$color-ink;
+  color: v.$color-bg;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-bold;
+}
+
+.datos_destacado {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-2;
+  padding: v.$space-6 v.$space-5;
+
+  h2 {
+    margin: 0;
+    @include m.display(clamp(1.4rem, 2.4vw, 1.75rem));
+
+    a { color: inherit; text-decoration: none; }
+  }
+}
+
+.categoria_destacado,
+.nota_destacado {
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-muted;
+}
+
+.nota_destacado {
+  display: flex;
+  align-items: center;
+  gap: v.$space-1;
+  margin: 0;
+
+  jobsy-icon { color: v.$color-cta; }
+}
+
+.pie_destacado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  margin-top: auto;
+  padding-top: v.$space-4;
+
+  .cifra { @include m.display(1.75rem); }
+}
+
+.cantidad_destacado {
+  display: inline-flex;
+  align-items: center;
+  border-radius: v.$radius-pill;
+  background: v.$color-ink;
+  color: v.$color-bg;
+
+  button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:disabled { opacity: 0.35; cursor: not-allowed; }
+  }
+
+  output { min-width: 2ch; text-align: center; font-weight: v.$font-weight-bold; }
 }
 
 .cuerpo_tienda { padding-top: v.$space-6; }
@@ -95,9 +230,16 @@
 
 .rejilla_tienda {
   @include m.grid-cards(240px);
+
+  jobsy-product-card { animation: subir 0.5s v.$ease-out both; animation-delay: calc(var(--i) * 50ms); }
 }
 
-// ---- Píldora flotante del carrito ----
+@keyframes subir {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+// ---- Píldora flotante del carrito: total con envío ----
 .carrito_flotante {
   position: fixed;
   right: v.$space-5;
@@ -106,37 +248,83 @@
   display: inline-flex;
   align-items: center;
   gap: v.$space-3;
-  min-height: 56px;
-  padding: 0 v.$space-5;
+  min-height: 60px;
+  padding: v.$space-2 v.$space-5 v.$space-2 v.$space-3;
   border-radius: v.$radius-pill;
   background: v.$color-ink;
   color: v.$color-bg;
-  font-weight: v.$font-weight-semibold;
   text-decoration: none;
   box-shadow: v.$shadow-lg;
   animation: llegar 0.4s v.$ease-out;
 
-  jobsy-icon { font-size: 1.2rem; color: v.$color-cta; }
-
-  strong {
-    font-family: v.$font-family-display;
-    font-variant-numeric: tabular-nums;
-    color: v.$color-cta;
-  }
-
   &:hover { text-decoration: none; background: v.$color-sidebar-hover; }
-
   &:focus-visible { outline-color: v.$color-cta; }
-
   &.is-latido { animation: latido 0.45s v.$ease-out; }
 
   @include m.until(v.$bp-md) {
     left: v.$space-4;
     right: v.$space-4;
     bottom: v.$space-4;
-    justify-content: center;
   }
+}
+
+.icono_carrito {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: v.$color-cta;
+  color: v.$color-ink;
+  font-size: 1.15rem;
+}
+
+.cuenta_carrito {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  min-width: 20px;
+  padding: 0 5px;
+  border: 2px solid v.$color-ink;
+  border-radius: v.$radius-pill;
+  background: v.$color-bg;
+  color: v.$color-ink;
+  font-size: 0.72rem;
+  font-weight: v.$font-weight-bold;
+  line-height: 16px;
+  text-align: center;
+}
+
+.totales_carrito {
+  display: grid;
+  line-height: 1.2;
+
+  strong {
+    font-family: v.$font-family-display;
+    font-size: v.$font-size-lg;
+    font-variant-numeric: tabular-nums;
+  }
+
+  small { font-size: 0.72rem; font-weight: v.$font-weight-semibold; color: rgba(251, 245, 236, 0.7); }
+}
+
+.ver_carrito {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-1;
+  margin-left: auto;
+  padding-left: v.$space-3;
+  border-left: 1px solid rgba(251, 245, 236, 0.25);
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-cta;
 }
 
 @keyframes llegar { from { opacity: 0; transform: translateY(20px); } }
 @keyframes latido { 40% { transform: scale(1.06); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rejilla_tienda jobsy-product-card, .carrito_flotante { animation: none; }
+  .foto_destacado img { transition: none; }
+}

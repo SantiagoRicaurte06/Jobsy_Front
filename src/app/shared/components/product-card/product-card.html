@@ -28,14 +28,26 @@
   <footer class="pie_tarjeta_producto">
     <span class="precio_tarjeta_producto cifra">{{ product().precio | cop }}</span>
 
-    <button
-      type="button"
-      class="agregar_tarjeta_producto"
-      [disabled]="product().stock === 0"
-      [attr.aria-label]="product().stock === 0 ? product().nombre + ' agotado' : 'Agregar ' + product().nombre + ' al carrito'"
-      (click)="agregar.emit(product())">
-      <jobsy-icon [name]="product().stock === 0 ? 'x' : 'plus'" />
-      <span>{{ product().stock === 0 ? 'Agotado' : 'Agregar' }}</span>
-    </button>
+    @if (cantidad() > 0) {
+      <div class="cantidad_tarjeta_producto" role="group" [attr.aria-label]="'Cantidad de ' + product().nombre + ' en el carrito'">
+        <button type="button" (click)="cambiar(-1)" [attr.aria-label]="cantidad() === 1 ? 'Quitar del carrito' : 'Uno menos'">
+          <jobsy-icon [name]="cantidad() === 1 ? 'trash-2' : 'minus'" />
+        </button>
+        <output aria-live="polite">{{ cantidad() }}</output>
+        <button type="button" (click)="cambiar(1)" [disabled]="cantidad() >= product().stock" aria-label="Uno más">
+          <jobsy-icon name="plus" />
+        </button>
+      </div>
+    } @else {
+      <button
+        type="button"
+        class="agregar_tarjeta_producto"
+        [disabled]="product().stock === 0"
+        [attr.aria-label]="product().stock === 0 ? product().nombre + ' agotado' : 'Agregar ' + product().nombre + ' al carrito'"
+        (click)="agregar.emit(product())">
+        <jobsy-icon [name]="product().stock === 0 ? 'x' : 'plus'" />
+        <span>{{ product().stock === 0 ? 'Agotado' : 'Agregar' }}</span>
+      </button>
+    }
   </footer>
 </article>

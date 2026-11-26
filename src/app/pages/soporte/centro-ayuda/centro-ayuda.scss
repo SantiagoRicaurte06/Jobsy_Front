@@ -1,104 +1,291 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-// ---- Buscador en el banner ----
+// ---- Cabecera: la búsqueda manda ----
+.cabeza_ayuda {
+  padding-block: v.$space-8 v.$space-7;
+  background: v.$color-sand;
+  border-bottom: v.$border-width solid v.$color-border;
+
+  h1 {
+    margin: 0 0 v.$space-5;
+    @include m.display(clamp(2.4rem, 6vw, 4.25rem));
+  }
+}
+
 .buscador_ayuda {
   display: flex;
   align-items: center;
   gap: v.$space-3;
-  max-width: 560px;
-  margin: v.$space-5 auto 0;
-  padding: v.$space-3 v.$space-4;
-  background: rgba(255, 255, 255, 0.95);
+  max-width: 760px;
+  min-height: 68px;
+  padding: 0 v.$space-3 0 v.$space-5;
+  border: 2px solid transparent;
   border-radius: v.$radius-pill;
-  box-shadow: v.$shadow-md;
-  color: v.$color-text-muted;
-}
+  background: v.$color-surface;
+  box-shadow: 0 20px 40px -30px rgba(19, 35, 58, 0.55);
+  transition: border-color v.$transition-fast;
 
-.campo_buscador_ayuda {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: inherit;
-  font-size: v.$font-size-sm;
-  color: v.$color-text;
+  &:focus-within { border-color: v.$color-ink; }
 
-  &::placeholder { color: v.$color-text-muted; }
-}
+  > jobsy-icon { font-size: 1.35rem; color: v.$color-ink; }
 
-// ---- Categorias ----
-.rejilla_categorias_ayuda {
-  @include m.grid-cards(210px);
-}
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: v.$font-size-lg;
+    color: v.$color-ink;
+    outline: none;
 
-.tarjeta_categoria_ayuda {
-  display: flex;
-  align-items: center;
-  gap: v.$space-3;
-  padding: v.$space-4;
-  text-align: left;
-  cursor: pointer;
-  font-family: inherit;
-
-  strong { display: block; font-size: v.$font-size-sm; }
-
-  &.is-active {
-    border-color: v.$color-primary-light;
-    box-shadow: v.$glass-shadow-md, v.$glass-inset;
+    &::placeholder { color: v.$color-text-muted; }
+    &::-webkit-search-cancel-button { display: none; }
   }
 }
 
-.icono_valor {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: v.$radius-md;
-  background: v.$color-primary-pale;
-  color: v.$color-primary;
-  font-size: v.$font-size-base;
+.borrar_ayuda {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: v.$color-sand;
+  color: v.$color-ink;
+  cursor: pointer;
 }
 
-// ---- FAQ ----
-.lista_faq {
+.atajos_ayuda {
   display: flex;
-  flex-direction: column;
-  gap: v.$space-3;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: v.$space-2;
+  margin-top: v.$space-4;
+
+  span { font-size: v.$font-size-sm; font-weight: v.$font-weight-semibold; color: v.$color-text-muted; }
+
+  button {
+    min-height: 40px;
+    padding: 0 v.$space-4;
+    border: v.$border-width solid v.$color-border;
+    border-radius: v.$radius-pill;
+    background: v.$color-surface;
+    font: inherit;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-ink;
+    cursor: pointer;
+
+    &:hover { border-color: v.$color-ink; }
+  }
 }
 
-.item_faq {
-  @include m.card;
-  overflow: hidden;
+// ---- Cuerpo: temas a la izquierda, respuestas a la derecha ----
+.cuerpo_ayuda {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  align-items: start;
+  gap: v.$space-7;
+  padding-block: v.$space-7 v.$space-8;
 
-  &--abierto { border-color: v.$color-primary-light; }
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-5; }
+}
+
+.temas_ayuda {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: v.$space-1;
+
+  @include m.until(v.$bp-lg) {
+    position: static;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  button {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: v.$space-3;
+    min-height: 48px;
+    padding: 0 v.$space-4;
+    border: 0;
+    border-radius: v.$radius-md;
+    background: none;
+    font: inherit;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background v.$transition-fast, color v.$transition-fast;
+
+    span { flex: 1; }
+    small { font-weight: v.$font-weight-bold; font-variant-numeric: tabular-nums; color: v.$color-text-muted; }
+
+    &:hover:not(:disabled) { background: v.$color-sand; }
+    &:disabled { opacity: 0.4; cursor: default; }
+
+    &.is-activa {
+      background: v.$color-ink;
+      color: v.$color-bg;
+
+      small { color: v.$color-cta; }
+    }
+  }
+}
+
+.conteo_ayuda {
+  min-height: 1.5em;
+  margin: 0 0 v.$space-2;
+  font-family: v.$font-family-display;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-ink;
+}
+
+.grupo_ayuda {
+  & + & { margin-top: v.$space-7; }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    margin: 0 0 v.$space-2;
+    @include m.display(v.$font-size-xl, v.$font-weight-bold);
+
+    jobsy-icon { color: v.$color-accent; }
+  }
+
+  ul { margin: 0; padding: 0; list-style: none; }
+}
+
+// Lista con líneas finas; la respuesta se despliega con altura animada.
+.faq {
+  border-bottom: 1px solid v.$color-border;
+  scroll-margin-top: 120px;
 }
 
 .pregunta_faq {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: v.$space-4;
-  padding: v.$space-4 v.$space-5;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  font-size: v.$font-size-sm;
+  width: 100%;
+  min-height: 64px;
+  padding: v.$space-3 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: v.$font-size-base;
   font-weight: v.$font-weight-semibold;
-  color: v.$color-text;
+  color: v.$color-ink;
+  text-align: left;
+  cursor: pointer;
 
-  jobsy-icon { flex-shrink: 0; color: v.$color-primary; }
+  .signo_faq {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: v.$color-sand;
+    font-size: 1rem;
+    transition: transform v.$transition-base, background v.$transition-base, color v.$transition-base;
+  }
+
+  &:hover .signo_faq { background: v.$color-border; }
+
+  .is-abierta & .signo_faq {
+    transform: rotate(45deg);
+    background: v.$color-cta;
+    color: v.$color-ink;
+  }
 }
 
 .respuesta_faq {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s v.$ease-out;
+
+  > div { overflow: hidden; }
+
+  .is-abierta & { grid-template-rows: 1fr; }
+
+  p {
+    max-width: 64ch;
+    margin: 0 0 v.$space-3;
+    line-height: 1.6;
+    color: v.$color-text;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space-1;
+    margin-bottom: v.$space-5;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-primary;
+  }
+}
+
+mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: rgba(245, 130, 31, 0.28);
+  color: inherit;
+}
+
+// ---- Contacto ----
+.contacto_ayuda {
+  padding-block: v.$space-8;
+  background: v.$color-ink;
+  color: v.$color-bg;
+}
+
+.interior_contacto_ayuda {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: v.$space-7;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); }
+
+  h2 {
+    max-width: 16ch;
+    margin: 0 0 v.$space-5;
+    color: v.$color-bg;
+    @include m.display(clamp(1.8rem, 3.6vw, 2.75rem));
+  }
+}
+
+.canales_ayuda {
   margin: 0;
-  padding: 0 v.$space-5 v.$space-5;
-  font-size: v.$font-size-sm;
-  color: v.$color-text-muted;
-  line-height: 1.7;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    gap: v.$space-4;
+    padding-block: v.$space-4;
+    border-bottom: 1px solid rgba(251, 245, 236, 0.18);
+
+    &:first-child { border-top: 1px solid rgba(251, 245, 236, 0.18); }
+  }
+
+  jobsy-icon { flex-shrink: 0; font-size: 1.3rem; color: v.$color-cta; }
+
+  div { display: grid; gap: 2px; }
+  strong { font-weight: v.$font-weight-bold; }
+  span { color: v.$color-bg; }
+  small { font-size: v.$font-size-xs; color: rgba(251, 245, 236, 0.65); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .respuesta_faq, .signo_faq { transition: none; }
 }

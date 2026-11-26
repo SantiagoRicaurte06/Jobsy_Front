@@ -1,13 +1,49 @@
 <section class="cabeza_tienda">
-  <div class="contenedor">
-    <h1>Tienda Jobsy</h1>
-    <p class="texto_tienda">
-      Insumos de aseo, equipos, uniformes y protección para el trabajo en casa.
-    </p>
-    <ul class="hechos_tienda">
-      <li><jobsy-icon name="truck" /> Envío fijo de {{ envio | cop }}</li>
-      <li><jobsy-icon name="credit-card" /> PSE, tarjeta, Nequi, Daviplata o saldo Jobsy</li>
-    </ul>
+  <div class="contenedor interior_tienda">
+    <div>
+      <h1>Lo que se usa en el trabajo de casa</h1>
+      <p class="texto_tienda">
+        Insumos de aseo, equipos, uniformes y protección. Para el hogar que contrata y para quien trabaja.
+      </p>
+      <ul class="hechos_tienda">
+        <li><span class="icono_hecho"><jobsy-icon name="truck" /></span> <span><strong>Envío fijo de {{ envio | cop }}</strong> por pedido</span></li>
+        <li><span class="icono_hecho"><jobsy-icon name="credit-card" /></span> <span><strong>PSE, tarjeta, Nequi, Daviplata</strong> o saldo Jobsy</span></li>
+        <li><span class="icono_hecho"><jobsy-icon name="package" /></span> <span><strong>Existencias a la vista</strong> en cada producto</span></li>
+      </ul>
+    </div>
+
+    @if (destacado(); as d) {
+      <article class="destacado_tienda">
+        <a class="foto_destacado" [routerLink]="['/tienda/producto', d.id]" [attr.aria-label]="'Ver ' + d.nombre">
+          @if (d.imagenUrl) { <img [src]="d.imagenUrl" alt="" /> } @else { <jobsy-icon name="package" /> }
+          <span class="sello_destacado">Destacado</span>
+        </a>
+        <div class="datos_destacado">
+          <span class="categoria_destacado">{{ d.categoria }}</span>
+          <h2><a [routerLink]="['/tienda/producto', d.id]">{{ d.nombre }}</a></h2>
+          <p class="nota_destacado">
+            <jobsy-icon name="star" /> {{ d.calificacion.toFixed(1) }}
+            · @if (d.stock <= 5) { Quedan {{ d.stock }} } @else { Disponible }
+          </p>
+          <div class="pie_destacado">
+            <strong class="cifra">{{ d.precio | cop }}</strong>
+            @if (cantidadDestacado() > 0) {
+              <div class="cantidad_destacado" role="group" [attr.aria-label]="'Cantidad de ' + d.nombre + ' en el carrito'">
+                <button type="button" (click)="cambiarDestacado(-1)" [attr.aria-label]="cantidadDestacado() === 1 ? 'Quitar del carrito' : 'Uno menos'">
+                  <jobsy-icon [name]="cantidadDestacado() === 1 ? 'trash-2' : 'minus'" />
+                </button>
+                <output aria-live="polite">{{ cantidadDestacado() }}</output>
+                <button type="button" (click)="cambiarDestacado(1)" [disabled]="cantidadDestacado() >= d.stock" aria-label="Uno más">
+                  <jobsy-icon name="plus" />
+                </button>
+              </div>
+            } @else {
+              <button type="button" class="boton_principal" (click)="agregar(d)"><jobsy-icon name="plus" /> Agregar</button>
+            }
+          </div>
+        </div>
+      </article>
+    }
   </div>
 </section>
 
@@ -35,8 +71,8 @@
   } @else {
     <h2 class="oculto">Productos</h2>
     <div class="rejilla_tienda">
-      @for (product of products(); track product.id) {
-        <jobsy-product-card [product]="product" (agregar)="agregar($event)" />
+      @for (product of products(); track product.id; let i = $index) {
+        <jobsy-product-card [product]="product" [style.--i]="i" (agregar)="agregar($event)" />
       }
     </div>
 
@@ -48,8 +84,11 @@
 
 @if (cart.count() > 0) {
   <a routerLink="/tienda/carrito" class="carrito_flotante" [class.is-latido]="added()">
-    <jobsy-icon name="shopping-cart" />
-    <span>Carrito · {{ cart.count() }}</span>
-    <strong>{{ cart.subtotal() | cop }}</strong>
+    <span class="icono_carrito"><jobsy-icon name="shopping-cart" /><span class="cuenta_carrito">{{ cart.count() }}</span></span>
+    <span class="totales_carrito">
+      <strong>{{ cart.total() | cop }}</strong>
+      <small>{{ cart.subtotal() | cop }} + envío {{ cart.envio() | cop }}</small>
+    </span>
+    <span class="ver_carrito">Ver carrito <jobsy-icon name="arrow-right" /></span>
   </a>
 }

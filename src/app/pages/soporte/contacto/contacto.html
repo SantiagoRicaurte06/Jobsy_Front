@@ -1,14 +1,12 @@
-<!-- ============ BANNER ============ -->
-<section class="banner_institucional">
+<section class="cabeza_contacto">
   <div class="contenedor">
-    <span class="pildora_institucional">Soporte</span>
-    <h1 class="titulo_banner">Contacto</h1>
-    <p class="texto_banner">Cuentanos en que podemos ayudarte y te respondemos lo antes posible.</p>
+    <h1>Escríbenos</h1>
+    <p>Cuéntanos qué pasó y te responde una persona del equipo.
+      <a routerLink="/soporte/centro-ayuda">¿Ya buscaste en la ayuda?</a></p>
   </div>
 </section>
 
-<!-- ============ CANALES + FORMULARIO ============ -->
-<section class="contenedor seccion">
+<section class="contenedor cuerpo_contacto">
   <div class="grid_contacto">
     <div class="columna_canales">
       @for (canal of canales; track canal.title) {
@@ -29,7 +27,7 @@
           <span class="icono_confirmacion" aria-hidden="true"><jobsy-icon name="circle-check" /></span>
           @if (porCorreo()) {
             <h2>Abrimos tu correo</h2>
-            <p class="texto_gris">Tu mensaje quedó listo para soporte&#64;jobsy.co; envialo desde tu aplicación de correo. Si inicias sesión, puedes escribirnos directamente desde aquí.</p>
+            <p class="texto_gris">Tu mensaje quedó listo para soporte&#64;jobsy.co; envíalo desde tu aplicación de correo. Si inicias sesión, puedes escribirnos directamente desde aquí.</p>
           } @else {
             <h2>Mensaje enviado</h2>
             <p class="texto_gris">Gracias por escribirnos. Puedes seguir la respuesta en el Centro de reportes.</p>
@@ -37,7 +35,7 @@
           <button type="button" class="boton_borde" (click)="enviado.set(false)">Enviar otro mensaje</button>
         </div>
       } @else {
-        <h2 class="titulo_formulario_contacto">Envianos un mensaje</h2>
+        <h2 class="titulo_formulario_contacto">Envíanos un mensaje</h2>
 
         <form (ngSubmit)="enviar()">
           <div class="grupo_campo">
@@ -89,7 +87,7 @@
             <textarea
               id="mensaje"
               class="area_texto"
-              placeholder="Cuentanos los detalles..."
+              placeholder="Cuéntanos los detalles…"
               [ngModel]="mensaje()"
               (ngModelChange)="mensaje.set($event)"
               name="mensaje"

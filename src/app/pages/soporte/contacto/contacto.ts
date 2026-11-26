@@ -1,10 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { AuthService, ReportService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
 import * as R from '../../../core/validation/reglas';
+import { CANALES_SOPORTE } from '../canales';
 
 /** Tipo de reporte de Soporte_API segun el motivo elegido en el formulario. */
 const TIPO_POR_MOTIVO: Record<string, string> = {
@@ -19,31 +21,12 @@ const TIPO_POR_MOTIVO: Record<string, string> = {
 @Component({
   selector: 'jobsy-contacto',
   standalone: true,
-  imports: [FormsModule, IconComponent],
+  imports: [FormsModule, RouterLink, IconComponent],
   templateUrl: './contacto.html',
   styleUrl: './contacto.scss',
 })
 export class ContactPage {
-  readonly canales = [
-    {
-      icon: 'mail',
-      title: 'Correo electrónico',
-      text: 'soporte@jobsy.co',
-      nota: 'Respuesta en menos de 24 horas habiles.',
-    },
-    {
-      icon: 'message-circle',
-      title: 'Chat en la app',
-      text: 'Desde el Centro de Ayuda',
-      nota: 'Lunes a sábado, 8:00 am - 6:00 pm.',
-    },
-    {
-      icon: 'map-pin',
-      title: 'Oficina Yopal',
-      text: 'Calle 8 #23-15, Yopal, Casanare',
-      nota: 'Visitas previa cita.',
-    },
-  ];
+  readonly canales = CANALES_SOPORTE;
 
   readonly motivos = ['Soporte técnico', 'Pagos y facturación', 'Reportar un perfil', 'Alianzas y prensa', 'Otro'];
 

@@ -45,9 +45,28 @@ export class StorePage implements OnInit {
   );
   readonly added = signal<string | null>(null);
 
+  /** Producto de la cabecera: el destacado, si no el mejor calificado con existencias. */
+  readonly destacado = signal<Product | null>(null);
+  readonly cantidadDestacado = computed(() => {
+    const d = this.destacado();
+    return d ? (this.cart.items().find((i) => i.product.id === d.id)?.cantidad ?? 0) : 0;
+  });
+
   ngOnInit(): void {
     this.productService.categories().subscribe((c) => this.categories.set(c));
+    this.productService.list(undefined, 1, 50).subscribe((res) => {
+      const conStock = res.items.filter((p) => p.stock > 0);
+      const d =
+        conStock.find((p) => p.estado === 'destacado') ??
+        [...conStock].sort((a, b) => b.calificacion - a.calificacion)[0];
+      this.destacado.set(d ?? null);
+    });
     this.load();
+  }
+
+  cambiarDestacado(delta: number): void {
+    const d = this.destacado();
+    if (d) this.cart.updateQuantity(d.id, this.cantidadDestacado() + delta);
   }
 
   load(): void {
