@@ -164,3 +164,8 @@
 
   a { font-weight: v.$font-weight-semibold; }
 }
+.boton_google_acceso {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}

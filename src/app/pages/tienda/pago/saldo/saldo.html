@@ -40,7 +40,11 @@
     <p class="saldo__warning">
       No tienes saldo suficiente. Recarga tu cuenta o elige otro metodo de pago.
     </p>
-    <button type="button" class="boton_secundario boton_ancho">Recargar saldo</button>
+    @if (recargando()) {
+      <jobsy-recarga-saldo (recargado)="alRecargar()" (cancelar)="recargando.set(false)" />
+    } @else {
+      <button type="button" class="boton_secundario boton_ancho" (click)="recargando.set(true)">Recargar saldo</button>
+    }
   }
 
   <!-- Movimientos -->
@@ -57,7 +61,7 @@
               <strong>{{ concepto(mov) }}</strong>
               <span class="texto_mini texto_gris">{{ cuando(mov.fecha) }} &middot; {{ mov.estado }}</span>
             </div>
-            <span class="saldo__out">{{ formatear(mov) }}</span>
+            <span class="saldo__out" [class.saldo__in]="!!mov.concepto">{{ formatear(mov) }}</span>
           </li>
         }
       </ul>

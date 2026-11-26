@@ -127,7 +127,7 @@
 
   <div class="rejilla_inicio">
     @for (employee of employees(); track employee.id) {
-      <jobsy-employee-card [employee]="employee" />
+      <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />
     }
   </div>
 </section>

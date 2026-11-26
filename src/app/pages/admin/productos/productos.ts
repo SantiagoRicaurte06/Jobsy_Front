@@ -1,5 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AdminStore } from '../../../core/services';
 import { Product, ProductStatus } from '../../../core/models';
 import { CopPipe } from '../../../shared/pipes';
@@ -64,6 +66,20 @@ export class AdminProductsPage {
       return coincideTexto && coincideEstado;
     });
   });
+
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  constructor() {
+    // ?nuevo=1 abre el alta (boton del tablero y "+" de la cabecera); ?q= viene del buscador.
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((q) => {
+      if (q.has('q')) this.busqueda.set(q.get('q') ?? '');
+      if (q.get('nuevo')) {
+        this.nuevo();
+        this.router.navigate([], { queryParams: { nuevo: null }, queryParamsHandling: 'merge', replaceUrl: true });
+      }
+    });
+  }
 
   // ============ Modal ============
   nuevo(): void {

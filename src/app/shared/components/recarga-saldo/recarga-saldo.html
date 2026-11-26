@@ -1,0 +1,45 @@
+<form class="recarga tarjeta" (submit)="recargar($event)">
+  <h3>Recargar saldo</h3>
+
+  <div class="recarga__montos" role="group" aria-label="Monto a recargar">
+    @for (m of montos; track m) {
+      <button type="button" class="boton_simple boton_chico" [class.is-activo]="monto() === m" (click)="monto.set(m)">
+        ${{ m.toLocaleString('es-CO') }}
+      </button>
+    }
+  </div>
+
+  <label class="etiqueta" for="r-monto">Monto (COP)</label>
+  <input id="r-monto" type="number" class="campo" min="10000" max="2000000" step="1000"
+    [value]="monto()" (input)="monto.set(+$any($event.target).value)" />
+
+  <label class="etiqueta" for="r-titular">Titular</label>
+  <input id="r-titular" class="campo" autocomplete="cc-name" [value]="titular()" (input)="titular.set($any($event.target).value)" />
+
+  <label class="etiqueta" for="r-numero">Numero de tarjeta</label>
+  <input id="r-numero" class="campo" inputmode="numeric" autocomplete="cc-number" placeholder="4111 1111 1111 1111"
+    [value]="numero()" (input)="numero.set($any($event.target).value)" />
+
+  <div class="recarga__fila">
+    <div>
+      <label class="etiqueta" for="r-venc">Vence (MM/AA)</label>
+      <input id="r-venc" class="campo" autocomplete="cc-exp" placeholder="12/30" [value]="venc()" (input)="venc.set($any($event.target).value)" />
+    </div>
+    <div>
+      <label class="etiqueta" for="r-cvv">CVV</label>
+      <input id="r-cvv" class="campo" inputmode="numeric" autocomplete="cc-csc" maxlength="4" [value]="cvv()" (input)="cvv.set($any($event.target).value)" />
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="pildora_error" role="alert">{{ error() }}</p>
+  }
+
+  <div class="recarga__acciones">
+    <button type="button" class="boton_simple" (click)="cancelar.emit()">Cancelar</button>
+    <button type="submit" class="boton_principal" [disabled]="enviando()">
+      {{ enviando() ? 'Procesando...' : 'Recargar $' + monto().toLocaleString('es-CO') }}
+    </button>
+  </div>
+  <p class="texto_mini texto_gris"><jobsy-icon name="lock" /> Solo enviamos el titular y los ultimos 4 digitos.</p>
+</form>

@@ -164,21 +164,6 @@
               </div>
             </div>
 
-            <!-- Nombre de autor -->
-            <div class="detalle-producto__form-group">
-              <label class="etiqueta" for="review-author">Tu nombre o alias *</label>
-              <input
-                id="review-author"
-                type="text"
-                class="campo"
-                placeholder="Ej. Juan Pérez"
-                [(ngModel)]="nuevoAutor"
-                name="autor"
-                maxlength="60"
-                required
-              />
-            </div>
-
             <!-- Título de la reseña -->
             <div class="detalle-producto__form-group">
               <label class="etiqueta" for="review-title">Título de tu reseña *</label>
@@ -213,7 +198,7 @@
             <div class="detalle-producto__form-group">
               <label class="etiqueta">Fotos del producto (opcional)</label>
               <p class="detalle-producto__field-hint">
-                Puedes subir hasta 4 fotos reales del producto recibido (JPG o PNG, máx. 3MB cada una).
+                Puedes subir hasta {{ maxFotos }} fotos reales del producto recibido (JPG o PNG, máx. 3MB cada una).
               </p>
 
               <!-- Vista previa de fotos cargadas -->
@@ -236,7 +221,7 @@
                 </div>
               }
 
-              @if (nuevasFotos.length < 4) {
+              @if (nuevasFotos.length < maxFotos) {
                 <label class="detalle-producto__upload-box">
                   <input
                     type="file"
@@ -247,7 +232,7 @@
                   />
                   <span class="detalle-producto__upload-icon"><jobsy-icon name="camera" /></span>
                   <span class="detalle-producto__upload-text">Subir fotos desde tu dispositivo</span>
-                  <span class="detalle-producto__upload-limit">({{ 4 - nuevasFotos.length }} disponibles)</span>
+                  <span class="detalle-producto__upload-limit">({{ maxFotos - nuevasFotos.length }} disponibles)</span>
                 </label>
               }
             </div>
@@ -267,7 +252,7 @@
               </button>
               <button
                 type="button"
-                class="boton_fantasma"
+                class="boton_simple"
                 (click)="toggleFormulario()"
                 [disabled]="guardandoResena()"
               >

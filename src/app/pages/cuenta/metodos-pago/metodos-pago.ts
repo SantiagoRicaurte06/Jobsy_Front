@@ -1,3 +1,4 @@
+import { RecargaSaldoComponent } from '../../../shared/components/recarga-saldo/recarga-saldo';
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -32,7 +33,7 @@ const ETIQUETAS: Record<string, string> = {
 @Component({
   selector: 'jobsy-payment-methods',
   standalone: true,
-  imports: [IconComponent, FormsModule],
+  imports: [IconComponent, FormsModule, RecargaSaldoComponent],
   templateUrl: './metodos-pago.html',
   styleUrl: './metodos-pago.scss',
 })
@@ -42,6 +43,7 @@ export class PaymentMethodsPage implements OnInit {
   readonly methods = signal<SavedPaymentMethod[]>([]);
   readonly opciones = signal<PaymentOption[]>([]);
   readonly saldoJobsy = signal(0);
+  readonly recargando = signal(false);
   readonly cargando = signal(true);
   readonly error = signal('');
   readonly aviso = signal('');
@@ -179,5 +181,11 @@ export class PaymentMethodsPage implements OnInit {
   private avisar(texto: string): void {
     this.aviso.set(texto);
     setTimeout(() => this.aviso.set(''), 2800);
+  }
+
+  alRecargar(monto: number): void {
+    this.recargando.set(false);
+    this.aviso.set(`Recargaste $${monto.toLocaleString('es-CO')} a tu saldo Jobsy.`);
+    this.cargar();
   }
 }

@@ -1,4 +1,7 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ApiService } from '../../../core/services';
+import { environment } from '../../../../environments/environment';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
 interface Post {
@@ -20,6 +23,36 @@ interface Post {
   styleUrl: './blog.scss',
 })
 export class BlogPage {
+  private api = inject(ApiService);
+
+  // ---- Boletin ----
+  readonly correoBoletin = signal('');
+  readonly enviandoBoletin = signal(false);
+  readonly boletinOk = signal(false);
+  readonly boletinError = signal('');
+
+  suscribir(event: Event): void {
+    event.preventDefault();
+    const correo = this.correoBoletin().trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      this.boletinError.set('Escribe un correo valido.');
+      return;
+    }
+    this.enviandoBoletin.set(true);
+    this.boletinError.set('');
+    this.api.post<void>(`${environment.endpoints.usuarios}/boletin`, { correo }).subscribe({
+      next: () => {
+        this.enviandoBoletin.set(false);
+        this.boletinOk.set(true);
+        this.correoBoletin.set('');
+      },
+      error: (e: HttpErrorResponse) => {
+        this.enviandoBoletin.set(false);
+        this.boletinError.set(e.error?.error?.mensaje ?? 'No pudimos suscribirte. Intenta de nuevo.');
+      },
+    });
+  }
+
   private foto(id: string): string {
     return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=700&h=460&q=75`;
   }

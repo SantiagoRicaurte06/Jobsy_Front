@@ -361,6 +361,19 @@ export const routes: Routes = [
           import('./pages/tienda/mis-pedidos/mis-pedidos').then((m) => m.MyOrdersPage),
         title: 'Mis pedidos — Jobsy',
       },
+      {
+        path: 'disponibilidad',
+        canActivate: [roleGuard(['empleado'])],
+        loadComponent: () =>
+          import('./pages/perfil/disponibilidad/disponibilidad').then((m) => m.AvailabilityPage),
+        title: 'Mi disponibilidad — Jobsy',
+      },
+      {
+        path: 'guardados',
+        loadComponent: () =>
+          import('./pages/empleados/perfiles-guardados/perfiles-guardados').then((m) => m.SavedProfilesPage),
+        title: 'Perfiles guardados — Jobsy',
+      },
 
       // ---- Cuenta ----
       {

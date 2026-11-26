@@ -22,6 +22,8 @@ export interface PaymentRecord {
   pedidoId?: string;
   ultimos4?: string;
   metodo?: string;
+  /** "Recarga de saldo" cuando el pago no es de un pedido ni de una contratacion. */
+  concepto?: string;
 }
 
 /** Metodo de pago guardado. El numero completo no sale del servidor. */
@@ -78,6 +80,13 @@ export class WalletService {
     esPrincipal: boolean;
   }): Observable<SavedPaymentMethod> {
     return this.api.post<SavedPaymentMethod>(`${this.path}/metodos-guardados`, data);
+  }
+
+  /** Recarga el saldo Jobsy cobrando con tarjeta. Solo viajan titular y ultimos 4 digitos. */
+  recargar(monto: number, titular: string, ultimos4: string): Observable<{ estado: string; mensaje?: string }> {
+    return this.api.post<{ estado: string; mensaje?: string }>(`${this.path}/saldo/recargar`, {
+      monto, metodoPago: 'tarjeta', titular, ultimos4,
+    });
   }
 
   deleteMethod(id: string): Observable<void> {

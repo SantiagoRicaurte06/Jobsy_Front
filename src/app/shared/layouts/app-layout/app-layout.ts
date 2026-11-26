@@ -54,12 +54,14 @@ export class AppLayoutComponent {
               { path: '/app/mis-postulaciones', label: 'Mis postulaciones', icon: 'clipboard-list' },
               { path: '/app/contrataciones', label: 'Mis trabajos', icon: 'calendar' },
               { path: '/app/hoja-de-vida', label: 'Hoja de vida', icon: 'file-text' },
+              { path: '/app/disponibilidad', label: 'Mi disponibilidad', icon: 'clock' },
             ]
           : [];
     return [
       { path: '/app/inicio', label: 'Inicio', icon: 'house' },
       ...propios,
       { path: '/app/perfil', label: 'Perfil', icon: 'user' },
+      { path: '/app/guardados', label: 'Perfiles guardados', icon: 'heart' },
       { path: '/app/pedidos', label: 'Mis pedidos', icon: 'package' },
       { path: '/app/reportes', label: 'Soporte', icon: 'message-circle' },
       { path: '/app/cuenta', label: 'Cuenta', icon: 'credit-card' },
