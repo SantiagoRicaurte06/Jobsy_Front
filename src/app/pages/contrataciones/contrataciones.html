@@ -21,30 +21,56 @@
   } @else if (visibles().length === 0) {
     <div class="tarjeta">
       <jobsy-empty-state icon="calendar" title="Sin contrataciones"
-        message="Cuando contrates a alguien, o te contraten, el servicio aparecera aquí." />
+        message="Cuando contrates a alguien, o te contraten, el servicio aparecerá aquí." />
     </div>
   } @else {
     <ul class="lista_contrataciones">
       @for (h of visibles(); track h.id) {
-        <li class="contratacion tarjeta">
-          <div class="cabeza_contratacion">
+        <li class="contratacion" [class.is-completada]="h.estado === 'completada'">
+          <header class="cabeza_contratacion">
             <div>
               <h2>{{ h.titulo || 'Servicio contratado' }}</h2>
-              <p class="texto_mini texto_gris">
-                {{ h.soyEmpleador ? 'Contrataste a' : 'Te contrato' }}
+              <p class="parte_contratacion">
+                {{ h.soyEmpleador ? 'Contrataste a' : 'Te contrató' }}
                 <strong>{{ h.contraparte || ('usuario #' + h.contraparteId) }}</strong>
               </p>
             </div>
-            <span [class]="estadoClase(h.estado)">{{ h.estado === 'activa' ? 'En curso' : h.estado }}</span>
+            <span [class]="h.estado === 'completada' ? 'pildora_exito' : 'pildora_info'">{{ estadoTexto(h.estado) }}</span>
+          </header>
+
+          <div class="cuerpo_contratacion">
+            <p class="tarifa_contratacion">
+              <span class="cifra">{{ h.tarifa | cop }}</span>
+              <span>por hora</span>
+            </p>
+
+            @if (franjas().get(h.id); as f) {
+              <jobsy-franja-semana [dias]="f.dias" [inicio]="f.inicio" [fin]="f.fin" />
+            }
           </div>
 
           <dl class="datos_contratacion">
-            <div><dt>Fecha</dt><dd>{{ h.fechaInicio.slice(0, 10) | date: 'longDate' }}</dd></div>
-            <div><dt>Hora</dt><dd>{{ h.horaInicio }} · {{ h.duracionHoras }} h</dd></div>
-            <div><dt>Dirección</dt><dd>{{ h.direccion }}</dd></div>
-            <div><dt>Tarifa</dt><dd>{{ h.tarifa | cop }} / hora</dd></div>
-            <div><dt>Total estimado</dt><dd class="precio">{{ h.totalEstimado | cop }}</dd></div>
+            <div>
+              <dt><jobsy-icon name="calendar" /> Fecha</dt>
+              <dd>{{ h.fechaInicio.slice(0, 10) | date: 'fullDate' }}</dd>
+            </div>
+            <div>
+              <dt><jobsy-icon name="clock" /> Hora y duración</dt>
+              <dd class="cifra">{{ horaLegible(h.horaInicio) }} · {{ h.duracionHoras }} h</dd>
+            </div>
+            <div class="dato_direccion">
+              <dt><jobsy-icon name="map-pin" /> Dirección</dt>
+              <dd>{{ h.direccion }}</dd>
+            </div>
           </dl>
+
+          <div class="total_contratacion">
+            <div>
+              <p class="etiqueta_total">Total estimado</p>
+              <p class="nota_total">{{ h.tarifa | cop }} × {{ h.duracionHoras }} h. Es una referencia, no un cobro.</p>
+            </div>
+            <p class="precio">{{ h.totalEstimado | cop }}</p>
+          </div>
 
           <div class="acciones_contratacion">
             @if (h.soyEmpleador && h.contraparteId) {
