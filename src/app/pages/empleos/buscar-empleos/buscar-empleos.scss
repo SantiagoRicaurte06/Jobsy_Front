@@ -1,11 +1,10 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-// ---- Cabeza: título y buscador sobre arena ----
+// ---- Cabeza: título y buscador, sin más capas ----
 .cabeza_empleos {
-  padding-block: v.$space-7 v.$space-6;
+  padding-block: v.$space-6 v.$space-5;
   background: v.$color-sand;
-  border-bottom: v.$border-width solid v.$color-border;
 }
 
 .titulo_empleos {
@@ -18,33 +17,190 @@
 
   h1 {
     margin: 0;
-    max-width: 16ch;
-    @include m.display(clamp(2.2rem, 5vw, 3.75rem));
+    max-width: 22ch;
+    @include m.display(clamp(2rem, 4.2vw, 3.1rem));
   }
 }
 
-jobsy-search-bar { max-width: 860px; }
+jobsy-search-bar { display: block; max-width: 860px; }
 
-// ---- Cuerpo: filtros + resultados ----
-.cuerpo_empleos {
-  display: grid;
-  grid-template-columns: 272px minmax(0, 1fr);
-  gap: v.$space-7;
-  padding-top: v.$space-6;
-
-  @include m.until(v.$bp-lg) {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-}
-
-.lateral_empleos {
+// ---- Barra de filtros: fija bajo la cabecera del sitio ----
+.barra_filtros_empleos {
   position: sticky;
-  top: calc(#{v.$header-height} + #{v.$space-5});
-  align-self: start;
+  top: v.$header-height;
+  z-index: 50;
+  background: v.$color-bg;
+  border-block: 1px solid v.$color-border;
+}
 
-  // En celular y tableta los filtros viven en una hoja que sube desde abajo.
+.fila_filtros_empleos {
+  display: flex;
+  align-items: center;
+  gap: v.$space-3 v.$space-5;
+  min-height: 72px;
+  padding-block: v.$space-3;
+}
+
+.oficios_empleos {
+  display: flex;
+  gap: v.$space-2;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  // Deja ver el foco de la primera y la última ficha.
+  padding: 4px;
+  margin: -4px;
+
+  // Las fichas que no caben se desvanecen en el borde: invita a deslizar.
+  mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.ficha_oficio {
+  flex: none;
+  min-height: 44px;
+  padding: 0 v.$space-4;
+  border: 1px solid v.$color-border-strong;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  cursor: pointer;
+  transition: border-color v.$transition-fast, background v.$transition-fast;
+
+  &:hover { border-color: v.$color-ink; }
+
+  &.is-activa {
+    border-color: v.$color-ink;
+    background: v.$color-ink;
+    color: v.$color-bg;
+  }
+}
+
+.menus_empleos {
+  display: flex;
+  gap: v.$space-2;
+  margin-left: auto;
+
+  @include m.until(v.$bp-lg) { display: none; }
+}
+
+.menu_empleos { position: relative; }
+
+.boton_menu_empleos {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  min-height: 44px;
+  padding: 0 v.$space-3 0 v.$space-4;
+  border: 1px solid v.$color-border-strong;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover, &[aria-expanded="true"] { border-color: v.$color-ink; }
+
+  // Con algo elegido, el menú dice qué: se lee sin abrirlo.
+  &.is-usado { border-color: v.$color-select; }
+}
+
+.valor_menu_empleos {
+  max-width: 16ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: v.$color-select;
+  font-weight: v.$font-weight-bold;
+}
+
+.panel_menu_empleos {
+  position: absolute;
+  top: calc(100% + #{v.$space-2});
+  right: 0;
+  z-index: 60;
+  width: max-content;
+  min-width: 300px;
+  max-width: 360px;
+  padding: v.$space-4;
+  border: 1px solid v.$color-ink;
+  border-radius: v.$radius-lg;
+  background: v.$color-surface;
+  box-shadow: v.$shadow-md;
+  animation: abrir-menu 0.2s v.$ease-out;
+}
+
+.ayuda_menu_empleos {
+  margin: 0 0 v.$space-3;
+  color: v.$color-text-muted;
+  font-size: v.$font-size-sm;
+}
+
+.listo_menu_empleos { width: 100%; margin-top: v.$space-4; justify-content: center; }
+
+@keyframes abrir-menu {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+// Días: L M M J V S D, lo elegido en verde (como la franja de la semana).
+.dias_empleos {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(36px, 1fr));
+  gap: v.$space-1;
+}
+
+.dia_empleos {
+  min-height: 44px;
+  border: 1px solid v.$color-border-strong;
+  border-radius: v.$radius-sm;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  font-weight: v.$font-weight-bold;
+  cursor: pointer;
+
+  &:hover { border-color: v.$color-ink; }
+
+  &.is-activa {
+    border-color: v.$color-select;
+    background: v.$color-select;
+    color: v.$color-select-ink;
+  }
+}
+
+.abrir_filtros_empleos {
+  display: none;
+  flex: none;
+  margin-left: auto;
+
+  @include m.until(v.$bp-lg) { display: inline-flex; }
+}
+
+.cuenta_filtros_empleos {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: v.$radius-pill;
+  background: v.$color-select;
+  color: v.$color-select-ink;
+  font-size: 0.75rem;
+  font-weight: v.$font-weight-black;
+}
+
+// ---- Hoja de filtros (celular y tableta) ----
+.hoja_empleos {
+  display: none;
+
   @include m.until(v.$bp-lg) {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space-5;
     position: fixed;
     inset: auto 0 0 0;
     z-index: 300;
@@ -66,17 +222,16 @@ jobsy-search-bar { max-width: 860px; }
   }
 }
 
-.encabezado_lateral_empleos {
+.encabezado_hoja_empleos {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: v.$space-4;
 
   h2 { margin: 0; font-size: v.$font-size-xl; }
 }
 
-.cerrar_lateral_empleos {
-  display: none;
+.cerrar_hoja_empleos {
+  display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
@@ -86,16 +241,22 @@ jobsy-search-bar { max-width: 860px; }
   color: v.$color-ink;
   font-size: 1.2rem;
   cursor: pointer;
-
-  @include m.until(v.$bp-lg) { display: grid; }
 }
 
-.ver_resultados_empleos {
-  display: none;
-  margin-top: v.$space-5;
+.grupo_hoja_empleos {
+  margin: 0;
+  padding: 0;
+  border: 0;
 
-  @include m.until(v.$bp-lg) { display: inline-flex; }
+  legend {
+    margin-bottom: v.$space-3;
+    padding: 0;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-ink;
+  }
 }
+
+.ver_resultados_empleos { position: sticky; bottom: 0; }
 
 .velo_empleos {
   display: none;
@@ -109,14 +270,16 @@ jobsy-search-bar { max-width: 860px; }
   }
 }
 
-// ---- Resultados ----
+// ---- Resultados a todo el ancho ----
+.cuerpo_empleos { padding-top: v.$space-5; }
+
 .barra_resultados_empleos {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: v.$space-3;
+  gap: v.$space-3 v.$space-5;
   min-height: 44px;
-  margin-bottom: v.$space-4;
+  margin-bottom: v.$space-5;
 }
 
 .conteo_empleos {
@@ -127,38 +290,21 @@ jobsy-search-bar { max-width: 860px; }
   color: v.$color-ink;
 }
 
-.abrir_filtros_empleos {
-  display: none;
-
-  @include m.until(v.$bp-lg) { display: inline-flex; }
-}
-
-.cuenta_filtros_empleos {
-  display: grid;
-  place-items: center;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
-  border-radius: v.$radius-pill;
-  background: v.$color-select;
-  color: v.$color-select-ink;
-  font-size: 0.75rem;
-  font-weight: v.$font-weight-black;
-}
-
 .fichas_empleos {
   display: flex;
   flex-wrap: wrap;
   gap: v.$space-2;
-  margin-bottom: v.$space-5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   button {
     display: inline-flex;
     align-items: center;
     gap: v.$space-2;
     min-height: 44px;
-    padding: 0 v.$space-3;
-    border: v.$border-width solid v.$color-ink;
+    padding: 0 v.$space-3 0 v.$space-4;
+    border: 1px solid v.$color-ink;
     border-radius: v.$radius-pill;
     background: v.$color-surface;
     color: v.$color-ink;
@@ -174,14 +320,13 @@ jobsy-search-bar { max-width: 860px; }
     background: none;
     color: v.$color-primary-light;
     text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 }
 
 .rejilla_empleos {
   @include m.grid-cards(280px);
 }
-
-.semana_empleos { margin-top: v.$space-5; }
 
 .orden_empleos { color: v.$color-text-muted; font-weight: v.$font-weight-semibold; }
 
@@ -194,5 +339,5 @@ jobsy-search-bar { max-width: 860px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rejilla_empleos jobsy-job-card { animation: none; }
+  .rejilla_empleos jobsy-job-card, .panel_menu_empleos { animation: none; }
 }

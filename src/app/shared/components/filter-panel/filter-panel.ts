@@ -9,6 +9,8 @@ import {
  * URL) y emite cada cambio al momento; el precio se aplica al salir del
  * campo o con Enter para no recargar en cada tecla.
  */
+export type GrupoFiltro = 'modalidad' | 'tamano' | 'precio';
+
 @Component({
   selector: 'jobsy-filter-panel',
   standalone: true,
@@ -18,6 +20,8 @@ import {
 })
 export class FilterPanelComponent {
   readonly valor = input<JobFilters>({});
+  /** Muestra un solo grupo (para los menús de la barra de filtros); sin valor, todos. */
+  readonly solo = input<GrupoFiltro | null>(null);
   readonly aplicar = output<JobFilters>();
 
   readonly sizes = TAMANOS.map((value) => ({ value, label: TAMANO_TEXTO[value] }));
@@ -58,6 +62,11 @@ export class FilterPanelComponent {
       precioMin: min ? Number(min) : undefined,
       precioMax: max ? Number(max) : undefined,
     });
+  }
+
+  ver(g: GrupoFiltro): boolean {
+    const s = this.solo();
+    return !s || s === g;
   }
 
   reset(): void {

@@ -76,10 +76,10 @@ export class StepLocationPage {
     const draft = this.registration.draft();
     this.cargando.set(true);
 
-    // Envia todo el formulario; en mock queda guardado en localStorage como JSON.
+    // Envía todo el formulario; en mock queda guardado en localStorage como JSON.
     this.auth
       .register(draft)
-      .pipe(switchMap(() => this.subirFoto(draft.email, draft.password)))
+      .pipe(switchMap(() => this.entrar(draft.email, draft.password)))
       .subscribe({
         next: () => {
           this.registration.reset();
@@ -93,18 +93,16 @@ export class StepLocationPage {
   }
 
   /**
-   * La foto exige sesion: se entra con la cuenta recien creada, se sube y se
-   * vuelve a salir, porque el asistente termina pidiendo iniciar sesion. Si la
-   * subida falla la cuenta sigue creada; la foto se puede poner luego.
+   * Entra con la cuenta recién creada para no pedir la contraseña otra vez, y
+   * sube la foto si se eligió una. Si algo falla, la cuenta sigue creada: la
+   * pantalla final ofrece iniciar sesión y la foto se puede poner luego.
    */
-  private subirFoto(email: string, password: string): Observable<void> {
-    if (!this.foto || environment.useMocks) return of(undefined);
-    const foto = this.foto;
+  private entrar(email: string, password: string): Observable<void> {
+    const foto = environment.useMocks ? null : this.foto;
     return this.auth.login({ usuario: email, password }).pipe(
-      switchMap(() => this.perfil.uploadPhoto(foto)),
+      switchMap(() => (foto ? this.perfil.uploadPhoto(foto).pipe(catchError(() => of(null))) : of(null))),
       map(() => undefined),
       catchError(() => of(undefined)),
-      map(() => this.auth.logout()),
     );
   }
 }

@@ -1,19 +1,23 @@
 <div class="cuenta_creada tarjeta">
   <header class="campo_cuenta_creada">
     <span class="check_cuenta_creada" aria-hidden="true"><jobsy-icon name="check" /></span>
-    <h1 class="titulo_cuenta_creada">&iexcl;Cuenta creada con éxito!</h1>
+    <h1 class="titulo_cuenta_creada">@if (nombre(); as n) { Listo, {{ n }}. } @else { Tu cuenta está lista. }</h1>
   </header>
 
   <div class="cuerpo_cuenta_creada">
   <p class="texto_cuenta_creada">
-    Ya eres parte de Jobsy. Te enviamos un correo de confirmación para verificar tu cuenta.
+    @if (conSesion()) {
+      Ya entraste a Jobsy. Elige por dónde empezar; puedes hacer lo demás después.
+    } @else {
+      Tu cuenta quedó creada. Inicia sesión con tu correo y tu contraseña para seguir.
+    }
   </p>
 
   <p class="etiqueta_pasos_cuenta_creada">Lo que sigue</p>
   <ul class="pasos_cuenta_creada">
-    @for (step of nextSteps; track step.title) {
+    @for (step of nextSteps(); track step.title) {
       <li>
-        <a [routerLink]="step.path">
+        <a [routerLink]="conSesion() ? step.path : '/auth/login'">
           <span aria-hidden="true"><jobsy-icon [name]="step.icon" /></span>
           {{ step.title }}
           <span class="flecha_cuenta_creada" aria-hidden="true"><jobsy-icon name="arrow-right" /></span>
@@ -22,6 +26,10 @@
     }
   </ul>
 
-  <a routerLink="/auth/login" class="boton_principal boton_ancho">Iniciar sesión</a>
+  @if (conSesion()) {
+    <a routerLink="/app/inicio" class="boton_principal boton_ancho">Ir a mi inicio</a>
+  } @else {
+    <a routerLink="/auth/login" class="boton_principal boton_ancho">Iniciar sesión</a>
+  }
   </div>
 </div>

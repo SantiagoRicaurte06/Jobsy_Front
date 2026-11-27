@@ -3,7 +3,6 @@ import { Router, RouterLink } from '@angular/router';
 import { JobService, EmployeeService, AuthService } from '../../../core/services';
 import { Job, Employee } from '../../../core/models';
 import { textoTotal } from '../../../core/utils/paginacion';
-import { IMG_SITE } from '../../../mocks/images.mock';
 import { CopPipe } from '../../../shared/pipes';
 import { JobCardComponent } from '../../../shared/components/job-card/job-card';
 import { EmployeeCardComponent } from '../../../shared/components/employee-card/employee-card';
@@ -12,6 +11,8 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { PlanificadorComponent, ModoPlan } from './planificador/planificador';
 import { AcuerdoAppComponent } from './acuerdo/acuerdo';
+import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar';
+import { FranjaSemanaComponent } from '../../../shared/components/franja-semana/franja-semana';
 
 @Component({
   selector: 'jobsy-landing',
@@ -26,6 +27,8 @@ import { AcuerdoAppComponent } from './acuerdo/acuerdo';
     IconComponent,
     PlanificadorComponent,
     AcuerdoAppComponent,
+    SearchBarComponent,
+    FranjaSemanaComponent,
   ],
   templateUrl: './portada.html',
   styleUrl: './portada.scss',
@@ -37,8 +40,6 @@ export class LandingPage implements OnInit {
   private auth = inject(AuthService);
 
   readonly rol = this.auth.role;
-  readonly fotoPortada = IMG_SITE.hero;
-
   /** Muestra amplia para el planificador: los conteos y tarifas salen de aquí. */
   readonly jobs = signal<Job[]>([]);
   readonly employees = signal<Employee[]>([]);
@@ -67,10 +68,8 @@ export class LandingPage implements OnInit {
       .slice(0, 6),
   );
 
-  /** Las tres que flotan sobre la foto del primer vistazo. */
-  readonly flotantes = computed(() => this.protagonistas().slice(0, 2));
-
-  readonly ofertaMuestra = computed(() => this.jobs()[0] ?? null);
+  /** La oferta que se muestra sobre la foto: una con horario, para que se vea la franja. */
+  readonly ofertaMuestra = computed(() => this.jobs().find((j) => !!j.horario && j.precioHora > 0) ?? null);
   readonly personaMuestra = computed(() => this.protagonistas()[0] ?? null);
 
   /** Fichas de tarea para filtrar las ofertas, sacadas de las propias ofertas. */
@@ -105,8 +104,12 @@ export class LandingPage implements OnInit {
     });
   }
 
-  iniciales(nombre: string): string {
-    return nombre.split(/\s+/).slice(0, 2).map((p) => p[0] ?? '').join('').toUpperCase();
+  /** El buscador lleva a personas (hogares y visitantes) o a ofertas (quien trabaja). */
+  buscar(e: { termino: string; ciudad: string }): void {
+    const q = e.termino.trim() || null;
+    const ciudad = e.ciudad.trim() || null;
+    const destino = this.rol() === 'empleado' ? '/empleos' : '/empleados';
+    this.router.navigate([destino], { queryParams: { q, ciudad } });
   }
 
   contratar(e: Employee): void {

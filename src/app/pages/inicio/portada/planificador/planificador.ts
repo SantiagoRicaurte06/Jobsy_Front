@@ -126,7 +126,8 @@ export class PlanificadorComponent {
       const t0 = performance.now();
       const dur = 520;
       const paso = (t: number) => {
-        const p = Math.min(1, (t - t0) / dur);
+        // El primer cuadro puede traer una marca de tiempo anterior a t0: sin acotar, la cifra baja de cero.
+        const p = Math.min(1, Math.max(0, (t - t0) / dur));
         const e = 1 - Math.pow(1 - p, 4);
         this.cifraMostrada.set(Math.round((desde + (destino - desde) * e) / 1000) * 1000);
         if (p < 1) this.animacion = requestAnimationFrame(paso);

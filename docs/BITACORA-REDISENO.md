@@ -106,6 +106,16 @@ Registro de las auditorías, los errores encontrados, las acciones aplicadas, el
 - `recarga-saldo.spec.ts` usaba `toBeTrue()`/`toBeFalse()` de Jasmine; el proyecto corre con Vitest: `toBe(true)`/`toBe(false)`.
 - Resultado: build sin errores, 83 archivos y 97 pruebas en verde; todas las rutas nuevas del front existen en el MID.
 
+### 2.7 Auditoría UI/UX: portada, empleos, registro y Mis pedidos (2026-11-27)
+
+Referencias: el criterio que dejó la guía de ChatGPT (sobriedad de Mercury, orden de Linear, estructura de Personio; tomar composición y jerarquía, no colores ni tipografías). Fotos: mismo método que el proyecto de capacitaciones `zona-segura-sst` (fotos libres, WebP de máx. 1200 px sin metadatos, servidas desde el sitio y con `CREDITOS.md`), esta vez de Pexels, en `public/fotos/`.
+
+- **Banner de la portada ("Acuerdo a la vista").** El titular vendía una calculadora ("Arma tu semana y mira cuánto cuesta") y en celular la primera pantalla era un formulario que mostraba $0 mientras cargaba. Ahora: titular de valor según el rol, buscador (a personas o a ofertas según el rol), enlace al otro lado y, sobre la foto, una oferta real con oficio, tarifa y franja de la semana. La calculadora pasó a la segunda sección.
+- **Error del contador:** la cifra animada de la calculadora podía mostrar valores negativos (`$-20.000`) porque el primer cuadro de `requestAnimationFrame` trae una marca de tiempo anterior al inicio. Se acotó el progreso entre 0 y 1.
+- **Filtro de empleos.** Antes había tres zonas de filtros (buscador, franja oscura de días y oficios, columna lateral con fichas apiladas), resultados a una columna y el oficio y los días no aparecían en "filtros activos". Ahora: una barra fija con el oficio a la vista y menús de Días, Modalidad, Vivienda y Tarifa que muestran lo elegido; resultados a todo el ancho; todos los filtros como fichas que se quitan; en celular, oficios y un botón "Filtros" con hoja inferior. `jobsy-filter-panel` acepta `solo` para mostrar un grupo.
+- **Registro.** La pantalla final prometía un correo de confirmación que el MID no envía; el asistente cerraba la sesión y pedía entrar otra vez; "Lo que sigue" era de empleado para todos; "Género" apuntaba al campo de fecha. Ahora la sesión queda abierta ("Ir a mi inicio"), los pasos dependen del rol, "Género" es un `fieldset` y se quitó "Paso N de M" encima del título (la barra de progreso ya lo dice).
+- **Mis pedidos.** El aviso tras pagar decía "¡Gracias por tu compra!" aunque el pago estuviera pendiente o rechazado: ahora dice el estado real con su color y su texto. Las tres tarjetas de cifras pasaron a un renglón. Plurales y tildes corregidos; filtros a 44 px.
+
 ---
 
 ## 3. Acciones de mejora aplicadas
@@ -158,6 +168,10 @@ Dirección: **Editorial Workflows × Warm SaaS**. Se conserva la identidad exist
 
 ### Coherencia y deuda técnica
 
+- [ ] Portada: la calculadora muestra "$0 · Aún no hay tarifas" mientras cargan los datos, y "Todo el acuerdo queda en Jobsy" muestra teléfonos en blanco. Darles un estado de carga propio.
+- [ ] Usar las fotos de oficios de `public/fotos/` (limpieza, zonas verdes, cocina, planchado, niños, mascotas) en las tarjetas de ofertas sin foto y en el registro; agregar en el pie el enlace a los créditos.
+- [ ] Llevar la barra de filtros de empleos a `/empleados`, que aún usa la franja oscura `jobsy-tu-semana`.
+- [ ] Revisar Mis pedidos renderizada con sesión (no se pudo capturar en modo mocks).
 - [ ] Reseñas de producto: sacarlas a un componente propio. Hoy los estilos del detalle de producto superan el presupuesto de 8 kB (8,64 kB) y la sección aún usa el estilo anterior al rediseño.
 - [ ] Revisar con el nuevo estilo las páginas que llegaron de `develop`: perfiles guardados (`/app/guardados`), disponibilidad (`/app/disponibilidad`), recarga de saldo y boletín.
 - [ ] El menú dice "Mis trabajos" y la página dice "Contrataciones" (`header.html`, `inicio-privado.ts`). Unificar el nombre.

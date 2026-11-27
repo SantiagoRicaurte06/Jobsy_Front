@@ -8,11 +8,13 @@
   </header>
 
   @if (recien(); as numero) {
-    <div class="pedidos__exito" role="status">
-      <jobsy-icon name="circle-check" />
+    <!-- El aviso dice el estado real del pago, no siempre "gracias". -->
+    <div class="pedidos__exito" [class.is-pendiente]="avisoRecien().tono === 'pendiente'"
+      [class.is-error]="avisoRecien().tono === 'error'" role="status">
+      <jobsy-icon [name]="avisoRecien().icono" />
       <div>
-        <strong>¡Gracias por tu compra!</strong>
-        <p>Recibimos tu pedido <b>{{ numero }}</b>. Aquí puedes seguirlo; te avisaremos cuando cambie de estado.</p>
+        <strong>{{ avisoRecien().titulo }}</strong>
+        <p>Pedido <b>{{ numero }}</b>. {{ avisoRecien().texto }}</p>
       </div>
       <button type="button" class="pedidos__cerrar" (click)="cerrarAviso()" aria-label="Cerrar aviso"><jobsy-icon name="x" /></button>
     </div>
@@ -31,17 +33,17 @@
       message="Cuando hagas un pedido en la tienda lo verás aquí con su estado." />
     <div class="pedidos__centro"><a routerLink="/tienda" class="boton_principal">Explorar la tienda</a></div>
   } @else {
-    <div class="pedidos__resumen">
-      <div class="tarjeta"><strong>{{ conteo().todos }}</strong><span>Pedidos</span></div>
-      <div class="tarjeta"><strong>{{ conteo().en_curso }}</strong><span>En curso</span></div>
-      <div class="tarjeta"><strong>{{ totalGastado() | cop }}</strong><span>Total comprado</span></div>
-    </div>
+    <p class="pedidos__resumen">
+      {{ conteo().todos }} {{ conteo().todos === 1 ? 'pedido' : 'pedidos' }}
+      · {{ conteo().en_curso }} en curso
+      · <span class="cifra">{{ totalGastado() | cop }}</span> comprados
+    </p>
 
     <nav class="pedidos__filtros" aria-label="Filtrar pedidos">
-      <button type="button" [class.is-active]="filtro() === 'todos'" (click)="filtro.set('todos')">Todos ({{ conteo().todos }})</button>
-      <button type="button" [class.is-active]="filtro() === 'en_curso'" (click)="filtro.set('en_curso')">En curso ({{ conteo().en_curso }})</button>
-      <button type="button" [class.is-active]="filtro() === 'entregados'" (click)="filtro.set('entregados')">Entregados ({{ conteo().entregados }})</button>
-      <button type="button" [class.is-active]="filtro() === 'cancelados'" (click)="filtro.set('cancelados')">Cancelados y reembolsos ({{ conteo().cancelados }})</button>
+      <button type="button" [class.is-active]="filtro() === 'todos'" [attr.aria-pressed]="filtro() === 'todos'" (click)="filtro.set('todos')">Todos ({{ conteo().todos }})</button>
+      <button type="button" [class.is-active]="filtro() === 'en_curso'" [attr.aria-pressed]="filtro() === 'en_curso'" (click)="filtro.set('en_curso')">En curso ({{ conteo().en_curso }})</button>
+      <button type="button" [class.is-active]="filtro() === 'entregados'" [attr.aria-pressed]="filtro() === 'entregados'" (click)="filtro.set('entregados')">Entregados ({{ conteo().entregados }})</button>
+      <button type="button" [class.is-active]="filtro() === 'cancelados'" [attr.aria-pressed]="filtro() === 'cancelados'" (click)="filtro.set('cancelados')">Cancelados y reembolsos ({{ conteo().cancelados }})</button>
     </nav>
 
     @if (visibles().length === 0) {
@@ -56,7 +58,7 @@
             <span class="pedido__datos">
               <strong>{{ p.numero }}</strong>
               <span class="texto_mini texto_gris">
-                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} artículo(s) · {{ metodo(p.metodoPago) }}
+                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} {{ unidades(p) === 1 ? 'artículo' : 'artículos' }} · {{ metodo(p.metodoPago) }}
               </span>
             </span>
             <span [class]="badgeClass(p.estado)">{{ etiqueta(p.estado) }}</span>
@@ -118,7 +120,7 @@
               <div class="pedido__acciones">
                 <a routerLink="/app/reportes" class="boton_simple boton_chico">¿Problema con este pedido?</a>
                 <button type="button" class="boton_secundario boton_chico" [disabled]="ocupado() === p.id" (click)="repetir(p)">
-                  {{ ocupado() === p.id ? 'Agregando...' : 'Volver a comprar' }}
+                  {{ ocupado() === p.id ? 'Agregando…' : 'Volver a comprar' }}
                 </button>
               </div>
             </div>

@@ -2,7 +2,6 @@
   <jobsy-step-progress [steps]="steps()" [current]="0" />
 
   <header class="paso-personal__header">
-    <span class="paso-personal__paso">Paso 1 de {{ steps().length }}</span>
     <h1>Datos personales</h1>
     <p>Esta información nos ayuda a verificar tu identidad.</p>
   </header>
@@ -18,8 +17,8 @@
       </select>
     </div>
 
-    <div class="grupo_campo">
-      <label class="etiqueta" for="fecha">Género</label>
+    <fieldset class="grupo_campo paso-personal__grupo">
+      <legend class="etiqueta">Género</legend>
       <div class="paso-personal__options">
         @for (g of generos; track g) {
           <label class="paso-personal__radio" [class.is-selected]="genero() === g">
@@ -29,7 +28,7 @@
           </label>
         }
       </div>
-    </div>
+    </fieldset>
 
     <div class="grupo_campo">
       <label class="etiqueta" for="fecha">Fecha de nacimiento</label>

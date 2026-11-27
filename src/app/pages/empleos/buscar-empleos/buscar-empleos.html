@@ -18,79 +18,130 @@
       [terminoInicial]="filters().busqueda ?? ''"
       [ciudadInicial]="filters().ciudad ?? ''"
       (buscar)="buscar($event)" />
-
-    <jobsy-tu-semana class="semana_empleos"
-      titulo="Los días que puedes"
-      [conHoras]="false"
-      [oficios]="oficios()"
-      [oficio]="oficio()"
-      [semana]="semana()"
-      (cambio)="cambiarSemana($event)" />
   </div>
 </section>
 
-<div class="contenedor cuerpo_empleos">
-  <aside class="lateral_empleos" [class.is-abierto]="filtrosAbiertos()" id="filtros-empleos" aria-label="Filtros">
-    <div class="encabezado_lateral_empleos">
-      <h2>Filtros</h2>
-      <button type="button" class="cerrar_lateral_empleos" (click)="filtrosAbiertos.set(false)" aria-label="Cerrar filtros">
-        <jobsy-icon name="x" />
-      </button>
+<!-- Una sola barra de filtros: el oficio a la vista y el resto en menús. -->
+<div class="barra_filtros_empleos">
+  <div class="contenedor fila_filtros_empleos">
+    @if (oficios().length) {
+      <div class="oficios_empleos" role="group" aria-label="Oficio">
+        <button type="button" class="ficha_oficio" [class.is-activa]="!oficio()"
+          [attr.aria-pressed]="!oficio()" (click)="elegirOficio(null)">Todos</button>
+        @for (o of oficios(); track o) {
+          <button type="button" class="ficha_oficio" [class.is-activa]="oficio() === o"
+            [attr.aria-pressed]="oficio() === o" (click)="elegirOficio(o)">{{ o }}</button>
+        }
+      </div>
+    }
+
+    <div class="menus_empleos">
+      @for (m of menus; track m.id) {
+        <div class="menu_empleos">
+          <button type="button" class="boton_menu_empleos" [class.is-usado]="resumenMenu(m.id)"
+            [attr.aria-expanded]="menuAbierto() === m.id" [attr.aria-controls]="'menu-' + m.id"
+            (click)="alternarMenu(m.id)">
+            {{ m.texto }}
+            @if (resumenMenu(m.id); as r) { <span class="valor_menu_empleos">{{ r }}</span> }
+            <jobsy-icon [name]="menuAbierto() === m.id ? 'chevron-up' : 'chevron-down'" />
+          </button>
+
+          @if (menuAbierto() === m.id) {
+            <div class="panel_menu_empleos" [id]="'menu-' + m.id">
+              @if (m.id === 'dias') {
+                <p class="ayuda_menu_empleos">Solo ofertas que piden alguno de estos días.</p>
+                <div class="dias_empleos" role="group" aria-label="Días que puedes trabajar">
+                  @for (d of dias7; track d) {
+                    <button type="button" class="dia_empleos" [class.is-activa]="misDias()?.includes(d)"
+                      [attr.aria-pressed]="!!misDias()?.includes(d)" [attr.aria-label]="nombreDia[d]"
+                      (click)="alternarDia(d)">{{ inicial[d] }}</button>
+                  }
+                </div>
+              } @else {
+                <jobsy-filter-panel [solo]="m.id" [valor]="filters()" (aplicar)="applyFilters($event)" />
+              }
+              <button type="button" class="boton_simple boton_chico listo_menu_empleos" (click)="menuAbierto.set(null)">Listo</button>
+            </div>
+          }
+        </div>
+      }
     </div>
-    <jobsy-filter-panel [valor]="filters()" (aplicar)="applyFilters($event)" />
-    <button type="button" class="boton_principal boton_ancho ver_resultados_empleos" (click)="filtrosAbiertos.set(false)">
-      Ver {{ textoTotal() || 'resultados' }}
+
+    <button type="button" class="boton_simple boton_chico abrir_filtros_empleos"
+      (click)="filtrosAbiertos.set(true)" aria-controls="filtros-empleos" [attr.aria-expanded]="filtrosAbiertos()">
+      <jobsy-icon name="sliders-horizontal" /> Filtros
+      @if (cuentaHoja()) { <span class="cuenta_filtros_empleos">{{ cuentaHoja() }}</span> }
     </button>
-  </aside>
+  </div>
+</div>
 
-  <div class="resultados_empleos">
-    <div class="barra_resultados_empleos">
-      <p class="conteo_empleos" aria-live="polite">
-        @if (!cargando()) { {{ textoTotal() }}@if (semana()) { <span class="orden_empleos"> · la que más paga primero</span> } }
-      </p>
-
-      <button type="button" class="boton_simple boton_chico abrir_filtros_empleos"
-        (click)="filtrosAbiertos.set(true)" aria-controls="filtros-empleos" [attr.aria-expanded]="filtrosAbiertos()">
-        <jobsy-icon name="sliders-horizontal" /> Filtros
-        @if (fichas().length) { <span class="cuenta_filtros_empleos">{{ fichas().length }}</span> }
-      </button>
+<!-- En celular y tableta: hoja que sube desde abajo con días y el resto de filtros. -->
+<aside class="hoja_empleos" [class.is-abierto]="filtrosAbiertos()" id="filtros-empleos" aria-label="Filtros">
+  <div class="encabezado_hoja_empleos">
+    <h2>Filtros</h2>
+    <button type="button" class="cerrar_hoja_empleos" (click)="filtrosAbiertos.set(false)" aria-label="Cerrar filtros">
+      <jobsy-icon name="x" />
+    </button>
+  </div>
+  <fieldset class="grupo_hoja_empleos">
+    <legend>Días que puedes</legend>
+    <div class="dias_empleos">
+      @for (d of dias7; track d) {
+        <button type="button" class="dia_empleos" [class.is-activa]="misDias()?.includes(d)"
+          [attr.aria-pressed]="!!misDias()?.includes(d)" [attr.aria-label]="nombreDia[d]"
+          (click)="alternarDia(d)">{{ inicial[d] }}</button>
+      }
     </div>
+  </fieldset>
+  <jobsy-filter-panel [valor]="filters()" (aplicar)="applyFilters($event)" />
+  <button type="button" class="boton_principal boton_ancho ver_resultados_empleos" (click)="filtrosAbiertos.set(false)">
+    Ver {{ textoTotal() || 'resultados' }}
+  </button>
+</aside>
+
+<div class="contenedor cuerpo_empleos">
+  <div class="barra_resultados_empleos">
+    <p class="conteo_empleos" aria-live="polite">
+      @if (!cargando()) { {{ textoTotal() }}@if (semana()) { <span class="orden_empleos"> · la que más paga primero</span> } }
+    </p>
 
     @if (fichas().length) {
       <ul class="fichas_empleos" aria-label="Filtros activos">
         @for (f of fichas(); track f.texto) {
           <li>
-            <button type="button" (click)="quitar(f)" [attr.aria-label]="'Quitar filtro ' + f.texto">
+            <button type="button" (click)="f.quitar()" [attr.aria-label]="'Quitar filtro ' + f.texto">
               {{ f.texto }} <jobsy-icon name="x" />
             </button>
           </li>
         }
-        <li><button type="button" class="limpiar_empleos" (click)="limpiar()">Quitar todo</button></li>
+        @if (fichas().length > 1) {
+          <li><button type="button" class="limpiar_empleos" (click)="limpiar()">Quitar todo</button></li>
+        }
       </ul>
     }
-
-    @if (cargando()) {
-      <jobsy-loading-spinner label="Buscando ofertas…" />
-    } @else if (jobs().length === 0) {
-      <jobsy-empty-state
-        icon="search"
-        title="No hay ofertas con esos filtros"
-        message="Prueba quitando algún filtro o buscando otra tarea. Se publican ofertas nuevas cada semana.">
-        @if (fichas().length) {
-          <button type="button" class="boton_simple" (click)="limpiar()">Quitar filtros</button>
-        }
-      </jobsy-empty-state>
-    } @else {
-      <h2 class="oculto">Ofertas</h2>
-      <div class="rejilla_empleos">
-        @for (job of jobs(); track job.id; let i = $index) {
-          <jobsy-job-card [job]="job" [misDias]="misDias()" [style.--i]="i" />
-        }
-      </div>
-
-      <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
-    }
   </div>
+
+  @if (cargando()) {
+    <jobsy-loading-spinner label="Buscando ofertas…" />
+  } @else if (jobs().length === 0) {
+    <jobsy-empty-state
+      icon="search"
+      title="No hay ofertas con esos filtros"
+      message="Prueba quitando algún filtro o buscando otra tarea. Se publican ofertas nuevas cada semana.">
+      @if (fichas().length) {
+        <button type="button" class="boton_simple" (click)="limpiar()">Quitar filtros</button>
+      }
+    </jobsy-empty-state>
+  } @else {
+    <h2 class="oculto">Ofertas</h2>
+    <div class="rejilla_empleos">
+      @for (job of jobs(); track job.id; let i = $index) {
+        <jobsy-job-card [job]="job" [misDias]="misDias()" [style.--i]="i" />
+      }
+    </div>
+
+    <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
+  }
 </div>
 
 @if (filtrosAbiertos()) {

@@ -1,6 +1,7 @@
 <div class="panel_filtros">
+  @if (ver('modalidad')) {
   <fieldset class="grupo_panel_filtros">
-    <legend class="leyenda_panel_filtros">Modalidad</legend>
+    <legend class="leyenda_panel_filtros" [class.oculto]="solo()">Modalidad</legend>
     <div class="fichas_panel_filtros">
       @for (m of modalities; track m.value) {
         <label class="ficha_panel_filtros" [class.is-activa]="selectedModalities().includes(m.value)">
@@ -12,9 +13,11 @@
       }
     </div>
   </fieldset>
+  }
 
+  @if (ver('tamano')) {
   <fieldset class="grupo_panel_filtros">
-    <legend class="leyenda_panel_filtros">Tamaño de la vivienda</legend>
+    <legend class="leyenda_panel_filtros" [class.oculto]="solo()">Tamaño de la vivienda</legend>
     <div class="fichas_panel_filtros">
       @for (size of sizes; track size.value) {
         <label class="ficha_panel_filtros" [class.is-activa]="selectedSizes().includes(size.value)">
@@ -26,9 +29,11 @@
       }
     </div>
   </fieldset>
+  }
 
+  @if (ver('precio')) {
   <fieldset class="grupo_panel_filtros">
-    <legend class="leyenda_panel_filtros">Tarifa por hora (COP)</legend>
+    <legend class="leyenda_panel_filtros" [class.oculto]="solo()">Tarifa por hora (COP)</legend>
     <div class="rango_panel_filtros">
       <label>
         <span class="oculto">Tarifa mínima</span>
@@ -45,6 +50,9 @@
       </label>
     </div>
   </fieldset>
+  }
 
-  <button type="button" class="limpiar_panel_filtros" (click)="reset()">Quitar filtros</button>
+  @if (!solo()) {
+    <button type="button" class="limpiar_panel_filtros" (click)="reset()">Quitar filtros</button>
+  }
 </div>

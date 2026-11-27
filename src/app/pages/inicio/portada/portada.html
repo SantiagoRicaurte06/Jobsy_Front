@@ -1,37 +1,43 @@
-<!-- ============ PRIMER VISTAZO: arma tu semana ============ -->
+<!-- ============ PRIMER VISTAZO: el acuerdo a la vista ============ -->
 <section class="inicio" aria-labelledby="titulo-portada">
   <div class="interior_inicio">
-    <!-- Escena: una persona trabajando y quienes ya están en Jobsy -->
-    <div class="escena">
-      <img class="foto_escena" [src]="fotoPortada" alt="Una trabajadora del hogar limpia una ventana" fetchpriority="high" />
-      @if (flotantes().length) {
-        <ul class="flotantes" aria-label="Personas con perfil en Jobsy">
-          @for (p of flotantes(); track p.id; let i = $index) {
-            <li [style.--i]="i">
-              <a class="flotante" [routerLink]="['/empleados', p.id]">
-                @if (p.fotoUrl) { <img [src]="p.fotoUrl" alt="" /> } @else { <span class="inicial_flotante">{{ iniciales(p.nombre) }}</span> }
-                <span class="datos_flotante">
-                  <strong>{{ p.nombre }}</strong>
-                  <span>
-                    @if (p.verificado) { <jobsy-icon name="badge-check" /> }
-                    {{ p.calificacion.toFixed(1) }} · {{ p.totalServicios }} servicios
-                  </span>
-                  @if (p.tarifaHora) { <span class="tarifa_flotante cifra">{{ p.tarifaHora | cop }} / hora</span> }
-                </span>
-              </a>
-            </li>
-          }
-        </ul>
+    <div class="panel_inicio">
+      @if (rol() === 'empleado') {
+        <h1 class="titulo_inicio" id="titulo-portada">Trabajo en hogares de Yopal, con tarifa y horario por escrito.</h1>
+        <p class="texto_inicio">Ofertas que dicen cuánto pagan por hora, qué días y en qué horario. Te postulas y el acuerdo queda en Jobsy.</p>
+      } @else {
+        <h1 class="titulo_inicio" id="titulo-portada">Ayuda en casa en Yopal, con tarifa y horario por escrito.</h1>
+        <p class="texto_inicio">Personas con documentos revisados y reseñas de otros hogares. La oferta, la contratación y la reseña quedan dentro de Jobsy.</p>
       }
+
+      <jobsy-search-bar class="buscador_inicio"
+        [placeholder]="rol() === 'empleado' ? 'Limpieza, cocina…' : 'Limpieza, cocina…'"
+        (buscar)="buscar($event)" />
+
+      <p class="otro_lado_inicio">
+        @if (rol() === 'empleado') {
+          <a routerLink="/app/hoja-de-vida">Completa tu hoja de vida</a> para que los hogares te encuentren.
+        } @else if (rol() === 'empleador') {
+          ¿Prefieres que te escriban? <a routerLink="/publicar-oferta">Publica una oferta</a>.
+        } @else {
+          ¿Buscas trabajo? <a routerLink="/empleos">Mira las ofertas abiertas</a>.
+        }
+      </p>
+      @if (resumen(); as r) { <p class="resumen_inicio">{{ r }}</p> }
     </div>
 
-    <div class="panel_inicio">
-      <h1 class="titulo_inicio" id="titulo-portada">Arma tu semana y mira cuánto cuesta.</h1>
-      <p class="texto_inicio">
-        Elige oficio, días y horas, y mira al instante cuánto cuesta y quién está disponible en Yopal.
-      </p>
-      <jobsy-planificador [jobs]="jobs()" [employees]="employees()" [modoFijo]="modoFijo()" [(modo)]="modo" />
-      @if (resumen(); as r) { <p class="resumen_inicio">{{ r }}</p> }
+    <!-- La foto y, encima, un acuerdo real: oficio, tarifa y días. -->
+    <div class="escena">
+      <img class="foto_escena" src="/fotos/portada.webp" width="1200" height="805"
+        alt="Una mano se apoya sobre las manos de una señora mayor" fetchpriority="high" />
+      @if (ofertaMuestra(); as o) {
+        <a class="acuerdo_escena" [routerLink]="['/empleos', o.id]">
+          <span class="oficio_acuerdo">{{ o.etiquetas[0] ?? 'Trabajo en el hogar' }} · {{ o.ciudad }}</span>
+          <span class="tarifa_acuerdo"><strong class="cifra">{{ o.precioHora | cop }}</strong> por hora</span>
+          <jobsy-franja-semana [horario]="o.horario" />
+          <span class="nota_acuerdo"><jobsy-icon name="file-text" /> Queda por escrito en Jobsy</span>
+        </a>
+      }
     </div>
   </div>
 </section>
@@ -52,6 +58,15 @@
     </ul>
   </section>
 }
+
+<!-- ============ ARMA TU SEMANA ============ -->
+<section class="contenedor seccion_portada semana_portada" aria-labelledby="titulo-semana">
+  <div class="texto_semana_portada">
+    <h2 id="titulo-semana">Arma tu semana y mira cuánto cuesta</h2>
+    <p>Elige oficio, días y horas. El total sale de las tarifas que hoy están publicadas en Yopal.</p>
+  </div>
+  <jobsy-planificador [jobs]="jobs()" [employees]="employees()" [modoFijo]="modoFijo()" [(modo)]="modo" />
+</section>
 
 <!-- ============ OFERTAS ABIERTAS ============ -->
 <section class="contenedor seccion_portada" aria-labelledby="titulo-ofertas">

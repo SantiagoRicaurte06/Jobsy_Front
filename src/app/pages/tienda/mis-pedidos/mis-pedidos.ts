@@ -63,7 +63,7 @@ export class MyOrdersPage implements OnInit {
   readonly filtro = signal<Filtro>('todos');
   readonly abierto = signal<string | null>(null);
   readonly ocupado = signal<string | null>(null);
-  /** Numero del pedido recien pagado, que llega desde la pantalla de pago. */
+  /** Número del pedido recién pagado, que llega desde la pantalla de pago. */
   readonly recien = signal<string | null>(null);
 
   readonly pasos = PASOS;
@@ -80,6 +80,22 @@ export class MyOrdersPage implements OnInit {
       c[this.grupo(p.estado)]++;
     }
     return c;
+  });
+
+  /** Qué decir del pedido recién hecho según su estado real. */
+  readonly avisoRecien = computed(() => {
+    const p = this.pedidos().find((x) => x.numero === this.recien());
+    const estado = p?.estado;
+    if (estado === 'cancelado' || estado === 'reembolsado') {
+      return { tono: 'error', icono: 'circle-alert', titulo: 'El pago no se aprobó',
+        texto: 'No se hizo ningún cobro. Puedes intentarlo de nuevo desde el carrito o con otro método.' };
+    }
+    if (!estado || estado === 'pendiente') {
+      return { tono: 'pendiente', icono: 'clock', titulo: 'Recibimos tu pedido; el pago aún no se confirma',
+        texto: 'Suele tardar unos minutos. Esta página se actualiza sola cuando cambie.' };
+    }
+    return { tono: 'exito', icono: 'circle-check', titulo: '¡Gracias por tu compra! El pago quedó aprobado',
+      texto: 'Aquí ves en qué va: preparando, enviado y entregado.' };
   });
 
   readonly totalGastado = computed(() =>
@@ -102,7 +118,7 @@ export class MyOrdersPage implements OnInit {
       next: (lista) => {
         const ordenados = [...(lista ?? [])].sort((a, b) => b.fecha.localeCompare(a.fecha));
         this.pedidos.set(ordenados);
-        // El recien pagado se muestra abierto; si no, el mas reciente.
+        // El recién pagado se muestra abierto; si no, el más reciente.
         if (destacar !== null || this.cargando()) {
           const destacado = ordenados.find((p) => p.numero === destacar) ?? ordenados[0];
           if (destacado) this.abierto.set(destacado.id);
@@ -145,7 +161,7 @@ export class MyOrdersPage implements OnInit {
         });
         this.ocupado.set(null);
         if (!agregados) {
-          this.aviso.set('Los productos de ese pedido ya no estan disponibles.');
+          this.aviso.set('Los productos de ese pedido ya no están disponibles.');
           return;
         }
         this.router.navigate(['/tienda/carrito']);
@@ -165,7 +181,7 @@ export class MyOrdersPage implements OnInit {
     return p.items.reduce((n, i) => n + i.cantidad, 0);
   }
 
-  /** Indice del paso alcanzado en el seguimiento, o -1 si el pedido no sigue el curso normal. */
+  /** Índice del paso alcanzado en el seguimiento, o -1 si el pedido no sigue el curso normal. */
   paso(estado: OrderStatus): number {
     return PASOS.indexOf(estado);
   }

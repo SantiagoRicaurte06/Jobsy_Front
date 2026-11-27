@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, HostListener, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { JobService, AuthService } from '../../../core/services';
@@ -9,8 +9,9 @@ import { FilterPanelComponent } from '../../../shared/components/filter-panel/fi
 import { PaginationComponent } from '../../../shared/components/pagination/pagination';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
-import { CambioSemana, TuSemanaComponent } from '../../../shared/components/tu-semana/tu-semana';
-import { coincideOficio, leerSemana, oficiosDe, pagoSemana, semanaEnUrl } from '../../../core/utils/semana';
+import { GrupoFiltro } from '../../../shared/components/filter-panel/filter-panel';
+import { HORAS_DEFECTO, Semana, coincideOficio, leerSemana, oficiosDe, pagoSemana, semanaEnUrl } from '../../../core/utils/semana';
+import { DIAS_SEMANA, DIA_INICIAL, DIA_NOMBRE, DiaSemana } from '../../../core/utils/horario';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar';
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { CopPipe } from '../../../shared/pipes';
@@ -21,8 +22,10 @@ const MUESTRA = 50;
 
 interface FichaFiltro {
   texto: string;
-  quitar: Partial<Record<keyof JobFilters, unknown>>;
+  quitar: () => void;
 }
+
+type MenuFiltro = 'dias' | GrupoFiltro;
 
 /**
  * Búsqueda de ofertas. La URL es la fuente de verdad: cada filtro, la
@@ -34,7 +37,7 @@ interface FichaFiltro {
   standalone: true,
   imports: [
     IconComponent, RouterLink, JobCardComponent, FilterPanelComponent, PaginationComponent,
-    LoadingSpinnerComponent, EmptyStateComponent, SearchBarComponent, TuSemanaComponent,
+    LoadingSpinnerComponent, EmptyStateComponent, SearchBarComponent,
   ],
   providers: [CopPipe],
   templateUrl: './buscar-empleos.html',
@@ -52,6 +55,17 @@ export class JobSearchPage {
   readonly totalPages = signal(1);
   readonly textoTotal = signal('');
   readonly filtrosAbiertos = signal(false);
+  readonly menuAbierto = signal<MenuFiltro | null>(null);
+
+  readonly dias7 = DIAS_SEMANA;
+  readonly inicial = DIA_INICIAL;
+  readonly nombreDia = DIA_NOMBRE;
+  readonly menus: { id: MenuFiltro; texto: string }[] = [
+    { id: 'dias', texto: 'Días' },
+    { id: 'modalidad', texto: 'Modalidad' },
+    { id: 'tamano', texto: 'Vivienda' },
+    { id: 'precio', texto: 'Tarifa' },
+  ];
 
   private readonly params = toSignal(this.route.queryParamMap, { requireSync: true });
 
@@ -65,19 +79,64 @@ export class JobSearchPage {
   /** Fichas de los filtros activos, cada una con su forma de quitarse. */
   readonly fichas = computed<FichaFiltro[]>(() => {
     const f = this.filters();
+    const sin = (cambio: Partial<JobFilters>) => () => this.navegar({ ...f, ...cambio });
     const fichas: FichaFiltro[] = [];
-    if (f.busqueda) fichas.push({ texto: `“${f.busqueda}”`, quitar: { busqueda: undefined } });
-    if (f.ciudad) fichas.push({ texto: f.ciudad, quitar: { ciudad: undefined } });
+    const oficio = this.oficio();
+    if (oficio) fichas.push({ texto: oficio, quitar: () => this.elegirOficio(null) });
+    const dias = this.misDias();
+    if (dias?.length) fichas.push({ texto: textoDias(dias), quitar: () => this.cambiarDias([]) });
+    if (f.busqueda) fichas.push({ texto: `“${f.busqueda}”`, quitar: sin({ busqueda: undefined }) });
+    if (f.ciudad) fichas.push({ texto: f.ciudad, quitar: sin({ ciudad: undefined }) });
     f.modalidad?.forEach((m) =>
-      fichas.push({ texto: MODALIDAD_TEXTO[m], quitar: { modalidad: f.modalidad!.filter((x) => x !== m) } }),
+      fichas.push({ texto: MODALIDAD_TEXTO[m], quitar: sin({ modalidad: f.modalidad!.filter((x) => x !== m) }) }),
     );
     f.tamano?.forEach((t) =>
-      fichas.push({ texto: `Vivienda ${TAMANO_TEXTO[t].toLowerCase()}`, quitar: { tamano: f.tamano!.filter((x) => x !== t) } }),
+      fichas.push({ texto: `Vivienda ${TAMANO_TEXTO[t].toLowerCase()}`, quitar: sin({ tamano: f.tamano!.filter((x) => x !== t) }) }),
     );
-    if (f.precioMin) fichas.push({ texto: `Desde ${this.cop.transform(f.precioMin)}`, quitar: { precioMin: undefined } });
-    if (f.precioMax) fichas.push({ texto: `Hasta ${this.cop.transform(f.precioMax)}`, quitar: { precioMax: undefined } });
+    if (f.precioMin) fichas.push({ texto: `Desde ${this.cop.transform(f.precioMin)}`, quitar: sin({ precioMin: undefined }) });
+    if (f.precioMax) fichas.push({ texto: `Hasta ${this.cop.transform(f.precioMax)}`, quitar: sin({ precioMax: undefined }) });
     return fichas;
   });
+
+  /** Filtros que viven en la hoja del celular (el oficio queda fuera, a la vista). */
+  readonly cuentaHoja = computed(() => this.fichas().length - (this.oficio() ? 1 : 0)
+    - (this.filters().busqueda ? 1 : 0) - (this.filters().ciudad ? 1 : 0));
+
+  /** Lo elegido en cada menú, para leerlo sin abrirlo. */
+  resumenMenu(id: MenuFiltro): string | null {
+    const f = this.filters();
+    switch (id) {
+      case 'dias': {
+        const d = this.misDias();
+        return d?.length ? d.map((x) => mayuscula(DIA_NOMBRE[x].slice(0, 3))).join(', ') : null;
+      }
+      case 'modalidad':
+        return f.modalidad?.length ? (f.modalidad.length === 1 ? MODALIDAD_TEXTO[f.modalidad[0]] : `${f.modalidad.length}`) : null;
+      case 'tamano':
+        return f.tamano?.length ? (f.tamano.length === 1 ? TAMANO_TEXTO[f.tamano[0]] : `${f.tamano.length}`) : null;
+      case 'precio':
+        if (f.precioMin && f.precioMax) return `${this.cop.transform(f.precioMin)}–${this.cop.transform(f.precioMax)}`;
+        if (f.precioMin) return `desde ${this.cop.transform(f.precioMin)}`;
+        if (f.precioMax) return `hasta ${this.cop.transform(f.precioMax)}`;
+        return null;
+    }
+  }
+
+  alternarMenu(id: MenuFiltro): void {
+    this.menuAbierto.update((a) => (a === id ? null : id));
+  }
+
+  /** Un clic fuera de los menús o Escape los cierra. */
+  @HostListener('document:click', ['$event'])
+  alHacerClic(e: MouseEvent): void {
+    if (this.menuAbierto() && !(e.target as HTMLElement).closest?.('.menu_empleos')) this.menuAbierto.set(null);
+  }
+
+  @HostListener('document:keydown.escape')
+  alEscape(): void {
+    this.menuAbierto.set(null);
+    this.filtrosAbiertos.set(false);
+  }
 
   constructor() {
     // Cada cambio de la URL recarga el listado.
@@ -157,20 +216,27 @@ export class JobSearchPage {
     this.navegar({ ...this.filters(), busqueda: e.termino.trim() || undefined, ciudad: e.ciudad.trim() || undefined });
   }
 
-  cambiarSemana(c: CambioSemana): void {
-    this.navegar(this.filters(), 1, { oficio: c.oficio, dias: semanaEnUrl(c.semana).dias });
+  elegirOficio(o: string | null): void {
+    this.navegar(this.filters(), 1, { oficio: o });
+  }
+
+  alternarDia(d: DiaSemana): void {
+    const ds = this.misDias() ?? [];
+    this.cambiarDias(ds.includes(d) ? ds.filter((x) => x !== d) : [...ds, d]);
+  }
+
+  private cambiarDias(dias: DiaSemana[]): void {
+    const orden = DIAS_SEMANA.filter((d) => dias.includes(d));
+    const semana: Semana | null = orden.length ? { dias: orden, horas: HORAS_DEFECTO } : null;
+    this.navegar(this.filters(), 1, { dias: semanaEnUrl(semana).dias });
   }
 
   applyFilters(f: JobFilters): void {
     this.navegar(f);
   }
 
-  quitar(ficha: FichaFiltro): void {
-    this.navegar({ ...this.filters(), ...ficha.quitar } as JobFilters);
-  }
-
   limpiar(): void {
-    this.navegar({});
+    this.navegar({}, 1, { oficio: null, dias: null });
   }
 
   changePage(p: number): void {
@@ -190,4 +256,15 @@ function leerFiltros(q: ParamMap): JobFilters {
     precioMin: num('min'),
     precioMax: num('max'),
   };
+}
+
+/** "Lun, Mie y Vie" → "Lunes, miércoles y viernes" en corto para la ficha. */
+function textoDias(dias: readonly DiaSemana[]): string {
+  const n = dias.map((d) => DIA_NOMBRE[d]);
+  const t = n.length > 1 ? `${n.slice(0, -1).join(', ')} y ${n[n.length - 1]}` : n[0];
+  return mayuscula(t);
+}
+
+function mayuscula(t: string): string {
+  return t.charAt(0).toUpperCase() + t.slice(1);
 }
