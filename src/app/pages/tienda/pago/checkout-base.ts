@@ -31,7 +31,7 @@ export abstract class CheckoutBase {
    */
   protected pagarCon(metodo: PaymentMethod, datos: PaymentDetails = {}): void {
     if (this.cart.isEmpty()) {
-      this.error.set('Tu carrito esta vacio.');
+      this.error.set('Tu carrito está vacío.');
       return;
     }
     const entrega = this.entrega.datos();
@@ -47,7 +47,7 @@ export abstract class CheckoutBase {
         this.procesando.set(false);
 
         if (pedido.estadoPago === 'rechazado') {
-          this.error.set('La entidad rechazo el pago. Prueba con otro metodo.');
+          this.error.set('La entidad rechazó el pago. Prueba con otro método.');
           return;
         }
 

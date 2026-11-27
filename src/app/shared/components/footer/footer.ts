@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LogoComponent } from '../logo/logo';
+import { IconComponent } from '../icon/icon';
 
-/** Pie de pagina azul con columnas de enlaces. */
+/** Pie de página en tinta: cierre de marca y enlaces. */
 @Component({
   selector: 'jobsy-footer',
   standalone: true,
-  imports: [RouterLink, LogoComponent],
+  imports: [RouterLink, LogoComponent, IconComponent],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
@@ -15,30 +16,30 @@ export class FooterComponent {
 
   readonly columns = [
     {
-      title: 'Servicios',
+      title: 'Jobsy',
       links: [
-        { label: 'Buscar Empleo', path: '/empleos' },
-        { label: 'Buscar Empleados', path: '/empleados' },
-        { label: 'Publicar Oferta', path: '/publicar-oferta' },
+        { label: 'Buscar empleo', path: '/empleos' },
+        { label: 'Buscar empleados', path: '/empleados' },
+        { label: 'Publicar una oferta', path: '/publicar-oferta' },
         { label: 'Tienda', path: '/tienda' },
       ],
     },
     {
       title: 'Empresa',
       links: [
-        { label: 'Sobre Nosotros', path: '/empresa/sobre-nosotros' },
+        { label: 'Sobre nosotros', path: '/empresa/sobre-nosotros' },
         { label: 'Blog', path: '/empresa/blog' },
-        { label: 'Trabaja con Nosotros', path: '/empresa/trabaja-con-nosotros' },
+        { label: 'Trabaja con nosotros', path: '/empresa/trabaja-con-nosotros' },
         { label: 'Prensa', path: '/empresa/prensa' },
       ],
     },
     {
-      title: 'Soporte',
+      title: 'Ayuda',
       links: [
-        // Publicas: llevar a /app/reportes mandaba al login a quien no tiene cuenta.
-        { label: 'Centro de Ayuda', path: '/soporte/centro-ayuda' },
+        // Públicas: llevar a /app/reportes mandaba al login a quien no tiene cuenta.
+        { label: 'Centro de ayuda', path: '/soporte/centro-ayuda' },
         { label: 'Contacto', path: '/soporte/contacto' },
-        { label: 'Terminos', path: '/legal/terminos' },
+        { label: 'Términos', path: '/legal/terminos' },
         { label: 'Privacidad', path: '/legal/privacidad' },
       ],
     },

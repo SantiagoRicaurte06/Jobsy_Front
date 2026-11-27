@@ -1,20 +1,14 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .paso-personal {
   width: 100%;
   max-width: 520px;
   padding: v.$space-6;
 
-  &__title {
-    margin: 0 0 v.$space-1;
-    font-size: v.$font-size-lg;
-  }
+  &__header { @include m.cabecera-editorial; }
 
-  &__subtitle {
-    margin: 0 0 v.$space-5;
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-  }
+  &__paso { @include m.etiqueta; }
 
   // ---- Radios en formato tarjeta ----
   &__options {
@@ -38,12 +32,12 @@
     &:hover { border-color: v.$color-primary-light; }
 
     &.is-selected {
-      border-color: v.$color-accent;
-      background: v.$color-accent-pale;
+      border-color: v.$color-ink;
+      background: v.$color-primary-bg;
       font-weight: v.$font-weight-medium;
     }
 
-    input { accent-color: v.$color-accent; }
+    input { accent-color: v.$color-primary; }
   }
 
   &__actions {

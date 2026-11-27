@@ -1,9 +1,9 @@
 <section class="admin-categorias">
   <header class="admin-categorias__head">
     <div>
-      <h1 class="admin-categorias__title">Categorias</h1>
+      <h1 class="admin-categorias__title">Categorías</h1>
       <p class="admin-categorias__subtitle">
-        {{ categories().length }} categorias &middot; organiza el catalogo de la tienda
+        {{ categories().length }} categorías &middot; organiza el catálogo de la tienda
       </p>
     </div>
   </header>
@@ -15,7 +15,7 @@
   <div class="admin-categorias__grid">
     <!-- ---- Alta ---- -->
     <section class="tarjeta admin-categorias__form">
-      <h2>Nueva categoria</h2>
+      <h2>Nueva categoría</h2>
       <p class="admin-categorias__hint">
         El identificador (slug) se genera solo a partir del nombre.
       </p>
@@ -32,17 +32,17 @@
       }
 
       <button type="button" class="boton_principal boton_ancho" (click)="agregar()">
-        Agregar categoria
+        Agregar categoría
       </button>
     </section>
 
     <!-- ---- Listado ---- -->
     <section class="tarjeta admin-categorias__list">
-      <h2>Categorias existentes</h2>
+      <h2>Categorías existentes</h2>
 
       @if (categories().length === 0) {
         <p class="admin-categorias__empty">
-          No hay categorias. Crea la primera con el formulario de la izquierda.
+          No hay categorías. Crea la primera con el formulario de la izquierda.
         </p>
       } @else {
         <ul>
@@ -85,19 +85,19 @@
 
 <!-- ============ Confirmacion de borrado ============ -->
 @if (porBorrar(); as cat) {
-  <jobsy-modal title="Eliminar categoria" (cerrar)="porBorrar.set(null)">
+  <jobsy-modal title="Eliminar categoría" (cerrar)="porBorrar.set(null)">
     <p class="admin-categorias__confirm">
       Vas a eliminar <strong>{{ cat.nombre }}</strong>.
       @if (cat.cantidadProductos > 0) {
-        Sus <strong>{{ cat.cantidadProductos }} productos</strong> no se borran, pero quedaran
-        sin categoria valida hasta que les asignes otra.
+        Sus <strong>{{ cat.cantidadProductos }} productos</strong> no se borran, pero quedarán
+        sin categoría válida hasta que les asignes otra.
       }
     </p>
 
     <footer class="admin-categorias__modal-actions">
       <button type="button" class="boton_simple" (click)="porBorrar.set(null)">Cancelar</button>
       <button type="button" class="admin-categorias__danger-btn" (click)="confirmarBorrado()">
-        Si, eliminar
+        Sí, eliminar
       </button>
     </footer>
   </jobsy-modal>

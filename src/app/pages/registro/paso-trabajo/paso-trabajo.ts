@@ -28,14 +28,13 @@ export class StepWorkPage {
 
   readonly opcionesModalidad: { value: WorkModality; icon: string; label: string; text: string }[] = [
     { value: 'por_horas', icon: 'timer', label: 'Por horas', text: 'Trabajos puntuales de pocas horas.' },
-    { value: 'jornada_completa', icon: 'calendar', label: 'Jornada completa', text: 'Dias completos de trabajo.' },
-    { value: 'fin_de_semana', icon: 'sun', label: 'Fin de semana', text: 'Solo sabados y domingos.' },
-    { value: 'presencial', icon: 'house', label: 'Presencial fijo', text: 'Contrato estable en un hogar.' },
+    { value: 'jornada_completa', icon: 'calendar', label: 'Jornada completa', text: 'Días completos de trabajo.' },
+    { value: 'fin_de_semana', icon: 'sun', label: 'Fin de semana', text: 'Solo sábados y domingos.' },
   ];
 
   readonly opcionesEspecialidad = [
     'Limpieza profunda', 'Cocina', 'Planchado', 'Zonas verdes',
-    'Cuidado de ninos', 'Cuidado de adultos', 'Mascotas', 'Bioseguridad'
+    'Cuidado de niños', 'Cuidado de adultos', 'Mascotas', 'Bioseguridad'
   ];
 
   toggleModalidad(m: WorkModality): void {

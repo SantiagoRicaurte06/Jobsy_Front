@@ -1,46 +1,58 @@
-<article class="tarjeta_empleado">
-  @if (employee().disponible) {
-    <span class="disponible_tarjeta_empleado pildora_exito">Disponible</span>
-  }
-
-  <header class="encabezado_tarjeta_empleado">
-    <div class="avatar_tarjeta_empleado">
-      @if (employee().fotoUrl) {
-        <img [src]="employee().fotoUrl" [alt]="employee().nombre" />
-      } @else {
-        <span>{{ initials(employee().nombre) }}</span>
+<article class="persona">
+  <a class="retrato_persona" [routerLink]="['/empleados', employee().id]" [attr.aria-label]="'Ver el perfil de ' + employee().nombre">
+    @if (employee().fotoUrl) {
+      <img [src]="employee().fotoUrl" alt="" loading="lazy" />
+    } @else {
+      <span class="inicial_persona" aria-hidden="true">{{ initials(employee().nombre) }}</span>
+    }
+    @if (employee().disponible) {
+      <span class="disponible_persona">Disponible</span>
+    }
+    <span class="nombre_persona">
+      <strong>{{ employee().nombre }}</strong>
+      @if (employee().verificado) {
+        <span class="sello_persona"><jobsy-icon name="badge-check" /> Verificada</span>
       }
-    </div>
+    </span>
+  </a>
 
-    <h3 class="nombre_tarjeta_empleado">{{ employee().nombre }}</h3>
-
-    @if (employee().verificado) {
-      <span class="verificado_tarjeta_empleado pildora_info">
-        <span aria-hidden="true"><jobsy-icon name="check" /></span> Empleado de Hogar
-      </span>
+  <div class="cuerpo_persona">
+    @if (employee().totalServicios > 0) {
+      <p class="nota_persona">
+        <jobsy-icon name="star" /> <strong>{{ employee().calificacion.toFixed(1) }}</strong>
+        <span>· {{ employee().totalServicios }} {{ employee().totalServicios === 1 ? 'servicio terminado' : 'servicios terminados' }}</span>
+      </p>
+    } @else {
+      <p class="nota_persona"><span class="nuevo_persona">Nueva en Jobsy</span></p>
     }
-  </header>
 
-  <p class="descripcion_tarjeta_empleado">{{ employee().descripcion }}</p>
+    @if (employee().especialidades.length) {
+      <p class="oficios_persona">{{ employee().especialidades.slice(0, 3).join(' · ') }}</p>
+    }
 
-  <div class="valoracion_tarjeta_empleado">
-    <jobsy-rating-stars [value]="employee().calificacion" [reviews]="employee().totalServicios" />
+    @if (conDescripcion() && employee().descripcion) {
+      <p class="descripcion_persona">{{ employee().descripcion }}</p>
+    }
+
+    <!-- Solo con tarifa real: sin ella no hay cifra que mostrar y el pie ya dice "por acordar". -->
+    @if (semana(); as s) {
+      @if (costoSemana()) {
+        <p class="semana_persona">
+          <span>Tu semana · {{ s.dias.length }} {{ s.dias.length === 1 ? 'día' : 'días' }} × {{ s.horas }} h</span>
+          <strong class="cifra">{{ costoSemana() | cop }}</strong>
+        </p>
+      }
+    }
+
+    <footer class="pie_persona">
+      @if (employee().tarifaHora) {
+        <p class="tarifa_persona"><span class="cifra">{{ employee().tarifaHora | cop }}</span> por hora</p>
+      } @else {
+        <p class="tarifa_persona tarifa_acordar">Tarifa por acordar</p>
+      }
+      @if (puedeContratar()) {
+        <button type="button" class="boton_principal boton_chico" (click)="solicitar.emit(employee())">Contratar</button>
+      }
+    </footer>
   </div>
-
-  <p class="experiencia_tarjeta_empleado">
-    <span aria-hidden="true"><jobsy-icon name="briefcase" /></span> {{ employee().experiencia }}
-  </p>
-
-  <ul class="habilidades_tarjeta_empleado">
-    @for (skill of employee().especialidades; track skill) {
-      <li class="pildora_info">{{ skill }}</li>
-    }
-  </ul>
-
-  <footer class="acciones_tarjeta_empleado">
-    <a class="boton_simple boton_chico" [routerLink]="['/empleados', employee().id]">Ver perfil</a>
-    <button type="button" class="boton_secundario boton_chico" (click)="solicitar.emit(employee())">
-      Solicitar
-    </button>
-  </footer>
 </article>

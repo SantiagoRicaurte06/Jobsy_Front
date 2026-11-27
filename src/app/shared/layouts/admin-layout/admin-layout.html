@@ -1,64 +1,63 @@
 <div class="marco_admin">
-  <!-- Sidebar -->
+  <button type="button" class="saltar_contenido" (click)="principal.focus()">Saltar al contenido</button>
+
   <aside class="lateral_marco_admin">
-    <div class="marca_marco_admin">
+    <a routerLink="/admin/dashboard" class="marca_marco_admin" aria-label="Panel de Jobsy">
       <jobsy-logo variant="claro" size="chico" />
-      <span class="sello_marco_admin">Admin Panel</span>
-    </div>
+      <span>Administración</span>
+    </a>
 
-    <div class="usuario_marco_admin">
-      <span class="avatar_marco_admin">{{ user()?.nombre?.charAt(0) ?? 'A' }}</span>
-      <div>
-        <strong>{{ user()?.nombre }} {{ user()?.apellido }}</strong>
-        <small>Super Administrador</small>
-      </div>
-    </div>
-
-    <nav class="navegacion_marco_admin">
+    <nav class="navegacion_marco_admin" aria-label="Administración">
       @for (group of groups(); track group.title) {
         <p class="grupo_marco_admin">{{ group.title }}</p>
 
         @for (item of group.items; track item.path) {
-          <a [routerLink]="item.path" routerLinkActive="is-active">
-            <span aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
+          <a [routerLink]="item.path" routerLinkActive="is-active" ariaCurrentWhenActive="page">
+            <jobsy-icon [name]="item.icon" />
             <span class="etiqueta_marco_admin">{{ item.label }}</span>
             @if (item.badge) {
-              <span class="pildora_marco_admin">{{ item.badge }}</span>
+              <span class="pildora_marco_admin" [attr.aria-label]="item.badge + ' pendientes'">{{ item.badge }}</span>
             }
           </a>
         }
       }
     </nav>
 
-    <button type="button" class="salir_marco_admin" (click)="logout()">
-      <span aria-hidden="true"><jobsy-icon name="corner-down-left" /></span> Cerrar Sesion
-    </button>
+    <div class="usuario_marco_admin">
+      <span class="avatar_marco_admin" aria-hidden="true">{{ user()?.nombre?.charAt(0) ?? 'A' }}</span>
+      <div>
+        <strong>{{ user()?.nombre }} {{ user()?.apellido }}</strong>
+        <a routerLink="/">Ver el sitio</a>
+      </div>
+      <button type="button" class="salir_marco_admin" (click)="logout()" aria-label="Cerrar sesión" title="Cerrar sesión">
+        <jobsy-icon name="log-out" />
+      </button>
+    </div>
   </aside>
 
-  <!-- Contenido -->
   <div class="contenido_marco_admin">
     <header class="barra_superior_marco_admin">
-      <nav class="ruta_marco_admin" aria-label="Ubicacion">
-        <a routerLink="/admin/dashboard">{{ seccion().grupo }}</a>
-        <span aria-hidden="true">/</span>
-        <strong>{{ seccion().label }}</strong>
+      <nav class="ruta_marco_admin" aria-label="Ubicación">
+        <a routerLink="/admin/dashboard">Administración</a>
+        <jobsy-icon name="chevron-right" />
+        <span aria-current="page">{{ seccion() }}</span>
       </nav>
 
       <div class="herramientas_marco_admin">
-        <input #q type="search" class="buscador_marco_admin" placeholder="Buscar productos por nombre o SKU..." aria-label="Buscar productos"
+        <input #q type="search" class="buscador_marco_admin" placeholder="Buscar productos por nombre o SKU" aria-label="Buscar productos"
           (keydown.enter)="buscar(q.value)" />
         <div class="avisos_marco_admin">
-          <button type="button" class="boton_icono_marco_admin" aria-label="Notificaciones"
+          <button type="button" class="boton_icono_marco_admin" aria-label="Pendientes"
             [attr.aria-expanded]="avisosAbiertos()" (click)="avisosAbiertos.set(!avisosAbiertos())">
             <jobsy-icon name="bell" />
             @if (avisos().length) {
-              <span class="punto_marco_admin"></span>
+              <span class="punto_marco_admin"><span class="oculto">{{ avisos().length }} pendientes</span></span>
             }
           </button>
           @if (avisosAbiertos()) {
-            <div class="panel_avisos_marco_admin" role="menu">
+            <div class="panel_avisos_marco_admin">
               @for (a of avisos(); track a.ruta) {
-                <a [routerLink]="a.ruta" role="menuitem" (click)="avisosAbiertos.set(false)">
+                <a [routerLink]="a.ruta" (click)="avisosAbiertos.set(false)">
                   <jobsy-icon [name]="a.icon" /> {{ a.texto }}
                 </a>
               } @empty {
@@ -67,11 +66,13 @@
             </div>
           }
         </div>
-        <a routerLink="/admin/productos" [queryParams]="{ nuevo: 1 }" class="boton_icono_marco_admin" aria-label="Nuevo producto" title="Nuevo producto">+</a>
+        <a routerLink="/admin/productos" [queryParams]="{ nuevo: 1 }" class="boton_icono_marco_admin" aria-label="Nuevo producto" title="Nuevo producto">
+          <jobsy-icon name="plus" />
+        </a>
       </div>
     </header>
 
-    <main class="principal_marco_admin">
+    <main class="principal_marco_admin" #principal tabindex="-1" id="contenido">
       <router-outlet />
     </main>
   </div>

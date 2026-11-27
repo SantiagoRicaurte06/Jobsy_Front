@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, ElementRef, computed, effect, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService, CartService, Notification, NotificationService } from '../../../core/services';
@@ -11,6 +11,10 @@ import { IconComponent } from '../icon/icon';
   standalone: true,
   imports: [RouterLink, RouterLinkActive, LogoComponent, IconComponent, DatePipe],
   templateUrl: './header.html',
+  host: {
+    '(document:keydown.escape)': 'closeMenus()',
+    '(document:click)': 'cerrarSiAfuera($event)',
+  },
   styleUrl: './header.scss',
 })
 export class HeaderComponent {
@@ -23,6 +27,12 @@ export class HeaderComponent {
   readonly role = this.auth.role;
 
   readonly avisos = inject(NotificationService);
+  private host = inject(ElementRef<HTMLElement>);
+
+  readonly textoRol = computed(() => {
+    const r = this.role();
+    return r === 'empleador' ? 'Cuenta de hogar' : r === 'empleado' ? 'Cuenta de trabajo' : 'Administración';
+  });
 
   /** Menu movil, menu de usuario y bandeja de avisos. */
   readonly menuOpen = signal(false);
@@ -63,6 +73,11 @@ export class HeaderComponent {
     if (!n.leida) this.avisos.markRead(n.id);
     this.closeMenus();
     if (n.destino) this.router.navigateByUrl(n.destino);
+  }
+
+  /** Un clic fuera de la cabecera cierra cualquier menú abierto. */
+  cerrarSiAfuera(ev: Event): void {
+    if (!this.host.nativeElement.contains(ev.target as Node)) this.closeMenus();
   }
 
   closeMenus(): void {

@@ -46,7 +46,7 @@ export function texto(etiqueta: string, valor: string | null | undefined, min: n
   const n = [...(valor ?? '').trim()].length;
   if (n === 0 && min > 0) return `${etiqueta} es obligatorio.`;
   if (n > 0 && n < min) return `${etiqueta} debe tener al menos ${min} caracteres.`;
-  if (n > max) return `${etiqueta} admite como maximo ${max} caracteres.`;
+  if (n > max) return `${etiqueta} admite como máximo ${max} caracteres.`;
   return null;
 }
 
@@ -63,11 +63,11 @@ export const tarifa = (valor: number | null | undefined) =>
   rango('La tarifa por hora', valor, LIMITES.tarifaMin, LIMITES.tarifaMax);
 
 export function direccion(valor: string | null | undefined): string | null {
-  const err = texto('La direccion', valor, 6, 120);
+  const err = texto('La dirección', valor, 6, 120);
   if (err) return err;
   const n = normalizar(valor ?? '');
   if (!RE_DIRECCION_URBANA.test(n) && !RE_DIRECCION_RURAL.test(n)) {
-    return 'Escribe una direccion valida, por ejemplo: Calle 10 # 20-30, Cra 84 # 65-22 o Vereda La Esperanza.';
+    return 'Escribe una dirección válida, por ejemplo: Calle 10 # 20-30, Cra 84 # 65-22 o Vereda La Esperanza.';
   }
   return null;
 }
@@ -90,7 +90,7 @@ export function componerHorario(dias: string[], inicio: string, fin: string): st
 }
 
 export function horario(dias: string[], inicio: string, fin: string): string | null {
-  if (!dias.length) return 'Elige al menos un dia del horario.';
+  if (!dias.length) return 'Elige al menos un día del horario.';
   return franja(inicio, fin);
 }
 
@@ -110,13 +110,13 @@ export function ciudad(valor: string | null | undefined): string | null {
 export function telefono(valor: string | null | undefined): string | null {
   let v = (valor ?? '').replace(/[\s\-().]/g, '');
   v = v.replace(/^\+?57(?=\d{10}$)/, '');
-  return /^(3\d{9}|60\d{8})$/.test(v) ? null : 'Escribe un telefono colombiano de 10 digitos (celular 3xx o fijo 60x).';
+  return /^(3\d{9}|60\d{8})$/.test(v) ? null : 'Escribe un teléfono colombiano de 10 dígitos (celular 3xx o fijo 60x).';
 }
 
 export function documento(valor: string | null | undefined, esCedula: boolean): string | null {
   const v = (valor ?? '').trim();
-  if (esCedula) return /^\d{6,10}$/.test(v) ? null : 'La cedula debe tener entre 6 y 10 digitos, sin puntos.';
-  return /^[A-Za-z0-9]{5,15}$/.test(v) ? null : 'El documento debe tener entre 5 y 15 letras o numeros.';
+  if (esCedula) return /^\d{6,10}$/.test(v) ? null : 'La cédula debe tener entre 6 y 10 dígitos, sin puntos.';
+  return /^[A-Za-z0-9]{5,15}$/.test(v) ? null : 'El documento debe tener entre 5 y 15 letras o números.';
 }
 
 /** Fecha de hoy en Colombia como AAAA-MM-DD (sirve para min/max de los <input type="date">). */
@@ -134,7 +134,7 @@ export function fechaNacimiento(valor: string | null | undefined): string | null
   const v = (valor ?? '').trim();
   if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return 'Indica tu fecha de nacimiento.';
   if (v > hoyISO(0, -LIMITES.edadMin) || v < hoyISO(0, -LIMITES.edadMax)) {
-    return `Para registrarte debes tener entre ${LIMITES.edadMin} y ${LIMITES.edadMax} anos.`;
+    return `Para registrarte debes tener entre ${LIMITES.edadMin} y ${LIMITES.edadMax} años.`;
   }
   return null;
 }
@@ -143,7 +143,7 @@ export function fechaServicio(valor: string | null | undefined): string | null {
   const v = (valor ?? '').trim();
   if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return 'La fecha debe tener el formato AAAA-MM-DD.';
   if (v < hoyISO()) return 'La fecha del servicio no puede estar en el pasado.';
-  if (v > hoyISO(0, 1)) return 'La fecha del servicio no puede ser de mas de un ano adelante.';
+  if (v > hoyISO(0, 1)) return 'La fecha del servicio no puede ser de más de un año adelante.';
   return null;
 }
 
@@ -151,7 +151,7 @@ export function mesPasado(etiqueta: string, valor: string | null | undefined): s
   const v = (valor ?? '').trim().slice(0, 7);
   if (!/^\d{4}-\d{2}$/.test(v)) return `${etiqueta} debe tener el formato AAAA-MM.`;
   if (v > mesActual()) return `${etiqueta} no puede estar en el futuro.`;
-  if (v < '1950-01') return `${etiqueta} no es valida.`;
+  if (v < '1950-01') return `${etiqueta} no es válida.`;
   return null;
 }
 
@@ -159,12 +159,12 @@ export function anio(valor: string | null | undefined): string | null {
   const v = (valor ?? '').trim();
   const a = Number(v);
   const max = Number(hoyISO().slice(0, 4));
-  return /^\d{4}$/.test(v) && a >= 1950 && a <= max ? null : `El ano debe estar entre 1950 y ${max}.`;
+  return /^\d{4}$/.test(v) && a >= 1950 && a <= max ? null : `El año debe estar entre 1950 y ${max}.`;
 }
 
 export function correo(valor: string | null | undefined): string | null {
   const v = (valor ?? '').trim();
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) && v.length <= 150 ? null : 'Escribe un correo valido.';
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) && v.length <= 150 ? null : 'Escribe un correo válido.';
 }
 
 /** Devuelve el primer error de la lista, o null si todo es valido. */

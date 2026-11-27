@@ -34,22 +34,6 @@ export class HomeLoggedPage implements OnInit {
   readonly porResponder = computed(() => this.misOfertas().reduce((s, o) => s + o.pendientes, 0));
   readonly enCurso = computed(() => this.contrataciones().filter((h) => h.estado === 'activa').length);
 
-  /** Accesos rapidos del panel, segun el rol. */
-  readonly shortcuts = computed(() =>
-    this.esEmpleador()
-      ? [
-          { icon: 'square-pen', label: 'Publicar oferta', path: '/publicar-oferta' },
-          { icon: 'briefcase', label: 'Mis ofertas', path: '/app/mis-ofertas' },
-          { icon: 'calendar', label: 'Contrataciones', path: '/app/contrataciones' },
-          { icon: 'search', label: 'Buscar empleados', path: '/empleados' },
-        ]
-      : [
-          { icon: 'search', label: 'Buscar empleo', path: '/empleos' },
-          { icon: 'file-text', label: 'Mi hoja de vida', path: '/app/hoja-de-vida' },
-          { icon: 'calendar', label: 'Mis trabajos', path: '/app/contrataciones' },
-          { icon: 'shopping-cart', label: 'Tienda', path: '/tienda' },
-        ],
-  );
 
   ngOnInit(): void {
     this.hiringService.mine().subscribe({ next: (h) => this.contrataciones.set(h), error: () => {} });

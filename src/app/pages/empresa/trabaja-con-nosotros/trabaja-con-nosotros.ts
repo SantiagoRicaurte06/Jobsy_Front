@@ -20,16 +20,16 @@ interface Vacante {
 })
 export class CareersPage {
   readonly beneficios = [
-    { icon: 'house', title: 'Trabajo hibrido', text: 'Oficina en Yopal con dias remotos.' },
-    { icon: 'trending-up', title: 'Crecimiento real', text: 'Equipo pequeno, mucho impacto directo.' },
+    { icon: 'house', title: 'Trabajo hibrido', text: 'Oficina en Yopal con días remotos.' },
+    { icon: 'trending-up', title: 'Crecimiento real', text: 'Equipo pequeño, mucho impacto directo.' },
     { icon: 'heart', title: 'Bienestar', text: 'Tiempo libre remunerado y horarios flexibles.' },
     { icon: 'sparkles', title: 'Aprendizaje', text: 'Presupuesto para cursos y certificaciones.' },
   ];
 
   readonly vacantes: Vacante[] = [
-    { id: 'v1', cargo: 'Desarrollador/a Frontend Angular', area: 'Ingenieria', ciudad: 'Yopal / Remoto', modalidad: 'Tiempo completo' },
+    { id: 'v1', cargo: 'Desarrollador/a Frontend Angular', area: 'Ingeniería', ciudad: 'Yopal / Remoto', modalidad: 'Tiempo completo' },
     { id: 'v2', cargo: 'Ejecutivo/a de Soporte al Cliente', area: 'Soporte', ciudad: 'Yopal', modalidad: 'Tiempo completo' },
-    { id: 'v3', cargo: 'Analista de Verificacion de Perfiles', area: 'Confianza y Seguridad', ciudad: 'Yopal', modalidad: 'Tiempo completo' },
+    { id: 'v3', cargo: 'Analista de Verificación de Perfiles', area: 'Confianza y Seguridad', ciudad: 'Yopal', modalidad: 'Tiempo completo' },
     { id: 'v4', cargo: 'Community Manager', area: 'Marketing', ciudad: 'Remoto', modalidad: 'Medio tiempo' },
   ];
 }

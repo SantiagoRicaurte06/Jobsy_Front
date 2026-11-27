@@ -1,12 +1,12 @@
 import { Component, inject, computed, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map } from 'rxjs';
+import { filter, map, startWith } from 'rxjs/operators';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { AuthService, AdminStore, ReportService } from '../../../core/services';
 import { LogoComponent } from '../../components/logo/logo';
 import { IconComponent } from '../../components/icon/icon';
 
-/** Layout del panel de administracion: sidebar azul oscuro + contenido. */
+/** Layout del panel de administración: barra lateral en tinta + contenido. */
 @Component({
   selector: 'jobsy-admin-layout',
   standalone: true,
@@ -23,25 +23,25 @@ export class AdminLayoutComponent {
   readonly user = this.auth.user;
 
   constructor() {
-    // Contadores del menu, la campana y el tablero: antes solo se cargaban al
-    // abrir Reportes, y en el resto del panel salian en 0.
+    // Contadores del menú, la campana y el tablero: antes solo se cargaban al
+    // abrir Reportes, y en el resto del panel salían en 0.
     this.reportService.cargar(true, true);
   }
 
-  /** Los contadores del menu salen del almacen, asi que se actualizan solos. */
+  /** Los contadores del menú salen del almacén, así que se actualizan solos. */
   readonly groups = computed(() => [
     {
-      title: 'Principal',
+      title: 'Resumen',
       items: [
-        { path: '/admin/dashboard', label: 'Dashboard', icon: 'chart-column', badge: null },
-        { path: '/admin/analiticas', label: 'Analiticas', icon: 'trending-up', badge: null },
+        { path: '/admin/dashboard', label: 'Tablero', icon: 'chart-column', badge: null },
+        { path: '/admin/analiticas', label: 'Analíticas', icon: 'trending-up', badge: null },
       ],
     },
     {
       title: 'Tienda',
       items: [
         { path: '/admin/productos', label: 'Productos', icon: 'package', badge: this.store.totalProductos() },
-        { path: '/admin/categorias', label: 'Categorias', icon: 'folder', badge: null },
+        { path: '/admin/categorias', label: 'Categorías', icon: 'folder', badge: null },
         { path: '/admin/inventario', label: 'Inventario', icon: 'clipboard-list', badge: this.store.stockCritico() || null },
       ],
     },
@@ -53,31 +53,36 @@ export class AdminLayoutComponent {
     },
   ]);
 
-  private url = toSignal(
-    this.router.events.pipe(filter((e) => e instanceof NavigationEnd), map(() => this.router.url)),
+  private readonly url = toSignal(
+    this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url),
+    ),
     { initialValue: this.router.url },
   );
 
-  /** Seccion actual para la miga de pan, segun la ruta. */
+  /** Nombre de la sección abierta, para la miga de pan. */
   readonly seccion = computed(() => {
-    const ruta = this.url().split('?')[0];
-    for (const g of this.groups()) {
-      const item = g.items.find((i) => ruta.startsWith(i.path));
-      if (item) return { grupo: g.title, label: item.label };
-    }
-    return { grupo: 'Admin', label: 'Dashboard' };
+    const url = this.url().split('?')[0];
+    const item = this.groups().flatMap((g) => g.items).find((i) => url.startsWith(i.path));
+    return item?.label ?? 'Tablero';
   });
 
   // ---- Avisos de la campana: lo que el admin tiene pendiente ----
   readonly avisosAbiertos = signal(false);
-  readonly avisos = computed(() => [
-    ...(this.reportService.reportesAbiertos() > 0
-      ? [{ texto: `${this.reportService.reportesAbiertos()} reporte(s) de soporte por atender`, ruta: '/admin/reportes', icon: 'flag' }]
-      : []),
-    ...(this.store.stockCritico() > 0
-      ? [{ texto: `${this.store.stockCritico()} producto(s) con stock critico`, ruta: '/admin/inventario', icon: 'triangle-alert' }]
-      : []),
-  ]);
+  readonly avisos = computed(() => {
+    const reportes = this.reportService.reportesAbiertos();
+    const stock = this.store.stockCritico();
+    return [
+      ...(reportes > 0
+        ? [{ texto: `${reportes} ${reportes === 1 ? 'reporte' : 'reportes'} de soporte por atender`, ruta: '/admin/reportes', icon: 'flag' }]
+        : []),
+      ...(stock > 0
+        ? [{ texto: `${stock} ${stock === 1 ? 'producto' : 'productos'} con stock crítico`, ruta: '/admin/inventario', icon: 'triangle-alert' }]
+        : []),
+    ];
+  });
 
   buscar(termino: string): void {
     this.router.navigate(['/admin/productos'], { queryParams: { q: termino.trim() || null } });

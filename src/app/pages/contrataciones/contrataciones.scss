@@ -7,7 +7,7 @@
   align-items: center;
   margin-bottom: v.$space-3;
   padding: v.$space-3;
-  background: v.$color-bg;
+  background: v.$color-primary-bg;
   border-radius: v.$radius-md;
   font-size: v.$font-size-sm;
 
@@ -23,17 +23,21 @@
   button {
     padding: v.$space-2 v.$space-4;
     background: v.$color-surface;
-    border: 1px solid v.$color-border;
+    min-height: 44px;
+    border: v.$border-width solid v.$color-border;
     border-radius: v.$radius-pill;
     font-family: inherit;
     font-size: v.$font-size-xs;
     color: v.$color-text-muted;
     cursor: pointer;
 
+    &:hover { border-color: v.$color-ink; color: v.$color-ink; }
+    &:focus-visible { @include m.focus-ring; }
+
     &.is-active {
-      background: v.$color-primary-light;
-      border-color: v.$color-primary-light;
-      color: v.$color-text-invert;
+      background: v.$color-ink;
+      border-color: v.$color-ink;
+      color: v.$color-bg;
       font-weight: v.$font-weight-semibold;
     }
   }
@@ -42,14 +46,30 @@
 .lista_contrataciones {
   display: flex;
   flex-direction: column;
-  gap: v.$space-3;
+  gap: v.$space-5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
+// ---- El acuerdo a la vista: cada servicio se lee como un documento ----
 .contratacion {
   display: flex;
   flex-direction: column;
-  gap: v.$space-3;
-  padding: v.$space-4;
+  gap: v.$space-5;
+  padding: v.$space-6;
+  border: v.$border-width solid v.$color-ink;
+  border-radius: v.$radius-xl;
+  background: v.$color-surface;
+  box-shadow: v.$shadow-md;
+
+  @include m.until(v.$bp-sm) { padding: v.$space-4; }
+
+  // Un servicio terminado se consulta, no se atiende: baja de tono.
+  &.is-completada {
+    border-color: v.$color-border-strong;
+    box-shadow: none;
+  }
 }
 
 .cabeza_contratacion {
@@ -57,24 +77,99 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: v.$space-3;
-  text-transform: none;
 
-  h2 { margin: 0; font-size: v.$font-size-lg; }
-  p { margin: 2px 0 0; }
-  > span { text-transform: capitalize; }
+  h2 { @include m.display(v.$font-size-xl, v.$font-weight-bold); margin: 0; }
+  > span { flex-shrink: 0; }
+}
+
+.parte_contratacion {
+  margin: v.$space-1 0 0;
+  color: v.$color-text-muted;
+  strong { color: v.$color-ink; }
+}
+
+.cuerpo_contratacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-4;
+  padding-block: v.$space-4;
+  border-block: v.$border-width dashed v.$color-border;
+}
+
+.tarifa_contratacion {
+  display: flex;
+  align-items: baseline;
+  gap: v.$space-2;
+  margin: 0;
+  color: v.$color-text-muted;
+  font-weight: v.$font-weight-semibold;
+
+  .cifra {
+    font-family: v.$font-family-display;
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: v.$font-weight-black;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: v.$color-ink;
+  }
 }
 
 .datos_contratacion {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: v.$space-3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: v.$space-4;
   margin: 0;
 
   @include m.until(v.$bp-md) { grid-template-columns: 1fr 1fr; }
+  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
 
-  dt { font-size: v.$font-size-xs; color: v.$color-text-muted; }
-  dd { margin: 0; font-size: v.$font-size-sm; font-weight: v.$font-weight-medium; }
+  dt {
+    display: flex;
+    align-items: center;
+    gap: v.$space-1;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-muted;
+
+    jobsy-icon { color: v.$color-primary; }
+  }
+
+  dd {
+    margin: v.$space-1 0 0;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-ink;
+    overflow-wrap: anywhere;
+  }
 }
+
+.dato_direccion {
+  @include m.until(v.$bp-md) { grid-column: 1 / -1; }
+}
+
+.total_contratacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  padding: v.$space-4;
+  border-radius: v.$radius-md;
+  background: v.$color-sand;
+
+  p { margin: 0; }
+
+  .precio {
+    font-family: v.$font-family-display;
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-black;
+    color: v.$color-ink;
+  }
+}
+
+.etiqueta_total { font-weight: v.$font-weight-bold; color: v.$color-ink; }
+.nota_total { font-size: v.$font-size-xs; color: v.$color-text-muted; }
 
 .acciones_contratacion {
   display: flex;

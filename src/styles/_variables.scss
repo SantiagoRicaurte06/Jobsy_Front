@@ -1,88 +1,127 @@
 // ============================================================
-//  Jobsy — Design tokens
-//  Valores tomados del archivo de Figma (fileKey h1mrQxQYKAHcuZ4sjVT7iH).
+//  Jobsy — tokens de diseño
+//  Mundo "cálido y audaz": suelo crema, tinta azul noche, campos
+//  comprometidos de azul Jobsy y naranja de marca.
+//  Los nombres se conservan para que todo el front herede los valores.
 // ============================================================
 
 // ---- Marca ----
-$color-primary:        #1668B3; // azul Jobsy (header, footer, hero)
-$color-primary-dark:   #0F4C87;
-$color-primary-light:  #2B8FE0; // azul secundario (botones "Solicitar", links)
-$color-primary-pale:   #D6EAF8; // fondo celeste claro
-$color-primary-bg:     #EAF4FC;
+$color-primary:        #0058DC; // azul del logo: acción, enlaces, selección de navegación
+$color-primary-dark:   #0046B0;
+$color-primary-light:  #0052CC; // enlaces y acciones secundarias (AA sobre el fondo)
+$color-primary-pale:   #D3E2FA;
+$color-primary-bg:     #E7EFFC;
 
-$color-accent:         #F5821F; // naranja — accion principal (CTA)
-$color-accent-dark:    #D96D0F;
-$color-accent-light:   #FFA352; 
-$color-accent-pale:    #FDEBDA;
+/// Naranja tostado: el naranja que funciona como texto o fondo con blanco.
+$color-accent:         #238303; // verde del logo: íconos de acento
+$color-accent-dark:    #1B6602;
+$color-accent-light:   #8FE218;
+$color-accent-pale:    #E3F2DC;
+
+/// Naranja de marca vivo: acción principal y campos, siempre con texto tinta.
+$color-cta:            #0058DC; // botón principal: azul del logo con texto blanco
+$color-cta-hover:      #0046B0;
+$color-cta-ink:        #FFFFFF;
+
+// Selección: lo que la persona eligió (días, filtros) y lo que coincide.
+$color-select:         #238303; // verde del logo, 4,86:1 con blanco
+$color-select-ink:     #FFFFFF;
+$color-select-pale:    #E3F2DC;
+
+// Acento sobre tinta: el lima del logo, el único que se lee sobre el azul noche.
+$color-on-dark-accent: #8FE218;
+
+// Estrellas de calificación.
+$color-star:           #C7851A;
 
 // ---- Estado ----
-$color-success:        #2E9E5B;
-$color-success-pale:   #E3F5EA;
-$color-warning:        #E8A33D;
-$color-warning-pale:   #FDF3E3;
-$color-danger:         #D64545;
-$color-danger-pale:    #FBE9E9;
-$color-info:           $color-primary-light;
+$color-success:        #1A6E44; // verde morichal: verificado, aceptado
+$color-success-pale:   #E4F3E9;
+$color-warning:        #8A5100;
+$color-warning-pale:   #FBEBCB;
+$color-danger:         #B42318;
+$color-danger-pale:    #FBE3E0;
+$color-info:           $color-primary;
 $color-info-pale:      $color-primary-bg;
 
-// ---- Neutros ----
+// ---- Neutros cálidos ----
 $color-white:                 #FFFFFF;
-$color-bg:                    #EEF4FA;
-$color-surface:               #FFFFFF;
-$color-surface-muted:         #E9F0F7; // blanco oscurito / gris claro suave
-$color-surface-muted-light:   #F5F8FB;
-$color-surface-muted-border:  #D0DFEC;
-$color-surface-muted-subtle:  #DCE7F2;
-$color-border:                #E1E8EF;
-$color-border-strong:         #C9D6E2;
+$color-bg:                    #F7F5F0; // hueso: suelo de todo el sitio
+$color-sand:                  #ECE8DF; // piedra: secciones alternas y bandas
+$color-surface:               #FFFFFF; // superficies que flotan sobre el fondo
+$color-surface-muted:         #F1EEE8;
+$color-surface-muted-light:   #F4F2ED;
+$color-surface-muted-border:  #DDD8CC;
+$color-surface-muted-subtle:  #E7E3DA;
+$color-border:                #DDD8CC;
+$color-border-strong:         #C6BEAE;
+$color-border-input:          #8C8579; // borde de campos: 3:1 sobre blanco
 
-
-// ============================================================
-//  Liquid glass
-//  Superficies translucidas que dejan ver el fondo desenfocado.
-//  El borde claro arriba simula el canto iluminado del cristal.
-// ============================================================
-$glass-bg:          rgba(255, 255, 255, 0.62);
-$glass-bg-strong:   rgba(255, 255, 255, 0.80); // cuando hay texto denso encima
-$glass-bg-soft:     rgba(255, 255, 255, 0.42);
-$glass-bg-dark:     rgba(14, 33, 54, 0.55);    // sidebar y superficies oscuras
-$glass-border:      rgba(255, 255, 255, 0.65);
-$glass-border-dark: rgba(255, 255, 255, 0.12);
-$glass-blur:        18px;
-$glass-blur-strong: 28px;
-
-/// Sombras suaves y difusas: el cristal flota, no se pega.
-$glass-shadow-sm: 0 2px 10px rgba(22, 104, 179, 0.06);
-$glass-shadow-md: 0 8px 28px rgba(22, 104, 179, 0.10);
-$glass-shadow-lg: 0 18px 50px rgba(22, 104, 179, 0.16);
-
-/// Brillo interior del canto superior.
-$glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.75);
-$color-text:           #1C2B3A;
-$color-text-muted:     #6B7C8F;
+$color-text:           #13233A; // tinta azul noche
+$color-text-muted:     #5B6676;
 $color-text-invert:    #FFFFFF;
-$color-sidebar:        #0E2136; // sidebar admin azul oscuro
-$color-sidebar-hover:  #17304C;
+$color-ink:            #13233A;
+$color-sidebar:        #13233A; // panel admin en tinta
+$color-sidebar-hover:  #1F3554;
 
-// ---- Tipografia ----
-// ---- Tipografia ----
-$font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+// ---- Texto sobre fondo tinta (pie, barra lateral admin) ----
+$color-on-dark:        #D9DEE6; // texto principal sobre tinta
+$color-on-dark-muted:  #9AA6B8; // texto secundario sobre tinta
+$color-on-dark-subtle: #8D99AB; // etiquetas de grupo sobre tinta
+$color-on-dark-link:   #B7C2D2; // enlaces sobre tinta
+$color-on-dark-border: rgba(251, 245, 236, 0.14); // separadores sobre tinta
 
-$font-size-xs:   0.875rem;  // antes 0.75rem
-$font-size-sm:   1rem;      // antes 0.875rem
-$font-size-base: 1.125rem;  // antes 1rem
-$font-size-lg:   1.25rem;   // antes 1.125rem
-$font-size-xl:   1.75rem;   // antes 1.5rem
-$font-size-2xl:  2.25rem;   // antes 2rem
-$font-size-3xl:  2.75rem;   // antes 2.5rem
-$font-size-4xl:  3.25rem;   // antes 3rem
+// ---- Fondo translúcido (cabecera sticky, barra superior) ----
+$color-bg-translucent: rgba(247, 245, 240, 0.94);
+
+// ---- Hover de peligro ----
+$color-danger-hover:   #8E1B12;
+
+// ---- Gráficas ----
+$color-chart-purple:   #8B5CF6;
+
+// ---- Superficies (antes "liquid glass"; ahora sólidas) ----
+// Se mantienen los nombres para no romper componentes; ya no hay blur.
+$glass-bg:          $color-surface;
+$glass-bg-strong:   $color-surface;
+$glass-bg-soft:     $color-surface-muted-light;
+$glass-bg-dark:     $color-ink;
+$glass-border:      $color-border;
+$glass-border-dark: rgba(255, 253, 249, 0.14);
+$glass-blur:        0px;
+$glass-blur-strong: 0px;
+
+/// Sombras cálidas con desplazamiento: la tarjeta se apoya, no flota.
+$glass-shadow-sm: none;
+$glass-shadow-md: 0 14px 30px -14px rgba(19, 35, 58, 0.22);
+$glass-shadow-lg: 0 22px 44px -14px rgba(19, 35, 58, 0.26);
+$glass-inset:     0 0 0 0 transparent;
+
+// ---- Tipografía ----
+// Archivo (Omnibus-Type, Buenos Aires): una sola familia. Los titulares usan
+// su versión ancha ($font-stretch-display); el texto, el ancho normal.
+$font-family-base:    'Archivo Variable', 'Segoe UI', system-ui, sans-serif;
+$font-family-display: 'Archivo Variable', 'Segoe UI', system-ui, sans-serif;
+$font-stretch-display: 115%;
+
+$font-size-xs:   0.875rem;
+$font-size-sm:   1rem;
+$font-size-base: 1.0625rem;
+$font-size-lg:   1.25rem;
+$font-size-xl:   1.75rem;
+$font-size-2xl:  2.25rem;
+$font-size-3xl:  3rem;
+$font-size-4xl:  clamp(2.75rem, 7vw, 5.25rem);
 
 $font-weight-regular:  400;
 $font-weight-medium:   500;
 $font-weight-semibold: 600;
 $font-weight-bold:     700;
+$font-weight-black:    700; // Archivo pesa más que Bricolage: 700 basta para cifras y titulares
 
-// ---- Espaciado (escala de 4px) ----
+$tracking-display: -0.015em;
+
+// ---- Espaciado (escala de 4 px) ----
 $space-1: 0.25rem;
 $space-2: 0.5rem;
 $space-3: 0.75rem;
@@ -90,37 +129,42 @@ $space-4: 1rem;
 $space-5: 1.5rem;
 $space-6: 2rem;
 $space-7: 3rem;
-$space-8: 4rem;
+$space-8: 4.5rem;
+$space-9: 6.5rem; // entre secciones grandes de la portada
 
 // ---- Bordes y sombras ----
-$radius-sm:   4px;
-$radius-md:   8px;
-$radius-lg:   12px;
-$radius-xl:   16px;
+$radius-sm:   8px;
+$radius-md:   12px;
+$radius-lg:   18px;
+$radius-xl:   26px;
 $radius-pill: 999px;
 
-$shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.08);
-$shadow-md: 0 4px 12px rgba(16, 42, 67, 0.10);
-$shadow-lg: 0 8px 24px rgba(16, 42, 67, 0.14);
+$border-width: 1px;
+
+$shadow-sm: $glass-shadow-sm;
+$shadow-md: $glass-shadow-md;
+$shadow-lg: $glass-shadow-lg;
 
 // ---- Layout ----
-$container-max: 1280px;
+$container-max: 1240px;
 $header-height: 72px;
-$sidebar-width: 240px;
+$sidebar-width: 248px;
 
 // ---- Breakpoints ----
-$bp-sm: 576px;
-$bp-md: 768px;
-$bp-lg: 1024px;
-$bp-xl: 1280px;
+// En em para que respondan también cuando la persona agranda el texto del
+// navegador (no solo el zoom): con letra al 200 % el menú se colapsa a tiempo.
+$bp-sm: 36em;  // 576px
+$bp-md: 48em;  // 768px
+$bp-lg: 64em;  // 1024px
+$bp-xl: 80em;  // 1280px
 
-// ---- Gradientes ----
-$gradient-hero:       linear-gradient(135deg, #1668B3 0%, #2B8FE0 100%);
-$gradient-band:       linear-gradient(90deg, #1668B3 0%, #2B8FE0 100%);
-$gradient-login:      linear-gradient(160deg, #DCEEFB 0%, #C3E2F7 100%);
-$gradient-card-muted: linear-gradient(180deg, $color-surface-muted-light 0%, $color-surface-muted 100%);
+// ---- Campos de color (antes degradados; ahora planos) ----
+$gradient-hero:       linear-gradient($color-primary, $color-primary);
+$gradient-band:       linear-gradient($color-primary, $color-primary);
+$gradient-login:      linear-gradient($color-sand, $color-sand);
+$gradient-card-muted: linear-gradient($color-surface-muted-light, $color-surface-muted-light);
 
-
-// ---- Transiciones ----
-$transition-fast: 0.15s ease;
-$transition-base: 0.25s ease;
+// ---- Movimiento ----
+$ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
+$transition-fast: 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+$transition-base: 0.28s cubic-bezier(0.16, 1, 0.3, 1);

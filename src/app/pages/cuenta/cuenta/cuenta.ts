@@ -11,8 +11,8 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class AccountPage {
   readonly tabs = [
-    { path: 'informacion', label: 'Informacion' },
+    { path: 'informacion', label: 'Información' },
     { path: 'plan', label: 'Plan' },
-    { path: 'metodos-pago', label: 'Metodos de pago' },
+    { path: 'metodos-pago', label: 'Métodos de pago' },
   ];
 }

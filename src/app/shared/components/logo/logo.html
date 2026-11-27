@@ -1,4 +1,7 @@
 <span class="logo" [class]="'logo_' + variant() + ' logo_' + size()">
-  <img src="logo.png" alt="Jobsy" class="marca_logo" />
+  <!-- 15 KB en WebP (antes 457 KB); el PNG de respaldo ya viene reducido. -->
+  <picture>
+    <source srcset="logo.webp" type="image/webp" />
+    <img src="logo-128.png" alt="Jobsy" class="marca_logo" width="213" height="128" decoding="async" />
+  </picture>
 </span>
-

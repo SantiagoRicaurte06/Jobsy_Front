@@ -10,6 +10,7 @@
   max-width: 600px;
   margin-inline: auto;
   padding: v.$space-6;
+  border-color: v.$color-ink;
 }
 
 // ---- Resumen del empleado ----
@@ -38,7 +39,7 @@
 
 .titulo_contratacion {
   margin: 0 0 v.$space-4;
-  font-size: v.$font-size-lg;
+  @include m.display(v.$font-size-xl);
 }
 
 // ---- Opciones ----
@@ -70,8 +71,8 @@
   &:hover { border-color: v.$color-primary-light; }
 
   &.is-selected {
-    border-color: v.$color-accent;
-    background: v.$color-accent-pale;
+    border-color: v.$color-ink;
+    background: v.$color-primary-bg;
   }
 }
 
@@ -106,13 +107,24 @@
 }
 
 .total_contratacion {
-  padding: v.$space-4;
-  background: v.$color-accent-pale;
-  border-radius: v.$radius-md;
+  padding: v.$space-5;
+  background: v.$color-ink;
+  border-radius: v.$radius-lg;
   text-align: center;
   font-size: v.$font-size-base;
+  color: v.$color-on-dark;
 
-  strong { font-size: v.$font-size-xl; }
+  strong {
+    display: block;
+    margin-top: v.$space-1;
+    font-family: v.$font-family-display;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: v.$font-weight-black;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: v.$color-bg;
+  }
 }
 
 .acciones_contratacion {

@@ -1,78 +1,82 @@
-<header class="cabecera">
+<header class="cabecera" [class.is-abierta]="menuOpen()">
   <div class="interior_cabecera">
-    <a routerLink="/" class="marca_cabecera" (click)="closeMenus()">
+    <a routerLink="/" class="marca_cabecera" (click)="closeMenus()" aria-label="Jobsy, ir al inicio">
       <jobsy-logo variant="color" size="medio" />
     </a>
 
-    <!-- Boton hamburguesa (movil) -->
-    <button
-      type="button"
-      class="menu_movil_cabecera"
-      (click)="toggleMenu()"
-      [attr.aria-expanded]="menuOpen()"
-      aria-label="Abrir menu">
-      <jobsy-icon name="menu" />
-    </button>
+    <nav class="navegacion_cabecera" [class.is-open]="menuOpen()" id="navegacion-principal" aria-label="Principal">
+      <a routerLink="/empleos" routerLinkActive="is-active" ariaCurrentWhenActive="page" (click)="closeMenus()">Empleos</a>
+      <a routerLink="/empleados" routerLinkActive="is-active" ariaCurrentWhenActive="page" (click)="closeMenus()">Empleados</a>
+      <a routerLink="/tienda" routerLinkActive="is-active" ariaCurrentWhenActive="page" (click)="closeMenus()">Tienda</a>
+      <a routerLink="/soporte/centro-ayuda" routerLinkActive="is-active" ariaCurrentWhenActive="page" (click)="closeMenus()">Ayuda</a>
 
-    <!-- Navegacion principal -->
-    <nav class="navegacion_cabecera" [class.is-open]="menuOpen()">
-      <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenus()">Home</a>
-      <a routerLink="/empleos" routerLinkActive="is-active" (click)="closeMenus()">Buscar Empleo</a>
-      <a routerLink="/empleados" routerLinkActive="is-active" (click)="closeMenus()">Buscar Empleados</a>
-      <a routerLink="/tienda" routerLinkActive="is-active" (click)="closeMenus()">Tienda</a>
+      @if (!isLoggedIn()) {
+        <div class="acceso_movil_cabecera">
+          <a routerLink="/auth/login" class="boton_simple boton_ancho" (click)="closeMenus()">Ingresar</a>
+          <a routerLink="/registro/crear-cuenta" class="boton_principal boton_ancho" (click)="closeMenus()">Crear cuenta</a>
+        </div>
+      }
     </nav>
 
     <div class="acciones_cabecera">
-      <!-- Carrito -->
-      <a routerLink="/tienda/carrito" class="carrito_cabecera" aria-label="Carrito de compras">
+      <a routerLink="/tienda/carrito" class="icono_cabecera"
+        [attr.aria-label]="cart.count() > 0 ? 'Carrito, ' + cart.count() + ' productos' : 'Carrito'">
         <jobsy-icon name="shopping-cart" />
         @if (cart.count() > 0) {
-          <span class="contador_carrito_cabecera">{{ cart.count() }}</span>
+          <span class="contador_cabecera" aria-hidden="true">{{ cart.count() }}</span>
         }
       </a>
 
       @if (isLoggedIn()) {
-        <!-- Avisos: postulaciones recibidas, contrataciones, respuestas -->
-        <div class="usuario_cabecera">
-          <button type="button" class="carrito_cabecera boton_avisos_cabecera" (click)="toggleAvisos()"
-            [attr.aria-expanded]="avisosOpen()" aria-label="Notificaciones">
+        <div class="desplegable_contenedor_cabecera">
+          <button type="button" class="icono_cabecera" (click)="toggleAvisos()"
+            [attr.aria-expanded]="avisosOpen()" aria-controls="avisos-cabecera"
+            [attr.aria-label]="avisos.sinLeer() > 0 ? 'Notificaciones, ' + avisos.sinLeer() + ' sin leer' : 'Notificaciones'">
             <jobsy-icon name="bell" />
             @if (avisos.sinLeer() > 0) {
-              <span class="contador_carrito_cabecera">{{ avisos.sinLeer() }}</span>
+              <span class="contador_cabecera" aria-hidden="true">{{ avisos.sinLeer() }}</span>
             }
           </button>
 
           @if (avisosOpen()) {
-            <div class="desplegable_cabecera avisos_cabecera">
+            <div class="desplegable_cabecera avisos_cabecera" id="avisos-cabecera">
+              <p class="titulo_desplegable_cabecera">Notificaciones</p>
               @for (n of avisos.items(); track n.id) {
                 <button type="button" class="aviso_cabecera" [class.is-nuevo]="!n.leida" (click)="abrirAviso(n)">
                   <strong>{{ n.titulo }}</strong>
                   <span>{{ n.cuerpo }}</span>
-                  <small>{{ n.fecha | date: 'short' }}</small>
+                  <small>{{ n.fecha | date: 'd MMM, h:mm a' }}</small>
                 </button>
               } @empty {
-                <p class="sin_avisos_cabecera">No tienes notificaciones.</p>
+                <p class="sin_avisos_cabecera">Todo al día. Aquí verás postulaciones, contrataciones y respuestas de soporte.</p>
               }
             </div>
           }
         </div>
 
-        <!-- Menu de usuario -->
-        <div class="usuario_cabecera">
-          <button type="button" class="boton_usuario_cabecera" (click)="toggleUserMenu()" [attr.aria-expanded]="userMenuOpen()">
-            <span class="avatar_cabecera">{{ user()?.nombre?.charAt(0) }}</span>
+        @if (role() === 'empleador') {
+          <a routerLink="/publicar-oferta" class="boton_principal boton_chico accion_cabecera" (click)="closeMenus()">
+            <jobsy-icon name="plus" /> Publicar oferta
+          </a>
+        }
+
+        <div class="desplegable_contenedor_cabecera">
+          <button type="button" class="boton_usuario_cabecera" (click)="toggleUserMenu()"
+            [attr.aria-expanded]="userMenuOpen()" aria-controls="menu-usuario-cabecera"
+            [attr.aria-label]="'Menú de la cuenta de ' + (user()?.nombre ?? '')">
+            <span class="avatar_cabecera" aria-hidden="true">{{ user()?.nombre?.charAt(0) }}</span>
             <span class="nombre_usuario_cabecera">{{ user()?.nombre }}</span>
-            <span aria-hidden="true"><jobsy-icon name="chevron-down" /></span>
+            <jobsy-icon name="chevron-down" />
           </button>
 
           @if (userMenuOpen()) {
-            <div class="desplegable_cabecera">
-              <a routerLink="/app/inicio" (click)="closeMenus()">Mi inicio</a>
+            <div class="desplegable_cabecera" id="menu-usuario-cabecera">
+              <p class="titulo_desplegable_cabecera">{{ textoRol() }}</p>
+              <a routerLink="/app/inicio" (click)="closeMenus()">Mi panel</a>
               <a routerLink="/app/perfil" (click)="closeMenus()">Mi perfil</a>
               @if (role() === 'empleador') {
                 <a routerLink="/app/mis-ofertas" (click)="closeMenus()">Mis ofertas</a>
                 <a routerLink="/app/contrataciones" (click)="closeMenus()">Contrataciones</a>
-                <a routerLink="/publicar-oferta" (click)="closeMenus()">Publicar oferta</a>
               } @else if (role() === 'empleado') {
                 <a routerLink="/app/mis-postulaciones" (click)="closeMenus()">Mis postulaciones</a>
                 <a routerLink="/app/contrataciones" (click)="closeMenus()">Mis trabajos</a>
@@ -82,21 +86,28 @@
               <a routerLink="/app/guardados" (click)="closeMenus()">Perfiles guardados</a>
               <a routerLink="/app/pedidos" (click)="closeMenus()">Mis pedidos</a>
               <a routerLink="/app/cuenta" (click)="closeMenus()">Cuenta</a>
-              <a routerLink="/app/configuracion" (click)="closeMenus()">Configuracion</a>
+              <a routerLink="/app/configuracion" (click)="closeMenus()">Configuración</a>
 
               @if (role() === 'admin') {
-                <a routerLink="/admin/dashboard" class="desplegable_admin_cabecera" (click)="closeMenus()">
-                  Panel de administracion
-                </a>
+                <a routerLink="/admin/dashboard" class="admin_cabecera" (click)="closeMenus()">Panel de administración</a>
               }
 
-              <button type="button" class="salir_cabecera" (click)="logout()">Cerrar sesion</button>
+              <button type="button" class="salir_cabecera" (click)="logout()">
+                <jobsy-icon name="log-out" /> Cerrar sesión
+              </button>
             </div>
           }
         </div>
       } @else {
-        <a routerLink="/auth/login" class="boton_principal boton_chico">Iniciar Sesion</a>
+        <a routerLink="/auth/login" class="enlace_ingreso_cabecera">Ingresar</a>
+        <a routerLink="/registro/crear-cuenta" class="boton_principal boton_chico accion_cabecera">Crear cuenta</a>
       }
+
+      <button type="button" class="menu_movil_cabecera" (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen()" aria-controls="navegacion-principal"
+        [attr.aria-label]="menuOpen() ? 'Cerrar menú' : 'Abrir menú'">
+        <jobsy-icon [name]="menuOpen() ? 'x' : 'menu'" />
+      </button>
     </div>
   </div>
 </header>

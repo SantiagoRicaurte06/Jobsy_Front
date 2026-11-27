@@ -1,8 +1,11 @@
 <div class="paso-personal tarjeta">
   <jobsy-step-progress [steps]="steps()" [current]="0" />
 
-  <h1 class="paso-personal__title">Datos personales</h1>
-  <p class="paso-personal__subtitle">Esta Informacion Nos Ayuda A Verificar Tu Identidad.</p>
+  <header class="paso-personal__header">
+    <span class="paso-personal__paso">Paso 1 de {{ steps().length }}</span>
+    <h1>Datos personales</h1>
+    <p>Esta información nos ayuda a verificar tu identidad.</p>
+  </header>
 
   <form (ngSubmit)="next()">
     <div class="grupo_campo">
@@ -16,7 +19,7 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta">Genero</label>
+      <label class="etiqueta" for="fecha">Género</label>
       <div class="paso-personal__options">
         @for (g of generos; track g) {
           <label class="paso-personal__radio" [class.is-selected]="genero() === g">
@@ -35,11 +38,11 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="documento">Numero de documento</label>
+      <label class="etiqueta" for="documento">Número de documento</label>
       <input id="documento" type="text" class="campo" placeholder="1234567890"
         maxlength="15" [attr.inputmode]="nacionalidad() === 'Colombiana' ? 'numeric' : null"
         [ngModel]="documento()" (ngModelChange)="documento.set($event)" name="documento" />
-      <p class="ayuda">Cedula de 6 a 10 digitos (pasaporte o PPT: 5 a 15 letras o numeros). Solo se usa para verificar tu perfil.</p>
+      <p class="ayuda">Cédula de 6 a 10 dígitos (pasaporte o PPT: 5 a 15 letras o números). Solo se usa para verificar tu perfil.</p>
     </div>
 
     @if (error()) {
@@ -47,7 +50,7 @@
     }
 
     <div class="paso-personal__actions">
-      <button type="button" class="boton_simple" (click)="back()">Atras</button>
+      <button type="button" class="boton_simple" (click)="back()">Atrás</button>
       <button type="submit" class="boton_principal">Siguiente</button>
     </div>
   </form>

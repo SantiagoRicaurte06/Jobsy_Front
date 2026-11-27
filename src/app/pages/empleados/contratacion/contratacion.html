@@ -4,7 +4,7 @@
   } @else if (done()) {
     <div class="hecho_contratacion tarjeta">
       <span aria-hidden="true"><jobsy-icon name="check" /></span>
-      <h1>Contratacion confirmada</h1>
+      <h1>Contratación confirmada</h1>
       <p>
         Contrataste a <strong>{{ employee()?.nombre }}</strong>.
         Puedes ver el servicio en tus contrataciones.
@@ -28,7 +28,7 @@
 
       <!-- ===== Paso 1: modalidad ===== -->
       @if (step() === 0) {
-        <h1 class="titulo_contratacion">Modalidad de contratacion</h1>
+        <h1 class="titulo_contratacion">Modalidad de contratación</h1>
 
         <div class="opciones_contratacion">
           @for (mo of modalidades; track mo.value) {
@@ -62,7 +62,7 @@
 
         <div class="fila_contratacion">
           <div class="grupo_campo">
-            <label class="etiqueta" for="horas">Numero de horas</label>
+            <label class="etiqueta" for="horas">Número de horas</label>
             <input id="horas" type="number" min="1" max="12" class="campo"
               [ngModel]="horas()" (ngModelChange)="horas.set(+$event)" name="horas" />
           </div>
@@ -76,7 +76,7 @@
         </div>
 
         <div class="grupo_campo">
-          <label class="etiqueta" for="direccion">Direccion del servicio</label>
+          <label class="etiqueta" for="direccion">Dirección del servicio</label>
           <input id="direccion" type="text" class="campo" placeholder="Calle 7 # 33-20"
             maxlength="120" autocomplete="street-address"
             [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
@@ -86,7 +86,7 @@
 
       <!-- ===== Paso 3: confirmar ===== -->
       @if (step() === 2) {
-        <h1 class="titulo_contratacion">Confirma la contratacion</h1>
+        <h1 class="titulo_contratacion">Confirma la contratación</h1>
 
         <dl class="resumen_contratacion">
           <div><dt>Empleado</dt><dd>{{ employee()?.nombre }}</dd></div>
@@ -107,13 +107,13 @@
       }
 
       <footer class="acciones_contratacion">
-        <button type="button" class="boton_simple" [disabled]="step() === 0" (click)="back()">Atras</button>
+        <button type="button" class="boton_simple" [disabled]="step() === 0" (click)="back()">Atrás</button>
 
         @if (step() < steps.length - 1) {
           <button type="button" class="boton_principal" (click)="next()">Siguiente</button>
         } @else {
           <button type="button" class="boton_principal" [disabled]="enviando()" (click)="confirmar()">
-            {{ enviando() ? 'Contratando...' : 'Confirmar contratacion' }}
+            {{ enviando() ? 'Contratando...' : 'Confirmar contratación' }}
           </button>
         }
       </footer>

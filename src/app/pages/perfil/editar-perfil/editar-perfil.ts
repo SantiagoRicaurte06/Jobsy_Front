@@ -42,7 +42,7 @@ export class EditProfilePage implements OnInit {
   }));
   readonly opcionesEspecialidad = [
     'Limpieza profunda', 'Cocina', 'Planchado', 'Zonas verdes',
-    'Cuidado de ninos', 'Cuidado de adultos', 'Mascotas', 'Bioseguridad',
+    'Cuidado de niños', 'Cuidado de adultos', 'Mascotas', 'Bioseguridad',
   ];
 
   ngOnInit(): void {

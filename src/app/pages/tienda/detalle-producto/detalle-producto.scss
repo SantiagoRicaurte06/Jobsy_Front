@@ -1,110 +1,150 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-.detalle-producto {
-  padding-block: v.$space-6;
+.detalle_producto { padding-top: v.$space-5; }
 
-  &__crumbs {
-    margin-bottom: v.$space-4;
-    font-size: v.$font-size-sm;
+.volver_detalle_producto {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  min-height: 44px;
+  margin-bottom: v.$space-4;
+  color: v.$color-ink;
+  font-weight: v.$font-weight-bold;
+}
+
+.rejilla_detalle_producto {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: v.$space-7;
+
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: v.$space-5;
   }
+}
 
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: v.$space-6;
+.imagen_detalle_producto {
+  position: sticky;
+  top: calc(#{v.$header-height} + #{v.$space-5});
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: v.$radius-xl;
+  background: v.$color-sand;
 
-    @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
-  }
+  img { width: 100%; height: 100%; object-fit: cover; }
 
-  &__media {
+  > span {
     display: grid;
     place-items: center;
-    aspect-ratio: 1;
-    background: v.$color-bg;
-    font-size: v.$font-size-4xl;
-
-    img { width: 100%; height: 100%; object-fit: cover; }
+    height: 100%;
+    font-size: 4rem;
+    color: v.$color-border-strong;
   }
 
-  &__category {
-    margin: 0 0 v.$space-2;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-semibold;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: v.$color-primary-light;
+  @include m.until(v.$bp-lg) { position: static; }
+}
+
+.info_detalle_producto {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-4;
+
+  h1 {
+    margin: 0;
+    @include m.display(clamp(2rem, 4.4vw, 3.25rem));
   }
+}
 
-  &__title,
-  &__price {
-    margin: 0 0 v.$space-3;
-    font-size: v.$font-size-2xl;
-  }
+.cabecera_detalle_producto {
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
+}
 
-  &__price { margin-top: v.$space-4; }
-  &__stock { margin: 0 0 v.$space-4; }
+.precio_detalle_producto {
+  margin: v.$space-2 0 0;
+  font-family: v.$font-family-display;
+  font-size: clamp(2.5rem, 5vw, 3.25rem);
+  font-weight: v.$font-weight-black;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: v.$color-ink;
+}
 
-  &__desc {
-    margin: 0 0 v.$space-5;
-    font-size: v.$font-size-sm;
-    color: v.$color-text-muted;
-    line-height: 1.7;
-  }
+.stock_detalle_producto { margin: 0; }
 
-  // ---- Cantidad ----
-  &__qty { margin-bottom: v.$space-5; }
+.descripcion_detalle_producto {
+  max-width: 60ch;
+  margin: 0;
+  font-size: v.$font-size-base;
+  line-height: 1.65;
+}
 
-  &__stepper {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid v.$color-border-strong;
-    border-radius: v.$radius-md;
-    overflow: hidden;
+.compra_detalle_producto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: v.$space-3;
+  padding: v.$space-5;
+  background: v.$color-surface;
+  border: v.$border-width solid v.$color-ink;
+  border-radius: v.$radius-lg;
 
-    button {
-      width: 40px;
-      height: 40px;
-      background: v.$color-bg;
-      border: none;
-      font-size: v.$font-size-lg;
-      cursor: pointer;
-      &:hover { background: v.$color-primary-bg; }
-    }
+  .boton_principal { flex: 1; min-height: 52px; padding-inline: v.$space-6; }
+  // "Comprar ahora" ocupa su propia fila completa bajo la cantidad y el carrito.
+  .boton_simple { flex-basis: 100%; }
+}
 
-    span {
-      display: grid;
-      place-items: center;
-      width: 56px;
-      font-weight: v.$font-weight-semibold;
-    }
-  }
+.cantidad_detalle_producto {
+  display: inline-flex;
+  align-items: center;
+  border: v.$border-width solid v.$color-border-strong;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
 
-  &__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: v.$space-3;
-    margin-bottom: v.$space-5;
-  }
-
-  &__meta {
+  button {
     display: grid;
-    gap: v.$space-3;
-    padding: v.$space-4;
-    background: v.$color-bg;
-    border-radius: v.$radius-md;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: v.$color-ink;
+    font-size: 1.1rem;
+    cursor: pointer;
 
-    > div {
-      display: flex;
-      justify-content: space-between;
-      font-size: v.$font-size-sm;
-    }
-
-    dt { color: v.$color-text-muted; }
-    dd { margin: 0; font-weight: v.$font-weight-medium; }
+    &:hover:not(:disabled) { background: v.$color-sand; }
+    &:disabled { opacity: 0.35; cursor: not-allowed; }
   }
 
-  // ---- Reseñas ----
+  output {
+    min-width: 2.5ch;
+    font-family: v.$font-family-display;
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-bold;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+}
+
+.hechos_detalle_producto {
+  display: grid;
+  gap: v.$space-3;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: v.$space-3;
+    color: v.$color-text;
+  }
+
+  jobsy-icon { color: v.$color-accent; font-size: 1.15rem; }
+}
+
+// ---- Reseñas del producto (guardadas en el MID) ----
+.detalle-producto {
   &__reviews {
     margin-top: v.$space-8;
     padding-top: v.$space-6;
@@ -201,7 +241,7 @@
 
   &__bar-fill {
     height: 100%;
-    background: #FFB800;
+    background: v.$color-star;
     border-radius: v.$radius-pill;
   }
 
@@ -310,7 +350,7 @@
 
     &:hover,
     &.is-active {
-      color: #FFB800;
+      color: v.$color-star;
       transform: scale(1.15);
     }
   }
@@ -357,8 +397,8 @@
     right: 2px;
     width: 20px;
     height: 20px;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
+    background: v.$color-ink;
+    color: v.$color-white;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -434,8 +474,8 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: v.$gradient-hero;
-    color: #fff;
+    background: v.$color-primary;
+    color: v.$color-white;
     display: grid;
     place-items: center;
     font-weight: v.$font-weight-bold;
@@ -494,5 +534,3 @@
     img { width: 100%; height: 100%; object-fit: cover; }
   }
 }
-
-

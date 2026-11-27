@@ -1,4 +1,5 @@
 import { Component, input, output, signal, computed } from '@angular/core';
+import { IconComponent } from '../icon/icon';
 
 /**
  * Estrellas de calificacion (0-5).
@@ -10,7 +11,7 @@ import { Component, input, output, signal, computed } from '@angular/core';
 @Component({
   selector: 'jobsy-rating-stars',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './rating-stars.html',
   styleUrl: './rating-stars.scss',
 })

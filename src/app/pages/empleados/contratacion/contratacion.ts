@@ -52,8 +52,8 @@ export class HiringPage implements OnInit {
    */
   readonly modalidades: { value: WorkModality; label: string; text: string }[] = [
     { value: 'por_horas', label: 'Por horas', text: 'Pagas solo las horas trabajadas.' },
-    { value: 'jornada_completa', label: 'Jornada completa', text: 'Dia completo de trabajo.' },
-    { value: 'fin_de_semana', label: 'Fin de semana', text: 'Sabados y domingos.' },
+    { value: 'jornada_completa', label: 'Jornada completa', text: 'Día completo de trabajo.' },
+    { value: 'fin_de_semana', label: 'Fin de semana', text: 'Sábados y domingos.' },
   ];
 
   readonly total = computed(() => this.horas() * this.tarifaHora());
@@ -78,7 +78,7 @@ export class HiringPage implements OnInit {
     return R.primero(
       R.fechaServicio(this.fecha()),
       R.hora(this.horaInicio()),
-      R.rango('El numero de horas', this.horas(), R.LIMITES.horasMin, R.LIMITES.horasMax),
+      R.rango('El número de horas', this.horas(), R.LIMITES.horasMin, R.LIMITES.horasMax),
       R.tarifa(this.tarifaHora()),
       R.direccion(this.direccion()),
     );
@@ -131,7 +131,7 @@ export class HiringPage implements OnInit {
         },
         error: (e: HttpErrorResponse) => {
           this.enviando.set(false);
-          this.error.set(e.error?.error?.mensaje ?? 'No pudimos completar la contratacion.');
+          this.error.set(e.error?.error?.mensaje ?? 'No pudimos completar la contratación.');
         },
       });
   }

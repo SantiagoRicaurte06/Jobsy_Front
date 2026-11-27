@@ -1,109 +1,209 @@
-import { Component, signal, computed } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconComponent } from '../../../shared/components/icon/icon';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
+import { CANALES_SOPORTE } from '../canales';
 
-interface Faq {
-  pregunta: string;
-  respuesta: string;
-  categoria: string;
+type TemaId = 'hogar' | 'trabajo' | 'tienda' | 'cuenta';
+
+interface Tema {
+  id: TemaId;
+  icon: string;
+  titulo: string;
 }
 
-/** Centro de ayuda con categorias y preguntas frecuentes filtrables. */
+interface Faq {
+  id: string;
+  tema: TemaId;
+  pregunta: string;
+  respuesta: string;
+  /** Pantalla donde se resuelve, si existe. */
+  enlace?: { texto: string; ruta: string };
+}
+
+/** Trozo de texto con o sin coincidencia de la búsqueda, para pintar <mark>. */
+interface Trozo {
+  texto: string;
+  marca: boolean;
+}
+
+const sinTildes = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+/** Parte el texto en trozos marcando dónde aparece la búsqueda (sin importar tildes). */
+function marcar(texto: string, q: string): Trozo[] {
+  if (!q) return [{ texto, marca: false }];
+  const base = sinTildes(texto);
+  const trozos: Trozo[] = [];
+  let desde = 0;
+  let i = base.indexOf(q);
+  while (i >= 0) {
+    if (i > desde) trozos.push({ texto: texto.slice(desde, i), marca: false });
+    trozos.push({ texto: texto.slice(i, i + q.length), marca: true });
+    desde = i + q.length;
+    i = base.indexOf(q, desde);
+  }
+  if (desde < texto.length) trozos.push({ texto: texto.slice(desde), marca: false });
+  return trozos;
+}
+
+/**
+ * Centro de ayuda: la búsqueda manda. Cada respuesta marca lo que coincide
+ * y, cuando hay una pantalla donde se resuelve, lleva directo a ella.
+ */
 @Component({
   selector: 'jobsy-centro-ayuda',
   standalone: true,
-  imports: [FormsModule, RouterLink, IconComponent, EmptyStateComponent],
+  imports: [RouterLink, IconComponent, EmptyStateComponent],
   templateUrl: './centro-ayuda.html',
   styleUrl: './centro-ayuda.scss',
 })
 export class HelpCenterPage {
-  readonly categorias = [
-    { icon: 'briefcase', title: 'Empleos', text: 'Buscar y postularme a ofertas' },
-    { icon: 'user', title: 'Empleados', text: 'Contratar y calificar perfiles' },
-    { icon: 'credit-card', title: 'Pagos', text: 'Metodos de pago y facturas' },
-    { icon: 'settings', title: 'Mi cuenta', text: 'Datos, seguridad y perfil' },
-    { icon: 'shopping-cart', title: 'Tienda', text: 'Pedidos, envios y devoluciones' },
-  ];
+  readonly canales = CANALES_SOPORTE;
 
-  readonly termino = signal('');
+  readonly temas: Tema[] = [
+    { id: 'hogar', icon: 'house', titulo: 'Contratar ayuda' },
+    { id: 'trabajo', icon: 'briefcase', titulo: 'Buscar trabajo' },
+    { id: 'tienda', icon: 'shopping-cart', titulo: 'Tienda y pagos' },
+    { id: 'cuenta', icon: 'shield-check', titulo: 'Cuenta y seguridad' },
+  ];
 
   readonly faqs: Faq[] = [
     {
-      categoria: 'Empleos',
-      pregunta: 'Como me postulo a una oferta?',
+      id: 'costo', tema: 'hogar',
+      pregunta: '¿Cómo sé cuánto me va a costar la semana?',
       respuesta:
-        'Entra al detalle de la oferta que te interese y presiona "Postularme". Te pediremos confirmar tu hoja de vida antes de enviar la postulacion.',
+        'En la portada arma tu semana: eliges el oficio, los días y las horas, y ves el costo estimado al instante. En la lista de personas, cada perfil con tarifa te dice cuánto costaría tu semana con esa persona.',
+      enlace: { texto: 'Ver personas', ruta: '/empleados' },
     },
     {
-      categoria: 'Empleos',
-      pregunta: 'Puedo editar mi postulacion despues de enviarla?',
+      id: 'verificado', tema: 'hogar',
+      pregunta: '¿Qué significa que un perfil esté verificado?',
       respuesta:
-        'Puedes retirarla desde "Mis Postulaciones" y volver a postularte con datos actualizados mientras la oferta siga abierta.',
+        'Validamos el documento de identidad y al menos una referencia antes de publicar el perfil. Los perfiles verificados llevan el sello verde.',
     },
     {
-      categoria: 'Empleados',
-      pregunta: 'Como verifica Jobsy a los empleados?',
+      id: 'directo', tema: 'hogar',
+      pregunta: '¿Contrato directo o publico una oferta?',
       respuesta:
-        'Validamos documento de identidad y al menos una referencia antes de publicar cualquier perfil. Los perfiles verificados muestran una insignia.',
+        'Contrata directo si ya viste a alguien que te sirve. Publica una oferta si prefieres que las personas se postulen y comparar antes de decidir.',
+      enlace: { texto: 'Publicar una oferta', ruta: '/publicar-oferta' },
     },
     {
-      categoria: 'Pagos',
-      pregunta: 'Que metodos de pago aceptan en la tienda?',
-      respuesta:
-        'Aceptamos PSE, tarjeta de credito o debito, billetera digital y saldo Jobsy. Puedes elegir el metodo en el ultimo paso del checkout.',
+      id: 'contrataciones', tema: 'hogar',
+      pregunta: '¿Dónde veo las personas que contraté?',
+      respuesta: 'En Contrataciones, dentro de tu cuenta, ves cada acuerdo con sus días, horario y estado.',
+      enlace: { texto: 'Ir a Contrataciones', ruta: '/app/contrataciones' },
     },
     {
-      categoria: 'Pagos',
-      pregunta: 'Como pido una factura de mi compra?',
+      id: 'postular', tema: 'trabajo',
+      pregunta: '¿Cómo me postulo a una oferta?',
       respuesta:
-        'La factura se genera automaticamente y queda disponible en "Mi Cuenta > Metodos de pago" una vez confirmado el pago.',
+        'Entra al detalle de la oferta y presiona "Postularme". Antes de enviar te pedimos confirmar tu hoja de vida.',
+      enlace: { texto: 'Ver ofertas', ruta: '/empleos' },
     },
     {
-      categoria: 'Mi cuenta',
-      pregunta: 'Como cambio mi contrasena?',
+      id: 'dias', tema: 'trabajo',
+      pregunta: '¿Cómo encuentro ofertas que encajen con mis días?',
       respuesta:
-        'Ve a Configuracion desde el menu de tu cuenta y selecciona "Seguridad" para actualizar tu contrasena en cualquier momento.',
+        'En Empleos marca los días que puedes trabajar. Cada oferta te muestra cuántos de tus días coinciden y cuánto pagaría por semana, y la lista se ordena de la que más paga a la que menos.',
+      enlace: { texto: 'Marcar mis días', ruta: '/empleos' },
     },
     {
-      categoria: 'Mi cuenta',
-      pregunta: 'Puedo tener perfil de empleador y de empleado a la vez?',
+      id: 'retirar', tema: 'trabajo',
+      pregunta: '¿Puedo cambiar una postulación después de enviarla?',
       respuesta:
-        'Si. Puedes alternar de rol desde tu perfil sin crear una cuenta nueva.',
+        'Puedes retirarla desde Mis postulaciones y volver a postularte con los datos actualizados mientras la oferta siga abierta.',
+      enlace: { texto: 'Ir a Mis postulaciones', ruta: '/app/mis-postulaciones' },
     },
     {
-      categoria: 'Tienda',
-      pregunta: 'Cuanto tarda el envio en Yopal?',
+      id: 'pagos', tema: 'tienda',
+      pregunta: '¿Qué métodos de pago aceptan en la tienda?',
+      respuesta: 'PSE, tarjeta de crédito o débito, Nequi, Daviplata o saldo Jobsy. Eliges el método en el último paso de la compra.',
+    },
+    {
+      id: 'envio', tema: 'tienda',
+      pregunta: '¿Cuánto cuesta y cuánto tarda el envío?',
       respuesta:
-        'Los pedidos dentro de Yopal se entregan en 24 a 48 horas habiles despues de confirmado el pago.',
+        'El envío es fijo: $8.000 por pedido. Dentro de Yopal se entrega en 24 a 48 horas hábiles después de confirmado el pago.',
+      enlace: { texto: 'Ir a la tienda', ruta: '/tienda' },
+    },
+    {
+      id: 'pedidos', tema: 'tienda',
+      pregunta: '¿Dónde sigo mis pedidos?',
+      respuesta: 'En Mis pedidos, dentro de tu cuenta, ves el estado de cada compra.',
+      enlace: { texto: 'Ir a Mis pedidos', ruta: '/app/pedidos' },
+    },
+    {
+      id: 'contrasena', tema: 'cuenta',
+      pregunta: '¿Cómo cambio mi contraseña?',
+      respuesta: 'Desde Configuración, en el menú de tu cuenta, puedes actualizarla cuando quieras.',
+      enlace: { texto: 'Ir a Configuración', ruta: '/app/configuracion' },
+    },
+    {
+      id: 'plan', tema: 'cuenta',
+      pregunta: '¿Puedo cambiar o cancelar mi plan?',
+      respuesta: 'Sí, en cualquier momento. Los cambios se aplican en el siguiente ciclo de facturación.',
+      enlace: { texto: 'Ver mi plan', ruta: '/app/cuenta/plan' },
     },
   ];
 
-  private categoriaActiva = signal<string | null>(null);
-  readonly abierta = signal<number | null>(null);
+  /** Atajos bajo el buscador: abren la respuesta directamente. */
+  readonly masBuscadas = ['costo', 'postular', 'envio', 'contrasena'].map((id) => this.faqs.find((f) => f.id === id)!);
 
-  readonly faqsFiltradas = computed(() => {
-    const q = this.termino().trim().toLowerCase();
-    const cat = this.categoriaActiva();
+  readonly termino = signal('');
+  readonly tema = signal<TemaId | null>(null);
+  readonly abierta = signal<string | null>(null);
 
-    return this.faqs.filter((f) => {
-      const coincideTexto =
-        !q || f.pregunta.toLowerCase().includes(q) || f.respuesta.toLowerCase().includes(q);
-      const coincideCategoria = !cat || f.categoria === cat;
-      return coincideTexto && coincideCategoria;
-    });
+  private readonly q = computed(() => sinTildes(this.termino().trim()));
+
+  readonly conteoPorTema = computed(() => {
+    const q = this.q();
+    const n: Record<string, number> = {};
+    for (const f of this.faqs) {
+      if (!q || sinTildes(f.pregunta + ' ' + f.respuesta).includes(q)) n[f.tema] = (n[f.tema] ?? 0) + 1;
+    }
+    return n;
   });
 
-  filtrarPorCategoria(cat: string): void {
-    this.categoriaActiva.set(this.categoriaActiva() === cat ? null : cat);
+  readonly resultados = computed(() => {
+    const q = this.q();
+    const t = this.tema();
+    return this.faqs
+      .filter((f) => (!t || f.tema === t) && (!q || sinTildes(f.pregunta + ' ' + f.respuesta).includes(q)))
+      .map((f) => ({ ...f, preguntaMarcada: marcar(f.pregunta, q), respuestaMarcada: marcar(f.respuesta, q) }));
+  });
+
+  /** Agrupadas por tema, en el orden de los temas. */
+  readonly grupos = computed(() =>
+    this.temas
+      .map((t) => ({ tema: t, faqs: this.resultados().filter((f) => f.tema === t.id) }))
+      .filter((g) => g.faqs.length > 0),
+  );
+
+  buscar(valor: string): void {
+    this.termino.set(valor);
+    // Con una sola coincidencia, se abre sola.
+    const r = this.resultados();
+    this.abierta.set(valor.trim() && r.length === 1 ? r[0].id : null);
   }
 
-  categoriaSeleccionada(): string | null {
-    return this.categoriaActiva();
+  elegirTema(id: TemaId | null): void {
+    this.tema.set(this.tema() === id ? null : id);
   }
 
-  toggle(i: number): void {
-    this.abierta.set(this.abierta() === i ? null : i);
+  alternar(id: string): void {
+    this.abierta.set(this.abierta() === id ? null : id);
+  }
+
+  abrir(f: Faq): void {
+    this.termino.set('');
+    this.tema.set(null);
+    this.abierta.set(f.id);
+    setTimeout(() => document.getElementById('faq-' + f.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+  }
+
+  limpiar(): void {
+    this.termino.set('');
+    this.tema.set(null);
   }
 }

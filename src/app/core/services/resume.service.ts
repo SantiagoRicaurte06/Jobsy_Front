@@ -8,7 +8,7 @@ import { mockResponse } from '../../mocks';
 // TEMPORAL: hoja de vida de ejemplo
 const MOCK_RESUME: Resume = {
   id: 'r1', userId: 'u2',
-  resumenProfesional: 'Empleada de hogar con 6 anos de experiencia en limpieza profunda y cuidado del hogar.',
+  resumenProfesional: 'Empleada de hogar con 6 años de experiencia en limpieza profunda y cuidado del hogar.',
   experiencias: [
     { cargo: 'Empleada de hogar', empresa: 'Familia Rodriguez', desde: '2020-01', hasta: '2026-01', descripcion: 'Limpieza integral y cocina.' },
   ],

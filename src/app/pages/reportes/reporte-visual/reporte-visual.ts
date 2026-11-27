@@ -54,7 +54,7 @@ export class VisualReportPage implements OnInit {
       { label: 'Postulaciones enviadas', value: String(posts.length), delta: `${esteMes} este mes` },
       { label: 'Tasa de respuesta', value: posts.length ? `${Math.round((respondidas / posts.length) * 100)}%` : '—', delta: `${respondidas} respondidas` },
       { label: 'Servicios completados', value: String(completadas), delta: `${this.contrataciones().length} contrataciones` },
-      { label: 'Calificacion promedio', value: e && e.calificacion > 0 ? e.calificacion.toFixed(1) : '—', delta: e ? `${e.totalServicios} servicios` : '' },
+      { label: 'Calificación promedio', value: e && e.calificacion > 0 ? e.calificacion.toFixed(1) : '—', delta: e ? `${e.totalServicios} servicios` : '' },
     ];
   });
 

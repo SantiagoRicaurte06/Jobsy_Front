@@ -7,7 +7,7 @@
 
     <form (ngSubmit)="submit()" novalidate>
       <div class="grupo_campo">
-        <label class="etiqueta" for="titulo">Titulo de la oferta</label>
+        <label class="etiqueta" for="titulo">Título de la oferta</label>
         <input id="titulo" type="text" class="campo" placeholder="Ej: Casa Familiar Grande (Villa)"
           minlength="5" maxlength="100" required [class.is-invalid]="intentado() && errores().titulo"
           [ngModel]="titulo()" (ngModelChange)="titulo.set($event)" name="titulo" />
@@ -16,8 +16,8 @@
 
       <!-- Tamano de la vivienda -->
       <div class="grupo_campo">
-        <label class="etiqueta">Tamano de la vivienda</label>
-        <div class="publicar-oferta__options">
+        <p class="etiqueta" id="grupo-tamano-de-la-vivienda">Tamaño de la vivienda</p>
+        <div class="publicar-oferta__options" role="group" aria-labelledby="grupo-tamano-de-la-vivienda">
           @for (t of tamanos; track t.value) {
             <button type="button" class="publicar-oferta__option"
               [class.is-selected]="tamano() === t.value"
@@ -30,8 +30,8 @@
 
       <!-- Modalidad -->
       <div class="grupo_campo">
-        <label class="etiqueta">Modalidad</label>
-        <div class="publicar-oferta__options">
+        <p class="etiqueta" id="grupo-modalidad">Modalidad</p>
+        <div class="publicar-oferta__options" role="group" aria-labelledby="grupo-modalidad">
           @for (mo of modalidades; track mo.value) {
             <button type="button" class="publicar-oferta__option"
               [class.is-selected]="modalidad() === mo.value"
@@ -64,8 +64,8 @@
 
       <!-- Horario: dias y franja; se envia como "Lun, Mie · 08:00 a 12:00" -->
       <div class="grupo_campo">
-        <label class="etiqueta">Dias de trabajo</label>
-        <div class="publicar-oferta__options">
+        <p class="etiqueta" id="grupo-dias-de-trabajo">Días de trabajo</p>
+        <div class="publicar-oferta__options" role="group" aria-labelledby="grupo-dias-de-trabajo">
           @for (d of diasSemana; track d.value) {
             <button type="button" class="publicar-oferta__option"
               [class.is-selected]="dias().includes(d.value)" [attr.aria-pressed]="dias().includes(d.value)"
@@ -94,18 +94,18 @@
       @else if (horarioTexto()) { <p class="ayuda">Horario: {{ horarioTexto() }}</p> }
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="direccion">Direccion</label>
+        <label class="etiqueta" for="direccion">Dirección</label>
         <input id="direccion" type="text" class="campo" placeholder="Calle 7 # 33-20" autocomplete="street-address"
           maxlength="120" required [class.is-invalid]="intentado() && errores().direccion"
           [ngModel]="direccion()" (ngModelChange)="direccion.set($event)" name="direccion" />
         @if (intentado() && errores().direccion) { <p class="error">{{ errores().direccion }}</p> }
-        <p class="ayuda">{{ ejemploDireccion }}. Solo se comparte al confirmar la contratacion.</p>
+        <p class="ayuda">{{ ejemploDireccion }}. Solo se comparte al confirmar la contratación.</p>
       </div>
 
       <!-- Tareas -->
       <div class="grupo_campo">
-        <label class="etiqueta">Tareas incluidas</label>
-        <ul class="publicar-oferta__chips">
+        <p class="etiqueta" id="grupo-tareas-incluidas">Tareas incluidas</p>
+        <ul class="publicar-oferta__chips" aria-labelledby="grupo-tareas-incluidas">
           @for (t of tareas; track t) {
             <li>
               <button type="button" class="publicar-oferta__chip"
@@ -119,9 +119,9 @@
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="descripcion">Descripcion adicional</label>
+        <label class="etiqueta" for="descripcion">Descripción adicional</label>
         <textarea id="descripcion" class="area_texto"
-          placeholder="Detalles del hogar, numero de habitaciones, mascotas, etc."
+          placeholder="Detalles del hogar, número de habitaciones, mascotas, etc."
           maxlength="1000" [class.is-invalid]="intentado() && errores().descripcion"
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
         <p class="ayuda">{{ descripcion().length }}/1000</p>
@@ -133,7 +133,7 @@
         <input id="fotos" type="file" class="campo" accept="image/jpeg,image/png,image/webp" multiple
           (change)="elegirFotos($event)" />
         <p class="ayuda">
-          La primera foto sera la principal. Tambien puedes agregarlas despues desde "Mis ofertas".
+          La primera foto será la principal. También puedes agregarlas después desde "Mis ofertas".
           @if (fotos().length) { · {{ fotos().length }} foto(s) elegida(s) }
         </p>
       </div>

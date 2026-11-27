@@ -2,12 +2,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { RegistrationService } from '../../../core/services';
-import { LogoComponent } from '../../../shared/components/logo/logo';
+import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-checklist',
   standalone: true,
-  imports: [RouterLink, LogoComponent],
+  imports: [RouterLink, IconComponent],
   templateUrl: './lista-pasos.html',
   styleUrl: './lista-pasos.scss',
 })
@@ -19,21 +19,21 @@ export class ChecklistPage {
   readonly rol = this.registration.rol;
 
   private readonly itemsEmpleado = [
-    { icon: '\u{1F464}', title: 'Datos Personales', text: 'Nacionalidad, Genero Y Fecha De Nacimiento.' },
-    { icon: '\u{1F4BC}', title: 'Modalidad De Trabajo', text: 'Como Y Cuando Puedes Trabajar.' },
-    { icon: '\u{1F4CD}', title: 'Ubicacion Y Foto', text: 'Tu Ciudad, Radio De Trabajo Y Foto De Perfil.' },
+    { icon: 'user', title: 'Datos personales', text: 'Nacionalidad, género y fecha de nacimiento.' },
+    { icon: 'briefcase', title: 'Modalidad de trabajo', text: 'Cómo y cuándo puedes trabajar.' },
+    { icon: 'map-pin', title: 'Ubicación y foto', text: 'Tu ciudad, radio de trabajo y foto de perfil.' },
   ];
 
   private readonly itemsEmpleador = [
-    { icon: '\u{1F464}', title: 'Datos Personales', text: 'Nacionalidad, Genero Y Fecha De Nacimiento.' },
-    { icon: '\u{1F4CD}', title: 'Ubicacion Y Foto', text: 'Tu Ciudad Y Foto De Perfil.' },
+    { icon: 'user', title: 'Datos personales', text: 'Nacionalidad, género y fecha de nacimiento.' },
+    { icon: 'map-pin', title: 'Ubicación y foto', text: 'Tu ciudad y foto de perfil.' },
   ];
 
   readonly items = computed(() =>
     this.rol() === 'empleador' ? this.itemsEmpleador : this.itemsEmpleado
   );
 
-  readonly cantidadTexto = computed(() => (this.items().length === 2 ? 'Dos' : 'Tres'));
+  readonly cantidadTexto = computed(() => (this.items().length === 2 ? 'dos' : 'tres'));
 
   start(): void {
     this.router.navigate(['/registro/paso-1']);

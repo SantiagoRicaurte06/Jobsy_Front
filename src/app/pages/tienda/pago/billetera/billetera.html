@@ -1,14 +1,15 @@
 <section class="billetera">
   <h2 class="billetera__title">Billetera digital</h2>
-  <p class="billetera__subtitle">Recibiras una notificacion en tu app para aprobar el pago.</p>
+  <p class="billetera__subtitle">Recibirás una notificación en tu app para aprobar el pago.</p>
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
-      <label class="etiqueta">Elige tu billetera</label>
-      <div class="billetera__options">
+      <p class="etiqueta" id="eligeBilletera">Elige tu billetera</p>
+      <div class="billetera__options" role="group" aria-labelledby="eligeBilletera">
         @for (b of billeteras(); track b.value) {
           <button type="button" class="billetera__option"
             [class.is-selected]="billetera() === b.value"
+            [attr.aria-pressed]="billetera() === b.value"
             (click)="billetera.set(b.value)">
             <span class="billetera__dot" [style.background]="b.color" aria-hidden="true"></span>
             {{ b.label }}
@@ -18,11 +19,11 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="telefono">Numero de celular</label>
+      <label class="etiqueta" for="telefono">Número de celular</label>
       <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
         inputmode="tel" maxlength="16" autocomplete="tel-national"
         [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
-      <p class="ayuda">Debe ser el numero asociado a tu billetera.</p>
+      <p class="ayuda">Debe ser el número asociado a tu billetera.</p>
     </div>
 
     @if (error()) {
@@ -30,7 +31,7 @@
     }
 
     <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
-      {{ procesando() ? 'Esperando aprobacion...' : 'Enviar solicitud de pago' }}
+      {{ procesando() ? 'Esperando aprobación...' : 'Solicitar pago de ' + (cart.total() | cop) }}
     </button>
   </form>
 </section>

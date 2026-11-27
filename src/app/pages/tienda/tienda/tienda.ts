@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductService, CartService } from '../../../core/services';
 import { Product, Category } from '../../../core/models';
@@ -7,11 +7,13 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { paginasDisponibles } from '../../../core/utils/paginacion';
+import { CopPipe } from '../../../shared/pipes';
 
 @Component({
   selector: 'jobsy-store',
   standalone: true,
-  imports: [IconComponent, 
+  imports: [IconComponent, CopPipe, 
     RouterLink,
     ProductCardComponent,
     PaginationComponent,
@@ -31,19 +33,53 @@ export class StorePage implements OnInit {
   readonly page = signal(1);
   readonly totalPages = signal(1);
   readonly total = signal(0);
+  /** Envío fijo por pedido; el mismo valor que aplica el middleware. */
+  readonly envio = 8000;
   readonly categoriaActiva = signal<string | null>(null);
+  /**
+   * "Todas" suma los conteos del catalogo. El total del listado es solo una
+   * cota de la pagina actual y no cuadraba con la suma de las categorias.
+   */
+  readonly totalCatalogo = computed(() =>
+    this.categories().reduce((n, c) => n + (c.cantidadProductos ?? 0), 0) || this.total(),
+  );
   readonly added = signal<string | null>(null);
+
+  /** La cuadrícula sin el producto que ya está en la cabecera. */
+  readonly productosRejilla = computed(() => {
+    const d = this.destacado();
+    return d ? this.products().filter((p) => p.id !== d.id) : this.products();
+  });
+
+  /** Producto de la cabecera: el destacado, si no el mejor calificado con existencias. */
+  readonly destacado = signal<Product | null>(null);
+  readonly cantidadDestacado = computed(() => {
+    const d = this.destacado();
+    return d ? (this.cart.items().find((i) => i.product.id === d.id)?.cantidad ?? 0) : 0;
+  });
 
   ngOnInit(): void {
     this.productService.categories().subscribe((c) => this.categories.set(c));
+    this.productService.list(undefined, 1, 50).subscribe((res) => {
+      const conStock = res.items.filter((p) => p.stock > 0);
+      const d =
+        conStock.find((p) => p.estado === 'destacado') ??
+        [...conStock].sort((a, b) => b.calificacion - a.calificacion)[0];
+      this.destacado.set(d ?? null);
+    });
     this.load();
+  }
+
+  cambiarDestacado(delta: number): void {
+    const d = this.destacado();
+    if (d) this.cart.updateQuantity(d.id, this.cantidadDestacado() + delta);
   }
 
   load(): void {
     this.cargando.set(true);
     this.productService.list(this.categoriaActiva() ?? undefined, this.page(), 9).subscribe((res) => {
       this.products.set(res.items);
-      this.totalPages.set(res.totalPages);
+      this.totalPages.set(paginasDisponibles(res));
       this.total.set(res.total);
       this.cargando.set(false);
     });

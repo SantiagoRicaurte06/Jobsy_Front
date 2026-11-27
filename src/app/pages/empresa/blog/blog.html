@@ -1,7 +1,6 @@
 <!-- ============ BANNER ============ -->
 <section class="banner_institucional">
   <div class="contenedor">
-    <span class="pildora_institucional">Empresa</span>
     <h1 class="titulo_banner">Blog de Jobsy</h1>
     <p class="texto_banner">
       Consejos practicos para contratar y trabajar en el hogar, y novedades de la plataforma.
@@ -43,7 +42,7 @@
   </div>
 
   @if (postsFiltrados().length === 0) {
-    <p class="texto_gris">No hay articulos en esta categoria todavia.</p>
+    <p class="texto_gris">No hay artículos en esta categoría todavía.</p>
   }
 </section>
 
@@ -51,14 +50,14 @@
 <section class="llamada_institucional">
   <div class="interior_llamada_institucional">
     <div>
-      <h2>No te pierdas ningun articulo</h2>
-      <p>Suscribete y recibe una nota al mes con consejos y novedades de Jobsy.</p>
+      <h2>No te pierdas ningún artículo</h2>
+      <p>Suscríbete y recibe una nota al mes con consejos y novedades de Jobsy.</p>
     </div>
     @if (boletinOk()) {
-      <p class="pildora_exito" role="status">¡Listo! Te llegara una nota al mes.</p>
+      <p class="pildora_exito" role="status">¡Listo! Te llegará una nota al mes.</p>
     } @else {
       <form class="form_newsletter" (submit)="suscribir($event)">
-        <input type="email" class="campo" placeholder="tu@correo.com" aria-label="Correo electronico" required
+        <input type="email" class="campo" placeholder="tu@correo.com" aria-label="Correo electrónico" required
           [value]="correoBoletin()" (input)="correoBoletin.set($any($event.target).value)" />
         <button type="submit" class="boton_principal" [disabled]="enviandoBoletin()">
           {{ enviandoBoletin() ? 'Enviando...' : 'Suscribirme' }}

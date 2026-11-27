@@ -16,7 +16,7 @@
   gap: v.$space-2;
   height: 200px;
   padding: v.$space-4;
-  background: v.$color-primary-bg;
+  background: v.$color-surface-muted-light;
   border-radius: v.$radius-md;
 }
 
@@ -48,11 +48,11 @@
 }
 
 .etiqueta_grafico {
-  font-size: 10px;
+  font-size: 0.75rem;
   color: v.$color-text-muted;
 
   &.is-highlight {
-    color: v.$color-accent;
+    color: v.$color-ink;
     font-weight: v.$font-weight-bold;
   }
 }

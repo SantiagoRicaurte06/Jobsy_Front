@@ -1,0 +1,39 @@
+<div class="barra" role="group" [attr.aria-label]="titulo()">
+  <div class="fila_barra">
+    <span class="rotulo_barra">{{ titulo() }}</span>
+
+    <div class="dias_barra" role="group" aria-label="Días">
+      @for (d of dias7; track d) {
+        <button type="button" class="dia_barra" [class.is-activa]="dias().includes(d)"
+          [attr.aria-pressed]="dias().includes(d)" [attr.aria-label]="nombreDia[d]" (click)="alternarDia(d)">
+          {{ inicial[d] }}
+        </button>
+      }
+    </div>
+
+    @if (conHoras()) {
+      <div class="horas_barra" role="group" aria-label="Horas por día">
+        <button type="button" (click)="cambiarHoras(-1)" [disabled]="!dias().length || horas() <= horasMin" aria-label="Una hora menos">
+          <jobsy-icon name="minus" />
+        </button>
+        <output aria-live="polite">{{ horas() }} h / día</output>
+        <button type="button" (click)="cambiarHoras(1)" [disabled]="!dias().length || horas() >= horasMax" aria-label="Una hora más">
+          <jobsy-icon name="plus" />
+        </button>
+      </div>
+    }
+
+    @if (hayAlgo()) {
+      <button type="button" class="limpiar_barra" (click)="limpiar()">Quitar</button>
+    }
+  </div>
+
+  @if (oficios().length) {
+    <div class="oficios_barra" role="group" aria-label="Oficio">
+      @for (o of oficios(); track o) {
+        <button type="button" class="oficio_barra" [class.is-activa]="oficio() === o"
+          [attr.aria-pressed]="oficio() === o" (click)="alternarOficio(o)">{{ o }}</button>
+      }
+    </div>
+  }
+</div>

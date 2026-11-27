@@ -1,12 +1,11 @@
 
 <div class="lista_pasos tarjeta">
-  <header class="encabezado_lista_pasos">
-    <jobsy-logo variant="color" size="grande" />
-    <h1 class="titulo_lista_pasos"> YA CASI ESTAMOS </h1>
-    <p class="subtitulo_lista_pasos">
-      Necesitamos {{ cantidadTexto() }} Datos Mas Para Completar Tu Perfil
-      @if(rol() === 'empleado') { de empleo } @else { de empleador}.
-      Te Toma Menos De Tres Minutos
+  <header class="cabecera_lista_pasos">
+    <h1>Ya casi estamos</h1>
+    <p>
+      Necesitamos {{ cantidadTexto() }} datos más para completar tu perfil
+      @if (rol() === 'empleador') { de empleador } @else { de empleo }.
+      Te toma menos de tres minutos.
     </p>
   </header>
 
@@ -14,7 +13,7 @@
     @for (item of items(); track item.title; let i = $index) {
       <li class="elemento_lista_pasos">
         <span class="numero_lista_pasos">{{ i + 1 }}</span>
-        <span class="icono_lista_pasos" aria-hidden="true">{{ item.icon }}</span>
+        <span class="icono_lista_pasos" aria-hidden="true"><jobsy-icon [name]="item.icon" /></span>
         <div>
           <strong>{{ item.title }}</strong>
           <span>{{ item.text }}</span>
@@ -26,6 +25,6 @@
   <button type="button" class="boton_principal boton_ancho" (click)="start()">Empezar</button>
 
   <p class="omitir_lista_pasos">
-    <a routerLink="/app/inicio">Completar mas tarde</a>
+    <a routerLink="/app/inicio">Completar más tarde</a>
   </p>
 </div>

@@ -1,6 +1,15 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
+// ---- Cabecera editorial ----
+.cabecera_hoja_vida {
+  padding-bottom: v.$space-4;
+  border-bottom: 3px solid v.$color-cta;
+
+  h1 { @include m.display(v.$font-size-2xl); }
+}
+
+
 .guardado_hoja_vida {
   padding: v.$space-3 v.$space-4;
   margin-bottom: v.$space-4;
@@ -17,7 +26,7 @@
 
   h2 {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-base;
+    @include m.display(v.$font-size-lg, v.$font-weight-bold);
   }
 }
 
@@ -48,10 +57,9 @@
 
 // ---- Entradas repetibles ----
 .entrada_hoja_vida {
-  padding: v.$space-4;
-  margin-bottom: v.$space-3;
-  background: v.$color-bg;
-  border-radius: v.$radius-md;
+  padding-block: v.$space-5;
+
+  & + & { border-top: 1px solid v.$color-border; }
 }
 
 .encabezado_entrada_hoja_vida {
@@ -62,18 +70,12 @@
 }
 
 .numero_entrada_hoja_vida {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  background: v.$color-primary-light;
-  border-radius: 50%;
-  color: v.$color-text-invert;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-bold;
+  @include m.etiqueta;
+  margin: 0;
 }
 
 .quitar_hoja_vida {
+  min-height: 44px; // objetivo táctil
   padding: 0;
   background: none;
   border: none;
@@ -122,14 +124,21 @@
   font-size: v.$font-size-xs;
   color: v.$color-primary;
 
+  // El círculo visible es chico, pero el área táctil llega a 32 px
+  // (con el espaciado entre fichas cumple el mínimo de 24 px de WCAG 2.5.8).
   button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin: -6px -8px -6px 0;
     padding: 0;
     background: none;
     border: none;
+    border-radius: 50%;
     color: v.$color-primary;
     cursor: pointer;
-    opacity: 0.6;
 
-    &:hover { opacity: 1; }
+    &:hover { background: rgba(22, 104, 179, 0.12); }
   }
 }

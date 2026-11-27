@@ -34,15 +34,15 @@ export interface Cart {
   total: number;
 }
 
+/** Reseña de un producto de la tienda, guardada en el MID. */
 export interface ProductReview {
   id: string;
   productoId: string;
   autor: string;
-  calificacion: number; // 1 to 5
+  calificacion: number; // 1 a 5
   titulo: string;
   comentario: string;
-  fotos?: string[]; // base64 or image URLs
-  fecha: string; // ISO date string or relative display
+  fotos?: string[]; // URLs de las fotos
+  fecha: string; // ISO
   verificado?: boolean;
 }
-

@@ -1,10 +1,7 @@
 <div class="acceso tarjeta">
   <header class="encabezado_acceso">
-    <a routerLink="/" class="marca_acceso" aria-label="Ir al inicio">
-      <jobsy-logo variant="color" size="grande" />
-    </a>
     <h1 class="titulo_acceso">Bienvenido de nuevo</h1>
-    <p class="subtitulo_acceso">Inicia sesion para continuar en Jobsy</p>
+    <p class="subtitulo_acceso">Inicia sesión para continuar en Jobsy.</p>
   </header>
 
   @if (motivo) {
@@ -13,7 +10,7 @@
 
   <form (ngSubmit)="submit()">
     <div class="grupo_campo">
-      <label class="etiqueta" for="usuario">Usuario o correo electronico</label>
+      <label class="etiqueta" for="usuario">Usuario o correo electrónico</label>
       <div class="campo_acceso">
         <span class="icono_acceso" aria-hidden="true"><jobsy-icon name="user" /></span>
         <input
@@ -30,7 +27,7 @@
     </div>
 
     <div class="grupo_campo">
-      <label for="password" class="etiqueta">Contrasena</label>
+      <label for="password" class="etiqueta">Contraseña</label>
       <div class="campo_acceso">
         <span class="icono_acceso" aria-hidden="true"><jobsy-icon name="lock" /></span>
         <input
@@ -48,14 +45,14 @@
           type="button"
           class="ojo_acceso"
           (click)="togglePassword()"
-          [attr.aria-label]="showPassword() ? 'Ocultar contrasena' : 'Mostrar contrasena'"
+          [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
         >
           <jobsy-icon [name]="showPassword() ? 'eye-off' : 'eye'" />
         </button>
       </div>
     </div>
     <p class="olvide_acceso">
-      <a routerLink="/auth/recuperar">&iquest;Olvidaste tu contrasena?</a>
+      <a routerLink="/auth/recuperar">&iquest;Olvidaste tu contraseña?</a>
     </p>
 
     @if (error()) {
@@ -63,7 +60,7 @@
     }
 
     <button type="submit" class="boton_principal boton_ancho" [disabled]="cargando()">
-      {{cargando() ? 'Ingresando...' : 'Iniciar Sesion' }}
+      {{cargando() ? 'Ingresando...' : 'Iniciar sesión' }}
     </button>
   </form>
 

@@ -14,7 +14,9 @@ export class ProductService {
 
   list(categoria?: string, page = 1, pageSize = 9): Observable<Paginated<Product>> {
     if (environment.useMocks) {
-      const items = categoria ? MOCK_PRODUCTS.filter((p) => p.categoria === categoria) : [...MOCK_PRODUCTS];
+      // La tienda publica no muestra borradores (igual que el middleware).
+      const visibles = MOCK_PRODUCTS.filter((p) => p.estado !== 'borrador');
+      const items = categoria ? visibles.filter((p) => p.categoria === categoria) : visibles;
       return mockResponse(paginate(items, page, pageSize));
     }
     return this.api.get<Paginated<Product>>(`${this.tienda}/productos`, { categoria: categoria ?? '', page, pageSize });

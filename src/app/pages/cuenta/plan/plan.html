@@ -8,7 +8,7 @@
      <div>
       <span class="etiqueta_plan_cuenta">Tu plan actual</span>
       <strong class="nombre_plan_cuenta">{{ currentPlanName() }}</strong>
-      <span class="texto_mini texto_gris">Renueva el {{ sub.fechaRenovacion }}</span>
+      <span class="texto_mini texto_gris">Renueva el {{ sub.fechaRenovacion | date: 'longDate' }}</span>
      </div>
 
      <span [class]="sub.activa ? 'pildora_exito' : 'pildora_aviso'">
@@ -18,14 +18,14 @@
     
   }
 
-  <h2 class="titulo_plan_cuenta"> Planes disponibles</h2>
+  <h2 class="titulo_plan_cuenta">Planes disponibles</h2>
 
   <div class="rejilla_plan_cuenta">
     @for (plan of plans(); track plan.id){
       <article class="tarjeta_plan_cuenta tarjeta" [class.is-current]= "esActual(plan.id)"
       [class.is-featured]="plan.destacado">
       @if (plan.destacado) {
-        <span class="distintivo_plan_cuenta">Mas popular</span>
+        <span class="distintivo_plan_cuenta">Más popular</span>
       }
       <h3 class="nombre_tarjeta_plan_cuenta">{{plan.nombre}}</h3>
 
@@ -57,7 +57,7 @@
     }
   </div>
     <p class="nota_plan_cuenta">
-      Puedes cambiar o cancelar tu plan en cualquier momento. Los cambios se aplican en el siguiente ciclo de facturacion.
+      Puedes cambiar o cancelar tu plan en cualquier momento. Los cambios se aplican en el siguiente ciclo de facturación.
     </p>
   </div>
 }

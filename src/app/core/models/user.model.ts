@@ -36,6 +36,7 @@ export interface UserDocument {
   archivoUrl: string;
   estado: 'pendiente' | 'verificado' | 'rechazado';
   notas?: string;
+  fecha?: string;
 }
 
 export interface RegisterRequest {

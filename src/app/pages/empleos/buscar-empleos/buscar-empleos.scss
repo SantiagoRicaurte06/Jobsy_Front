@@ -1,61 +1,198 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-// ---- Portada ----
-.portada_empleos {
-  background: v.$gradient-band;
-  color: v.$color-text-invert;
+// ---- Cabeza: título y buscador sobre arena ----
+.cabeza_empleos {
+  padding-block: v.$space-7 v.$space-6;
+  background: v.$color-sand;
+  border-bottom: v.$border-width solid v.$color-border;
 }
 
-.interior_portada_empleos {
-  @include m.container;
+.titulo_empleos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: v.$space-3 v.$space-5;
+  margin-bottom: v.$space-5;
+
+  h1 {
+    margin: 0;
+    max-width: 16ch;
+    @include m.display(clamp(2.2rem, 5vw, 3.75rem));
+  }
+}
+
+jobsy-search-bar { max-width: 860px; }
+
+// ---- Cuerpo: filtros + resultados ----
+.cuerpo_empleos {
+  display: grid;
+  grid-template-columns: 272px minmax(0, 1fr);
+  gap: v.$space-7;
+  padding-top: v.$space-6;
+
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
+.lateral_empleos {
+  position: sticky;
+  top: calc(#{v.$header-height} + #{v.$space-5});
+  align-self: start;
+
+  // En celular y tableta los filtros viven en una hoja que sube desde abajo.
+  @include m.until(v.$bp-lg) {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 300;
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: v.$space-5 v.$space-4 v.$space-4;
+    border-radius: v.$radius-xl v.$radius-xl 0 0;
+    background: v.$color-bg;
+    box-shadow: v.$shadow-lg;
+    transform: translateY(105%);
+    visibility: hidden;
+    transition: transform 0.35s v.$ease-out, visibility 0s linear 0.35s;
+
+    &.is-abierto {
+      transform: none;
+      visibility: visible;
+      transition: transform 0.35s v.$ease-out;
+    }
+  }
+}
+
+.encabezado_lateral_empleos {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: v.$space-5;
-  padding-block: v.$space-6;
+  margin-bottom: v.$space-4;
+
+  h2 { margin: 0; font-size: v.$font-size-xl; }
+}
+
+.cerrar_lateral_empleos {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: v.$color-sand;
+  color: v.$color-ink;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  @include m.until(v.$bp-lg) { display: grid; }
+}
+
+.ver_resultados_empleos {
+  display: none;
+  margin-top: v.$space-5;
+
+  @include m.until(v.$bp-lg) { display: inline-flex; }
+}
+
+.velo_empleos {
+  display: none;
 
   @include m.until(v.$bp-lg) {
-    flex-direction: column;
-    text-align: center;
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 299;
+    background: rgba(19, 35, 58, 0.48);
   }
 }
 
-.titulo_portada_empleos {
-  margin: 0 0 v.$space-2;
-  font-size: v.$font-size-2xl;
-  letter-spacing: -0.01em;
+// ---- Resultados ----
+.barra_resultados_empleos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-3;
+  min-height: 44px;
+  margin-bottom: v.$space-4;
 }
 
-.texto_portada_empleos {
+.conteo_empleos {
   margin: 0;
-  font-size: v.$font-size-sm;
-  opacity: 0.9;
+  font-family: v.$font-family-display;
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-ink;
 }
 
-.acciones_portada_empleos {
+.abrir_filtros_empleos {
+  display: none;
+
+  @include m.until(v.$bp-lg) { display: inline-flex; }
+}
+
+.cuenta_filtros_empleos {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: v.$radius-pill;
+  background: v.$color-select;
+  color: v.$color-select-ink;
+  font-size: 0.75rem;
+  font-weight: v.$font-weight-black;
+}
+
+.fichas_empleos {
   display: flex;
   flex-wrap: wrap;
-  gap: v.$space-3;
-}
+  gap: v.$space-2;
+  margin-bottom: v.$space-5;
 
-// ---- Listado ----
-.buscar_empleos {
-  padding-block: v.$space-6;
-}
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space-2;
+    min-height: 44px;
+    padding: 0 v.$space-3;
+    border: v.$border-width solid v.$color-ink;
+    border-radius: v.$radius-pill;
+    background: v.$color-surface;
+    color: v.$color-ink;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-bold;
+    cursor: pointer;
 
-.cuerpo_buscar_empleos {
-  display: grid;
-  gap: v.$space-5;
+    &:hover { background: v.$color-sand; }
+  }
 
-  // Con los filtros abiertos aparece la columna lateral.
-  &.con_filtros {
-    grid-template-columns: 260px 1fr;
-
-    @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+  .limpiar_empleos {
+    border-color: transparent;
+    background: none;
+    color: v.$color-primary-light;
+    text-decoration: underline;
   }
 }
 
-.resultados_buscar_empleos { min-width: 0; }
+.rejilla_empleos {
+  @include m.grid-cards(280px);
+}
 
-.rejilla_buscar_empleos { @include m.grid-cards(300px); }
+.semana_empleos { margin-top: v.$space-5; }
+
+.orden_empleos { color: v.$color-text-muted; font-weight: v.$font-weight-semibold; }
+
+// Las tarjetas entran escalonadas cada vez que cambia la lista.
+.rejilla_empleos jobsy-job-card { animation: subir 0.5s v.$ease-out both; animation-delay: calc(var(--i) * 50ms); }
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rejilla_empleos jobsy-job-card { animation: none; }
+}

@@ -1,0 +1,76 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+.paneles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: v.$space-5;
+
+  h3 { margin: v.$space-5 0 v.$space-2; font-size: v.$font-size-lg; }
+  p { margin: 0; color: v.$color-text-muted; line-height: 1.5; }
+}
+
+.lienzo_panel {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 300px;
+  border-radius: v.$radius-xl;
+  overflow: hidden;
+}
+
+.lienzo_azul { background: v.$color-primary; }
+.lienzo_verde { background: v.$color-select; }
+.lienzo_tinta { background: v.$color-ink; }
+
+.telefono {
+  display: grid;
+  align-content: start;
+  gap: v.$space-2;
+  width: 232px;
+  height: 262px;
+  padding: v.$space-5 v.$space-4;
+  border: 10px solid #0B1524;
+  border-bottom: 0;
+  border-radius: 30px 30px 0 0;
+  background: v.$color-surface;
+  font-size: 0.8rem;
+  transition: transform 0.5s v.$ease-out;
+
+  .panel:hover & { transform: translateY(-10px); }
+
+  p { margin: 0; color: v.$color-ink; }
+}
+
+.telefono_centro { justify-items: center; text-align: center; }
+
+.mini_gris { color: v.$color-text-muted !important; }
+.mini_titulo { font-weight: v.$font-weight-bold; font-size: 0.95rem; }
+.mini_cifra { @include m.display(1.6rem); small { font-size: 0.7rem; font-weight: 500; } }
+.mini_cara { width: 64px; height: 64px; border-radius: v.$radius-md; background: v.$color-primary-bg; }
+
+.mini_sello {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: v.$radius-pill;
+  background: v.$color-success-pale;
+  color: v.$color-success;
+  font-weight: v.$font-weight-bold;
+}
+
+.mini_fila { display: flex; justify-content: space-between; span { color: v.$color-text-muted; } }
+.mini_total { padding-top: v.$space-2; border-top: 1px solid v.$color-border; b { @include m.display(1.3rem); } }
+
+.mini_boton {
+  margin-top: v.$space-2;
+  padding: v.$space-2;
+  border-radius: v.$radius-pill;
+  background: v.$color-cta;
+  color: v.$color-cta-ink;
+  text-align: center;
+  font-weight: v.$font-weight-bold;
+}
+
+.mini_boton_tinta { background: v.$color-ink; color: v.$color-white; }

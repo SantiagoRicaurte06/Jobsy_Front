@@ -1,13 +1,12 @@
 import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services';
-import { LogoComponent } from '../../../shared/components/logo/logo';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-login-success',
   standalone: true,
-  imports: [IconComponent, RouterLink, LogoComponent],
+  imports: [IconComponent, RouterLink],
   templateUrl: './ingreso-exitoso.html',
   styleUrl: './ingreso-exitoso.scss',
 })

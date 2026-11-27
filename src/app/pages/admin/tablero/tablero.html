@@ -5,16 +5,23 @@
     <!-- Cabecera -->
     <header class="admin-tablero__head">
       <div>
-        <h1 class="admin-tablero__title">Dashboard</h1>
+        <h1 class="admin-tablero__title">Tablero</h1>
         <p class="admin-tablero__updated">
           <span class="admin-tablero__dot" aria-hidden="true"></span>
-          Actualizado hace 3 min &mdash; martes 3 de marzo, 2026
+          Datos cargados {{ cargadoEn() | date: "EEEE d 'de' MMMM, h:mm a" }}
         </p>
       </div>
 
       <div class="admin-tablero__actions">
-        <button type="button" class="boton_simple boton_chico" (click)="exportar()" [disabled]="cargando()"><jobsy-icon name="download" /> Exportar</button>
-        <a routerLink="/admin/productos" [queryParams]="{ nuevo: 1 }" class="boton_principal boton_chico">+ Nuevo Producto</a>
+        <button type="button" class="boton_simple boton_chico" (click)="cargar()" [disabled]="recargando()">
+          <jobsy-icon name="rotate-cw" /> {{ recargando() ? 'Actualizando…' : 'Actualizar' }}
+        </button>
+        <button type="button" class="boton_simple boton_chico" (click)="exportar()" [disabled]="recargando()">
+          <jobsy-icon name="download" /> Exportar CSV
+        </button>
+        <a routerLink="/admin/productos" [queryParams]="{ nuevo: 1 }" class="boton_principal boton_chico">
+          <jobsy-icon name="plus" /> Nuevo producto
+        </a>
       </div>
     </header>
 
@@ -22,34 +29,28 @@
     <div class="admin-tablero__kpis">
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="banknote" /></span>
-        <span class="admin-tablero__kpi-delta">+18%</span>
+        <span class="admin-tablero__kpi-delta">Hoy {{ stats()!.ingresosHoy | cop }}</span>
         <strong>{{ stats()!.ventasMes | cop }}</strong>
         <span class="admin-tablero__kpi-label">Ventas este mes (COP)</span>
-        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--blue"></div>
       </div>
 
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="package" /></span>
-        <span class="admin-tablero__kpi-delta">+24</span>
+        <span class="admin-tablero__kpi-delta">Hoy {{ stats()!.pedidosHoy }}</span>
         <strong>{{ stats()!.pedidosMes }}</strong>
         <span class="admin-tablero__kpi-label">Pedidos este mes</span>
-        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--green"></div>
       </div>
 
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="user" /></span>
-        <span class="admin-tablero__kpi-delta">+12</span>
         <strong>{{ stats()!.clientesRegistrados }}</strong>
         <span class="admin-tablero__kpi-label">Clientes registrados</span>
-        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--orange"></div>
       </div>
 
       <div class="admin-tablero__kpi tarjeta">
         <span class="admin-tablero__kpi-icon" aria-hidden="true"><jobsy-icon name="star" /></span>
-        <span class="admin-tablero__kpi-delta">+0.2</span>
         <strong>{{ stats()!.calificacionPromedio }}</strong>
-        <span class="admin-tablero__kpi-label">Calificacion promedio</span>
-        <div class="admin-tablero__kpi-bar admin-tablero__kpi-bar--purple"></div>
+        <span class="admin-tablero__kpi-label">Calificación promedio de productos</span>
       </div>
     </div>
 
@@ -63,60 +64,16 @@
             <span class="admin-tablero__year">{{ ano }}</span>
           </div>
 
-          <jobsy-bar-chart [data]="ventas()" unit="COP (miles)" />
+          <jobsy-bar-chart [data]="ventas()" unit="miles de COP" serie="Ventas del mes" />
         </section>
 
-        <!-- Productos mas vendidos -->
-        <section class="tarjeta admin-tablero__panel">
-          <div class="admin-tablero__panel-head">
-            <h2><jobsy-icon name="shopping-cart" /> Catalogo de la tienda</h2>
-            <a routerLink="/admin/productos">Gestionar <jobsy-icon name="arrow-right" /></a>
-          </div>
-
-          <div class="admin-tablero__table-wrap">
-            <table class="admin-tablero__table">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Categoria</th>
-                  <th>Stock</th>
-                  <th>Precio</th>
-                  <th>Estado</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (p of topProducts(); track p.id) {
-                  <tr>
-                    <td>
-                      <div class="admin-tablero__product">
-                        <span class="admin-tablero__product-icon" aria-hidden="true"><jobsy-icon name="sparkles" /></span>
-                        <div>
-                          <strong>{{ p.nombre }}</strong>
-                          <span class="texto_mini texto_gris">{{ p.sku }}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{{ p.categoria }}</td>
-                    <td>
-                      <span [class.admin-tablero__stock-low]="p.stock <= 5">{{ p.stock }} u.</span>
-                    </td>
-                    <td class="precio">{{ p.precio | cop }}</td>
-                    <td><span [class]="estadoClass(p.estado)">{{ p.estado }}</span></td>
-                    <td><a routerLink="/admin/productos" class="boton_simple boton_chico">Editar</a></td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </section>
       </div>
 
       <!-- ===== Columna lateral ===== -->
       <div class="admin-tablero__side">
         <!-- Resumen rapido -->
         <section class="tarjeta admin-tablero__panel">
-          <h2 class="admin-tablero__panel-title"><jobsy-icon name="zap" /> Resumen rapido</h2>
+          <h2 class="admin-tablero__panel-title"><jobsy-icon name="zap" /> Resumen rápido</h2>
 
           <div class="admin-tablero__quick">
             @for (r of resumen(); track r.label) {
@@ -147,7 +104,7 @@
                 <span class="admin-tablero__order-num">{{ o.numero }}</span>
                 <div class="admin-tablero__order-info">
                   <strong>{{ o.items[0]?.nombre ?? 'Pedido' }}</strong>
-                  <span class="texto_mini texto_gris">{{ o.items.length }} articulo(s)</span>
+                  <span class="texto_mini texto_gris">{{ o.items.length }} artículo(s)</span>
                 </div>
                 <div class="admin-tablero__order-right">
                   <strong>{{ o.total | cop }}</strong>
@@ -187,4 +144,16 @@
       </div>
     </div>
   </section>
+}
+
+@if (porReembolsar(); as o) {
+  <jobsy-confirmacion
+    [titulo]="'¿Reembolsar el pedido ' + o.numero + '?'"
+    [mensaje]="'Se devolverán ' + (o.total | cop) + ' al cliente por el medio con que pagó. El pedido quedará como reembolsado.'"
+    textoAceptar="Reembolsar"
+    peligro
+    pedirMotivo
+    etiquetaMotivo="Motivo del reembolso"
+    (aceptar)="confirmarReembolso(o, $event)"
+    (cancelar)="porReembolsar.set(null)" />
 }

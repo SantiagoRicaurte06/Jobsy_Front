@@ -2,16 +2,11 @@
   @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="encabezado_seccion">
-      <h1>Mi perfil</h1>
-      <a routerLink="/app/perfil/editar" class="boton_principal boton_chico">Editar perfil</a>
-    </div>
-
-    <!-- Cabecera -->
-    <header class="perfil__head tarjeta">
+    <!-- Cabecera con campo azul -->
+    <header class="perfil__head">
       <div class="perfil__avatar">
         @if (user()?.fotoUrl) {
-          <img [src]="user()!.fotoUrl" [alt]="'Foto de perfil de' +user()!.nombre" />
+          <img loading="lazy" decoding="async" [src]="user()!.fotoUrl" [alt]="'Foto de perfil de' +user()!.nombre" />
         } @else {
           <span aria-hidden="true">{{ user()?.nombre?.charAt(0) }}</span>
           <span class="sr-only">{{ user()?.nombre}}</span>
@@ -19,7 +14,7 @@
       </div>
 
       <div class="perfil__identity">
-        <h2 class="perfil__name">{{ user()?.nombre }} {{ user()?.apellido }}</h2>
+        <h1 class="perfil__name">{{ user()?.nombre }} {{ user()?.apellido }}</h1>
 
         <div class="perfil__badges">
           <span class="pildora_info">{{ user()?.rol }}</span>
@@ -35,7 +30,10 @@
         <p class="perfil__city"><jobsy-icon name="map-pin" /> {{ user()?.ciudad }}</p>
       </div>
 
-      <a routerLink="/app/perfil/subir-foto" class="boton_simple boton_chico">Cambiar foto</a>
+      <div class="perfil__head-actions">
+        <a routerLink="/app/perfil/editar" class="perfil__btn-editar">Editar perfil</a>
+        <a routerLink="/app/perfil/subir-foto" class="perfil__btn-foto">Cambiar foto</a>
+      </div>
     </header>
 
     <div class="perfil__grid">
@@ -46,7 +44,7 @@
         <dl class="perfil__data">
           <div><dt>Nombre</dt><dd>{{ user()?.nombre }} {{ user()?.apellido }}</dd></div>
           <div><dt>Correo</dt><dd>{{ user()?.email }}</dd></div>
-          <div><dt>Telefono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
+          <div><dt>Teléfono</dt><dd>{{ user()?.telefono || 'Sin registrar' }}</dd></div>
           <div><dt>Ciudad</dt><dd>{{ user()?.ciudad }}</dd></div>
           <div><dt>Miembro desde</dt><dd>{{ user()?.fechaRegistro | date: 'longDate' }}</dd></div>
         </dl>
@@ -61,7 +59,7 @@
             @for (skill of e.especialidades; track skill) {
               <li class="pildora_info">{{ skill }}</li>
             } @empty {
-              <li>Aun no tienes especialidades registradas.</li>
+              <li>Aún no tienes especialidades registradas.</li>
             }
           </ul>
 
@@ -74,7 +72,7 @@
             </div>
             <div>
               <strong>{{ e.calificacion.toFixed(1) }}</strong>
-              <span>Calificacion</span>
+              <span>Calificación</span>
             </div>
           </div>
         </section>
@@ -82,7 +80,7 @@
 
       <!-- Documentos de verificacion -->
       <section class="perfil__block tarjeta">
-        <h3>Documentos de verificacion</h3>
+        <h3>Documentos de verificación</h3>
 
         <ul class="perfil__docs">
           @for (d of documentos(); track d.id) {
@@ -135,7 +133,7 @@
       <a routerLink="/app/configuracion" class="tarjeta">
         <span aria-hidden="true"><jobsy-icon name="settings" /></span>
         <div>
-          <strong>Configuracion</strong>
+          <strong>Configuración</strong>
           <span>Notificaciones, privacidad y seguridad</span>
         </div>
       </a>

@@ -1,11 +1,14 @@
-<div class="ventana" role="dialog" aria-modal="true">
+<div class="ventana">
   <!-- Clic fuera del panel cierra el modal -->
-  <div class="fondo_ventana" (click)="cerrar.emit()"></div>
+  <div class="fondo_ventana" (click)="cerrar.emit()" aria-hidden="true"></div>
 
-  <div class="panel_ventana">
+  <div class="panel_ventana" #panel role="dialog" aria-modal="true"
+    [attr.aria-labelledby]="title() ? idTitulo : null"
+    [attr.aria-label]="title() ? null : 'Ventana'"
+    tabindex="-1">
     <header class="encabezado_ventana">
       <div>
-        @if (title()) { <h2 class="titulo_ventana">{{ title() }}</h2> }
+        @if (title()) { <h2 class="titulo_ventana" [id]="idTitulo">{{ title() }}</h2> }
         @if (subtitle()) { <p class="subtitulo_ventana">{{ subtitle() }}</p> }
       </div>
 

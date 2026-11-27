@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'mixins' as m;
 
 .ingreso-exitoso {
   display: flex;
@@ -14,7 +15,7 @@
     place-items: center;
     width: 64px;
     height: 64px;
-    margin: v.$space-5 0 v.$space-4;
+    margin: 0 0 v.$space-4;
     background: v.$color-success-pale;
     border-radius: 50%;
     color: v.$color-success;
@@ -23,7 +24,7 @@
 
   &__title {
     margin: 0 0 v.$space-2;
-    font-size: v.$font-size-lg;
+    @include m.display(v.$font-size-xl);
   }
 
   &__text {

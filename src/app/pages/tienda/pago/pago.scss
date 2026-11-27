@@ -5,8 +5,8 @@
   padding-block: v.$space-6;
 
   &__title {
+    @include m.display(v.$font-size-2xl);
     margin: 0 0 v.$space-5;
-    font-size: v.$font-size-xl;
   }
 
   &__grid {
@@ -37,24 +37,29 @@
     background: v.$color-surface;
     border: 2px solid v.$color-border;
     border-radius: v.$radius-md;
+    min-height: 44px;
     color: v.$color-text;
     font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-medium;
+    font-weight: v.$font-weight-semibold;
     text-align: center;
-    transition: all v.$transition-fast;
+    transition: border-color v.$transition-fast, background-color v.$transition-fast, color v.$transition-fast;
 
-    span { font-size: v.$font-size-lg; }
+    span { font-size: v.$font-size-lg; color: v.$color-primary; }
 
     &:hover {
-      border-color: v.$color-primary-light;
+      border-color: v.$color-ink;
       text-decoration: none;
     }
 
+    &:focus-visible { @include m.focus-ring; }
+
+    // El naranja queda para la única acción (pagar): el método elegido va en tinta.
     &.is-active {
-      border-color: v.$color-accent;
-      background: v.$color-accent-pale;
-      color: v.$color-accent-dark;
-      font-weight: v.$font-weight-semibold;
+      border-color: v.$color-ink;
+      background: v.$color-ink;
+      color: v.$color-bg;
+
+      span { color: v.$color-cta; }
     }
   }
 
@@ -63,6 +68,9 @@
   // ---- Resumen ----
   &__summary {
     padding: v.$space-5;
+    border: v.$border-width solid v.$color-ink;
+    border-radius: v.$radius-xl;
+    box-shadow: v.$shadow-md;
     position: sticky;
     top: calc(#{v.$header-height} + #{v.$space-4});
 
@@ -70,14 +78,16 @@
   }
 
   &__summary-title {
+    @include m.display(v.$font-size-lg, v.$font-weight-bold);
     margin: 0 0 v.$space-4;
-    font-size: v.$font-size-base;
   }
 
   &__items {
     margin-bottom: v.$space-4;
     padding-bottom: v.$space-4;
-    border-bottom: 1px solid v.$color-border;
+    border-bottom: v.$border-width dashed v.$color-border;
+    list-style: none;
+    padding-left: 0;
 
     li {
       display: flex;
@@ -107,11 +117,21 @@
   }
 
   &__lines-total {
-    padding-top: v.$space-3;
-    border-top: 1px solid v.$color-border;
-    font-weight: v.$font-weight-semibold;
+    align-items: baseline;
+    margin-top: v.$space-3;
+    padding: v.$space-4;
+    border-radius: v.$radius-md;
+    background: v.$color-sand;
 
-    dd { font-size: v.$font-size-lg; }
+    dt { color: v.$color-ink; font-weight: v.$font-weight-bold; }
+
+    dd {
+      font-family: v.$font-family-display;
+      font-size: v.$font-size-xl;
+      font-weight: v.$font-weight-black;
+      letter-spacing: -0.03em;
+      color: v.$color-ink;
+    }
   }
 
   &__back {
@@ -125,15 +145,39 @@
 // ---- Pasos y datos de entrega ----
 .pago__pasos {
   display: flex;
-  gap: v.$space-4;
-  margin: 0 0 v.$space-4;
+  flex-wrap: wrap;
+  gap: v.$space-3;
+  margin: 0 0 v.$space-5;
   padding: 0;
   list-style: none;
   font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
   color: v.$color-text-muted;
 
-  .is-actual { font-weight: v.$font-weight-semibold; color: v.$color-primary; }
+  li {
+    display: flex;
+    align-items: center;
+    gap: v.$space-2;
+    padding: v.$space-1 v.$space-4 v.$space-1 v.$space-1;
+    border: v.$border-width solid v.$color-border;
+    border-radius: v.$radius-pill;
+    background: v.$color-surface;
+  }
+
+  .is-actual { border-color: v.$color-ink; color: v.$color-ink; }
+  .is-actual .pago__paso-num { background: v.$color-ink; color: v.$color-bg; }
   .is-hecho { color: v.$color-success; }
+  .is-hecho .pago__paso-num { background: v.$color-success-pale; color: v.$color-success; }
+}
+
+.pago__paso-num {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: v.$color-sand;
+  font-variant-numeric: tabular-nums;
 }
 
 .entrega {

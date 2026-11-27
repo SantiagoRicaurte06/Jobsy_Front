@@ -9,11 +9,12 @@ import { CopPipe } from '../../../shared/pipes';
 import { BarChartComponent, BarDatum } from '../../../shared/components/bar-chart/bar-chart';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { ConfirmacionComponent } from '../../../shared/components/confirmacion/confirmacion';
 
 @Component({
   selector: 'jobsy-admin-dashboard',
   standalone: true,
-  imports: [IconComponent, RouterLink, CopPipe, BarChartComponent, LoadingSpinnerComponent, DatePipe],
+  imports: [IconComponent, RouterLink, CopPipe, BarChartComponent, LoadingSpinnerComponent, DatePipe, ConfirmacionComponent],
   templateUrl: './tablero.html',
   styleUrl: './tablero.scss',
 })
@@ -25,6 +26,11 @@ export class AdminDashboardPage implements OnInit {
   readonly stats = signal<AdminStats | undefined>(undefined);
   readonly recentOrders = signal<Order[]>([]);
   readonly cargando = signal(true);
+  readonly recargando = signal(false);
+  /** Momento real de la última carga (antes era un texto fijo de marzo). */
+  readonly cargadoEn = signal(new Date());
+  /** Pedido que espera confirmación de reembolso. */
+  readonly porReembolsar = signal<Order | null>(null);
 
   // Estos vienen del almacen editable: reflejan lo que acabas de cambiar.
   readonly topProducts = this.store.products;
@@ -41,18 +47,10 @@ export class AdminDashboardPage implements OnInit {
 
   /** Se recalcula solo cuando editas productos o reportes. */
   readonly resumen = computed(() => {
-    const s = this.stats();
-    const satisfaccion = s && s.satisfaccion > 0;
     return [
-      { label: 'Productos', value: String(this.totalProductos()), delta: 'en catalogo', tone: 'up' },
+      { label: 'Productos', value: String(this.totalProductos()), delta: 'en catálogo', tone: 'up' },
       { label: 'Reportes abiertos', value: String(this.reportesAbiertos()), delta: 'por atender', tone: this.reportesAbiertos() > 0 ? 'down' : 'up' },
-      { label: 'Stock critico', value: String(this.stockCritico()), delta: this.stockCritico() > 0 ? 'Reponer ya' : 'Todo en orden', tone: this.stockCritico() > 0 ? 'down' : 'up' },
-      {
-        label: 'Satisfaccion',
-        value: satisfaccion ? `${Math.round(s!.satisfaccion)}%` : 'Sin datos',
-        delta: satisfaccion ? `${s!.calificacionPromedio.toFixed(1)} de 5 en productos` : 'aun sin calificaciones',
-        tone: 'up',
-      },
+      { label: 'Stock crítico', value: String(this.stockCritico()), delta: this.stockCritico() > 0 ? 'Reponer ya' : 'Todo en orden', tone: this.stockCritico() > 0 ? 'down' : 'up' },
     ];
   });
 
@@ -76,9 +74,23 @@ export class AdminDashboardPage implements OnInit {
   readonly reembolsando = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.adminService.stats().subscribe((s) => {
-      this.stats.set(s);
-      this.cargando.set(false);
+    this.cargar();
+  }
+
+  /** Carga (o recarga) todo el tablero desde el servidor. */
+  cargar(): void {
+    this.recargando.set(true);
+    this.adminService.stats().subscribe({
+      next: (s) => {
+        this.stats.set(s);
+        this.cargadoEn.set(new Date());
+        this.cargando.set(false);
+        this.recargando.set(false);
+      },
+      error: () => {
+        this.cargando.set(false);
+        this.recargando.set(false);
+      },
     });
 
     this.adminService.recentOrders(4).subscribe((o) => this.recentOrders.set(o));
@@ -97,10 +109,13 @@ export class AdminDashboardPage implements OnInit {
   }
 
   reembolsar(o: Order): void {
-    const motivo = prompt(`Motivo del reembolso del pedido ${o.numero}:`);
-    if (motivo === null) return;
+    this.porReembolsar.set(o);
+  }
+
+  confirmarReembolso(o: Order, motivo: string): void {
+    this.porReembolsar.set(null);
     this.reembolsando.set(o.id);
-    this.adminService.refundOrder(o.id, motivo.trim() || 'Reembolso desde el panel').subscribe({
+    this.adminService.refundOrder(o.id, motivo || 'Reembolso desde el panel').subscribe({
       next: (r) => {
         this.recentOrders.update((lista) => lista.map((x) => (x.id === o.id ? { ...x, estado: 'reembolsado' as const } : x)));
         this.avisoReembolso.set(r.mensaje);
@@ -127,11 +142,11 @@ export class AdminDashboardPage implements OnInit {
     if (s) {
       filas.push(['Resumen', 'Valor']);
       filas.push(['Ventas del mes', s.ventasMes], ['Pedidos del mes', s.pedidosMes], ['Clientes registrados', s.clientesRegistrados],
-        ['Ingresos hoy', s.ingresosHoy], ['Pedidos hoy', s.pedidosHoy], ['Stock critico', s.stockCritico],
-        ['Calificacion promedio', s.calificacionPromedio], ['Satisfaccion %', s.satisfaccion], []);
+        ['Ingresos hoy', s.ingresosHoy], ['Pedidos hoy', s.pedidosHoy], ['Stock crítico', s.stockCritico],
+        ['Calificación promedio', s.calificacionPromedio], ['Satisfacción %', s.satisfaccion], []);
     }
     filas.push([`Ventas ${this.ano} (miles COP)`, 'Valor'], ...this.ventas().map((v) => [v.label, v.value]), []);
-    filas.push(['Pedido', 'Fecha', 'Estado', 'Metodo', 'Total']);
+    filas.push(['Pedido', 'Fecha', 'Estado', 'Método', 'Total']);
     filas.push(...this.recentOrders().map((o) => [o.numero, o.fecha, o.estado, o.metodoPago, o.total]), []);
     filas.push(['Producto', 'Stock', 'Precio']);
     filas.push(...this.topProducts().map((p) => [p.nombre, p.stock, p.precio]));

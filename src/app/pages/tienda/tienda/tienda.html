@@ -1,83 +1,94 @@
-<section class="tienda-portada">
-  <div class="tienda-portada__inner">
-    <h1 class="tienda-portada__title">Tienda Jobsy</h1>
-    <p class="tienda-portada__text">Productos profesionales para empleadores y empleados del hogar</p>
+<section class="cabeza_tienda">
+  <div class="contenedor interior_tienda">
+    <div>
+      <h1>Lo que se usa en el trabajo de casa</h1>
+      <p class="texto_tienda">
+        Insumos de aseo, equipos, uniformes y protección. Para el hogar que contrata y para quien trabaja.
+      </p>
+      <ul class="hechos_tienda">
+        <li><span class="icono_hecho"><jobsy-icon name="truck" /></span> <span><strong>Envío fijo de {{ envio | cop }}</strong> por pedido</span></li>
+        <li><span class="icono_hecho"><jobsy-icon name="credit-card" /></span> <span><strong>PSE, tarjeta, Nequi, Daviplata</strong> o saldo Jobsy</span></li>
+        <li><span class="icono_hecho"><jobsy-icon name="package" /></span> <span><strong>Existencias a la vista</strong> en cada producto</span></li>
+      </ul>
+    </div>
 
-    <ul class="tienda-portada__perks">
-      <li><jobsy-icon name="truck" /> Pago 100% seguro</li>
-      <li><jobsy-icon name="circle-check" /> Envio rapido garantizado</li>
-      <li><jobsy-icon name="star" /> Marca lider verificada</li>
-    </ul>
+    @if (destacado(); as d) {
+      <article class="destacado_tienda">
+        <a class="foto_destacado" [routerLink]="['/tienda/producto', d.id]" [attr.aria-label]="'Ver ' + d.nombre">
+          @if (d.imagenUrl) { <img [src]="d.imagenUrl" alt="" /> } @else { <jobsy-icon name="package" /> }
+          <span class="sello_destacado">Destacado</span>
+        </a>
+        <div class="datos_destacado">
+          <span class="categoria_destacado">{{ d.categoria }}</span>
+          <h2><a [routerLink]="['/tienda/producto', d.id]">{{ d.nombre }}</a></h2>
+          <p class="nota_destacado">
+            <jobsy-icon name="star" /> {{ d.calificacion.toFixed(1) }}
+            · @if (d.stock <= 5) { Quedan {{ d.stock }} } @else { Disponible }
+          </p>
+          <div class="pie_destacado">
+            <strong class="cifra">{{ d.precio | cop }}</strong>
+            @if (cantidadDestacado() > 0) {
+              <div class="cantidad_destacado" role="group" [attr.aria-label]="'Cantidad de ' + d.nombre + ' en el carrito'">
+                <button type="button" (click)="cambiarDestacado(-1)" [attr.aria-label]="cantidadDestacado() === 1 ? 'Quitar del carrito' : 'Uno menos'">
+                  <jobsy-icon [name]="cantidadDestacado() === 1 ? 'trash-2' : 'minus'" />
+                </button>
+                <output aria-live="polite">{{ cantidadDestacado() }}</output>
+                <button type="button" (click)="cambiarDestacado(1)" [disabled]="cantidadDestacado() >= d.stock" aria-label="Uno más">
+                  <jobsy-icon name="plus" />
+                </button>
+              </div>
+            } @else {
+              <button type="button" class="boton_principal" (click)="agregar(d)"><jobsy-icon name="plus" /> Agregar</button>
+            }
+          </div>
+        </div>
+      </article>
+    }
   </div>
 </section>
 
-<div class="contenedor tienda">
-  <div class="tienda__layout">
-    <!-- ---- Filtros ---- -->
-    <aside class="tienda__filters">
-      <h2 class="tienda__filters-title">Categorias</h2>
+<div class="contenedor cuerpo_tienda">
+  <nav class="categorias_tienda" aria-label="Categorías">
+    <button type="button" [class.is-activa]="categoriaActiva() === null"
+      [attr.aria-pressed]="categoriaActiva() === null" (click)="filtrarCategoria(null)">
+      Todo <span>{{ totalCatalogo() }}</span>
+    </button>
+    @for (cat of categories(); track cat.id) {
+      <button type="button" [class.is-activa]="categoriaActiva() === cat.nombre"
+        [attr.aria-pressed]="categoriaActiva() === cat.nombre" (click)="filtrarCategoria(cat.nombre)">
+        {{ cat.nombre }} <span>{{ cat.cantidadProductos }}</span>
+      </button>
+    }
+  </nav>
 
-      <ul class="tienda__cats">
-        <li>
-          <button type="button"
-            [class.is-active]="categoriaActiva() === null"
-            (click)="filtrarCategoria(null)">
-            Todas <span>{{ total() }}</span>
-          </button>
-        </li>
-
-        @for (cat of categories(); track cat.id) {
-          <li>
-            <button type="button"
-              [class.is-active]="categoriaActiva() === cat.nombre"
-              (click)="filtrarCategoria(cat.nombre)">
-              {{ cat.nombre }} <span>{{ cat.cantidadProductos }}</span>
-            </button>
-          </li>
-        }
-      </ul>
-
-      <div class="tienda__trust">
-        <h3>Compra con confianza</h3>
-        <ul>
-          <li><span><jobsy-icon name="credit-card" /></span> Pago seguro</li>
-          <li><span><jobsy-icon name="package" /></span> Envio confiable</li>
-          <li><span><jobsy-icon name="rotate-cw" /></span> Devoluciones</li>
-        </ul>
-      </div>
-    </aside>
-
-    <!-- ---- Catalogo ---- -->
-    <div class="tienda__catalog">
-      <div class="encabezado_seccion">
-        <h2>
-          @if (categoriaActiva()) { {{ categoriaActiva() }} } @else { Productos seleccionados }
-        </h2>
-
-        <a routerLink="/tienda/carrito" class="boton_secundario boton_chico">
-          Ver carrito ({{ cart.count() }})
-        </a>
-      </div>
-
-      @if (cargando()) {
-        <jobsy-loading-spinner label="Cargando productos..." />
-      } @else if (products().length === 0) {
-        <jobsy-empty-state icon="package" title="Sin productos" message="No hay productos en esta categoria." />
-      } @else {
-        <div class="tienda__grid">
-          @for (product of products(); track product.id) {
-            <div class="tienda__item">
-              <jobsy-product-card [product]="product" (agregar)="agregar($event)" />
-
-              @if (added() === product.id) {
-                <p class="tienda__added"><jobsy-icon name="check" /> Agregado al carrito</p>
-              }
-            </div>
-          }
-        </div>
-
-        <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
+  @if (cargando()) {
+    <jobsy-loading-spinner label="Cargando productos…" />
+  } @else if (products().length === 0) {
+    <jobsy-empty-state icon="package" title="Nada en esta categoría por ahora"
+      message="Mira las demás categorías; el inventario se repone seguido.">
+      <button type="button" class="boton_simple" (click)="filtrarCategoria(null)">Ver todo</button>
+    </jobsy-empty-state>
+  } @else {
+    <h2 class="oculto">Productos</h2>
+    <div class="rejilla_tienda">
+      @for (product of productosRejilla(); track product.id; let i = $index) {
+        <jobsy-product-card [product]="product" [style.--i]="i" (agregar)="agregar($event)" />
       }
     </div>
-  </div>
+
+    <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
+  }
 </div>
+
+<p class="oculto" aria-live="polite">{{ added() ? 'Agregado al carrito' : '' }}</p>
+
+@if (cart.count() > 0) {
+  <a routerLink="/tienda/carrito" class="carrito_flotante" [class.is-latido]="added()">
+    <span class="icono_carrito"><jobsy-icon name="shopping-cart" /><span class="cuenta_carrito">{{ cart.count() }}</span></span>
+    <span class="totales_carrito">
+      <strong>{{ cart.total() | cop }}</strong>
+      <small>{{ cart.subtotal() | cop }} + envío {{ cart.envio() | cop }}</small>
+    </span>
+    <span class="ver_carrito">Ver carrito <jobsy-icon name="arrow-right" /></span>
+  </a>
+}

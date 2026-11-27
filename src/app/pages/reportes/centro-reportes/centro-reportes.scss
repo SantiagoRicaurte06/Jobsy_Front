@@ -12,8 +12,10 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: v.$space-3;
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
 
-    h1 { margin: 0; }
+    h1 { margin: 0; font-size: v.$font-size-2xl; }
   }
 
   &__sub { margin: v.$space-1 0 0; font-size: v.$font-size-sm; color: v.$color-text-muted; }
@@ -44,6 +46,7 @@
 
     button {
       flex: 1;
+      min-height: 44px;
       padding: v.$space-1 v.$space-2;
       border: 1px solid transparent;
       border-radius: v.$radius-pill;
@@ -55,7 +58,7 @@
 
       span { margin-left: 2px; font-weight: v.$font-weight-semibold; }
       &:hover { color: v.$color-primary; }
-      &.is-active { background: v.$color-primary-bg; border-color: v.$color-primary-light; color: v.$color-primary; }
+      &.is-active { background: v.$color-ink; border-color: v.$color-ink; color: v.$color-bg; font-weight: v.$font-weight-semibold; }
     }
   }
 
@@ -134,13 +137,13 @@
   &__asunto { overflow: hidden; font-size: v.$font-size-sm; text-overflow: ellipsis; white-space: nowrap; }
   &__hora { flex-shrink: 0; font-size: v.$font-size-xs; color: v.$color-text-muted; }
   &__previa { @include m.line-clamp(1); font-size: v.$font-size-xs; color: v.$color-text-muted; }
-  &__estado { font-size: 11px; }
+  &__estado { font-size: 0.75rem; }
 
   &__nuevo {
     padding: 1px v.$space-2;
     border-radius: v.$radius-pill;
     background: v.$color-accent;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: v.$font-weight-semibold;
     color: v.$color-text-invert;
   }
@@ -199,7 +202,7 @@
     flex: 1;
     position: relative;
     padding-top: 14px;
-    font-size: 11px;
+    font-size: 0.75rem;
     color: v.$color-text-muted;
     text-align: center;
 
@@ -234,7 +237,7 @@
     margin: v.$space-2 0;
     text-align: center;
 
-    span { padding: 2px v.$space-3; border-radius: v.$radius-pill; background: v.$color-surface; font-size: 11px; color: v.$color-text-muted; box-shadow: v.$shadow-sm; }
+    span { padding: 2px v.$space-3; border-radius: v.$radius-pill; background: v.$color-surface; font-size: 0.75rem; color: v.$color-text-muted; box-shadow: v.$shadow-sm; }
   }
 
   &__msg {
@@ -270,8 +273,8 @@
   }
 
   &__msg.is-mio &__burbuja { border-radius: v.$radius-lg v.$radius-lg 4px v.$radius-lg; background: v.$color-primary; color: v.$color-text-invert; }
-  &__autor { display: block; margin-bottom: 2px; font-size: 11px; font-weight: v.$font-weight-semibold; color: v.$color-primary; }
-  &__hora { display: block; margin-top: 2px; font-size: 11px; color: v.$color-text-muted; text-align: right; }
+  &__autor { display: block; margin-bottom: 2px; font-size: 0.75rem; font-weight: v.$font-weight-semibold; color: v.$color-primary; }
+  &__hora { display: block; margin-top: 2px; font-size: 0.75rem; color: v.$color-text-muted; text-align: right; }
   &__msg.is-mio &__hora { color: rgba(255, 255, 255, 0.75); }
 
   &__aviso {
@@ -295,7 +298,7 @@
   &__entrada {
     @include m.input;
     flex: 1;
-    min-height: 40px;
+    min-height: 44px;
     max-height: 140px;
     resize: none;
     field-sizing: content;

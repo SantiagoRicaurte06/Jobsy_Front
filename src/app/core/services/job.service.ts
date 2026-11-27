@@ -18,9 +18,15 @@ export class JobService {
       if (filters.modalidad?.length) items = items.filter((j) => filters.modalidad!.includes(j.modalidad));
       if (filters.precioMin != null) items = items.filter((j) => j.precioHora >= filters.precioMin!);
       if (filters.precioMax != null) items = items.filter((j) => j.precioHora <= filters.precioMax!);
+      if (filters.ciudad) {
+        const c = filters.ciudad.toLowerCase();
+        items = items.filter((j) => j.ciudad.toLowerCase().includes(c));
+      }
       if (filters.busqueda) {
         const q = filters.busqueda.toLowerCase();
-        items = items.filter((j) => j.titulo.toLowerCase().includes(q) || j.direccion.toLowerCase().includes(q));
+        items = items.filter((j) =>
+          [j.titulo, j.direccion, ...j.etiquetas].some((t) => t.toLowerCase().includes(q)),
+        );
       }
       return mockResponse(paginate(items, page, pageSize));
     }

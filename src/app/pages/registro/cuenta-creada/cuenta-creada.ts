@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LogoComponent } from '../../../shared/components/logo/logo';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
 @Component({
   selector: 'jobsy-account-created',
   standalone: true,
-  imports: [IconComponent, RouterLink, LogoComponent],
+  imports: [IconComponent, RouterLink],
   templateUrl: './cuenta-creada.html',
   styleUrl: './cuenta-creada.scss',
 })

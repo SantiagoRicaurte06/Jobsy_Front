@@ -1,58 +1,50 @@
-<aside class="panel_filtros">
-  <h3 class="titulo_panel_filtros">Filtros</h3>
-
-  <!-- Tamano de la vivienda -->
-  <fieldset class="grupo_panel_filtros">
-    <legend class="leyenda_panel_filtros">Tamano</legend>
-    @for (size of sizes; track size.value) {
-      <label class="casilla">
-        <input
-          type="checkbox"
-          [checked]="selectedSizes().includes(size.value)"
-          (change)="toggleSize(size.value)" />
-        {{ size.label }}
-      </label>
-    }
-  </fieldset>
-
-  <!-- Modalidad de trabajo -->
+<div class="panel_filtros">
   <fieldset class="grupo_panel_filtros">
     <legend class="leyenda_panel_filtros">Modalidad</legend>
-    @for (m of modalities; track m.value) {
-      <label class="casilla">
-        <input
-          type="checkbox"
-          [checked]="selectedModalities().includes(m.value)"
-          (change)="toggleModality(m.value)" />
-        {{ m.label }}
-      </label>
-    }
-  </fieldset>
-
-  <!-- Rango de precio por hora -->
-  <fieldset class="grupo_panel_filtros">
-    <legend class="leyenda_panel_filtros">Precio por hora (COP)</legend>
-    <div class="rango_panel_filtros">
-      <input
-        type="number"
-        class="campo"
-        placeholder="Min"
-        [ngModel]="precioMin()"
-        (ngModelChange)="precioMin.set($event)"
-        name="precioMin" />
-      <span aria-hidden="true">&ndash;</span>
-      <input
-        type="number"
-        class="campo"
-        placeholder="Max"
-        [ngModel]="precioMax()"
-        (ngModelChange)="precioMax.set($event)"
-        name="precioMax" />
+    <div class="fichas_panel_filtros">
+      @for (m of modalities; track m.value) {
+        <label class="ficha_panel_filtros" [class.is-activa]="selectedModalities().includes(m.value)">
+          <input type="checkbox" class="oculto"
+            [checked]="selectedModalities().includes(m.value)"
+            (change)="toggleModality(m.value)" />
+          {{ m.label }}
+        </label>
+      }
     </div>
   </fieldset>
 
-  <div class="acciones_panel_filtros">
-    <button type="button" class="boton_secundario boton_ancho" (click)="submit()">Aplicar filtros</button>
-    <button type="button" class="boton_simple boton_ancho boton_chico" (click)="reset()">Limpiar</button>
-  </div>
-</aside>
+  <fieldset class="grupo_panel_filtros">
+    <legend class="leyenda_panel_filtros">Tamaño de la vivienda</legend>
+    <div class="fichas_panel_filtros">
+      @for (size of sizes; track size.value) {
+        <label class="ficha_panel_filtros" [class.is-activa]="selectedSizes().includes(size.value)">
+          <input type="checkbox" class="oculto"
+            [checked]="selectedSizes().includes(size.value)"
+            (change)="toggleSize(size.value)" />
+          {{ size.label }}
+        </label>
+      }
+    </div>
+  </fieldset>
+
+  <fieldset class="grupo_panel_filtros">
+    <legend class="leyenda_panel_filtros">Tarifa por hora (COP)</legend>
+    <div class="rango_panel_filtros">
+      <label>
+        <span class="oculto">Tarifa mínima</span>
+        <input type="number" class="campo" inputmode="numeric" min="0" step="1000" placeholder="Desde"
+          [ngModel]="precioMin()" (ngModelChange)="precioMin.set($event)" name="precioMin"
+          (blur)="submit()" (keydown.enter)="submit()" />
+      </label>
+      <span aria-hidden="true">–</span>
+      <label>
+        <span class="oculto">Tarifa máxima</span>
+        <input type="number" class="campo" inputmode="numeric" min="0" step="1000" placeholder="Hasta"
+          [ngModel]="precioMax()" (ngModelChange)="precioMax.set($event)" name="precioMax"
+          (blur)="submit()" (keydown.enter)="submit()" />
+      </label>
+    </div>
+  </fieldset>
+
+  <button type="button" class="limpiar_panel_filtros" (click)="reset()">Quitar filtros</button>
+</div>

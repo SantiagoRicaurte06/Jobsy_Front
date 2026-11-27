@@ -15,5 +15,6 @@ export function paginate<T>(items: T[], page = 1, pageSize = 6) {
     pageSize,
     total: items.length,
     totalPages: Math.ceil(items.length / pageSize),
+    hasMore: start + pageSize < items.length,
   };
 }

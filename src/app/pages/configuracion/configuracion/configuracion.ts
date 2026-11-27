@@ -98,11 +98,11 @@ export class SettingsPage implements OnInit {
     this.passwordCambiada.set(false);
 
     if (this.passwordNueva().length < 8) {
-      this.errorPassword.set('La nueva contrasena debe tener al menos 8 caracteres.');
+      this.errorPassword.set('La nueva contraseña debe tener al menos 8 caracteres.');
       return;
     }
     if (this.passwordNueva() !== this.passwordConfirm()) {
-      this.errorPassword.set('Las contrasenas no coinciden.');
+      this.errorPassword.set('Las contraseñas no coinciden.');
       return;
     }
     this.errorPassword.set('');
@@ -116,7 +116,7 @@ export class SettingsPage implements OnInit {
         setTimeout(() => this.passwordCambiada.set(false), 3000);
       },
       error: (e: HttpErrorResponse) =>
-        this.errorPassword.set(e.error?.error?.mensaje ?? 'No pudimos cambiar tu contrasena.'),
+        this.errorPassword.set(e.error?.error?.mensaje ?? 'No pudimos cambiar tu contraseña.'),
     });
   }
 
@@ -134,7 +134,7 @@ export class SettingsPage implements OnInit {
 
   confirmarBaja(): void {
     if (!this.passwordBaja()) {
-      this.errorBaja.set('Escribe tu contrasena para confirmar.');
+      this.errorBaja.set('Escribe tu contraseña para confirmar.');
       return;
     }
     this.settings.deleteAccount(this.passwordBaja()).subscribe({

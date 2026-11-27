@@ -11,6 +11,12 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
+/**
+ * Detalle de un producto de la tienda.
+ *
+ * Las reseñas de producto se leen y se guardan en el MID (reseñas de tienda);
+ * ya no hay opiniones de ejemplo fijas en el navegador.
+ */
 @Component({
   selector: 'jobsy-product-detail',
   standalone: true,
@@ -27,9 +33,13 @@ export class ProductDetailPage implements OnInit {
 
   readonly id = input.required<string>();
 
+  /** Envío fijo por pedido; el mismo valor que aplica el middleware. */
+  readonly envio = 8000;
+
   readonly product = signal<Product | undefined>(undefined);
   readonly cargando = signal(true);
   readonly cantidad = signal(1);
+  readonly agregado = signal(false);
 
   // ---- Reseñas ----
   readonly reviews = signal<ProductReview[]>([]);
@@ -74,10 +84,13 @@ export class ProductDetailPage implements OnInit {
   });
 
   ngOnInit(): void {
-    this.productService.getById(this.id()).subscribe((p) => {
-      this.product.set(p);
-      this.cargando.set(false);
-      this.cargarResenas();
+    this.productService.getById(this.id()).subscribe({
+      next: (p) => {
+        this.product.set(p);
+        this.cargando.set(false);
+        this.cargarResenas();
+      },
+      error: () => this.cargando.set(false),
     });
   }
 
@@ -98,7 +111,12 @@ export class ProductDetailPage implements OnInit {
     if (!p) return;
 
     this.cart.add(p, this.cantidad());
-    if (irAlCarrito) this.router.navigate(['/tienda/carrito']);
+    if (irAlCarrito) {
+      this.router.navigate(['/tienda/carrito']);
+      return;
+    }
+    this.agregado.set(true);
+    setTimeout(() => this.agregado.set(false), 2500);
   }
 
   toggleFormulario(): void {
@@ -201,4 +219,3 @@ export class ProductDetailPage implements OnInit {
       });
   }
 }
-

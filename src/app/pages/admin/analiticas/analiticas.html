@@ -1,14 +1,14 @@
 <section class="analiticas">
   <header class="encabezado_analiticas">
     <div>
-      <h1 class="titulo_analiticas">Analiticas</h1>
-      <p class="subtitulo_analiticas">Metricas generales de la plataforma</p>
+      <h1 class="titulo_analiticas">Analíticas</h1>
+      <p class="subtitulo_analiticas">Métricas generales de la plataforma</p>
     </div>
 
-    <nav class="periodos_analiticas">
+    <nav class="periodos_analiticas" aria-label="Periodo">
       @for (p of periodos; track p.value) {
         <button type="button"
-          [class.is-active]="periodo() === p.value"
+          [class.is-active]="periodo() === p.value" [attr.aria-pressed]="periodo() === p.value"
           (click)="periodo.set(p.value)">
           {{ p.label }}
         </button>
@@ -31,12 +31,12 @@
     <!-- Graficos -->
     <section class="tarjeta panel_analiticas">
       <h2>Usuarios nuevos por semana</h2>
-      <jobsy-bar-chart [data]="usuariosNuevos" unit="usuarios" />
+      <jobsy-bar-chart [data]="usuariosNuevos" unit="usuarios" serie="Usuarios nuevos" />
     </section>
 
     <section class="tarjeta panel_analiticas">
       <h2>Contrataciones por mes</h2>
-      <jobsy-bar-chart [data]="contrataciones" unit="contrataciones" />
+      <jobsy-bar-chart [data]="contrataciones" unit="contrataciones" serie="Contrataciones" />
     </section>
 
     <!-- Distribucion por ciudad -->

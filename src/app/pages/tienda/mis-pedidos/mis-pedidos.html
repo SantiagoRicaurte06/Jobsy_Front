@@ -2,7 +2,7 @@
   <header class="pedidos__head">
     <div>
       <h1>Mis pedidos</h1>
-      <p class="pedidos__sub">Tus compras en la tienda Jobsy y en que va cada una.</p>
+      <p class="pedidos__sub">Tus compras en la tienda Jobsy y en qué va cada una.</p>
     </div>
     <a routerLink="/tienda" class="boton_simple boton_chico"><jobsy-icon name="shopping-cart" /> Ir a la tienda</a>
   </header>
@@ -12,7 +12,7 @@
       <jobsy-icon name="circle-check" />
       <div>
         <strong>¡Gracias por tu compra!</strong>
-        <p>Recibimos tu pedido <b>{{ numero }}</b>. Aqui puedes seguirlo; te avisaremos cuando cambie de estado.</p>
+        <p>Recibimos tu pedido <b>{{ numero }}</b>. Aquí puedes seguirlo; te avisaremos cuando cambie de estado.</p>
       </div>
       <button type="button" class="pedidos__cerrar" (click)="cerrarAviso()" aria-label="Cerrar aviso"><jobsy-icon name="x" /></button>
     </div>
@@ -27,8 +27,8 @@
   } @else if (error()) {
     <p class="error" role="alert">{{ error() }}</p>
   } @else if (pedidos().length === 0) {
-    <jobsy-empty-state icon="package" title="Aun no has comprado nada"
-      message="Cuando hagas un pedido en la tienda lo veras aqui con su estado." />
+    <jobsy-empty-state icon="package" title="Aún no has comprado nada"
+      message="Cuando hagas un pedido en la tienda lo verás aquí con su estado." />
     <div class="pedidos__centro"><a routerLink="/tienda" class="boton_principal">Explorar la tienda</a></div>
   } @else {
     <div class="pedidos__resumen">
@@ -56,7 +56,7 @@
             <span class="pedido__datos">
               <strong>{{ p.numero }}</strong>
               <span class="texto_mini texto_gris">
-                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} articulo(s) · {{ metodo(p.metodoPago) }}
+                {{ p.fecha | date: 'd MMM y, h:mm a' }} · {{ unidades(p) }} artículo(s) · {{ metodo(p.metodoPago) }}
               </span>
             </span>
             <span [class]="badgeClass(p.estado)">{{ etiqueta(p.estado) }}</span>
@@ -73,7 +73,7 @@
                   }
                 </ol>
               } @else if (p.estado === 'pendiente') {
-                <p class="pedido__nota"><jobsy-icon name="clock" /> Estamos esperando la confirmacion del pago.</p>
+                <p class="pedido__nota"><jobsy-icon name="clock" /> Estamos esperando la confirmación del pago.</p>
               } @else {
                 <p class="pedido__nota">
                   <jobsy-icon name="rotate-cw" />
@@ -99,7 +99,7 @@
                   <div><dt>Descuento</dt><dd>-{{ p.descuento | cop }}</dd></div>
                 }
                 @if (p.envio != null) {
-                  <div><dt>Envio</dt><dd>{{ p.envio ? (p.envio | cop) : 'Gratis' }}</dd></div>
+                  <div><dt>Envío</dt><dd>{{ p.envio ? (p.envio | cop) : 'Gratis' }}</dd></div>
                 }
                 <div class="pedido__gran-total"><dt>Total pagado</dt><dd>{{ p.total | cop }}</dd></div>
               </dl>

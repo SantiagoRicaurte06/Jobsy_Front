@@ -42,11 +42,11 @@ export class PublishOfferPage {
   readonly ejemploDireccion = R.EJEMPLO_DIRECCION;
 
   readonly errores = computed(() => ({
-    titulo: R.texto('El titulo', this.titulo(), 5, 100),
+    titulo: R.texto('El título', this.titulo(), 5, 100),
     precioHora: R.tarifa(this.precioHora()),
     horario: R.horario(this.dias(), this.horaInicio(), this.horaFin()),
     direccion: R.direccion(this.direccion()),
-    descripcion: R.texto('La descripcion', this.descripcion(), 0, 1000),
+    descripcion: R.texto('La descripción', this.descripcion(), 0, 1000),
   }));
   readonly valido = computed(() => Object.values(this.errores()).every((e) => !e));
 
@@ -59,7 +59,7 @@ export class PublishOfferPage {
 
   readonly modalidades = MODALIDADES.map((value) => ({ value, label: MODALIDAD_TEXTO[value] }));
 
-  readonly tareas = ['Limpieza', 'Cocina', 'Planchado', 'Zonas verdes', 'Mascotas', 'Cuidado de ninos'];
+  readonly tareas = ['Limpieza', 'Cocina', 'Planchado', 'Zonas verdes', 'Mascotas', 'Cuidado de niños'];
   readonly ciudades = R.CIUDADES;
 
   /** Fotos elegidas; se suben al crear la oferta, la primera como principal. */

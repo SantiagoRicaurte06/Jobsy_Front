@@ -1,16 +1,18 @@
 <section class="mis_ofertas">
-  <div class="encabezado_seccion">
-    <h1>Mis ofertas</h1>
-    <a routerLink="/publicar-oferta" class="boton_principal boton_chico"><jobsy-icon name="square-pen" /> Publicar oferta</a>
-  </div>
-
-  @if (!cargando() && ofertas().length) {
-    <div class="resumen_mis_ofertas">
-      <div class="tarjeta"><strong>{{ resumen().activas }}</strong><span>Ofertas activas</span></div>
-      <div class="tarjeta"><strong>{{ resumen().postulaciones }}</strong><span>Postulaciones recibidas</span></div>
-      <div class="tarjeta"><strong>{{ resumen().pendientes }}</strong><span>Por responder</span></div>
+  <header class="cabecera_mis_ofertas">
+    <div>
+      <h1>Mis ofertas</h1>
+      @if (!cargando() && ofertas().length) {
+        <p class="resumen_mis_ofertas">
+          {{ resumen().activas }} {{ resumen().activas === 1 ? 'activa' : 'activas' }}
+          · {{ resumen().postulaciones }} {{ resumen().postulaciones === 1 ? 'postulación recibida' : 'postulaciones recibidas' }}
+          @if (resumen().pendientes > 0) { · <strong>{{ resumen().pendientes }} por responder</strong> }
+        </p>
+      }
     </div>
-  }
+    <a routerLink="/publicar-oferta" class="boton_principal boton_chico"><jobsy-icon name="square-pen" /> Publicar oferta</a>
+  </header>
+
 
   @if (aviso()) {
     <p class="aviso_mis_ofertas" role="status">
@@ -38,7 +40,7 @@
     <p class="error" role="alert">{{ error() }}</p>
   } @else if (visibles().length === 0) {
     <div class="tarjeta">
-      <jobsy-empty-state icon="briefcase" title="Sin ofertas" message="Publica una oferta para empezar a recibir postulaciones.">
+      <jobsy-empty-state icon="briefcase" title="Sin ofertas" message="Pública una oferta para empezar a recibir postulaciones.">
         <a routerLink="/publicar-oferta" class="boton_principal">Publicar oferta</a>
       </jobsy-empty-state>
     </div>
@@ -49,7 +51,7 @@
           <div class="cabeza_oferta">
             <div class="imagen_oferta">
               @if (o.imagenUrl) {
-                <img [src]="o.imagenUrl" [alt]="'Foto de ' + o.titulo" />
+                <img loading="lazy" decoding="async" [src]="o.imagenUrl" [alt]="'Foto de ' + o.titulo" />
               } @else {
                 <span aria-hidden="true"><jobsy-icon name="house" /></span>
               }
@@ -58,45 +60,50 @@
             <div class="info_oferta">
               <h2>{{ o.titulo }}</h2>
               <p class="texto_mini texto_gris">{{ o.direccion }}, {{ o.ciudad }}</p>
-              <p class="precio">{{ o.precioHora | cop }} / hora</p>
+              <p class="tarifa_mis_ofertas">{{ o.precioHora | cop }} <span>/ hora</span></p>
               <p class="texto_mini texto_gris">Publicada el {{ o.fechaPublicacion | date: 'longDate' }}</p>
             </div>
 
             <div class="estado_oferta">
               <span [class]="estadoClase(o.estado)">{{ o.estado }}</span>
               <span class="texto_mini">
-                {{ o.postulaciones }} postulacion(es)
+                {{ o.postulaciones }} {{ o.postulaciones === 1 ? 'postulación' : 'postulaciones' }}
                 @if (o.pendientes > 0) { · <strong>{{ o.pendientes }} por responder</strong> }
               </span>
             </div>
           </div>
 
-          <!-- Fotos de la casa -->
-          <div class="fotos_oferta">
+          @if (o.fotos.length) {
+            <div class="fotos_oferta">
             @for (f of o.fotos; track f; let i = $index) {
-              <img [src]="f" [alt]="'Foto ' + (i + 1) + ' de ' + o.titulo" [class.is-principal]="i === 0" />
+              <img loading="lazy" decoding="async" [src]="f" [alt]="'Foto ' + (i + 1) + ' de ' + o.titulo" [class.is-principal]="i === 0" />
             }
-            <label class="subir_foto_oferta" [class.is-ocupado]="subiendoFotos() === o.id">
-              <input type="file" accept="image/jpeg,image/png,image/webp" multiple (change)="subirFotos(o, $event)"
-                [disabled]="subiendoFotos() === o.id" />
-              <jobsy-icon name="camera" />
-              {{ subiendoFotos() === o.id ? 'Subiendo...' : o.fotos.length ? 'Agregar fotos' : 'Subir fotos de la casa' }}
-            </label>
-          </div>
+            </div>
+          }
 
           <div class="acciones_oferta">
             <button type="button" class="boton_principal boton_chico" (click)="verPostulaciones(o)">
               {{ abierta() === o.id ? 'Ocultar postulaciones' : 'Ver postulaciones (' + o.postulaciones + ')' }}
             </button>
-            <a [routerLink]="['/empleos', o.id]" class="boton_simple boton_chico">Ver publicacion</a>
-            @if (o.estado === 'activa') {
-              <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'pausada')">Pausar</button>
-            } @else {
-              <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'activa')">Reactivar</button>
-            }
-            @if (o.estado !== 'cerrada') {
-              <button type="button" class="boton_simple boton_chico cerrar_oferta" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'cerrada')">Cerrar oferta</button>
-            }
+            <a [routerLink]="['/empleos', o.id]" class="enlace_oferta">Ver publicación</a>
+
+            <!-- Secundarias: texto, a la derecha -->
+            <div class="secundarias_oferta">
+              <label class="enlace_oferta subir_foto_oferta" [class.is-ocupado]="subiendoFotos() === o.id">
+                <input type="file" accept="image/jpeg,image/png,image/webp" multiple (change)="subirFotos(o, $event)"
+                  [disabled]="subiendoFotos() === o.id" />
+                <jobsy-icon name="camera" />
+                {{ subiendoFotos() === o.id ? 'Subiendo…' : o.fotos.length ? 'Agregar fotos' : 'Subir fotos' }}
+              </label>
+              @if (o.estado === 'activa') {
+                <button type="button" class="enlace_oferta" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'pausada')">Pausar</button>
+              } @else {
+                <button type="button" class="enlace_oferta" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'activa')">Reactivar</button>
+              }
+              @if (o.estado !== 'cerrada') {
+                <button type="button" class="enlace_oferta cerrar_oferta" [disabled]="ocupado() === o.id" (click)="cambiarEstado(o, 'cerrada')">Cerrar</button>
+              }
+            </div>
           </div>
 
           <!-- Postulaciones recibidas -->
@@ -109,7 +116,7 @@
                   <div class="candidata">
                     <div class="avatar_candidata">
                       @if (r.empleado?.fotoUrl) {
-                        <img [src]="r.empleado!.fotoUrl" [alt]="r.empleado!.nombre" />
+                        <img loading="lazy" decoding="async" [src]="r.empleado!.fotoUrl" [alt]="r.empleado!.nombre" />
                       } @else {
                         <span aria-hidden="true">{{ (r.empleado?.nombre ?? '?').charAt(0) }}</span>
                       }
@@ -125,7 +132,7 @@
                       @if (r.mensaje) {
                         <p class="mensaje_candidata">“{{ r.mensaje }}”</p>
                       }
-                      <span class="texto_mini texto_gris">Se postulo el {{ r.fechaPostulacion | date: 'medium' }}</span>
+                      <span class="texto_mini texto_gris">Se postuló el {{ r.fechaPostulacion | date: 'medium' }}</span>
                     </div>
                     <div class="acciones_candidata">
                       <span [class]="estadoClase(r.estado)">{{ estadoTexto(r.estado) }}</span>
@@ -133,11 +140,11 @@
                         <a [routerLink]="['/empleados', r.empleado.id]" class="boton_simple boton_chico">Ver perfil</a>
                       }
                       @if (r.contratacionId) {
-                        <a routerLink="/app/contrataciones" class="boton_simple boton_chico">Ver contratacion</a>
+                        <a routerLink="/app/contrataciones" class="boton_simple boton_chico">Ver contratación</a>
                       }
                       @if (r.estado === 'pendiente' || r.estado === 'en_revision') {
                         @if (r.estado === 'pendiente') {
-                          <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === r.id" (click)="responder(r, 'en_revision')">En revision</button>
+                          <button type="button" class="boton_simple boton_chico" [disabled]="ocupado() === r.id" (click)="responder(r, 'en_revision')">En revisión</button>
                         }
                         <button type="button" class="boton_simple boton_chico cerrar_oferta" [disabled]="ocupado() === r.id" (click)="responder(r, 'rechazada')">Rechazar</button>
                         <button type="button" class="boton_principal boton_chico" (click)="abrirContrato(o, r)">Aceptar y contratar</button>
@@ -158,7 +165,7 @@
                         <label class="etiqueta">Tarifa por hora
                           <input class="campo" type="number" inputmode="numeric" step="500" [min]="limites.tarifaMin" [max]="limites.tarifaMax" name="tarifa" [ngModel]="contrato()!.tarifa" (ngModelChange)="actualizarContrato('tarifa', +$event)" />
                         </label>
-                        <label class="etiqueta form_contrato__ancho">Direccion del servicio
+                        <label class="etiqueta form_contrato__ancho">Dirección del servicio
                           <input class="campo" type="text" name="direccion" maxlength="120" placeholder="Calle 10 # 20-30" [ngModel]="contrato()!.direccion" (ngModelChange)="actualizarContrato('direccion', $event)" />
                         </label>
                         @if (errorContrato()) {
@@ -169,19 +176,19 @@
                         </p>
                         <p class="texto_mini texto_gris form_contrato__ancho">
                           Al confirmar, {{ r.empleado?.nombre ?? 'esta persona' }} queda contratada y recibe un aviso;
-                          la oferta se cierra y las demas postulaciones abiertas se responden automaticamente.
+                          la oferta se cierra y las demás postulaciones abiertas se responden automáticamente.
                         </p>
                         <div class="form_contrato__ancho acciones_candidata">
                           <button type="button" class="boton_simple boton_chico" (click)="contrato.set(null)">Cancelar</button>
                           <button type="submit" class="boton_principal boton_chico" [disabled]="ocupado() === r.id">
-                            {{ ocupado() === r.id ? 'Contratando...' : 'Confirmar contratacion' }}
+                            {{ ocupado() === r.id ? 'Contratando...' : 'Confirmar contratación' }}
                           </button>
                         </div>
                       </form>
                     }
                   </div>
                 } @empty {
-                  <p class="texto_gris">Todavia nadie se ha postulado a esta oferta.</p>
+                  <p class="texto_gris">Todavía nadie se ha postulado a esta oferta.</p>
                 }
               }
             </div>
@@ -191,3 +198,8 @@
     </ul>
   }
 </section>
+
+@if (pendiente(); as c) {
+  <jobsy-confirmacion [titulo]="c.titulo" [mensaje]="c.mensaje" [textoAceptar]="c.aceptar" [peligro]="c.peligro"
+    (aceptar)="pendiente.set(null); c.accion()" (cancelar)="pendiente.set(null)" />
+}

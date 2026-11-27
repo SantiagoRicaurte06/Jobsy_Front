@@ -6,7 +6,7 @@
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-xl;
+    @include m.display(v.$font-size-xl);
   }
 
   &__subtitle {
@@ -66,6 +66,7 @@
   }
 
   &__day {
+    min-height: 44px; // objetivo táctil
     aspect-ratio: 1;
     display: grid;
     place-items: center;
@@ -94,9 +95,9 @@
     }
 
     &.is-selected {
-      background: v.$color-accent;
-      border-color: v.$color-accent;
-      color: v.$color-text-invert;
+      background: v.$color-ink;
+      border-color: v.$color-ink;
+      color: v.$color-bg;
       font-weight: v.$font-weight-bold;
     }
   }
@@ -138,9 +139,9 @@
     }
 
     &.is-selected {
-      background: v.$color-accent;
-      border-color: v.$color-accent;
-      color: v.$color-text-invert;
+      background: v.$color-ink;
+      border-color: v.$color-ink;
+      color: v.$color-bg;
       font-weight: v.$font-weight-semibold;
     }
   }

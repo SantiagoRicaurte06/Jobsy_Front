@@ -1,6 +1,8 @@
 /** Usuarios_Api — perfil de empleado */
 export interface Employee {
   id: string;
+  /** Id de la cuenta en Core; `id` es el del perfil de empleado. */
+  usuarioId?: string;
   nombre: string;
   fotoUrl?: string;
   descripcion: string;
@@ -17,6 +19,7 @@ export interface Employee {
 
 /** Resena que un usuario deja en el perfil de un empleado. */
 export interface EmployeeReview {
+  id?: string;
   autor: string;
   estrellas: number;
   texto: string;

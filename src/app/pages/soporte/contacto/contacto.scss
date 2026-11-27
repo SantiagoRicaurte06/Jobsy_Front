@@ -25,7 +25,7 @@
   gap: v.$space-4;
   padding: v.$space-5;
 
-  h3 { margin: 0 0 v.$space-1; font-size: v.$font-size-sm; }
+  h2.titulo_canal_contacto, h3 { margin: 0 0 v.$space-1; font-size: v.$font-size-sm; }
 }
 
 .dato_canal {
@@ -78,3 +78,19 @@
   color: v.$color-success;
   font-size: v.$font-size-2xl;
 }
+
+.cabeza_contacto {
+  padding-block: v.$space-8 v.$space-6;
+  background: v.$color-sand;
+  border-bottom: v.$border-width solid v.$color-border;
+
+  h1 {
+    margin: 0 0 v.$space-3;
+    @include m.display(clamp(2.4rem, 6vw, 4.25rem));
+  }
+
+  p { max-width: 56ch; margin: 0; font-size: v.$font-size-lg; line-height: 1.5; }
+  a { font-weight: v.$font-weight-bold; color: v.$color-ink; text-underline-offset: 4px; }
+}
+
+.cuerpo_contacto { padding-block: v.$space-7 v.$space-8; }

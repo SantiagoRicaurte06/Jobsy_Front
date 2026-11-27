@@ -13,9 +13,9 @@ export class AdminAnalyticsPage {
   readonly periodo = signal<'7d' | '30d' | '12m'>('30d');
 
   readonly periodos = [
-    { value: '7d' as const, label: 'Ultimos 7 dias' },
-    { value: '30d' as const, label: 'Ultimos 30 dias' },
-    { value: '12m' as const, label: 'Ultimos 12 meses' },
+    { value: '7d' as const, label: 'Últimos 7 días' },
+    { value: '30d' as const, label: 'Últimos 30 días' },
+    { value: '12m' as const, label: 'Últimos 12 meses' },
   ];
 
   readonly usuariosNuevos: BarDatum[] = [

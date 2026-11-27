@@ -10,6 +10,16 @@ import { CopPipe } from '../../../shared/pipes';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { IconComponent } from '../../../shared/components/icon/icon';
+import { ConfirmacionComponent } from '../../../shared/components/confirmacion/confirmacion';
+
+/** Acción que espera que el usuario la confirme en el diálogo. */
+interface Pendiente {
+  titulo: string;
+  mensaje: string;
+  aceptar: string;
+  peligro: boolean;
+  accion: () => void;
+}
 import * as R from '../../../core/validation/reglas';
 
 /** Datos del formulario de contratacion de una postulacion. */
@@ -30,7 +40,7 @@ interface FormContrato {
 @Component({
   selector: 'jobsy-my-offers',
   standalone: true,
-  imports: [RouterLink, FormsModule, DatePipe, CopPipe, EmptyStateComponent, LoadingSpinnerComponent, IconComponent],
+  imports: [RouterLink, FormsModule, DatePipe, CopPipe, EmptyStateComponent, LoadingSpinnerComponent, IconComponent, ConfirmacionComponent],
   templateUrl: './mis-ofertas.html',
   styleUrl: './mis-ofertas.scss',
 })
@@ -111,13 +121,24 @@ export class MyOffersPage implements OnInit {
   }
 
   estadoTexto(estado: string): string {
-    return ({ pendiente: 'Pendiente', en_revision: 'En revision', aceptada: 'Contratada', rechazada: 'Rechazada' } as Record<string, string>)[estado] ?? estado;
+    return ({ pendiente: 'Pendiente', en_revision: 'En revisión', aceptada: 'Contratada', rechazada: 'Rechazada' } as Record<string, string>)[estado] ?? estado;
   }
 
   // ---- Oferta ----
 
-  cambiarEstado(o: OwnJob, estado: OfferStatus): void {
-    if (estado === 'cerrada' && !confirm(`¿Cerrar la oferta "${o.titulo}"? Dejara de recibir postulaciones.`)) return;
+  readonly pendiente = signal<Pendiente | null>(null);
+
+  cambiarEstado(o: OwnJob, estado: OfferStatus, confirmado = false): void {
+    if (estado === 'cerrada' && !confirmado) {
+      this.pendiente.set({
+        titulo: '¿Cerrar esta oferta?',
+        mensaje: `«${o.titulo}» dejará de recibir postulaciones. Las que ya tienes se conservan.`,
+        aceptar: 'Cerrar oferta',
+        peligro: true,
+        accion: () => this.cambiarEstado(o, estado, true),
+      });
+      return;
+    }
     this.ocupado.set(o.id);
     this.jobs.setStatus(o.id, estado).subscribe({
       next: (act) => {
@@ -179,8 +200,17 @@ export class MyOffersPage implements OnInit {
     this.jobs.mine().subscribe((o) => this.ofertas.set(o));
   }
 
-  responder(r: ReceivedApplication, estado: 'en_revision' | 'rechazada'): void {
-    if (estado === 'rechazada' && !confirm(`¿Rechazar la postulacion de ${r.empleado?.nombre ?? 'esta persona'}? Se le enviara un aviso.`)) return;
+  responder(r: ReceivedApplication, estado: 'en_revision' | 'rechazada', confirmado = false): void {
+    if (estado === 'rechazada' && !confirmado) {
+      this.pendiente.set({
+        titulo: '¿Rechazar esta postulación?',
+        mensaje: `${r.empleado?.nombre ?? 'Esta persona'} recibirá un aviso de que no fue elegida.`,
+        aceptar: 'Rechazar',
+        peligro: true,
+        accion: () => this.responder(r, estado, true),
+      });
+      return;
+    }
     this.ocupado.set(r.id);
     this.applications.setStatus(r.id, estado).subscribe({
       next: (p) => {
@@ -189,7 +219,7 @@ export class MyOffersPage implements OnInit {
         this.refrescarConteos();
       },
       error: (err: HttpErrorResponse) => {
-        this.aviso.set(this.mensaje(err, 'No se pudo responder la postulacion.'));
+        this.aviso.set(this.mensaje(err, 'No se pudo responder la postulación.'));
         this.ocupado.set(null);
       },
     });
@@ -217,7 +247,7 @@ export class MyOffersPage implements OnInit {
     const invalido = R.primero(
       R.fechaServicio(c.fechaInicio),
       R.hora(c.horaInicio),
-      R.rango('El numero de horas', c.duracionHoras, R.LIMITES.horasMin, R.LIMITES.horasMax),
+      R.rango('El número de horas', c.duracionHoras, R.LIMITES.horasMin, R.LIMITES.horasMax),
       R.tarifa(c.tarifa),
       R.direccion(c.direccion),
     );
@@ -230,8 +260,8 @@ export class MyOffersPage implements OnInit {
         this.ocupado.set(null);
         this.contratoHecho.set(true);
         this.aviso.set(
-          'Contratacion creada. La oferta quedo cerrada y las demas candidatas recibieron un aviso. ' +
-            'Si necesitas a alguien mas, reactiva la oferta.',
+          'Contratación creada. La oferta quedó cerrada y las demás candidatas recibieron un aviso. ' +
+            'Si necesitas a alguien más, reactiva la oferta.',
         );
         // El servidor cerro la oferta y respondio a las demas: se relee todo.
         const id = this.abierta();
@@ -239,7 +269,7 @@ export class MyOffersPage implements OnInit {
         this.refrescarConteos();
       },
       error: (err: HttpErrorResponse) => {
-        this.aviso.set(this.mensaje(err, 'No se pudo crear la contratacion.'));
+        this.aviso.set(this.mensaje(err, 'No se pudo crear la contratación.'));
         this.ocupado.set(null);
       },
     });

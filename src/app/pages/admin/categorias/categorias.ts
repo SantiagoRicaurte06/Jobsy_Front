@@ -34,14 +34,14 @@ export class AdminCategoriesPage {
     if (!nombre) return;
 
     if (this.existe(nombre)) {
-      this.error.set('Ya existe una categoria con ese nombre.');
+      this.error.set('Ya existe una categoría con ese nombre.');
       return;
     }
 
     this.store.addCategory(nombre);
     this.nueva.set('');
     this.error.set('');
-    this.avisar(`Categoria "${nombre}" creada.`);
+    this.avisar(`Categoría "${nombre}" creada.`);
   }
 
   // ============ Edicion en linea ============
@@ -60,7 +60,7 @@ export class AdminCategoriesPage {
     if (!nombre) return;
 
     if (nombre !== c.nombre && this.existe(nombre)) {
-      this.error.set('Ya existe una categoria con ese nombre.');
+      this.error.set('Ya existe una categoría con ese nombre.');
       return;
     }
 
@@ -79,7 +79,7 @@ export class AdminCategoriesPage {
     if (!c) return;
 
     this.store.deleteCategory(c.id);
-    this.avisar(`Categoria "${c.nombre}" eliminada.`);
+    this.avisar(`Categoría "${c.nombre}" eliminada.`);
     this.porBorrar.set(null);
   }
 

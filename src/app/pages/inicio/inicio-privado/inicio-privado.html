@@ -1,13 +1,12 @@
 <section class="inicio_privado">
-  <!-- Bienvenida -->
-  <header class="bienvenida_inicio_privado tarjeta">
+  <header class="cabeza_inicio_privado">
     <div>
-      <h1 class="titulo_inicio_privado">Hola, {{ user()?.nombre }} <jobsy-icon name="hand" /></h1>
+      <h1 class="titulo_inicio_privado">Hola, {{ user()?.nombre }}</h1>
       <p class="texto_inicio_privado">
         @if (esEmpleador()) {
-          Este es tu panel. Aqui ves tus ofertas, las postulaciones que recibes y tus contrataciones.
+          Tus ofertas, quién se postuló y tus contrataciones.
         } @else {
-          Este es tu panel. Aqui puedes ver tus postulaciones y las ofertas nuevas de tu zona.
+          Tus postulaciones, tus trabajos y ofertas nuevas en Yopal.
         }
       </p>
     </div>
@@ -19,60 +18,37 @@
     }
   </header>
 
-  <!-- Metricas -->
-  <div class="cifras_inicio_privado">
+  <!-- Estado en una sola franja: cada cifra lleva a donde se atiende. Los accesos ya están en el menú lateral. -->
+  <ul class="estado_inicio_privado">
     @if (esEmpleador()) {
-      <a routerLink="/app/mis-ofertas" class="cifra_inicio_privado tarjeta">
-        <strong>{{ ofertasActivas() }}</strong>
-        <span>Ofertas activas</span>
-      </a>
-      <a routerLink="/app/mis-ofertas" class="cifra_inicio_privado tarjeta">
-        <strong>{{ porResponder() }}</strong>
-        <span>Postulaciones por responder</span>
-      </a>
-      <a routerLink="/app/contrataciones" class="cifra_inicio_privado tarjeta">
-        <strong>{{ enCurso() }}</strong>
-        <span>Contrataciones en curso</span>
-      </a>
+      <li><a routerLink="/app/mis-ofertas"><strong>{{ ofertasActivas() }}</strong><span>{{ ofertasActivas() === 1 ? 'oferta activa' : 'ofertas activas' }}</span><jobsy-icon name="arrow-right" /></a></li>
+      <li><a routerLink="/app/mis-ofertas" [class.pide_atencion]="porResponder() > 0"><strong>{{ porResponder() }}</strong><span>por responder</span><jobsy-icon name="arrow-right" /></a></li>
+      <li><a routerLink="/app/contrataciones"><strong>{{ enCurso() }}</strong><span>{{ enCurso() === 1 ? 'contratación en curso' : 'contrataciones en curso' }}</span><jobsy-icon name="arrow-right" /></a></li>
     } @else {
-      <a routerLink="/app/mis-postulaciones" class="cifra_inicio_privado tarjeta">
-        <strong>{{ postulacionesAbiertas() }}</strong>
-        <span>Postulaciones activas</span>
-      </a>
-      <a routerLink="/app/contrataciones" class="cifra_inicio_privado tarjeta">
-        <strong>{{ enCurso() }}</strong>
-        <span>Trabajos en curso</span>
-      </a>
-      <div class="cifra_inicio_privado tarjeta">
-        <strong>{{ user()?.verificado ? 'Si' : 'No' }}</strong>
-        <span>Perfil verificado</span>
-      </div>
+      <li><a routerLink="/app/mis-postulaciones"><strong>{{ postulacionesAbiertas() }}</strong><span>{{ postulacionesAbiertas() === 1 ? 'postulación activa' : 'postulaciones activas' }}</span><jobsy-icon name="arrow-right" /></a></li>
+      <li><a routerLink="/app/contrataciones"><strong>{{ enCurso() }}</strong><span>{{ enCurso() === 1 ? 'trabajo en curso' : 'trabajos en curso' }}</span><jobsy-icon name="arrow-right" /></a></li>
+      <li>
+        @if (user()?.verificado) {
+          <a routerLink="/app/perfil"><span class="verificado_inicio_privado"><jobsy-icon name="badge-check" /> Perfil verificado</span></a>
+        } @else {
+          <a routerLink="/app/perfil" class="pide_atencion"><span>Verifica tu perfil</span><jobsy-icon name="arrow-right" /></a>
+        }
+      </li>
     }
-  </div>
+  </ul>
 
-  <!-- Accesos rapidos -->
-  <nav class="accesos_inicio_privado">
-    @for (s of shortcuts(); track s.path) {
-      <a [routerLink]="s.path" class="acceso_inicio_privado tarjeta">
-        <span aria-hidden="true"><jobsy-icon [name]="s.icon" /></span>
-        {{ s.label }}
-      </a>
-    }
-  </nav>
-
-  <!-- Ofertas recomendadas (solo para quien busca trabajo) -->
   @if (!esEmpleador()) {
-  <section class="seccion_inicio_privado">
-    <div class="encabezado_seccion">
-      <h2>Ofertas para ti</h2>
-      <a routerLink="/empleos">Ver todas <jobsy-icon name="arrow-right" /></a>
-    </div>
+    <section class="seccion_inicio_privado" aria-labelledby="titulo-ofertas-para-ti">
+      <div class="encabezado_inicio_privado">
+        <h2 id="titulo-ofertas-para-ti">Ofertas para ti</h2>
+        <a routerLink="/empleos">Ver todas <jobsy-icon name="arrow-right" /></a>
+      </div>
 
-    <div class="rejilla_inicio_privado">
-      @for (job of jobs(); track job.id) {
-        <jobsy-job-card [job]="job" />
-      }
-    </div>
-  </section>
+      <div class="rejilla_inicio_privado">
+        @for (job of jobs(); track job.id) {
+          <jobsy-job-card [job]="job" />
+        }
+      </div>
+    </section>
   }
 </section>

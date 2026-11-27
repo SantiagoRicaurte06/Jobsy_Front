@@ -1,10 +1,12 @@
 @use 'variables' as v;
 
+@use 'mixins' as m;
+
 .bloque_info_cuenta {
   padding: v.$space-5;
   margin-bottom: v.$space-4;
 
-  h2 { margin: 0 0 v.$space-4; font-size: v.$font-size-base; }
+  h2 { margin: 0 0 v.$space-4; @include m.display(v.$font-size-lg, v.$font-weight-bold); }
 }
 
 .encabezado_info_cuenta {
@@ -39,6 +41,7 @@
   padding: v.$space-4;
   background: v.$color-bg;
   border-radius: v.$radius-md;
+  margin: 0 0 v.$space-4;
   font-size: v.$font-size-sm;
   color: v.$color-text-muted;
   text-align: center;

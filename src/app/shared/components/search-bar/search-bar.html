@@ -8,7 +8,7 @@
       [ngModel]="termino()"
       (ngModelChange)="termino.set($event)"
       name="termino"
-      aria-label="Termino de busqueda" />
+      aria-label="¿Qué buscas?" />
   </div>
 
   @if (showCity()) {
@@ -25,5 +25,5 @@
     </div>
   }
 
-  <button type="submit" class="boton_secundario">Buscar</button>
+  <button type="submit" class="boton_principal"><jobsy-icon name="search" /> Buscar</button>
 </form>

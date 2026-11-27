@@ -1,17 +1,14 @@
 <footer class="pie">
   <div class="interior_pie">
-    <div class="marca_pie">
+    <div class="cierre_pie">
       <jobsy-logo variant="claro" size="medio" />
-      <p class="lema_pie">
-        Conectamos empleados del hogar<br />
-        con empleadores en toda Colombia.<br />
-        Rapido, seguro y verificado.
-      </p>
+      <p class="lema_pie">Trabajo de hogar con condiciones claras para las dos partes.</p>
+      <p class="zona_pie"><jobsy-icon name="map-pin" /> Hoy en Yopal y Casanare.</p>
     </div>
 
     @for (col of columns; track col.title) {
-      <nav class="columna_pie">
-        <h3 class="titulo_columna_pie">{{ col.title }}</h3>
+      <nav class="columna_pie" [attr.aria-label]="col.title">
+        <h2 class="titulo_columna_pie">{{ col.title }}</h2>
         <ul>
           @for (link of col.links; track link.label) {
             <li><a [routerLink]="link.path">{{ link.label }}</a></li>
@@ -22,15 +19,11 @@
   </div>
 
   <div class="inferior_pie">
-    <div class="interior_inferior_pie">
-      <p class="copyright_pie">&copy;{{ year }} Jobsy. Todos los derechos reservados.</p>
-
-      <!-- Sin redes sociales reales todavia: los iconos apuntaban a "#". -->
-      <nav class="redes_pie" aria-label="Legal">
-        <a routerLink="/legal/terminos">Terminos</a>
-        <a routerLink="/legal/privacidad">Privacidad</a>
-        <a routerLink="/legal/privacidad" fragment="cookies">Cookies</a>
-      </nav>
-    </div>
+    <p>&copy; {{ year }} Jobsy</p>
+    <nav aria-label="Legal">
+      <a routerLink="/legal/terminos">Términos</a>
+      <a routerLink="/legal/privacidad">Privacidad</a>
+      <a routerLink="/legal/privacidad" fragment="cookies">Cookies</a>
+    </nav>
   </div>
 </footer>

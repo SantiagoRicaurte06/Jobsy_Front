@@ -1,40 +1,53 @@
 <article class="tarjeta_producto">
   <div class="imagen_tarjeta_producto">
     @if (product().imagenUrl) {
-      <img [src]="product().imagenUrl" [alt]="product().nombre" />
+      <img [src]="product().imagenUrl" alt="" loading="lazy" />
     } @else {
-      <div class="reserva_tarjeta_producto" aria-hidden="true"><jobsy-icon name="sparkles" /></div>
+      <div class="reserva_tarjeta_producto" aria-hidden="true"><jobsy-icon name="package" /></div>
     }
 
-    @if (product().estado === 'destacado') {
+    @if (product().stock === 0) {
+      <span class="distintivo_tarjeta_producto is-agotado">Agotado</span>
+    } @else if (product().stock <= 5) {
+      <span class="distintivo_tarjeta_producto is-aviso">Quedan {{ product().stock }}</span>
+    } @else if (product().estado === 'destacado') {
       <span class="distintivo_tarjeta_producto">Destacado</span>
-    }
-    @if (product().stock <= 5 && product().stock > 0) {
-      <span class="distintivo_tarjeta_producto distintivo_tarjeta_producto_aviso">Ultimas {{ product().stock }}</span>
     }
   </div>
 
   <div class="cuerpo_tarjeta_producto">
-    <p class="categoria_tarjeta_producto">{{ product().categoria }}</p>
-
     <h3 class="titulo_tarjeta_producto">
       <a [routerLink]="['/tienda/producto', product().id]">{{ product().nombre }}</a>
     </h3>
 
-    <p class="descripcion_tarjeta_producto">{{ product().descripcion }}</p>
+    <p class="categoria_tarjeta_producto">{{ product().categoria }}</p>
 
-    <jobsy-rating-stars [value]="product().calificacion" [showValue]="false" />
+    <p class="descripcion_tarjeta_producto">{{ product().descripcion }}</p>
   </div>
 
   <footer class="pie_tarjeta_producto">
-    <span class="precio_tarjeta_producto precio">{{ product().precio | cop }}</span>
+    <span class="precio_tarjeta_producto cifra">{{ product().precio | cop }}</span>
 
-    <button
-      type="button"
-      class="boton_principal boton_chico"
-      [disabled]="product().stock === 0"
-      (click)="agregar.emit(product())">
-      {{ product().stock === 0 ? 'Agotado' : 'Agregar' }}
-    </button>
+    @if (cantidad() > 0) {
+      <div class="cantidad_tarjeta_producto" role="group" [attr.aria-label]="'Cantidad de ' + product().nombre + ' en el carrito'">
+        <button type="button" (click)="cambiar(-1)" [attr.aria-label]="cantidad() === 1 ? 'Quitar del carrito' : 'Uno menos'">
+          <jobsy-icon [name]="cantidad() === 1 ? 'trash-2' : 'minus'" />
+        </button>
+        <output aria-live="polite">{{ cantidad() }}</output>
+        <button type="button" (click)="cambiar(1)" [disabled]="cantidad() >= product().stock" aria-label="Uno más">
+          <jobsy-icon name="plus" />
+        </button>
+      </div>
+    } @else {
+      <button
+        type="button"
+        class="agregar_tarjeta_producto"
+        [disabled]="product().stock === 0"
+        [attr.aria-label]="product().stock === 0 ? product().nombre + ' agotado' : 'Agregar ' + product().nombre + ' al carrito'"
+        (click)="agregar.emit(product())">
+        <jobsy-icon [name]="product().stock === 0 ? 'x' : 'plus'" />
+        <span>{{ product().stock === 0 ? 'Agotado' : 'Agregar' }}</span>
+      </button>
+    }
   </footer>
 </article>

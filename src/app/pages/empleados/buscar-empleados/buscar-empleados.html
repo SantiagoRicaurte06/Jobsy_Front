@@ -1,39 +1,56 @@
-<section class="portada_empleados">
-  <div class="interior_portada_empleados">
-    <div>
-      <h1 class="titulo_portada_empleados">ENCUENTRA EMPLEADOS</h1>
-      <p class="texto_portada_empleados">Perfiles verificados y calificados por otros hogares de tu ciudad.</p>
+<section class="cabeza_empleados">
+  <div class="contenedor">
+    <div class="titulo_empleados">
+      <h1>Personas para ayudarte en casa</h1>
+      @if (rol() === 'empleador') {
+        <a routerLink="/publicar-oferta" class="boton_simple boton_chico">
+          <jobsy-icon name="square-pen" /> Mejor publico una oferta
+        </a>
+      }
     </div>
+    <p class="texto_empleados">
+      Elige los días y las horas que necesitas: cada perfil te dice cuánto costaría tu semana con esa persona.
+    </p>
 
-    <a routerLink="/publicar-oferta" class="boton_principal">Publicar una oferta</a>
+    <jobsy-search-bar
+      placeholder="Buscar por nombre"
+      [showCity]="false"
+      [terminoInicial]="busqueda()"
+      (buscar)="buscar($event)" />
+
+    <jobsy-tu-semana class="semana_empleados"
+      [oficios]="oficios()"
+      [oficio]="oficio()"
+      [semana]="semana()"
+      (cambio)="cambiarSemana($event)" />
   </div>
 </section>
 
-<div class="contenedor buscar_empleados">
-  <jobsy-search-bar
-    placeholder="Buscar por nombre o especialidad..."
-    (buscar)="buscar($event)" />
-
-  <div class="encabezado_seccion encabezado_buscar_empleados">
-    <h2>Empleados disponibles</h2>
+<div class="contenedor resultados_empleados">
+  <p class="conteo_empleados" aria-live="polite">
     @if (!cargando()) {
-      <p class="texto_chico texto_gris">{{ total() }} perfiles</p>
+      {{ textoTotal() }}@if (oficio()) { <span> para {{ oficio()!.toLowerCase() }}</span> }@if (semana()) { <span class="dias_conteo"> · {{ diasTexto() }}, {{ semana()!.horas }} h</span> }
     }
-  </div>
+  </p>
 
   @if (cargando()) {
-    <jobsy-loading-spinner label="Buscando empleados..." />
+    <jobsy-loading-spinner label="Buscando perfiles…" />
   } @else if (employees().length === 0) {
     <jobsy-empty-state
-      icon="user"
-      title="Sin resultados"
-      message="No encontramos empleados con ese criterio. Prueba otra busqueda." />
+      icon="users"
+      title="Nadie con esa búsqueda todavía"
+      message="Prueba con otro oficio o publica una oferta: las personas interesadas se postularán.">
+      @if (rol() !== 'empleado') { <a routerLink="/publicar-oferta" class="boton_principal">Publicar una oferta</a> }
+    </jobsy-empty-state>
   } @else {
-    <div class="rejilla_buscar_empleados">
-      @for (employee of employees(); track employee.id) {
-        <jobsy-employee-card [employee]="employee" (solicitar)="solicitar($event)" />
+    <h2 class="oculto">Perfiles</h2>
+    <ul class="rejilla_empleados">
+      @for (employee of employees(); track employee.id; let i = $index) {
+        <li [style.--i]="i">
+          <jobsy-employee-card [employee]="employee" [semana]="semana()" (solicitar)="solicitar($event)" />
+        </li>
       }
-    </div>
+    </ul>
 
     <jobsy-pagination [page]="page()" [totalPages]="totalPages()" (pageChange)="changePage($event)" />
   }

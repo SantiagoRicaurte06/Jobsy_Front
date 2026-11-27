@@ -1,6 +1,8 @@
 <section class="configuracion">
-  <div class="encabezado_seccion">
-    <h1>Configuracion</h1>
+  <div class="encabezado_seccion configuracion__header">
+    <div>
+      <h1>Configuración</h1>
+    </div>
     <button type="button" class="boton_principal boton_chico" [disabled]="guardando()" (click)="guardar()">
       {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
     </button>
@@ -16,60 +18,60 @@
   <!-- ---- Notificaciones ---- -->
   <section class="configuracion__block tarjeta">
     <h2>Notificaciones</h2>
-    <p class="configuracion__hint">Elige como quieres que Jobsy te avise.</p>
+    <p class="configuracion__hint">Elige cómo quieres que Jobsy te avise.</p>
 
     <ul class="configuracion__switches">
       <li>
         <div>
-          <strong>Correo electronico</strong>
-          <span>Recibe avisos en tu correo.</span>
+          <strong id="cfg-notifCorreo">Correo electrónico</strong>
+          <span id="cfg-notifCorreo-ayuda">Recibe avisos en tu correo.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="notifCorreo"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="notifCorreo" aria-labelledby="cfg-notifCorreo" aria-describedby="cfg-notifCorreo-ayuda"
           [ngModel]="valores().notifCorreo" (ngModelChange)="set('notifCorreo', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Avisos en la plataforma</strong>
-          <span>Los veras en tu campana de notificaciones.</span>
+          <strong id="cfg-notifPlataforma">Avisos en la plataforma</strong>
+          <span id="cfg-notifPlataforma-ayuda">Los verás en tu campana de notificaciones.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="notifPlataforma"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="notifPlataforma" aria-labelledby="cfg-notifPlataforma" aria-describedby="cfg-notifPlataforma-ayuda"
           [ngModel]="valores().notifPlataforma" (ngModelChange)="set('notifPlataforma', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Nuevas ofertas</strong>
-          <span>Cuando aparezca un empleo que encaje contigo.</span>
+          <strong id="cfg-notifNuevasOfertas">Nuevas ofertas</strong>
+          <span id="cfg-notifNuevasOfertas-ayuda">Cuando aparezca un empleo que encaje contigo.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="notifNuevasOfertas"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="notifNuevasOfertas" aria-labelledby="cfg-notifNuevasOfertas" aria-describedby="cfg-notifNuevasOfertas-ayuda"
           [ngModel]="valores().notifNuevasOfertas" (ngModelChange)="set('notifNuevasOfertas', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Mensajes</strong>
-          <span>Cuando un empleador te escriba.</span>
+          <strong id="cfg-notifMensajes">Mensajes</strong>
+          <span id="cfg-notifMensajes-ayuda">Cuando un empleador te escriba.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="notifMensajes"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="notifMensajes" aria-labelledby="cfg-notifMensajes" aria-describedby="cfg-notifMensajes-ayuda"
           [ngModel]="valores().notifMensajes" (ngModelChange)="set('notifMensajes', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Tus postulaciones</strong>
-          <span>Cuando cambie el estado de una postulacion tuya.</span>
+          <strong id="cfg-notifPostulaciones">Tus postulaciones</strong>
+          <span id="cfg-notifPostulaciones-ayuda">Cuando cambie el estado de una postulación tuya.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="notifPostulaciones"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="notifPostulaciones" aria-labelledby="cfg-notifPostulaciones" aria-describedby="cfg-notifPostulaciones-ayuda"
           [ngModel]="valores().notifPostulaciones" (ngModelChange)="set('notifPostulaciones', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Novedades de Jobsy</strong>
-          <span>Cambios en la plataforma y promociones de la tienda.</span>
+          <strong id="cfg-notifActualizaciones">Novedades de Jobsy</strong>
+          <span id="cfg-notifActualizaciones-ayuda">Cambios en la plataforma y promociones de la tienda.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="notifActualizaciones"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="notifActualizaciones" aria-labelledby="cfg-notifActualizaciones" aria-describedby="cfg-notifActualizaciones-ayuda"
           [ngModel]="valores().notifActualizaciones" (ngModelChange)="set('notifActualizaciones', $event)" />
       </li>
     </ul>
@@ -78,60 +80,60 @@
   <!-- ---- Privacidad ---- -->
   <section class="configuracion__block tarjeta">
     <h2>Privacidad</h2>
-    <p class="configuracion__hint">Controla que ven los demas usuarios de tu perfil.</p>
+    <p class="configuracion__hint">Controla qué ven los demás usuarios de tu perfil.</p>
 
     <ul class="configuracion__switches">
       <li>
         <div>
-          <strong>Perfil publico</strong>
-          <span>Cualquiera puede abrir tu perfil.</span>
+          <strong id="cfg-perfilPublico">Perfil público</strong>
+          <span id="cfg-perfilPublico-ayuda">Cualquiera puede abrir tu perfil.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="perfilPublico"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="perfilPublico" aria-labelledby="cfg-perfilPublico" aria-describedby="cfg-perfilPublico-ayuda"
           [ngModel]="valores().perfilPublico" (ngModelChange)="set('perfilPublico', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Aparecer en busquedas</strong>
-          <span>Tu perfil sale en el buscador de empleados.</span>
+          <strong id="cfg-aparecerBusquedas">Aparecer en búsquedas</strong>
+          <span id="cfg-aparecerBusquedas-ayuda">Tu perfil sale en el buscador de empleados.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="aparecerBusquedas"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="aparecerBusquedas" aria-labelledby="cfg-aparecerBusquedas" aria-describedby="cfg-aparecerBusquedas-ayuda"
           [ngModel]="valores().aparecerBusquedas" (ngModelChange)="set('aparecerBusquedas', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Hoja de vida visible</strong>
-          <span>Los empleadores pueden ver tu hoja de vida.</span>
+          <strong id="cfg-hvVisible">Hoja de vida visible</strong>
+          <span id="cfg-hvVisible-ayuda">Los empleadores pueden ver tu hoja de vida.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="hvVisible"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="hvVisible" aria-labelledby="cfg-hvVisible" aria-describedby="cfg-hvVisible-ayuda"
           [ngModel]="valores().hvVisible" (ngModelChange)="set('hvVisible', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Mostrar correo</strong>
-          <span>Tu correo aparece en tu perfil.</span>
+          <strong id="cfg-mostrarCorreo">Mostrar correo</strong>
+          <span id="cfg-mostrarCorreo-ayuda">Tu correo aparece en tu perfil.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="mostrarCorreo"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="mostrarCorreo" aria-labelledby="cfg-mostrarCorreo" aria-describedby="cfg-mostrarCorreo-ayuda"
           [ngModel]="valores().mostrarCorreo" (ngModelChange)="set('mostrarCorreo', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Mostrar telefono</strong>
-          <span>Solo visible tras confirmar una contratacion.</span>
+          <strong id="cfg-mostrarTelefono">Mostrar teléfono</strong>
+          <span id="cfg-mostrarTelefono-ayuda">Solo visible tras confirmar una contratación.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="mostrarTelefono"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="mostrarTelefono" aria-labelledby="cfg-mostrarTelefono" aria-describedby="cfg-mostrarTelefono-ayuda"
           [ngModel]="valores().mostrarTelefono" (ngModelChange)="set('mostrarTelefono', $event)" />
       </li>
 
       <li>
         <div>
-          <strong>Mostrar ubicacion</strong>
-          <span>Tu ciudad y barrio aparecen en tu perfil.</span>
+          <strong id="cfg-mostrarUbicacion">Mostrar ubicación</strong>
+          <span id="cfg-mostrarUbicacion-ayuda">Tu ciudad y barrio aparecen en tu perfil.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="mostrarUbicacion"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="mostrarUbicacion" aria-labelledby="cfg-mostrarUbicacion" aria-describedby="cfg-mostrarUbicacion-ayuda"
           [ngModel]="valores().mostrarUbicacion" (ngModelChange)="set('mostrarUbicacion', $event)" />
       </li>
     </ul>
@@ -140,17 +142,17 @@
   <!-- ---- Seguridad ---- -->
   <section class="configuracion__block tarjeta">
     <h2>Seguridad</h2>
-    <p class="configuracion__hint">Manten tu cuenta protegida.</p>
+    <p class="configuracion__hint">Mantén tu cuenta protegida.</p>
 
     <div class="configuracion__row">
       <div class="grupo_campo">
-        <label class="etiqueta" for="passActual">Contrasena actual</label>
+        <label class="etiqueta" for="passActual">Contraseña actual</label>
         <input id="passActual" type="password" class="campo" autocomplete="current-password"
           [ngModel]="passwordActual()" (ngModelChange)="passwordActual.set($event)" name="passActual" />
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="passNueva">Nueva contrasena</label>
+        <label class="etiqueta" for="passNueva">Nueva contraseña</label>
         <input id="passNueva" type="password" class="campo" autocomplete="new-password"
           [ngModel]="passwordNueva()" (ngModelChange)="passwordNueva.set($event)" name="passNueva" />
       </div>
@@ -167,21 +169,21 @@
     }
     @if (passwordCambiada()) {
       <p class="configuracion__saved" role="status">
-        <jobsy-icon name="check" /> Contrasena actualizada.
+        <jobsy-icon name="check" /> Contraseña actualizada.
       </p>
     }
 
     <button type="button" class="boton_secundario boton_chico" (click)="cambiarPassword()">
-      Cambiar contrasena
+      Cambiar contraseña
     </button>
 
     <ul class="configuracion__switches configuracion__switches--top">
       <li>
         <div>
-          <strong>Verificacion en dos pasos</strong>
-          <span>Pide un codigo adicional al iniciar sesion.</span>
+          <strong id="cfg-dobleFactor">Verificación en dos pasos</strong>
+          <span id="cfg-dobleFactor-ayuda">Pide un código adicional al iniciar sesión.</span>
         </div>
-        <input type="checkbox" class="configuracion__switch" name="dobleFactor"
+        <input type="checkbox" role="switch" class="configuracion__switch" name="dobleFactor" aria-labelledby="cfg-dobleFactor" aria-describedby="cfg-dobleFactor-ayuda"
           [ngModel]="valores().dobleFactor" (ngModelChange)="set('dobleFactor', $event)" />
       </li>
     </ul>
@@ -191,14 +193,14 @@
   <section class="configuracion__block configuracion__danger tarjeta">
     <h2>Eliminar cuenta</h2>
     <p class="configuracion__hint">
-      Tu perfil dejara de aparecer y no podras volver a entrar. Las contrataciones,
-      pedidos y resenas en los que participaste se conservan, porque forman parte del
+      Tu perfil dejará de aparecer y no podrás volver a entrar. Las contrataciones,
+      pedidos y reseñas en los que participaste se conservan, porque forman parte del
       historial de las otras personas.
     </p>
 
     @if (confirmandoBaja()) {
       <div class="grupo_campo">
-        <label class="etiqueta" for="passBaja">Escribe tu contrasena para confirmar</label>
+        <label class="etiqueta" for="passBaja">Escribe tu contraseña para confirmar</label>
         <input id="passBaja" type="password" class="campo" autocomplete="current-password"
           [ngModel]="passwordBaja()" (ngModelChange)="passwordBaja.set($event)" name="passBaja" />
       </div>
@@ -208,7 +210,7 @@
       }
 
       <button type="button" class="configuracion__delete" (click)="confirmarBaja()">
-        Si, eliminar mi cuenta
+        Sí, eliminar mi cuenta
       </button>
       <button type="button" class="boton_secundario boton_chico" (click)="cancelarBaja()">
         Cancelar

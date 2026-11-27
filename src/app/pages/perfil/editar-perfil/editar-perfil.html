@@ -2,8 +2,10 @@
   @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="encabezado_seccion">
-      <h1>Editar perfil</h1>
+    <div class="encabezado_seccion cabecera_editar_perfil">
+      <div>
+        <h1>Editar perfil</h1>
+      </div>
       <a routerLink="/app/perfil" class="boton_simple boton_chico">Cancelar</a>
     </div>
 
@@ -33,14 +35,14 @@
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="email">Correo electronico</label>
+        <label class="etiqueta" for="email">Correo electrónico</label>
         <input id="email" type="email" class="campo" [value]="email()" disabled />
-        <p class="ayuda">El correo no se puede cambiar desde aqui.</p>
+        <p class="ayuda">El correo no se puede cambiar desde aquí.</p>
       </div>
 
       <div class="fila_editar_perfil">
         <div class="grupo_campo">
-          <label class="etiqueta" for="telefono">Telefono</label>
+          <label class="etiqueta" for="telefono">Teléfono</label>
           <input id="telefono" type="tel" class="campo" placeholder="300 123 4567"
             maxlength="16" inputmode="tel" autocomplete="tel-national"
             [class.is-invalid]="intentado() && errores().telefono"
@@ -57,22 +59,23 @@
         </div>
       </div>
 
-      <h2 class="leyenda_editar_perfil">Perfil publico</h2>
+      <h2 class="leyenda_editar_perfil">Perfil público</h2>
 
       <div class="grupo_campo">
-        <label class="etiqueta" for="descripcion">Descripcion</label>
+        <label class="etiqueta" for="descripcion">Descripción</label>
         <textarea id="descripcion" class="area_texto"
-          placeholder="Cuenta brevemente quien eres y como trabajas."
+          placeholder="Cuenta brevemente quién eres y cómo trabajas."
           [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" name="descripcion"></textarea>
       </div>
 
       <div class="grupo_campo">
-        <label class="etiqueta">Especialidades</label>
-        <ul class="fichas_editar_perfil">
+        <p class="etiqueta" id="grupo-especialidades">Especialidades</p>
+        <ul class="fichas_editar_perfil" aria-labelledby="grupo-especialidades">
           @for (e of opcionesEspecialidad; track e) {
             <li>
               <button type="button" class="ficha_editar_perfil"
                 [class.is-selected]="especialidades().includes(e)"
+                [attr.aria-pressed]="especialidades().includes(e)"
                 (click)="toggleEspecialidad(e)">
                 {{ e }}
               </button>

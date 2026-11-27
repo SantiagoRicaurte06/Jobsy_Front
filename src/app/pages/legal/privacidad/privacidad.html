@@ -1,16 +1,15 @@
 <!-- ============ BANNER ============ -->
 <section class="banner_institucional">
   <div class="contenedor">
-    <span class="pildora_institucional">Legal</span>
-    <h1 class="titulo_banner">Politica de Privacidad</h1>
-    <p class="texto_banner">Ultima actualizacion: {{ actualizado }}</p>
+    <h1 class="titulo_banner">Política de Privacidad</h1>
+    <p class="texto_banner">Última actualizacion: {{ actualizado }}</p>
   </div>
 </section>
 
 <!-- ============ CONTENIDO ============ -->
 <section class="contenedor seccion">
   <div class="grid_legal">
-    <nav class="indice_legal" aria-label="Indice del documento">
+    <nav class="indice_legal" aria-label="Índice del documento">
       <span class="titulo_indice">Contenido</span>
       <ul>
         @for (s of secciones; track s.id) {

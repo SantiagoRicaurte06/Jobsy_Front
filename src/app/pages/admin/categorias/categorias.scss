@@ -2,11 +2,15 @@
 @use 'mixins' as m;
 
 .admin-categorias {
-  &__head { margin-bottom: v.$space-5; }
+  &__head {
+    margin-bottom: v.$space-5;
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
+  }
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-2xl;
+    @include m.display(v.$font-size-2xl);
   }
 
   &__subtitle {
@@ -105,6 +109,7 @@
   }
 
   &__delete {
+    min-height: 44px; // objetivo táctil
     padding: 0;
     background: none;
     border: none;
@@ -140,6 +145,6 @@
     background: v.$color-danger;
     color: v.$color-text-invert;
 
-    &:hover { background: #b93a3a; }
+    &:hover { background: v.$color-danger-hover; }
   }
 }

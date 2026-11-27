@@ -3,10 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CheckoutBase } from '../checkout-base';
 import * as R from '../../../../core/validation/reglas';
 
+import { CopPipe } from '../../../../shared/pipes';
+
 @Component({
   selector: 'jobsy-pse',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CopPipe],
   templateUrl: './pse.html',
   styleUrl: './pse.scss',
 })
@@ -31,7 +33,7 @@ export class PsePage extends CheckoutBase {
     const doc = this.documento().replace(/[. ]/g, '');
     const invalido = R.primero(
       this.tipoPersona() === 'juridica'
-        ? (/^[0-9]{9,10}(-[0-9])?$/.test(doc) ? null : 'El NIT debe tener 9 o 10 digitos, por ejemplo 900123456-7.')
+        ? (/^[0-9]{9,10}(-[0-9])?$/.test(doc) ? null : 'El NIT debe tener 9 o 10 dígitos, por ejemplo 900123456-7.')
         : R.documento(doc, true),
       R.correo(this.email()),
     );

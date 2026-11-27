@@ -8,11 +8,13 @@
     justify-content: space-between;
     gap: v.$space-4;
     margin-bottom: v.$space-5;
+    padding-bottom: v.$space-4;
+    border-bottom: 3px solid v.$color-cta;
   }
 
   &__title {
     margin: 0 0 v.$space-1;
-    font-size: v.$font-size-2xl;
+    @include m.display(v.$font-size-2xl);
   }
 
   &__subtitle {
@@ -68,9 +70,9 @@
       &:hover { border-color: v.$color-primary-light; }
 
       &.is-active {
-        background: v.$color-primary-light;
-        border-color: v.$color-primary-light;
-        color: v.$color-text-invert;
+        background: v.$color-ink;
+        border-color: v.$color-ink;
+        color: v.$color-bg;
         font-weight: v.$font-weight-semibold;
       }
     }
@@ -87,7 +89,7 @@
     th {
       padding: v.$space-3;
       border-bottom: 1px solid v.$color-border;
-      font-size: 10px;
+      font-size: 0.75rem;
       font-weight: v.$font-weight-semibold;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -136,6 +138,7 @@
   }
 
   &__mini {
+    min-height: 44px; // objetivo táctil
     margin-left: v.$space-2;
     padding: 2px v.$space-2;
     background: v.$color-primary-bg;
@@ -143,11 +146,11 @@
     border-radius: v.$radius-sm;
     color: v.$color-primary;
     font-family: inherit;
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: v.$font-weight-bold;
     cursor: pointer;
 
-    &:hover { background: v.$color-primary-light; color: v.$color-text-invert; }
+    &:hover { background: v.$color-primary; color: v.$color-text-invert; }
   }
 
   // Select que se ve como una pildora de estado
@@ -171,6 +174,7 @@
   }
 
   &__delete {
+    min-height: 44px; // objetivo táctil
     padding: 0;
     background: none;
     border: none;
@@ -222,6 +226,6 @@
     background: v.$color-danger;
     color: v.$color-text-invert;
 
-    &:hover { background: #b93a3a; }
+    &:hover { background: v.$color-danger-hover; }
   }
 }

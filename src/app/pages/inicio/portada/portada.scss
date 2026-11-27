@@ -1,358 +1,265 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-// ============ Utilidades locales ============
-.seccion { padding-block: v.$space-7; }
+// ============================================================
+//  Primer vistazo: escena + planificador
+// ============================================================
+.inicio { padding-block: v.$space-5 v.$space-7; }
 
-.enlace_seccion {
-  font-size: v.$font-size-sm;
-  font-weight: v.$font-weight-semibold;
-}
-
-.rejilla_inicio { @include m.grid-cards(320px); }
-
-// ============ PORTADA ============
-.portada {
-  background: v.$gradient-hero;
-  color: v.$color-text-invert;
-  overflow: hidden;
-}
-
-.interior_portada {
+.interior_inicio {
   @include m.container;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: v.$space-6;
-  padding-block: v.$space-8;
-
-  @include m.until(v.$bp-lg) {
-    grid-template-columns: 1fr;
-    padding-block: v.$space-7;
-  }
-}
-
-.pildora_portada {
-  display: inline-block;
-  padding: v.$space-1 v.$space-4;
-  margin-bottom: v.$space-5;
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: v.$radius-pill;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-medium;
-}
-
-.titulo_portada {
-  margin: 0 0 v.$space-4;
-  font-size: v.$font-size-3xl;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-
-  em {
-    font-style: normal;
-    color: v.$color-accent-light;
-  }
-
-  @include m.from(v.$bp-lg) { font-size: v.$font-size-4xl; }
-}
-
-.texto_portada {
-  margin: 0 0 v.$space-5;
-  font-size: v.$font-size-sm;
-  line-height: 1.7;
-  opacity: 0.92;
-}
-
-.acciones_portada {
-  display: flex;
-  flex-wrap: wrap;
-  gap: v.$space-3;
-}
-
-// La ilustracion se oculta en pantallas pequenas.
-.media_portada {
-  @include m.until(v.$bp-lg) { display: none; }
-}
-
-.foto_portada {
-  width: 100%;
-  aspect-ratio: 16 / 11;
-  object-fit: cover;
-  border-radius: v.$radius-xl;
-  box-shadow: v.$shadow-lg;
-}
-
-// ============ CARRUSEL PORTADA ============
-.carrusel_portada {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 11; // el ratio ahora vive en el contenedor, no en cada foto
-  border-radius: v.$radius-xl;
-  overflow: hidden;
-  box-shadow: v.$shadow-lg;
-
-  &__pista {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  &__flecha {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(0, 0, 0, 0.35);
-    color: v.$color-text-invert;
-    font-size: v.$font-size-sm;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background v.$transition-fast;
-    z-index: 2;
-
-    &:hover { background: rgba(0, 0, 0, 0.55); }
-
-    &--izq { left: v.$space-3; }
-    &--der { right: v.$space-3; }
-  }
-
-  &__puntos {
-    position: absolute;
-    bottom: v.$space-3;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: v.$space-2;
-    z-index: 2;
-  }
-
-  &__punto {
-    width: 8px;
-    height: 8px;
-    border-radius: v.$radius-pill;
-    border: none;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 0;
-    cursor: pointer;
-    transition: all v.$transition-fast;
-
-    &--activo {
-      background: v.$color-text-invert;
-      width: 22px;
-    }
-  }
-
-  &__foto {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: unset; // se pisa el aspect-ratio de .foto_portada, ya definido arriba
-    box-shadow: none; // idem con la sombra: la pone .carrusel_portada, no cada imagen
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
-
-    &--activa { opacity: 1; }
-  }
-}
-
-// ============ CIFRAS ============
-.cifras {
-  background: v.$color-primary-dark;
-  color: v.$color-text-invert;
-}
-
-.interior_cifras {
-  @include m.container;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding-block: v.$space-5;
-
-  @include m.until(v.$bp-md) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: v.$space-4;
-  }
-}
-
-.elemento_cifras {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  strong { font-size: v.$font-size-xl; }
-  span { font-size: v.$font-size-xs; opacity: 0.75; }
-
-  // Separador vertical entre cifras, salvo antes de la primera.
-  & + & {
-    @include m.from(v.$bp-md) {
-      border-left: 1px solid rgba(255, 255, 255, 0.18);
-    }
-  }
-}
-
-// ============ BUSCADOR ============
-.buscador {
-  padding-block: v.$space-6;
-  background: transparent;
-}
-
-.interior_buscador {
-  @include m.container;
-  max-width: 860px;
-}
-
-.filtros_buscador {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: v.$space-2;
-  margin-top: v.$space-4;
-}
-
-.ficha_buscador {
-  padding: v.$space-2 v.$space-4;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid v.$glass-border;
-  border-radius: v.$radius-pill;
-  font-size: v.$font-size-sm; // antes xs
-  color: v.$color-text-muted;
-  cursor: pointer;
-  transition: all v.$transition-fast;
-
-  &:hover { border-color: v.$color-primary-light; }
-
-  &.is-active {
-    background: v.$color-primary-light;
-    border-color: v.$color-primary-light;
-    color: v.$color-text-invert;
-    font-weight: v.$font-weight-semibold;
-  }
-}
-
-// ============ SOBRE NOSOTROS ============
-.nosotros {
-  padding-block: v.$space-7;
-  background: rgba(234, 244, 252, 0.55);
-}
-
-.interior_nosotros {
-  @include m.container;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: stretch;
   gap: v.$space-7;
 
-  @include m.until(v.$bp-lg) { grid-template-columns: 1fr; }
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-6; }
 }
 
-.titulo_nosotros {
-  margin: v.$space-3 0 v.$space-4;
-  font-size: v.$font-size-2xl;
-  line-height: 1.2;
-
-  em {
-    font-style: normal;
-    color: v.$color-primary-light;
-  }
-}
-
-.texto_nosotros {
-  margin: 0 0 v.$space-5;
-  font-size: v.$font-size-sm;
-  color: v.$color-text-muted;
-  line-height: 1.7;
-}
-
-.ventajas_nosotros {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: v.$space-3;
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: v.$space-2;
-    padding: v.$space-3;
-    background: v.$color-surface;
-    border: 1px solid v.$glass-border;
-    border-radius: v.$radius-md;
-    box-shadow: v.$shadow-sm;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-medium;
-  }
-
-  @include m.until(v.$bp-sm) { grid-template-columns: 1fr; }
-}
-
-// ---- Columna derecha ----
-.foto_nosotros {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  margin-bottom: v.$space-4;
+// La foto enmarcada con las personas flotando encima.
+.escena {
+  position: relative;
+  align-self: start;
+  height: 720px;
   border-radius: v.$radius-xl;
-  box-shadow: v.$shadow-md;
+  overflow: hidden;
+  background: v.$color-ink;
+
+  @include m.until(v.$bp-lg) { order: 2; height: 340px; }
 }
 
-.cifras_nosotros {
+.foto_escena {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% 35%;
+}
+
+.flotantes {
+  position: absolute;
+  left: v.$space-5;
+  right: v.$space-5;
+  bottom: v.$space-5;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: v.$space-3;
+  justify-items: start;
 
-  > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: v.$space-3;
-    background: v.$color-surface;
-    border: 1px solid v.$glass-border;
-    border-radius: v.$radius-md;
-    box-shadow: v.$shadow-sm;
-    text-align: center;
-  }
+  li { animation: aparecer 0.7s v.$ease-out both; animation-delay: calc(0.25s + var(--i) * 0.14s); }
 
-  strong { font-size: v.$font-size-lg; color: v.$color-primary; }
-  span { font-size: 10px; color: v.$color-text-muted; }
+  // En celular basta una: la fila de personas viene justo después.
+  @include m.until(v.$bp-lg) { li:nth-child(n + 2) { display: none; } }
 }
 
-// ============ LLAMADA FINAL ============
-.llamada {
-  background: v.$gradient-band;
-  color: v.$color-text-invert;
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to { opacity: 1; transform: none; }
 }
 
-.interior_llamada {
-  @include m.container;
+.flotante {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: v.$space-6;
-  padding-block: v.$space-7;
+  gap: v.$space-3;
+  padding: v.$space-2 v.$space-4 v.$space-2 v.$space-2;
+  border-radius: v.$radius-lg;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  text-decoration: none;
+  box-shadow: 0 18px 32px -18px rgba(8, 20, 40, 0.65);
+  transition: transform v.$transition-base;
 
-  @include m.until(v.$bp-lg) {
-    flex-direction: column;
-    text-align: center;
+  &:hover { transform: translateX(4px); text-decoration: none; }
+
+  img, .inicial_flotante {
+    width: 48px;
+    height: 48px;
+    border-radius: v.$radius-md;
+    background: v.$color-primary-bg;
+    object-fit: cover;
   }
 }
 
-.titulo_llamada {
-  margin: 0 0 v.$space-2;
-  font-size: v.$font-size-xl;
+.inicial_flotante { display: grid; place-items: center; font-weight: v.$font-weight-bold; }
+
+.datos_flotante {
+  display: grid;
+  font-size: v.$font-size-xs;
+  color: v.$color-text-muted;
+
+  strong { font-size: v.$font-size-sm; color: v.$color-ink; }
+  span { display: inline-flex; align-items: center; gap: v.$space-1; }
+  jobsy-icon { color: v.$color-success; }
 }
 
-.texto_llamada {
-  margin: 0;
-  font-size: v.$font-size-sm;
-  line-height: 1.7;
-  opacity: 0.92;
+.tarifa_flotante { font-weight: v.$font-weight-bold; color: v.$color-ink; }
+
+.panel_inicio { padding-top: v.$space-2; }
+
+.titulo_inicio {
+  margin: 0 0 v.$space-3;
+  @include m.display(clamp(2rem, 3.3vw, 2.8rem));
 }
 
-.acciones_llamada {
+.texto_inicio {
+  max-width: 44ch;
+  margin: 0 0 v.$space-6;
+  font-size: v.$font-size-base;
+  line-height: 1.5;
+  color: v.$color-text-muted;
+}
+
+.resumen_inicio {
+  margin: v.$space-5 0 0;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-muted;
+}
+
+// ============================================================
+//  Personas protagonistas: fila que se desliza
+// ============================================================
+.personas {
+  margin-top: v.$space-7;
+  padding-block: v.$space-9;
+  background: v.$color-ink;
+  color: v.$color-bg;
+
+  h2 { color: v.$color-bg; }
+  .enlace_portada { color: v.$color-bg; }
+}
+
+.encabezado_personas {
   display: flex;
   flex-wrap: wrap;
-  gap: v.$space-3;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: v.$space-4;
+  margin-bottom: v.$space-6;
+
+  h2 { margin: 0; max-width: 24ch; @include m.display(clamp(1.8rem, 3.2vw, 2.6rem)); }
+}
+
+.enlace_portada {
+  font-weight: v.$font-weight-bold;
+  text-underline-offset: 4px;
+  padding-block: v.$space-3;
+}
+
+.fila_personas {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 1fr);
+  gap: v.$space-5;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  // Arranca alineada con el contenedor y se sale por la derecha.
+  padding: v.$space-2 max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6})) v.$space-5;
+  scroll-padding-inline: max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6}));
+
+  @include m.until(v.$bp-md) { padding-inline: v.$space-4; scroll-padding-inline: v.$space-4; }
+  scrollbar-color: v.$color-on-dark-accent transparent;
+}
+
+.celda_persona {
+  scroll-snap-align: start;
+
+  @supports (animation-timeline: view()) {
+    animation: entrar linear both;
+    animation-timeline: view(inline);
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@keyframes entrar {
+  from { opacity: 0.35; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+// ============================================================
+//  Secciones
+// ============================================================
+.seccion_portada { padding-top: v.$space-9; }
+
+.seccion_portada > h2 {
+  margin: 0 0 v.$space-5;
+  @include m.display(clamp(1.8rem, 3.2vw, 2.6rem));
+}
+
+.tareas_portada {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
+  margin-bottom: v.$space-5;
+
+  @include m.until(v.$bp-md) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * #{v.$space-4});
+    padding-inline: v.$space-4;
+
+    &::-webkit-scrollbar { display: none; }
+    > * { flex-shrink: 0; }
+  }
+}
+
+.ficha_portada {
+  min-height: 44px;
+  padding: 0 v.$space-4;
+  border: v.$border-width solid v.$color-border;
+  border-radius: v.$radius-pill;
+  background: v.$color-surface;
+  color: v.$color-ink;
+  font-weight: v.$font-weight-semibold;
+  cursor: pointer;
+
+  &:hover { border-color: v.$color-ink; }
+  &.is-activa { border-color: v.$color-ink; background: v.$color-ink; color: v.$color-bg; }
+}
+
+.rejilla_portada { @include m.grid-cards(300px); }
+
+// ---- El acuerdo en la app: tres lienzos de color ----
+.titulo_acuerdo {
+  margin: 0 0 v.$space-6;
+  @include m.display(clamp(1.8rem, 3.2vw, 2.6rem));
+}
+
+// ---- Cierre ----
+.sol {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: end;
+  gap: v.$space-6;
+  margin-bottom: v.$space-9;
+  padding: clamp(2rem, 5vw, 4rem);
+  border-radius: v.$radius-xl;
+  background: v.$color-cta;
+  color: v.$color-white;
+
+  @include m.until(v.$bp-md) { grid-template-columns: minmax(0, 1fr); }
+
+  .titulo_sol { color: v.$color-white; }
+  .boton_borde { background: v.$color-white; border-color: v.$color-white; color: v.$color-ink; }
+}
+
+.titulo_sol { max-width: 20ch; margin: 0 0 v.$space-4; @include m.display(clamp(1.9rem, 3.6vw, 2.9rem)); }
+.texto_sol { max-width: 46ch; margin: 0; font-size: v.$font-size-lg; line-height: 1.5; }
+
+.acciones_sol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: v.$space-4;
+
+  .boton_borde { min-height: 52px; padding-inline: v.$space-6; }
+  @include m.until(v.$bp-md) { justify-content: flex-start; }
+}
+
+.enlace_sol { color: v.$color-white; font-weight: v.$font-weight-bold; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flotantes li, .celda_persona { animation: none; }
 }

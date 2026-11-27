@@ -2,8 +2,10 @@
   @if (cargando()) {
     <jobsy-loading-spinner />
   } @else {
-    <div class="encabezado_seccion">
-      <h1>Hoja de vida</h1>
+    <div class="encabezado_seccion cabecera_hoja_vida">
+      <div>
+        <h1>Hoja de vida</h1>
+      </div>
       <button type="button" class="boton_principal boton_chico" [disabled]="guardando()" (click)="guardar()">
         {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
       </button>
@@ -18,10 +20,10 @@
     <!-- ---- Resumen profesional ---- -->
     <section class="bloque_hoja_vida tarjeta">
       <h2>Resumen profesional</h2>
-      <p class="ayuda_hoja_vida">Un parrafo corto que aparece al inicio de tu hoja de vida.</p>
+      <p class="ayuda_hoja_vida">Un párrafo corto que aparece al inicio de tu hoja de vida.</p>
 
       <textarea class="area_texto" maxlength="2000"
-        placeholder="Ej: Profesional del hogar con 6 anos de experiencia en limpieza profunda y cocina."
+        placeholder="Ej: Profesional del hogar con 6 años de experiencia en limpieza profunda y cocina."
         [ngModel]="resumenProfesional()" (ngModelChange)="resumenProfesional.set($event)" name="resumen"></textarea>
     </section>
 
@@ -33,45 +35,45 @@
       </div>
 
       @if (experiencias().length === 0) {
-        <p class="vacio_hoja_vida">Aun no has agregado experiencia laboral.</p>
+        <p class="vacio_hoja_vida">Aún no has agregado experiencia laboral.</p>
       }
 
       @for (exp of experiencias(); track $index; let i = $index) {
         <div class="entrada_hoja_vida">
           <div class="encabezado_entrada_hoja_vida">
-            <span class="numero_entrada_hoja_vida">{{ i + 1 }}</span>
+            <span class="numero_entrada_hoja_vida">Experiencia {{ i + 1 }}</span>
             <button type="button" class="quitar_hoja_vida" (click)="quitarExperiencia(i)">Eliminar</button>
           </div>
 
           <div class="fila_hoja_vida">
             <div class="grupo_campo">
-              <label class="etiqueta">Cargo</label>
-              <input type="text" class="campo" placeholder="Empleada de hogar"
+              <label class="etiqueta" [for]="'hoja-vida-cargo-' + i">Cargo</label>
+              <input [id]="'hoja-vida-cargo-' + i" type="text" class="campo" placeholder="Empleada de hogar"
                 maxlength="100" [(ngModel)]="exp.cargo" [name]="'cargo' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Empleador</label>
-              <input type="text" class="campo" placeholder="Familia Rodriguez"
+              <label class="etiqueta" [for]="'hoja-vida-empresa-' + i">Empleador</label>
+              <input [id]="'hoja-vida-empresa-' + i" type="text" class="campo" placeholder="Familia Rodríguez"
                 maxlength="150" [(ngModel)]="exp.empresa" [name]="'empresa' + i" />
             </div>
           </div>
 
           <div class="fila_hoja_vida">
             <div class="grupo_campo">
-              <label class="etiqueta">Desde</label>
-              <input type="month" class="campo" min="1950-01" [max]="mesMax" [(ngModel)]="exp.desde" [name]="'desde' + i" />
+              <label class="etiqueta" [for]="'hoja-vida-desde-' + i">Desde</label>
+              <input [id]="'hoja-vida-desde-' + i" type="month" class="campo" min="1950-01" [max]="mesMax" [(ngModel)]="exp.desde" [name]="'desde' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Hasta</label>
-              <input type="month" class="campo" [min]="exp.desde || '1950-01'" [max]="mesMax" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
+              <label class="etiqueta" [for]="'hoja-vida-hasta-' + i">Hasta</label>
+              <input [id]="'hoja-vida-hasta-' + i" type="month" class="campo" [min]="exp.desde || '1950-01'" [max]="mesMax" [(ngModel)]="exp.hasta" [name]="'hasta' + i" />
             </div>
           </div>
 
           <div class="grupo_campo">
-            <label class="etiqueta">Descripcion</label>
-            <textarea class="area_texto" placeholder="Tareas principales que realizabas."
+            <label class="etiqueta" [for]="'hoja-vida-desc-' + i">Descripción</label>
+            <textarea [id]="'hoja-vida-desc-' + i" class="area_texto" placeholder="Tareas principales que realizabas."
               maxlength="500" [(ngModel)]="exp.descripcion" [name]="'desc' + i"></textarea>
           </div>
         </div>
@@ -81,37 +83,37 @@
     <!-- ---- Estudios ---- -->
     <section class="bloque_hoja_vida tarjeta">
       <div class="encabezado_bloque_hoja_vida">
-        <h2>Formacion academica</h2>
+        <h2>Formación académica</h2>
         <button type="button" class="boton_simple boton_chico" (click)="agregarEstudio()">+ Agregar</button>
       </div>
 
       @if (educacion().length === 0) {
-        <p class="vacio_hoja_vida">Aun no has agregado estudios.</p>
+        <p class="vacio_hoja_vida">Aún no has agregado estudios.</p>
       }
 
       @for (est of educacion(); track $index; let i = $index) {
         <div class="entrada_hoja_vida">
           <div class="encabezado_entrada_hoja_vida">
-            <span class="numero_entrada_hoja_vida">{{ i + 1 }}</span>
+            <span class="numero_entrada_hoja_vida">Estudio {{ i + 1 }}</span>
             <button type="button" class="quitar_hoja_vida" (click)="quitarEstudio(i)">Eliminar</button>
           </div>
 
           <div class="fila_hoja_vida fila_hoja_vida_tres">
             <div class="grupo_campo">
-              <label class="etiqueta">Titulo</label>
-              <input type="text" class="campo" placeholder="Bachiller academico"
+              <label class="etiqueta" [for]="'hoja-vida-titulo-' + i">Título</label>
+              <input [id]="'hoja-vida-titulo-' + i" type="text" class="campo" placeholder="Bachiller académico"
                 maxlength="150" [(ngModel)]="est.titulo" [name]="'titulo' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Institucion</label>
-              <input type="text" class="campo" placeholder="Colegio Braulio Gonzalez"
+              <label class="etiqueta" [for]="'hoja-vida-inst-' + i">Institución</label>
+              <input [id]="'hoja-vida-inst-' + i" type="text" class="campo" placeholder="Colegio Braulio González"
                 maxlength="150" [(ngModel)]="est.institucion" [name]="'inst' + i" />
             </div>
 
             <div class="grupo_campo">
-              <label class="etiqueta">Ano</label>
-              <input type="text" class="campo" placeholder="2018"
+              <label class="etiqueta" [for]="'hoja-vida-ano-' + i">Año</label>
+              <input [id]="'hoja-vida-ano-' + i" type="text" class="campo" placeholder="2018"
                 inputmode="numeric" maxlength="4" pattern="[0-9]{4}" [(ngModel)]="est.ano" [name]="'ano' + i" />
             </div>
           </div>
@@ -125,7 +127,7 @@
       <p class="ayuda_hoja_vida">Agrega las habilidades que te diferencian.</p>
 
       <div class="agregar_habilidad_hoja_vida">
-        <input type="text" class="campo" placeholder="Ej: Manejo de quimicos de aseo"
+        <input type="text" class="campo" placeholder="Ej: Manejo de químicos de aseo"
           maxlength="50" [ngModel]="nuevaHabilidad()" (ngModelChange)="nuevaHabilidad.set($event)" name="nuevaHabilidad"
           (keydown.enter)="$event.preventDefault(); agregarHabilidad()" />
         <button type="button" class="boton_secundario" (click)="agregarHabilidad()">Agregar</button>

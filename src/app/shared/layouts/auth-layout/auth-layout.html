@@ -1,19 +1,32 @@
 <div class="marco_acceso">
-  <!-- Manchas decorativas del fondo -->
-  <span class="mancha_marco_acceso mancha_marco_acceso_1" aria-hidden="true"></span>
-  <span class="mancha_marco_acceso mancha_marco_acceso_2" aria-hidden="true"></span>
-  <span class="mancha_marco_acceso mancha_marco_acceso_3" aria-hidden="true"></span>
+  <button type="button" class="saltar_contenido" (click)="principal.focus()">Saltar al contenido</button>
 
-  <main class="principal_marco_acceso">
-    <router-outlet />
-  </main>
+  <aside class="campo_marco_acceso">
+    <a routerLink="/" class="marca_marco_acceso" aria-label="Jobsy, ir al inicio">
+      <jobsy-logo variant="claro" size="medio" />
+    </a>
 
-  <footer class="pie_marco_acceso">
-    <nav class="enlaces_marco_acceso">
-      <a routerLink="/legal/terminos">Terminos</a>
-      <a routerLink="/legal/privacidad">Privacidad</a>
-      <a routerLink="/soporte/centro-ayuda">Soporte Jobsy</a>
-      <a routerLink="/legal/privacidad" fragment="cookies">Cookies</a>
-    </nav>
-  </footer>
+    <p class="tesis_marco_acceso">Tu casa en buenas manos. Tu trabajo, con condiciones claras.</p>
+
+    <ul class="promesas_marco_acceso">
+      <li><jobsy-icon name="badge-check" /> Perfiles con documentos verificados y reseñas de otros hogares.</li>
+      <li><jobsy-icon name="calendar-days" /> Cada oferta dice cuánto paga por hora, qué días y en qué horario.</li>
+      <li><jobsy-icon name="handshake" /> Postulación, contratación y reseña sin salir de Jobsy.</li>
+    </ul>
+  </aside>
+
+  <div class="lado_marco_acceso">
+    <main class="principal_marco_acceso" #principal tabindex="-1" id="contenido">
+      <router-outlet />
+    </main>
+
+    <footer class="pie_marco_acceso">
+      <nav aria-label="Legal">
+        <a routerLink="/legal/terminos">Términos</a>
+        <a routerLink="/legal/privacidad">Privacidad</a>
+        <a routerLink="/soporte/centro-ayuda">Ayuda</a>
+      </nav>
+      <p>&copy; {{ year }} Jobsy</p>
+    </footer>
+  </div>
 </div>
