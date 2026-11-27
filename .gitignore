@@ -45,3 +45,6 @@ Thumbs.db
 
 # Herramientas locales (no forman parte del proyecto)
 .claude/
+
+# Impeccable (estado local)
+.impeccable/
