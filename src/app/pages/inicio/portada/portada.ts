@@ -68,7 +68,7 @@ export class LandingPage implements OnInit {
   );
 
   /** Las tres que flotan sobre la foto del primer vistazo. */
-  readonly flotantes = computed(() => this.protagonistas().slice(0, 3));
+  readonly flotantes = computed(() => this.protagonistas().slice(0, 2));
 
   readonly ofertaMuestra = computed(() => this.jobs()[0] ?? null);
   readonly personaMuestra = computed(() => this.protagonistas()[0] ?? null);

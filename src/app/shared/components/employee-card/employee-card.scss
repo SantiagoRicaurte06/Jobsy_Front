@@ -103,7 +103,7 @@
 .cuerpo_persona {
   display: flex;
   flex-direction: column;
-  gap: v.$space-3;
+  gap: v.$space-4;
   flex: 1;
   padding: v.$space-5;
 }
@@ -149,16 +149,13 @@
   margin: 0;
   padding: v.$space-3 v.$space-4;
   border-radius: v.$radius-md;
-  background: v.$color-primary;
-  color: v.$color-primary-bg;
+  background: v.$color-select-pale;
+  color: v.$color-select;
   font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-semibold;
+  font-weight: v.$font-weight-bold;
 
-  strong { color: v.$color-white; font-weight: v.$font-weight-bold; }
-  .cifra { @include m.display(v.$font-size-lg); color: v.$color-white; }
-
-  // Sin tarifa no hay cifra que destacar: solo las horas.
-  &.sin_tarifa { background: v.$color-sand; color: v.$color-text-muted; strong { color: v.$color-ink; } }
+  strong { color: v.$color-ink; font-weight: v.$font-weight-bold; }
+  .cifra { @include m.display(v.$font-size-lg); color: v.$color-ink; }
 }
 
 .pie_persona {

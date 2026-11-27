@@ -9,27 +9,26 @@
     @if (job().esNuevo) {
       <span class="nuevo_tarjeta_empleo">Nueva</span>
     }
+    <span class="modalidad_tarjeta_empleo">{{ modalidad() }}</span>
   </div>
 
   <div class="cuerpo_tarjeta_empleo">
-    <h3 class="titulo_tarjeta_empleo">
-      <a [routerLink]="['/empleos', job().id]">{{ job().titulo }}</a>
-    </h3>
+    <div class="cabeza_tarjeta_empleo">
+      <h3 class="titulo_tarjeta_empleo">
+        <a [routerLink]="['/empleos', job().id]">{{ job().titulo }}</a>
+      </h3>
+      <p class="lugar_tarjeta_empleo">
+        <jobsy-icon name="map-pin" /> <span>{{ job().direccion }}, {{ job().ciudad }}</span>
+      </p>
+    </div>
 
-    <p class="vivienda_tarjeta_empleo">
-      {{ vivienda() }} · {{ modalidad() }}
-    </p>
-
-    <p class="lugar_tarjeta_empleo">
-      <jobsy-icon name="map-pin" /> {{ job().direccion }}, {{ job().ciudad }}
-    </p>
-
-    <p class="tarifa_tarjeta_empleo">
-      <span class="cifra">{{ job().precioHora | cop }}</span>
-      <span class="unidad_tarjeta_empleo">por hora</span>
-    </p>
-
-    <jobsy-franja-semana [horario]="job().horario" [mios]="misDias()" />
+    <div class="condiciones_tarjeta_empleo">
+      <p class="tarifa_tarjeta_empleo">
+        <span class="cifra">{{ job().precioHora | cop }}</span>
+        <span class="unidad_tarjeta_empleo">por hora</span>
+      </p>
+      <jobsy-franja-semana [horario]="job().horario" [mios]="misDias()" />
+    </div>
 
     @if (coincidencia(); as c) {
       @if (c.comunes.length) {
@@ -44,18 +43,13 @@
 
     @if (job().etiquetas.length) {
       <ul class="tareas_tarjeta_empleo" aria-label="Tareas">
-        @for (tag of job().etiquetas; track tag) {
+        @for (tag of job().etiquetas.slice(0, 2); track tag) {
           <li>{{ tag }}</li>
+        }
+        @if (job().etiquetas.length > 2) {
+          <li class="mas_tareas" [attr.aria-label]="(job().etiquetas.length - 2) + ' tareas más'">+{{ job().etiquetas.length - 2 }}</li>
         }
       </ul>
     }
   </div>
-
-  @if (puedePostularse()) {
-    <footer class="acciones_tarjeta_empleo">
-      <a class="boton_principal boton_chico boton_ancho" [routerLink]="['/empleos', job().id, 'postularme']">
-        Postularme
-      </a>
-    </footer>
-  }
 </article>

@@ -28,8 +28,7 @@
     <div class="panel_inicio">
       <h1 class="titulo_inicio" id="titulo-portada">Arma tu semana y mira cuánto cuesta.</h1>
       <p class="texto_inicio">
-        Elige el oficio, los días y las horas. Jobsy te muestra con datos reales
-        quién está disponible en Yopal y cuánto se paga, antes de crear tu cuenta.
+        Elige oficio, días y horas, y mira al instante cuánto cuesta y quién está disponible en Yopal.
       </p>
       <jobsy-planificador [jobs]="jobs()" [employees]="employees()" [modoFijo]="modoFijo()" [(modo)]="modo" />
       @if (resumen(); as r) { <p class="resumen_inicio">{{ r }}</p> }

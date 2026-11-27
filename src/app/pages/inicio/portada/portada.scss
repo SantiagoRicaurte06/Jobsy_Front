@@ -25,7 +25,7 @@
   overflow: hidden;
   background: v.$color-ink;
 
-  @include m.until(v.$bp-lg) { order: 2; height: 460px; }
+  @include m.until(v.$bp-lg) { order: 2; height: 340px; }
 }
 
 .foto_escena {
@@ -47,6 +47,9 @@
   justify-items: start;
 
   li { animation: aparecer 0.7s v.$ease-out both; animation-delay: calc(0.25s + var(--i) * 0.14s); }
+
+  // En celular basta una: la fila de personas viene justo después.
+  @include m.until(v.$bp-lg) { li:nth-child(n + 2) { display: none; } }
 }
 
 @keyframes aparecer {
@@ -99,15 +102,15 @@
 }
 
 .texto_inicio {
-  max-width: 48ch;
-  margin: 0 0 v.$space-5;
+  max-width: 44ch;
+  margin: 0 0 v.$space-6;
   font-size: v.$font-size-base;
   line-height: 1.5;
   color: v.$color-text-muted;
 }
 
 .resumen_inicio {
-  margin: v.$space-4 0 0;
+  margin: v.$space-5 0 0;
   font-size: v.$font-size-xs;
   font-weight: v.$font-weight-semibold;
   color: v.$color-text-muted;
@@ -182,6 +185,17 @@
   flex-wrap: wrap;
   gap: v.$space-2;
   margin-bottom: v.$space-5;
+
+  @include m.until(v.$bp-md) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * #{v.$space-4});
+    padding-inline: v.$space-4;
+
+    &::-webkit-scrollbar { display: none; }
+    > * { flex-shrink: 0; }
+  }
 }
 
 .ficha_portada {

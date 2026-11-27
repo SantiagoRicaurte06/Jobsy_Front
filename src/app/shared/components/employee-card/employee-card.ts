@@ -25,8 +25,8 @@ export class EmployeeCardComponent {
   readonly employee = input.required<Employee>();
   /** Semana elegida en la portada o en la lista; null si no hay. */
   readonly semana = input<Semana | null>(null);
-  /** Muestra la descripción (lista completa) o la omite (fila de la portada). */
-  readonly conDescripcion = input(true);
+  /** La descripción va en el perfil; en las listas solo carga la tarjeta. */
+  readonly conDescripcion = input(false);
 
   readonly solicitar = output<Employee>();
 

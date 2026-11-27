@@ -61,17 +61,6 @@
           <span class="detalle_plan">Aún no hay tarifas publicadas para ese oficio.</span>
         }
       </div>
-      <div class="gente_plan">
-        <div class="caras_plan" aria-hidden="true">
-          @for (e of personas().slice(0, 4); track e.id) {
-            @if (e.fotoUrl) { <img [src]="e.fotoUrl" alt="" /> } @else { <span>{{ iniciales(e.nombre) }}</span> }
-          }
-        </div>
-        <span>
-          <strong>{{ cantidad() }}</strong>
-          {{ cantidad() === 1 ? 'persona verificada' : 'personas verificadas' }} para esto
-        </span>
-      </div>
     } @else {
       <div class="cifra_plan">
         <span class="rotulo_plan">Podrías ganar hasta, por semana</span>

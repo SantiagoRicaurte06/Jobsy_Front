@@ -34,15 +34,14 @@
       <p class="descripcion_persona">{{ employee().descripcion }}</p>
     }
 
+    <!-- Solo con tarifa real: sin ella no hay cifra que mostrar y el pie ya dice "por acordar". -->
     @if (semana(); as s) {
-      <p class="semana_persona" [class.sin_tarifa]="!costoSemana()">
-        <span>Tu semana · {{ s.dias.length }} {{ s.dias.length === 1 ? 'día' : 'días' }} × {{ s.horas }} h</span>
-        @if (costoSemana()) {
+      @if (costoSemana()) {
+        <p class="semana_persona">
+          <span>Tu semana · {{ s.dias.length }} {{ s.dias.length === 1 ? 'día' : 'días' }} × {{ s.horas }} h</span>
           <strong class="cifra">{{ costoSemana() | cop }}</strong>
-        } @else {
-          <strong>{{ horasSemana() }} h, tarifa por acordar</strong>
-        }
-      </p>
+        </p>
+      }
     }
 
     <footer class="pie_persona">

@@ -48,7 +48,7 @@ export class PlanificadorComponent {
   /** Oficios que de verdad aparecen en ofertas y perfiles. */
   readonly oficios = computed(() => [
     'Todos',
-    ...oficiosDe([...this.jobs().map((j) => j.etiquetas), ...this.employees().map((e) => e.especialidades)]),
+    ...oficiosDe([...this.jobs().map((j) => j.etiquetas), ...this.employees().map((e) => e.especialidades)], 5),
   ]);
 
   private coincideOficio(lista: string[]): boolean {
