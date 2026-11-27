@@ -171,16 +171,6 @@
       background: v.$color-bg;
       border-radius: v.$radius-md;
 
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: v.$space-2;
-        bottom: v.$space-2;
-        width: 3px;
-        background: v.$color-cta;
-        border-radius: 2px;
-      }
     }
 
     strong {

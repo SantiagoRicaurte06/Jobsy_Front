@@ -6,22 +6,33 @@
 // ============================================================
 
 // ---- Marca ----
-$color-primary:        #1668B3; // azul Jobsy: campos de cielo, enlaces, selección
-$color-primary-dark:   #0E4A86;
-$color-primary-light:  #1A6FC0; // enlaces y acciones secundarias (AA sobre crema)
-$color-primary-pale:   #CFE2F4;
-$color-primary-bg:     #E4EEF8;
+$color-primary:        #0058DC; // azul del logo: acción, enlaces, selección de navegación
+$color-primary-dark:   #0046B0;
+$color-primary-light:  #0052CC; // enlaces y acciones secundarias (AA sobre el fondo)
+$color-primary-pale:   #D3E2FA;
+$color-primary-bg:     #E7EFFC;
 
 /// Naranja tostado: el naranja que funciona como texto o fondo con blanco.
-$color-accent:         #B84F06;
-$color-accent-dark:    #963F02;
-$color-accent-light:   #F5821F;
-$color-accent-pale:    #FDE6D0;
+$color-accent:         #238303; // verde del logo: íconos de acento
+$color-accent-dark:    #1B6602;
+$color-accent-light:   #8FE218;
+$color-accent-pale:    #E3F2DC;
 
 /// Naranja de marca vivo: acción principal y campos, siempre con texto tinta.
-$color-cta:            #F5821F;
-$color-cta-hover:      #E8720F;
-$color-cta-ink:        #13233A;
+$color-cta:            #0058DC; // botón principal: azul del logo con texto blanco
+$color-cta-hover:      #0046B0;
+$color-cta-ink:        #FFFFFF;
+
+// Selección: lo que la persona eligió (días, filtros) y lo que coincide.
+$color-select:         #238303; // verde del logo, 4,86:1 con blanco
+$color-select-ink:     #FFFFFF;
+$color-select-pale:    #E3F2DC;
+
+// Acento sobre tinta: el lima del logo, el único que se lee sobre el azul noche.
+$color-on-dark-accent: #8FE218;
+
+// Estrellas de calificación.
+$color-star:           #C7851A;
 
 // ---- Estado ----
 $color-success:        #1A6E44; // verde morichal: verificado, aceptado
@@ -35,15 +46,15 @@ $color-info-pale:      $color-primary-bg;
 
 // ---- Neutros cálidos ----
 $color-white:                 #FFFFFF;
-$color-bg:                    #FBF5EC; // crema: suelo de todo el sitio
-$color-sand:                  #F3E7D3; // arena: secciones alternas y bandas
-$color-surface:               #FFFDF9; // superficies que flotan sobre la crema
-$color-surface-muted:         #F6EEE2;
-$color-surface-muted-light:   #FAF4EA;
-$color-surface-muted-border:  #E8DCC8;
-$color-surface-muted-subtle:  #EFE4D2;
-$color-border:                #E8DCC8;
-$color-border-strong:         #D3BF9F;
+$color-bg:                    #F7F5F0; // hueso: suelo de todo el sitio
+$color-sand:                  #ECE8DF; // piedra: secciones alternas y bandas
+$color-surface:               #FFFFFF; // superficies que flotan sobre el fondo
+$color-surface-muted:         #F1EEE8;
+$color-surface-muted-light:   #F4F2ED;
+$color-surface-muted-border:  #DDD8CC;
+$color-surface-muted-subtle:  #E7E3DA;
+$color-border:                #DDD8CC;
+$color-border-strong:         #C6BEAE;
 
 $color-text:           #13233A; // tinta azul noche
 $color-text-muted:     #5B6676;
@@ -60,7 +71,7 @@ $color-on-dark-link:   #B7C2D2; // enlaces sobre tinta
 $color-on-dark-border: rgba(251, 245, 236, 0.14); // separadores sobre tinta
 
 // ---- Fondo translúcido (cabecera sticky, barra superior) ----
-$color-bg-translucent: rgba(251, 245, 236, 0.94);
+$color-bg-translucent: rgba(247, 245, 240, 0.94);
 
 // ---- Hover de peligro ----
 $color-danger-hover:   #8E1B12;

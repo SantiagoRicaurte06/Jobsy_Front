@@ -21,7 +21,7 @@
   background: v.$color-ink;
   color: v.$color-on-dark;
 
-  :focus-visible { outline-color: v.$color-cta; }
+  :focus-visible { outline-color: v.$color-on-dark-accent; }
 
   @include m.until(v.$bp-lg) {
     position: static;
@@ -41,7 +41,7 @@
   margin-bottom: v.$space-6;
   padding: v.$space-1;
   border-radius: v.$radius-sm;
-  color: v.$color-cta;
+  color: v.$color-on-dark-accent;
   font-size: v.$font-size-xs;
   font-weight: v.$font-weight-bold;
   text-decoration: none;
@@ -78,7 +78,7 @@
       background: v.$color-bg;
       color: v.$color-ink;
 
-      jobsy-icon { color: v.$color-accent; }
+      jobsy-icon { color: v.$color-on-dark-accent; }
     }
   }
 

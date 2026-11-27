@@ -34,7 +34,7 @@
   align-items: center;
   gap: v.$space-2;
   margin: 0;
-  color: v.$color-cta;
+  color: v.$color-on-dark-accent;
   font-weight: v.$font-weight-bold;
 }
 
@@ -55,7 +55,7 @@
     color: v.$color-bg;
     text-decoration: none;
 
-    &:hover { color: v.$color-cta; }
+    &:hover { color: v.$color-on-dark-accent; }
   }
 }
 
@@ -82,8 +82,8 @@
     color: v.$color-on-dark;
     text-decoration: none;
 
-    &:hover { color: v.$color-cta; }
+    &:hover { color: v.$color-on-dark-accent; }
   }
 }
 
-.pie :focus-visible { outline-color: v.$color-cta; }
+.pie :focus-visible { outline-color: v.$color-on-dark-accent; }

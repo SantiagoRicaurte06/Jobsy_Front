@@ -154,7 +154,7 @@
   scroll-padding-inline: max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6}));
 
   @include m.until(v.$bp-md) { padding-inline: v.$space-4; scroll-padding-inline: v.$space-4; }
-  scrollbar-color: v.$color-cta transparent;
+  scrollbar-color: v.$color-on-dark-accent transparent;
 }
 
 .celda_persona {
@@ -216,9 +216,12 @@
   padding: clamp(2rem, 5vw, 4rem);
   border-radius: v.$radius-xl;
   background: v.$color-cta;
-  color: v.$color-ink;
+  color: v.$color-white;
 
   @include m.until(v.$bp-md) { grid-template-columns: minmax(0, 1fr); }
+
+  .titulo_sol { color: v.$color-white; }
+  .boton_borde { background: v.$color-white; border-color: v.$color-white; color: v.$color-ink; }
 }
 
 .titulo_sol { max-width: 16ch; margin: 0 0 v.$space-4; @include m.display(clamp(2rem, 4.6vw, 3.5rem)); }
@@ -235,7 +238,7 @@
   @include m.until(v.$bp-md) { justify-content: flex-start; }
 }
 
-.enlace_sol { color: v.$color-ink; font-weight: v.$font-weight-bold; }
+.enlace_sol { color: v.$color-white; font-weight: v.$font-weight-bold; }
 
 @media (prefers-reduced-motion: reduce) {
   .flotantes li, .celda_persona { animation: none; }

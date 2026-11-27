@@ -54,7 +54,7 @@
     color: v.$color-white;
     font-size: v.$font-size-xl;
 
-    .is-selected & { background: v.$color-ink; color: v.$color-cta; }
+    .is-selected & { background: v.$color-ink; color: v.$color-on-dark-accent; }
   }
 
   .titulo_opcion_elegir_rol {

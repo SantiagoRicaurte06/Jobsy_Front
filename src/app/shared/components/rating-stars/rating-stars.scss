@@ -19,7 +19,7 @@
   line-height: 1;
 
   &.is-filled {
-    color: v.$color-cta;
+    color: v.$color-star;
 
     ::ng-deep svg { fill: currentColor; }
   }
@@ -44,7 +44,7 @@
   transition: color v.$transition-fast, transform v.$transition-fast;
 
   &.is-filled {
-    color: v.$color-cta;
+    color: v.$color-star;
 
     ::ng-deep svg { fill: currentColor; }
   }

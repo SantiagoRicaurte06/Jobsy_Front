@@ -54,7 +54,7 @@
   left: v.$space-3;
   @include m.badge(v.$color-ink, v.$color-bg);
 
-  &.is-aviso { background: v.$color-cta; color: v.$color-cta-ink; }
+  &.is-aviso { background: v.$color-warning-pale; color: v.$color-warning; }
   &.is-agotado { background: v.$color-surface; color: v.$color-text-muted; }
 }
 
@@ -150,7 +150,7 @@
     color: inherit;
     cursor: pointer;
 
-    &:hover:not(:disabled) { background: rgba(251, 245, 236, 0.14); }
+    &:hover:not(:disabled) { background: rgba(247, 245, 240, 0.14); }
     &:disabled { opacity: 0.35; cursor: not-allowed; }
   }
 

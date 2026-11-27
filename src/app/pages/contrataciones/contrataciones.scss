@@ -183,7 +183,7 @@
 .total_monto {
   @include m.display(v.$font-size-xl);
   font-variant-numeric: tabular-nums;
-  color: v.$color-cta;
+  color: v.$color-on-dark-accent;
 }
 
 // ---- Acciones ----

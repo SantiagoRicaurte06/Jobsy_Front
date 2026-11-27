@@ -193,7 +193,7 @@
 .monto_oferta_postulacion {
   @include m.display(v.$font-size-2xl);
   font-variant-numeric: tabular-nums;
-  color: v.$color-cta;
+  color: v.$color-on-dark-accent;
 }
 
 .unidad_oferta_postulacion {

@@ -30,7 +30,7 @@
     right: 0;
     bottom: 0;
     height: 14px;
-    background: v.$color-cta;
+    background: v.$color-on-dark-accent;
   }
 
   @include m.until(v.$bp-lg) {
@@ -46,7 +46,7 @@
   align-self: flex-start;
   border-radius: v.$radius-sm;
 
-  :focus-visible { outline-color: v.$color-cta; }
+  :focus-visible { outline-color: v.$color-on-dark-accent; }
 }
 
 .tesis_marco_acceso {
@@ -80,7 +80,7 @@
   jobsy-icon {
     margin-top: 2px;
     font-size: 1.35rem;
-    color: v.$color-cta;
+    color: v.$color-on-dark-accent;
   }
 
   @include m.until(v.$bp-lg) { display: none; }

@@ -22,9 +22,9 @@
     line-height: 1;
 
     &.is-dia {
-      border-color: v.$color-cta;
-      background: v.$color-cta;
-      color: v.$color-cta-ink;
+      border-color: v.$color-select;
+      background: v.$color-select;
+      color: v.$color-select-ink;
       animation: encender 0.5s v.$ease-out both;
       animation-delay: calc(var(--i) * 45ms);
     }

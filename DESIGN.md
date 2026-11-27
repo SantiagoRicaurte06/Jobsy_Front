@@ -8,27 +8,29 @@ Los valores viven en `src/styles/_variables.scss` y los patrones en `src/styles/
 
 | Rol | Token | Valor | Uso |
 |---|---|---|---|
-| Suelo | `$color-bg` | `#FBF5EC` | Fondo de todo el sitio (crema). |
-| Arena | `$color-sand` | `#F3E7D3` | Cabezas de listados, bandas alternas, fichas. |
-| Superficie | `$color-surface` | `#FFFDF9` | Tarjetas y paneles sobre la crema. |
-| Borde | `$color-border` / `-strong` | `#E8DCC8` / `#D3BF9F` | Bordes de 2 px. |
-| Tinta | `$color-ink` / `$color-text` | `#13233A` | Texto, menú activo, pie, panel admin. |
-| Texto secundario | `$color-text-muted` | `#5B6676` | 5.4:1 sobre crema. |
-| Azul Jobsy | `$color-primary` | `#1668B3` | Campos de "cielo" (portada, acceso), enlaces, foco. |
-| Naranja de marca | `$color-cta` | `#F5821F` | Acción principal y campos; **siempre con texto tinta** (6:1). |
-| Naranja tostado | `$color-accent` | `#B84F06` | Naranja como texto o fondo con blanco (AA). |
+| Suelo | `$color-bg` | `#F7F5F0` | Fondo de todo el sitio (hueso). |
+| Piedra | `$color-sand` | `#ECE8DF` | Cabezas de listados, bandas alternas, fichas. |
+| Superficie | `$color-surface` | `#FFFFFF` | Tarjetas y paneles sobre el fondo. |
+| Borde | `$color-border` / `-strong` | `#DDD8CC` / `#C6BEAE` | Bordes. |
+| Tinta | `$color-ink` / `$color-text` | `#13233A` | Texto, menú activo, pie, paneles de resultado, panel admin. |
+| Texto secundario | `$color-text-muted` | `#5B6676` | Texto de apoyo. |
+| Azul del logo | `$color-primary` / `$color-cta` | `#0058DC` | Botón principal (con texto blanco, 6,1:1), enlaces, campos azules. |
+| Verde del logo | `$color-select` / `$color-accent` | `#238303` | Lo elegido y lo que coincide: días, franja de la semana, íconos de acento. Con texto blanco (4,9:1). |
+| Lima del logo | `$color-on-dark-accent` | `#8FE218` | El único acento sobre tinta: días en la barra oscura, cifras, foco y enlaces del pie. Siempre con texto tinta. |
+| Estrellas | `$color-star` | `#C7851A` | Calificaciones. |
 | Verde morichal | `$color-success` | `#1A6E44` | Verificado, disponible, aceptado. |
-| Ámbar / Rojo | `$color-warning` / `$color-danger` | `#8A5100` / `#B42318` | Avisos y errores. |
+| Ámbar / Rojo | `$color-warning` / `$color-danger` | `#8A5100` / `#B42318` | Avisos (pocas existencias) y errores. |
 | Peligro hover | `$color-danger-hover` | `#8E1B12` | Hover de acciones destructivas. |
 | Texto sobre tinta | `$color-on-dark` | `#D9DEE6` | Texto en pie de página y barra lateral admin. |
 | Texto tinta tenue | `$color-on-dark-muted` | `#9AA6B8` | Secundario sobre fondo tinta. |
-| Fondo translúcido | `$color-bg-translucent` | `rgba(251, 245, 236, 0.94)` | Cabecera sticky y barra superior admin. |
+| Fondo translúcido | `$color-bg-translucent` | `rgba(247, 245, 240, 0.94)` | Cabecera sticky y barra superior admin. |
 | Gráfica lila | `$color-chart-purple` | `#8B5CF6` | Barras del tablero admin. |
 
 Reglas:
 
-- El naranja vivo nunca lleva texto blanco.
-- El azul se usa como **campo** (regiones completas), no como adorno suelto. Bajo el campo azul va el "horizonte": una franja naranja de 8–14 px.
+- La paleta sale del logo: azul para actuar, verde para lo elegido. El naranja se retiró el 2026-11-27: no venía del logo, se perdía sobre la crema (2,4:1) y estaba en 92 lugares.
+- El lima solo va sobre tinta; sobre fondos claros no se lee.
+- El azul se usa como **campo** (regiones completas), no como adorno suelto. Bajo el campo azul va el "horizonte": una franja lima de 8–14 px.
 - Sin degradados ni cristal: las superficies son sólidas.
 
 ## Tipografía
@@ -39,7 +41,7 @@ Reglas:
 - Cifras con `tabular-nums` (`.cifra`, `.precio`, tablas).
 - **Sin etiquetas decorativas sobre los titulares.** El titular va solo; nada de rótulos en mayúsculas encima ("kicker"). Se probó y se leía como plantilla.
 - **Etiqueta de dato:** solo cuando nombra algo real (un paso, una categoría, una cifra), en frase normal y color apagado (`m.etiqueta` o la clase global `.etiqueta`).
-- **Cabecera de página:** titular y bajada cerrados por un acento naranja de 3 px (`m.cabecera-editorial`).
+- **Cabecera de página:** titular y bajada cerrados por un acento azul de 3 px (`m.cabecera-editorial`).
 
 ## Forma y profundidad
 
@@ -59,19 +61,19 @@ Con `prefers-reduced-motion` todo se reduce a casi cero.
 
 ## Componentes de firma
 
-- **Franja de la semana** (`jobsy-franja-semana`): L M M J V S D, con los días trabajados en naranja y el horario debajo. Tamaños `chica` (tarjetas) y `grande` (detalle, perfil, portada). Lee el formato del middleware `Lun, Mie · 08:00 a 12:00`.
+- **Franja de la semana** (`jobsy-franja-semana`): L M M J V S D, con los días trabajados en verde y el horario debajo. Tamaños `chica` (tarjetas) y `grande` (detalle, perfil, portada). Lee el formato del middleware `Lun, Mie · 08:00 a 12:00`.
 - **Tarifa en display:** `$35.000` grande en tinta y "por hora" pequeño al lado.
 - **Panel del acuerdo:** en los detalles, un panel fijo con borde tinta que agrupa tarifa, franja y la única acción.
 
 ## Patrones
 
-- **Botones** (`.boton_principal`, `.boton_secundario`, `.boton_borde`, `.boton_simple`): píldora de 44 px mínimo. Una sola acción naranja por vista.
+- **Botones** (`.boton_principal`, `.boton_secundario`, `.boton_borde`, `.boton_simple`): píldora de 44 px mínimo. Una sola acción azul llena por vista.
 - **Acciones según el rol:** "Postularme" solo para visitantes y empleados; "Contratar" y "Publicar oferta" solo para visitantes y hogares.
-- **Fichas** de filtro y categoría: píldora con borde; activa = fondo tinta y texto crema.
+- **Fichas** de filtro y categoría: píldora con borde; activa = fondo tinta y texto hueso.
 - **Listados:** la URL guarda búsqueda, filtros y página. En celular, los filtros son una hoja que sube desde abajo.
 - **Formularios:** etiqueta visible en negrita (nunca solo placeholder), campos de 48 px, error con ícono debajo del campo.
 - **Accesibilidad:**
-  - Foco de 3 px en azul (en naranja sobre fondos oscuros).
+  - Foco de 3 px en azul (en lima sobre fondos oscuros).
   - Enlace "Saltar al contenido" y `lang="es-CO"`.
   - Objetivos táctiles de 44 px.
   - El modal se cierra con Esc y atrapa el foco.

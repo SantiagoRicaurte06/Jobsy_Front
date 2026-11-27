@@ -106,9 +106,9 @@
   &:active { transform: scale(0.94); }
 
   &.is-activa {
-    background: v.$color-cta;
-    border-color: v.$color-cta;
-    color: v.$color-ink;
+    background: v.$color-select;
+    border-color: v.$color-select;
+    color: v.$color-select-ink;
     animation: encender 0.4s v.$ease-out;
   }
 }
@@ -166,7 +166,7 @@
   display: grid;
   gap: v.$space-4;
   padding: v.$space-5;
-  background: v.$color-primary;
+  background: v.$color-ink;
   border-radius: v.$radius-lg;
   color: v.$color-white;
 }
@@ -212,7 +212,7 @@
     width: 38px;
     height: 38px;
     margin-left: -10px;
-    border: 2px solid v.$color-primary;
+    border: 2px solid v.$color-ink;
     border-radius: 50%;
     background: v.$color-primary-bg;
     object-fit: cover;

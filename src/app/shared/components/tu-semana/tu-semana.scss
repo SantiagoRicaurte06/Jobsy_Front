@@ -34,13 +34,13 @@
 
 .dia_barra {
   height: 44px;
-  border: 1.5px solid rgba(251, 245, 236, 0.28);
+  border: 1.5px solid rgba(247, 245, 240, 0.28);
   border-radius: v.$radius-md;
   background: transparent;
   font-family: v.$font-family-display;
   font-size: v.$font-size-base;
   font-weight: v.$font-weight-bold;
-  color: rgba(251, 245, 236, 0.75);
+  color: rgba(247, 245, 240, 0.75);
   cursor: pointer;
   transition: transform v.$transition-fast, background v.$transition-base, border-color v.$transition-base, color v.$transition-base;
 
@@ -48,8 +48,8 @@
   &:active { transform: scale(0.94); }
 
   &.is-activa {
-    background: v.$color-cta;
-    border-color: v.$color-cta;
+    background: v.$color-on-dark-accent;
+    border-color: v.$color-on-dark-accent;
     color: v.$color-ink;
     animation: encender 0.4s v.$ease-out;
   }
@@ -64,7 +64,7 @@
 .horas_barra {
   display: inline-flex;
   align-items: center;
-  border: 1.5px solid rgba(251, 245, 236, 0.28);
+  border: 1.5px solid rgba(247, 245, 240, 0.28);
   border-radius: v.$radius-pill;
 
   button {
@@ -78,7 +78,7 @@
     color: v.$color-bg;
     cursor: pointer;
 
-    &:hover:not(:disabled) { background: rgba(251, 245, 236, 0.12); }
+    &:hover:not(:disabled) { background: rgba(247, 245, 240, 0.12); }
     &:disabled { opacity: 0.35; cursor: not-allowed; }
   }
 
@@ -115,7 +115,7 @@
 .oficio_barra {
   min-height: 40px;
   padding: 0 v.$space-4;
-  border: 1.5px solid rgba(251, 245, 236, 0.28);
+  border: 1.5px solid rgba(247, 245, 240, 0.28);
   border-radius: v.$radius-pill;
   background: transparent;
   font: inherit;

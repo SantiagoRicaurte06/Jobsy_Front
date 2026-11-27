@@ -20,7 +20,7 @@
 }
 
 .lienzo_azul { background: v.$color-primary; }
-.lienzo_naranja { background: v.$color-cta; }
+.lienzo_verde { background: v.$color-select; }
 .lienzo_tinta { background: v.$color-ink; }
 
 .telefono {
@@ -68,6 +68,7 @@
   padding: v.$space-2;
   border-radius: v.$radius-pill;
   background: v.$color-cta;
+  color: v.$color-cta-ink;
   text-align: center;
   font-weight: v.$font-weight-bold;
 }

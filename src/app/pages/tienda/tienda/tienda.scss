@@ -133,7 +133,7 @@
   gap: v.$space-1;
   margin: 0;
 
-  jobsy-icon { color: v.$color-cta; }
+  jobsy-icon { color: v.$color-star; }
 }
 
 .pie_destacado {
@@ -223,7 +223,7 @@
       background: v.$color-ink;
       color: v.$color-bg;
 
-      span { background: v.$color-cta; color: v.$color-cta-ink; }
+      span { background: v.$color-on-dark-accent; color: v.$color-ink; }
     }
   }
 }
@@ -258,7 +258,7 @@
   animation: llegar 0.4s v.$ease-out;
 
   &:hover { text-decoration: none; background: v.$color-sidebar-hover; }
-  &:focus-visible { outline-color: v.$color-cta; }
+  &:focus-visible { outline-color: v.$color-on-dark-accent; }
   &.is-latido { animation: latido 0.45s v.$ease-out; }
 
   @include m.until(v.$bp-md) {
@@ -275,7 +275,7 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: v.$color-cta;
+  background: v.$color-on-dark-accent;
   color: v.$color-ink;
   font-size: 1.15rem;
 }
@@ -306,7 +306,7 @@
     font-variant-numeric: tabular-nums;
   }
 
-  small { font-size: 0.72rem; font-weight: v.$font-weight-semibold; color: rgba(251, 245, 236, 0.7); }
+  small { font-size: 0.72rem; font-weight: v.$font-weight-semibold; color: rgba(247, 245, 240, 0.7); }
 }
 
 .ver_carrito {
@@ -315,10 +315,10 @@
   gap: v.$space-1;
   margin-left: auto;
   padding-left: v.$space-3;
-  border-left: 1px solid rgba(251, 245, 236, 0.25);
+  border-left: 1px solid rgba(247, 245, 240, 0.25);
   font-size: v.$font-size-sm;
   font-weight: v.$font-weight-bold;
-  color: v.$color-cta;
+  color: v.$color-on-dark-accent;
 }
 
 @keyframes llegar { from { opacity: 0; transform: translateY(20px); } }
