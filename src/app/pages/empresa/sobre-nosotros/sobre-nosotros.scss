@@ -97,3 +97,31 @@
   font-size: v.$font-size-lg;
   font-weight: v.$font-weight-bold;
 }
+
+// ---- Cifras reales de la plataforma ----
+.cifras_institucional {
+  margin-top: v.$space-8;
+  padding-block: v.$space-6;
+  background: v.$color-primary;
+  color: v.$color-white;
+}
+
+.interior_cifras_institucional {
+  @include m.container;
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-5 v.$space-8;
+}
+
+.elemento_cifras_institucional {
+  display: grid;
+  gap: v.$space-1;
+
+  strong {
+    @include m.display(clamp(2.2rem, 4vw, 3rem));
+    font-variant-numeric: tabular-nums;
+    color: v.$color-white;
+  }
+
+  span { font-size: v.$font-size-sm; font-weight: v.$font-weight-semibold; color: v.$color-primary-bg; }
+}

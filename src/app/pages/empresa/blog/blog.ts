@@ -32,7 +32,7 @@ export class BlogPage {
       id: 'p1',
       titulo: '5 preguntas clave antes de contratar servicio doméstico',
       resumen:
-        'Una guia corta para verificar experiencia, referencias y disponibilidad antes de agendar la primera visita.',
+        'Una guía corta para verificar experiencia, referencias y disponibilidad antes de agendar la primera visita.',
       categoria: 'Para empleadores',
       fecha: '12 ago 2026',
       minutos: 4,

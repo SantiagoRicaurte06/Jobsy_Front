@@ -19,15 +19,6 @@
   @include m.until(v.$bp-md) { flex-direction: column; }
 }
 
-.kicker_mis_ofertas {
-  display: block;
-  margin-bottom: v.$space-1;
-  font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-bold;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: v.$color-primary;
-}
 
 // ---- Resumen con acento lateral ----
 .resumen_mis_ofertas {
@@ -120,7 +111,6 @@
   flex-direction: column;
   gap: v.$space-3;
   padding: v.$space-4;
-  border-left: 4px solid v.$color-primary;
 
   &:has(.pildora_exito) { border-left-color: v.$color-success; }
   &:has(.pildora_peligro) { border-left-color: v.$color-danger; }

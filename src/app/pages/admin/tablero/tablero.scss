@@ -15,15 +15,6 @@
     @include m.until(v.$bp-md) { flex-direction: column; }
   }
 
-  &__kicker {
-    display: block;
-    margin-bottom: v.$space-1;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-bold;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: v.$color-primary;
-  }
 
   &__title {
     margin: 0 0 v.$space-1;
@@ -64,18 +55,7 @@
 
   &__kpi {
     position: relative;
-    padding: v.$space-4 v.$space-4 v.$space-4 v.$space-5;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: v.$space-3;
-      bottom: v.$space-3;
-      width: 3px;
-      background: v.$color-cta;
-      border-radius: 2px;
-    }
+    padding: v.$space-4 v.$space-5;
 
     strong {
       display: block;

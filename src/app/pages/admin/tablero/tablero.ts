@@ -49,11 +49,11 @@ export class AdminDashboardPage implements OnInit {
     const s = this.stats();
     const satisfaccion = s && s.satisfaccion > 0;
     return [
-      { label: 'Productos', value: String(this.totalProductos()), delta: 'en catalogo', tone: 'up' },
+      { label: 'Productos', value: String(this.totalProductos()), delta: 'en catálogo', tone: 'up' },
       { label: 'Reportes abiertos', value: String(this.reportesAbiertos()), delta: 'por atender', tone: this.reportesAbiertos() > 0 ? 'down' : 'up' },
       { label: 'Stock critico', value: String(this.stockCritico()), delta: this.stockCritico() > 0 ? 'Reponer ya' : 'Todo en orden', tone: this.stockCritico() > 0 ? 'down' : 'up' },
       {
-        label: 'Satisfaccion',
+        label: 'Satisfacción',
         value: satisfaccion ? `${Math.round(s!.satisfaccion)}%` : 'Sin datos',
         delta: satisfaccion ? `${s!.calificacionPromedio.toFixed(1)} de 5 en productos` : 'aun sin calificaciones',
         tone: 'up',

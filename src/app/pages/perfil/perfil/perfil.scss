@@ -31,15 +31,6 @@
     }
   }
 
-  &__kicker {
-    display: block;
-    margin-bottom: v.$space-1;
-    font-size: v.$font-size-xs;
-    font-weight: v.$font-weight-bold;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: v.$color-primary-bg;
-  }
 
   &__avatar {
     display: grid;

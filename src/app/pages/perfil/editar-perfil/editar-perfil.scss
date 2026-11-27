@@ -9,7 +9,6 @@
   h1 { @include m.display(v.$font-size-2xl); }
 }
 
-.kicker_editar_perfil { @include m.kicker; }
 
 .guardado_editar_perfil {
   padding: v.$space-3 v.$space-4;
@@ -22,7 +21,6 @@
 
 .formulario_editar_perfil {
   padding: v.$space-5;
-  border-left: 4px solid v.$color-primary;
 }
 
 .leyenda_editar_perfil {

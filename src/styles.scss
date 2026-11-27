@@ -211,8 +211,8 @@ table,
 .pildora_info    { @include m.badge(v.$color-primary-bg, v.$color-primary-dark); }
 .pildora_naranja { @include m.badge(v.$color-accent-pale, v.$color-accent-dark); }
 
-// ---- Kicker editorial (versión global del mixin m.kicker) ----
-.kicker { @include m.kicker; }
+// ---- Etiqueta de dato (versión global del mixin m.etiqueta) ----
+.etiqueta { @include m.etiqueta; }
 
 // ---- Cabecera de sección ----
 .encabezado_seccion {
@@ -239,3 +239,79 @@ table,
 }
 
 .oculto { @include m.visually-hidden; }
+
+// ============================================================
+//  Páginas institucionales (empresa y legales)
+//  Misma cabecera que ayuda y contacto: arena, titular grande y bajada.
+// ============================================================
+.banner_institucional {
+  padding-block: v.$space-8 v.$space-6;
+  background: v.$color-sand;
+  border-bottom: v.$border-width solid v.$color-border;
+}
+
+.titulo_banner {
+  margin: 0 0 v.$space-3;
+  @include m.display(clamp(2.4rem, 6vw, 4.25rem));
+}
+
+.texto_banner {
+  max-width: 56ch;
+  margin: 0;
+  font-size: v.$font-size-lg;
+  line-height: 1.5;
+}
+
+.seccion { padding-block: v.$space-8 0; }
+
+.titulo_seccion {
+  max-width: 22ch;
+  margin: 0 0 v.$space-4;
+  @include m.display(clamp(1.8rem, 3.6vw, 2.75rem));
+}
+
+.encabezado_seccion_centrado {
+  max-width: 60ch;
+  margin: 0 auto v.$space-6;
+  text-align: center;
+
+  .titulo_seccion { margin-inline: auto; }
+}
+
+.llamada_institucional {
+  margin-top: v.$space-8;
+  padding-block: v.$space-8;
+  background: v.$color-ink;
+  color: v.$color-bg;
+}
+
+.interior_llamada_institucional {
+  @include m.container;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-5;
+
+  h2 {
+    max-width: 20ch;
+    margin: 0 0 v.$space-2;
+    color: v.$color-bg;
+    @include m.display(clamp(1.8rem, 3.6vw, 2.75rem));
+  }
+
+  p { margin: 0; color: rgba(251, 245, 236, 0.75); }
+}
+
+.acciones_llamada_institucional {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-3;
+}
+
+.titulo_indice {
+  display: block;
+  margin-bottom: v.$space-2;
+  font-weight: v.$font-weight-bold;
+  color: v.$color-ink;
+}

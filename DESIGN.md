@@ -37,8 +37,9 @@ Reglas:
 - **Interfaz:** Figtree (variable), 17 px de base, interlineado 1.55.
 - Las dos se sirven desde el propio sitio (`@fontsource-variable`).
 - Cifras con `tabular-nums` (`.cifra`, `.precio`, tablas).
-- **Kicker editorial:** sobre el titular de cada página va una etiqueta corta en mayúsculas y azul (`m.kicker` o la clase global `.kicker`). Es la única etiqueta en mayúsculas permitida sobre un titular.
-- **Cabecera editorial:** kicker + titular cerrados por un acento naranja de 3 px (`m.cabecera-editorial`).
+- **Sin etiquetas decorativas sobre los titulares.** El titular va solo; nada de rótulos en mayúsculas encima ("kicker"). Se probó y se leía como plantilla.
+- **Etiqueta de dato:** solo cuando nombra algo real (un paso, una categoría, una cifra), en frase normal y color apagado (`m.etiqueta` o la clase global `.etiqueta`).
+- **Cabecera de página:** titular y bajada cerrados por un acento naranja de 3 px (`m.cabecera-editorial`).
 
 ## Forma y profundidad
 

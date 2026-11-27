@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { JobService, EmployeeService } from '../../../core/services';
 import { RouterLink } from '@angular/router';
 import { IconComponent } from '../../../shared/components/icon/icon';
 
-/** Pagina institucional: historia, mision y valores de Jobsy. */
+/**
+ * Página institucional: historia, misión y valores de Jobsy. Las cifras
+ * salen de la API (totales reales), no de números escritos a mano.
+ */
 @Component({
   selector: 'jobsy-sobre-nosotros',
   standalone: true,
@@ -11,12 +15,22 @@ import { IconComponent } from '../../../shared/components/icon/icon';
   styleUrl: './sobre-nosotros.scss',
 })
 export class AboutPage {
-  readonly stats = [
-    { value: '+1.200', label: 'Empleos publicados' },
-    { value: '+900', label: 'Empleados verificados' },
-    { value: '100%', label: 'Satisfaccion reportada' },
-    { value: '1', label: 'Ciudad, Yopal (Casanare)' },
-  ];
+  readonly stats = signal<{ value: string; label: string }[]>([]);
+
+  constructor() {
+    let ofertas: number | null = null;
+    let personas: number | null = null;
+    const pintar = () => {
+      const s: { value: string; label: string }[] = [];
+      if (ofertas) s.push({ value: String(ofertas), label: ofertas === 1 ? 'Oferta abierta' : 'Ofertas abiertas' });
+      if (personas) s.push({ value: String(personas), label: personas === 1 ? 'Persona con perfil' : 'Personas con perfil' });
+      s.push({ value: '1', label: 'Ciudad: Yopal, Casanare' });
+      this.stats.set(s);
+    };
+    pintar();
+    inject(JobService).list({}, 1, 1).subscribe({ next: (r) => { ofertas = r.total; pintar(); }, error: () => {} });
+    inject(EmployeeService).list('', 1, 1).subscribe({ next: (r) => { personas = r.total; pintar(); }, error: () => {} });
+  }
 
   readonly values = [
     {
@@ -27,12 +41,12 @@ export class AboutPage {
     {
       icon: 'circle-check',
       title: 'Transparencia',
-      text: 'Precios, horarios y condiciones claras desde la primera conversacion, sin letra pequeña.',
+      text: 'Precios, horarios y condiciones claras desde la primera conversación, sin letra pequeña.',
     },
     {
       icon: 'heart',
-      title: 'Cercania',
-      text: 'Somos un equipo local que conoce Yopal y acompana a cada usuario en su proceso.',
+      title: 'Cercanía',
+      text: 'Somos un equipo local que conoce Yopal y acompaña a cada usuario en su proceso.',
     },
     {
       icon: 'zap',
@@ -43,7 +57,7 @@ export class AboutPage {
 
   readonly team = [
     { nombre: 'Santiago Ricaurte', rol: 'Fundador & Producto' },
-    { nombre: 'Equipo de Ingenieria', rol: 'Desarrollo y plataforma' },
+    { nombre: 'Equipo de Ingeniería', rol: 'Desarrollo y plataforma' },
     { nombre: 'Equipo de Soporte', rol: 'Atención a usuarios' },
   ];
 }

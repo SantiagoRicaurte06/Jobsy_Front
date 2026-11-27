@@ -10,7 +10,6 @@
     h1 { @include m.display(v.$font-size-2xl); }
   }
 
-  &__kicker { @include m.kicker; }
 
   // ---- KPIs ----
   &__kpis {
@@ -28,11 +27,10 @@
     flex-direction: column;
     gap: v.$space-1;
     padding: v.$space-4;
-    border-left: 4px solid v.$color-primary;
   }
 
   &__kpi-label {
-    @include m.kicker;
+    @include m.etiqueta;
     margin: 0;
     color: v.$color-text-muted;
   }

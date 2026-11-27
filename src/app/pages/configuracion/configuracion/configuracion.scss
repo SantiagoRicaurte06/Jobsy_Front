@@ -9,7 +9,6 @@
     h1 { @include m.display(v.$font-size-2xl); }
   }
 
-  &__kicker { @include m.kicker; }
 
   &__saved {
     padding: v.$space-3 v.$space-4;
@@ -23,7 +22,6 @@
   &__block {
     padding: v.$space-5;
     margin-bottom: v.$space-4;
-    border-left: 4px solid v.$color-primary;
 
     h2 { margin: 0 0 v.$space-1; @include m.display(v.$font-size-lg, v.$font-weight-bold); }
   }

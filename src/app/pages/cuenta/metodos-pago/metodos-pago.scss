@@ -17,7 +17,7 @@
 }
 
 .etiqueta_saldo_metodos_pago {
-  @include m.kicker;
+  @include m.etiqueta;
   color: v.$color-primary-bg;
 }
 
@@ -31,7 +31,6 @@
 // ---- Bloque ----
 .bloque_metodos_pago {
   padding: v.$space-5;
-  border-left: 4px solid v.$color-primary;
 }
 
 .encabezado_metodos_pago {

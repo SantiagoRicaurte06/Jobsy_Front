@@ -8,7 +8,7 @@
 
   &__header { @include m.cabecera-editorial; }
 
-  &__kicker { @include m.kicker; }
+  &__paso { @include m.etiqueta; }
 
   // ---- Radios en formato tarjeta ----
   &__options {

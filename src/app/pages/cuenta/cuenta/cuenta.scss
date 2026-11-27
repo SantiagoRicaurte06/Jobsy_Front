@@ -7,7 +7,6 @@
   h1 { margin: 0; @include m.display(v.$font-size-2xl); }
 }
 
-.kicker_cuenta { @include m.kicker; }
 
 .pestanas_cuenta {
   display: flex;

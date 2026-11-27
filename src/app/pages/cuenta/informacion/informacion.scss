@@ -5,7 +5,6 @@
 .bloque_info_cuenta {
   padding: v.$space-5;
   margin-bottom: v.$space-4;
-  border-left: 4px solid v.$color-primary;
 
   h2 { margin: 0 0 v.$space-4; @include m.display(v.$font-size-lg, v.$font-weight-bold); }
 }

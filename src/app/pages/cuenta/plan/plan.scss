@@ -21,7 +21,7 @@
 }
 
 .etiqueta_plan_cuenta {
-  @include m.kicker;
+  @include m.etiqueta;
   color: v.$color-primary-bg;
 }
 
@@ -54,7 +54,7 @@
   padding: v.$space-5;
 
   &.is-featured { border-color: v.$color-ink; box-shadow: inset 0 6px 0 v.$color-cta, v.$shadow-md; }
-  &.is-current { border-left: 4px solid v.$color-success; }
+  &.is-current { box-shadow: 0 0 0 2px v.$color-success; }
 }
 
 .distintivo_plan_cuenta {
@@ -72,7 +72,7 @@
 }
 
 .nombre_tarjeta_plan_cuenta {
-  @include m.kicker;
+  @include m.etiqueta;
   margin: 0 0 v.$space-3;
   color: v.$color-text-muted;
 }

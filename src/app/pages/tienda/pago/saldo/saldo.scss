@@ -27,7 +27,7 @@
   }
 
   &__label {
-    @include m.kicker;
+    @include m.etiqueta;
     margin: 0;
     color: v.$color-primary-bg;
   }

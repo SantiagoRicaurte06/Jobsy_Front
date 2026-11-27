@@ -40,18 +40,17 @@
   text-wrap: balance;
 }
 
-/// Kicker editorial: etiqueta corta en azul sobre el titular.
-@mixin kicker {
+/// Etiqueta de dato: texto corto y apagado que nombra una cifra o un paso
+/// ("Paso 1 de 3", "Saldo disponible"). En frase normal, nunca en mayúsculas.
+@mixin etiqueta {
   display: block;
   margin-bottom: v.$space-1;
   font-size: v.$font-size-xs;
-  font-weight: v.$font-weight-bold;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: v.$color-primary;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-text-muted;
 }
 
-/// Cabecera editorial: kicker + titular cerrados con un acento naranja.
+/// Cabecera de página: titular y bajada cerrados con un acento naranja.
 @mixin cabecera-editorial($size: v.$font-size-xl) {
   margin-bottom: v.$space-5;
   padding-bottom: v.$space-4;

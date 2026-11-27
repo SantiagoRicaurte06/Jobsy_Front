@@ -24,10 +24,6 @@
   color: v.$color-white;
 }
 
-.kicker_cuenta_creada {
-  @include m.kicker;
-  color: v.$color-primary-bg;
-}
 
 .cuerpo_cuenta_creada {
   width: 100%;
@@ -85,7 +81,6 @@
     gap: v.$space-3;
     padding: v.$space-3 v.$space-4;
     background: v.$color-bg;
-    border-left: 4px solid v.$color-primary;
     border-radius: v.$radius-md;
     color: v.$color-text;
     font-size: v.$font-size-sm;

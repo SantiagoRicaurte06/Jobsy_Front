@@ -10,7 +10,6 @@
 
 .cabecera_lista_pasos { @include m.cabecera-editorial; }
 
-.kicker_lista_pasos { @include m.kicker; }
 
 // ---- lista de pasos ----
 
@@ -28,7 +27,6 @@
   padding: v.$space-4;
   background: v.$color-surface;
   border: v.$border-width solid v.$color-border;
-  border-left: 4px solid v.$color-primary;
   border-radius: v.$radius-md;
 
   strong {

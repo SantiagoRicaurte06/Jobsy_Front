@@ -1,8 +1,7 @@
 <!-- ============ BANNER ============ -->
 <section class="banner_institucional">
   <div class="contenedor">
-    <span class="pildora_institucional">Empresa</span>
-    <h1 class="titulo_banner">Sobre Nosotros</h1>
+    <h1 class="titulo_banner">Sobre nosotros</h1>
     <p class="texto_banner">
       Conectamos hogares con personas de confianza en Yopal y todo Casanare.
     </p>
@@ -13,10 +12,9 @@
 <section class="contenedor seccion">
   <div class="grid_historia">
     <div>
-      <span class="pildora_info">Nuestra historia</span>
       <h2 class="titulo_seccion">Nacimos para resolver un problema muy real</h2>
       <p class="texto_parrafo">
-        Encontrar personal de confianza para el hogar solia depender del boca a boca:
+        Encontrar personal de confianza para el hogar solía depender del boca a boca:
         recomendaciones sin verificar, precios poco claros y procesos lentos. Jobsy nace en
         Yopal con una idea simple: darle a cada familia acceso a empleados verificados, y a
         cada profesional del hogar acceso a ofertas reales, sin intermediarios confusos.
@@ -31,7 +29,7 @@
       <h3><jobsy-icon name="flag" /> Misión</h3>
       <p>
         Conectar empleadores y empleados del hogar de forma rápida, segura y verificada,
-        generando oportunidades economicas reales en nuestra región.
+        generando oportunidades económicas reales en nuestra región.
       </p>
       <h3><jobsy-icon name="sparkles" /> Visión</h3>
       <p>
@@ -45,7 +43,7 @@
 <!-- ============ CIFRAS ============ -->
 <section class="cifras_institucional">
   <div class="interior_cifras_institucional">
-    @for (stat of stats; track stat.label) {
+    @for (stat of stats(); track stat.label) {
       <div class="elemento_cifras_institucional">
         <strong>{{ stat.value }}</strong>
         <span>{{ stat.label }}</span>
@@ -57,9 +55,8 @@
 <!-- ============ VALORES ============ -->
 <section class="contenedor seccion">
   <div class="encabezado_seccion_centrado">
-    <span class="pildora_info">Lo que nos guia</span>
     <h2 class="titulo_seccion">Nuestros valores</h2>
-    <p class="texto_gris">Cada decision de producto pasa por estos cuatro principios.</p>
+    <p class="texto_gris">Cada decisión de producto pasa por estos cuatro principios.</p>
   </div>
 
   <div class="rejilla_valores">
@@ -76,8 +73,7 @@
 <!-- ============ EQUIPO ============ -->
 <section class="contenedor seccion">
   <div class="encabezado_seccion_centrado">
-    <span class="pildora_info">El equipo</span>
-    <h2 class="titulo_seccion">Personas detras de Jobsy</h2>
+    <h2 class="titulo_seccion">Personas detrás de Jobsy</h2>
   </div>
 
   <div class="rejilla_equipo">
