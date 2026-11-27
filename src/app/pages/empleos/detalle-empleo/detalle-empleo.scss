@@ -135,7 +135,8 @@
   box-shadow: v.$shadow-md;
 
   @include m.until(v.$bp-lg) {
-    position: static;
+    position: relative;
+    top: auto;
     order: -1;
   }
 }
@@ -183,4 +184,12 @@
   margin: 0;
   font-size: v.$font-size-sm;
   color: v.$color-text-muted;
+}
+
+// El sello cae sobre la esquina del acuerdo al abrir la oferta.
+.estampa_detalle_empleo {
+  top: -34px;
+  right: -18px;
+
+  @include m.until(v.$bp-lg) { top: -28px; right: v.$space-2; width: 92px; height: 92px; }
 }

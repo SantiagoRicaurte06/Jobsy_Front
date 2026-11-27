@@ -1,20 +1,25 @@
-<!-- ============ PRIMER VISTAZO: el acuerdo a la vista ============ -->
-<section class="inicio" aria-labelledby="titulo-portada">
-  <div class="interior_inicio">
-    <div class="panel_inicio">
+<!-- ============ CAMPO AZUL: el acuerdo a la vista ============ -->
+<section class="campo_azul" aria-labelledby="titulo-portada">
+  <div class="interior_campo">
+    <div class="panel_campo">
+      <!-- El trazo lima se dibuja bajo "por escrito": la promesa de Jobsy. -->
       @if (rol() === 'empleado') {
-        <h1 class="titulo_inicio" id="titulo-portada">Trabajo en hogares de Yopal, con tarifa y horario por escrito.</h1>
-        <p class="texto_inicio">Ofertas que dicen cuánto pagan por hora, qué días y en qué horario. Te postulas y el acuerdo queda en Jobsy.</p>
+        <h1 class="titulo_campo" id="titulo-portada">Trabajo en hogares de Yopal, con tarifa y horario <span class="trazo">por escrito<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 13 C 50 4, 120 3, 197 9" /></svg></span>.</h1>
+        <p class="texto_campo">Ofertas que dicen cuánto pagan por hora, qué días y en qué horario. Te postulas y el acuerdo queda en Jobsy.</p>
       } @else {
-        <h1 class="titulo_inicio" id="titulo-portada">Ayuda en casa en Yopal, con tarifa y horario por escrito.</h1>
-        <p class="texto_inicio">Personas con documentos revisados y reseñas de otros hogares. La oferta, la contratación y la reseña quedan dentro de Jobsy.</p>
+        <h1 class="titulo_campo" id="titulo-portada">Ayuda en casa en Yopal, con tarifa y horario <span class="trazo">por escrito<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 13 C 50 4, 120 3, 197 9" /></svg></span>.</h1>
+        <p class="texto_campo">Personas con documentos revisados y reseñas de otros hogares. La oferta, la contratación y la reseña quedan dentro de Jobsy.</p>
       }
 
-      <jobsy-search-bar class="buscador_inicio"
-        [placeholder]="rol() === 'empleado' ? 'Limpieza, cocina…' : 'Limpieza, cocina…'"
-        (buscar)="buscar($event)" />
+      <jobsy-search-bar class="en_campo" placeholder="Limpieza, cocina, niños…" (buscar)="buscar($event)" />
 
-      <p class="otro_lado_inicio">
+      <ul class="fichas_campo" aria-label="Buscar por oficio">
+        @for (o of oficios; track o.nombre) {
+          <li><a class="boton_vidrio boton_chico" [routerLink]="destino()" [queryParams]="{ q: o.q }">{{ o.nombre }}</a></li>
+        }
+      </ul>
+
+      <p class="otro_lado_campo">
         @if (rol() === 'empleado') {
           <a routerLink="/app/hoja-de-vida">Completa tu hoja de vida</a> para que los hogares te encuentren.
         } @else if (rol() === 'empleador') {
@@ -23,13 +28,15 @@
           ¿Buscas trabajo? <a routerLink="/empleos">Mira las ofertas abiertas</a>.
         }
       </p>
-      @if (resumen(); as r) { <p class="resumen_inicio">{{ r }}</p> }
+      @if (resumen(); as r) { <p class="resumen_campo">{{ r }}</p> }
     </div>
 
-    <!-- La foto y, encima, un acuerdo real: oficio, tarifa y días. -->
+    <!-- La foto en su marco y, apoyado encima, un acuerdo real. -->
     <div class="escena">
-      <img class="foto_escena" src="/fotos/portada.webp" width="1200" height="805"
-        alt="Una mano se apoya sobre las manos de una señora mayor" fetchpriority="high" />
+      <div class="marco_escena">
+        <img src="/fotos/portada.webp" width="1200" height="805"
+          alt="Una mano se apoya sobre las manos de una señora mayor" fetchpriority="high" />
+      </div>
       @if (ofertaMuestra(); as o) {
         <a class="acuerdo_escena" [routerLink]="['/empleos', o.id]">
           <span class="oficio_acuerdo">{{ o.etiquetas[0] ?? 'Trabajo en el hogar' }} · {{ o.ciudad }}</span>
@@ -40,29 +47,81 @@
       }
     </div>
   </div>
+  <div class="horizonte" aria-hidden="true"></div>
 </section>
 
-<!-- ============ PERSONAS PROTAGONISTAS ============ -->
-@if (protagonistas().length) {
-  <section class="personas" aria-labelledby="titulo-personas">
-    <div class="contenedor encabezado_personas">
-      <h2 id="titulo-personas">Las personas detrás de cada acuerdo</h2>
-      <a routerLink="/empleados" class="enlace_portada">Ver todas</a>
-    </div>
-    <ul class="fila_personas">
-      @for (p of protagonistas(); track p.id) {
-        <li class="celda_persona">
-          <jobsy-employee-card [employee]="p" [conDescripcion]="false" (solicitar)="contratar($event)" />
-        </li>
-      }
-    </ul>
+<!-- ============ CÓMO FUNCIONA ============ -->
+<section class="contenedor seccion_portada como" aria-labelledby="titulo-como">
+  <div>
+    <h2 class="titulo_seccion_portada" id="titulo-como">¿Cómo funciona?</h2>
+    <p class="texto_como">Tres pasos, y cada uno queda registrado en Jobsy.</p>
+  </div>
+  <ol class="pasos">
+    <li class="paso">
+      <span class="icono_paso"><jobsy-icon name="search" /></span>
+      <strong>{{ rol() === 'empleado' ? 'Busca una oferta' : 'Busca o publica' }}</strong>
+      <span>{{ rol() === 'empleado' ? 'Filtra por oficio, días y tarifa.' : 'Encuentra a alguien por oficio o publica lo que necesitas.' }}</span>
+    </li>
+    <li class="flecha_paso" aria-hidden="true"><jobsy-icon name="arrow-right" /></li>
+    <li class="paso">
+      <span class="icono_paso"><jobsy-icon name="file-text" /></span>
+      <strong>Acuerden por escrito</strong>
+      <span>Tarifa por hora, días y horario quedan en la oferta antes de empezar.</span>
+    </li>
+    <li class="flecha_paso" aria-hidden="true"><jobsy-icon name="arrow-right" /></li>
+    <li class="paso">
+      <span class="icono_paso icono_paso_verde"><jobsy-icon name="check" /></span>
+      <strong>Contrata y califica</strong>
+      <span>Al terminar el servicio, una reseña que cuenta para los dos.</span>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ UNA OFERTA, COMO COMPROBANTE ============ -->
+@if (ofertaSemana(); as o) {
+  <section class="contenedor seccion_portada" aria-label="Una oferta abierta esta semana">
+    <jobsy-oferta-comprobante [job]="o" />
   </section>
 }
+
+<!-- ============ PERSONAS ============ -->
+@if (protagonistas().length) {
+  <section class="personas" aria-labelledby="titulo-personas">
+    <div class="contenedor">
+      <div class="encabezado_portada">
+        <h2 class="titulo_seccion_portada" id="titulo-personas">Las personas detrás de cada acuerdo</h2>
+        <a routerLink="/empleados" class="enlace_portada">Ver todas</a>
+      </div>
+      <ul class="rejilla_personas">
+        @for (p of protagonistas(); track p.id) {
+          <li><jobsy-persona-expandible [employee]="p" (solicitar)="contratar($event)" /></li>
+        }
+      </ul>
+    </div>
+  </section>
+}
+
+<!-- ============ EXPLORA POR OFICIO ============ -->
+<section class="contenedor seccion_portada" aria-labelledby="titulo-oficios">
+  <div class="encabezado_portada">
+    <h2 class="titulo_seccion_portada" id="titulo-oficios">Explora por oficio</h2>
+  </div>
+  <ul class="oficios">
+    @for (o of oficios; track o.nombre) {
+      <li>
+        <a class="oficio" [routerLink]="destino()" [queryParams]="{ q: o.q }">
+          <img [src]="o.foto" alt="" loading="lazy" width="1200" height="800" />
+          <span class="nombre_oficio">{{ o.nombre }} <jobsy-icon name="arrow-right" /></span>
+        </a>
+      </li>
+    }
+  </ul>
+</section>
 
 <!-- ============ ARMA TU SEMANA ============ -->
 <section class="contenedor seccion_portada semana_portada" aria-labelledby="titulo-semana">
   <div class="texto_semana_portada">
-    <h2 id="titulo-semana">Arma tu semana y mira cuánto cuesta</h2>
+    <h2 class="titulo_seccion_portada" id="titulo-semana">Arma tu semana y mira cuánto cuesta</h2>
     <p>Elige oficio, días y horas. El total sale de las tarifas que hoy están publicadas en Yopal.</p>
   </div>
   <jobsy-planificador [jobs]="jobs()" [employees]="employees()" [modoFijo]="modoFijo()" [(modo)]="modo" />
@@ -70,8 +129,8 @@
 
 <!-- ============ OFERTAS ABIERTAS ============ -->
 <section class="contenedor seccion_portada" aria-labelledby="titulo-ofertas">
-  <div class="encabezado_personas">
-    <h2 id="titulo-ofertas">Ofertas abiertas</h2>
+  <div class="encabezado_portada">
+    <h2 class="titulo_seccion_portada" id="titulo-ofertas">Ofertas abiertas</h2>
     <a routerLink="/empleos" class="enlace_portada">Ver todas</a>
   </div>
 
@@ -100,31 +159,39 @@
   }
 </section>
 
-<!-- ============ TODO EL ACUERDO, EN LA APP ============ -->
-<section class="contenedor seccion_portada" aria-labelledby="titulo-acuerdo">
-  <h2 class="titulo_acuerdo" id="titulo-acuerdo">Todo el acuerdo queda en Jobsy</h2>
-  <jobsy-acuerdo-app [oferta]="ofertaMuestra()" [persona]="personaMuestra()" />
-</section>
-
 <!-- ============ CIERRE ============ -->
-@if (!rol() || rol() === 'empleado') {
-  <section class="contenedor seccion_portada">
-    <div class="sol">
-      <div>
-        <h2 class="titulo_sol">Tu tarifa, tus días y tu horario, por escrito.</h2>
-        <p class="texto_sol">
-          Crea tu perfil gratis, sube tu hoja de vida y postúlate solo a las ofertas
-          que te sirven. Si te contratan, el acuerdo queda en Jobsy.
-        </p>
-      </div>
-      <div class="acciones_sol">
-        @if (rol() === 'empleado') {
-          <a routerLink="/app/hoja-de-vida" class="boton_borde">Completar mi hoja de vida</a>
+<section class="contenedor seccion_portada">
+  <div class="cierre">
+    <div>
+      <h2 class="titulo_cierre">Tu tarifa, tus días y tu horario, por escrito.</h2>
+      <p class="texto_cierre">
+        @if (rol() === 'empleador') {
+          Publica lo que necesitas con tarifa y horario, y elige entre quienes se postulen.
         } @else {
-          <a routerLink="/registro/crear-cuenta" class="boton_borde">Crear mi perfil</a>
+          Crea tu perfil gratis, sube tu hoja de vida y postúlate solo a las ofertas que te sirven.
         }
-        <a routerLink="/empleos" class="enlace_sol">Ver ofertas</a>
-      </div>
+      </p>
     </div>
-  </section>
-}
+    <div class="acciones_cierre">
+      @if (rol() === 'empleado') {
+        <a routerLink="/app/hoja-de-vida" class="boton_lima boton_flecha" jobsyIman>
+          <span class="rueda"><span>Completar mi hoja de vida</span></span>
+          <span class="circulo_boton"><jobsy-icon name="arrow-right" /></span>
+        </a>
+      } @else if (rol() === 'empleador') {
+        <a routerLink="/publicar-oferta" class="boton_lima boton_flecha" jobsyIman>
+          <span class="rueda"><span>Publicar una oferta</span></span>
+          <span class="circulo_boton"><jobsy-icon name="arrow-right" /></span>
+        </a>
+      } @else {
+        <a routerLink="/registro/crear-cuenta" class="boton_lima boton_flecha" jobsyIman>
+          <span class="rueda"><span>Crear mi perfil gratis</span></span>
+          <span class="circulo_boton"><jobsy-icon name="arrow-right" /></span>
+        </a>
+      }
+      <a [routerLink]="rol() === 'empleador' ? '/empleados' : '/empleos'" class="enlace_cierre">
+        {{ rol() === 'empleador' ? 'Ver personas' : 'Ver ofertas' }}
+      </a>
+    </div>
+  </div>
+</section>

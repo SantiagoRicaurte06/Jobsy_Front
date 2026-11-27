@@ -3,7 +3,9 @@ import {
 } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEsCO from '@angular/common/locales/es-CO';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import {
+  provideRouter, withComponentInputBinding, withInMemoryScrolling, withViewTransitions,
+} from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -24,6 +26,9 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       // Al navegar, vuelve arriba; respeta el ancla si la hay.
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
+      // La tarjeta de una oferta crece hasta su detalle (y vuelve). Donde el
+      // navegador no lo soporta, la navegación es la de siempre.
+      withViewTransitions({ skipInitialTransition: true }),
     ),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
   ],

@@ -1,122 +1,152 @@
 @use 'variables' as v;
 @use 'mixins' as m;
 
-// ============================================================
-//  Primer vistazo: el acuerdo a la vista
-// ============================================================
-.inicio { padding-block: v.$space-6 v.$space-8; }
+$titulo-seccion: clamp(1.9rem, 3.2vw, 2.6rem);
 
-.interior_inicio {
+// ============================================================
+//  Campo azul: titular, buscador, oficios y la foto con el acuerdo
+// ============================================================
+.campo_azul {
+  overflow: hidden;
+  background: v.$color-primary;
+  color: v.$color-white;
+}
+
+.interior_campo {
   @include m.container;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: center;
   gap: v.$space-8;
+  padding-block: v.$space-7 v.$space-8;
 
-  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-6; }
-}
-
-.panel_inicio { max-width: 640px; }
-
-.titulo_inicio {
-  margin: 0 0 v.$space-4;
-  text-wrap: balance;
-  @include m.display(clamp(2.3rem, 4.6vw, 3.9rem));
-}
-
-.texto_inicio {
-  max-width: 48ch;
-  margin: 0 0 v.$space-6;
-  font-size: v.$font-size-lg;
-  line-height: 1.5;
-  color: v.$color-text-muted;
-}
-
-.buscador_inicio { display: block; }
-
-.otro_lado_inicio {
-  margin: v.$space-4 0 0;
-  color: v.$color-text-muted;
-
-  a {
-    font-weight: v.$font-weight-bold;
-    color: v.$color-primary-light;
-    text-underline-offset: 0.2em;
+  @include m.until(v.$bp-lg) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: v.$space-7;
+    padding-block: v.$space-6 v.$space-8;
   }
 }
 
-.resumen_inicio {
+.panel_campo { max-width: 640px; }
+
+.titulo_campo {
+  margin: 0 0 v.$space-5;
+  color: v.$color-white;
+  text-wrap: balance;
+  @include m.display(clamp(2.4rem, 5vw, 4.2rem));
+}
+
+.texto_campo {
+  max-width: 46ch;
+  margin: 0 0 v.$space-6;
+  font-size: v.$font-size-lg;
+  line-height: 1.5;
+  color: #E1EBFF;
+}
+
+.fichas_campo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: v.$space-2;
   margin: v.$space-5 0 0;
+}
+
+.otro_lado_campo {
+  margin: v.$space-5 0 0;
+  color: #E1EBFF;
+
+  a { color: v.$color-white; font-weight: v.$font-weight-bold; text-underline-offset: 0.2em; }
+}
+
+.resumen_campo {
+  margin: v.$space-3 0 0;
   font-size: v.$font-size-sm;
   font-weight: v.$font-weight-semibold;
-  color: v.$color-ink;
+  color: v.$color-white;
 }
 
-// La foto, recortada en vertical, y el acuerdo apoyado encima.
+// La foto en un marco blanco, girada, que se asienta al cargar.
 .escena {
   position: relative;
-  aspect-ratio: 4 / 5;
-  max-height: 640px;
-  justify-self: end;
-  width: 100%;
-
-  @include m.until(v.$bp-lg) { aspect-ratio: 4 / 3; max-height: none; }
+  justify-self: center;
+  width: min(400px, 100%);
+  padding: v.$space-4;
 }
 
-.foto_escena {
-  width: 100%;
-  height: 100%;
+.marco_escena {
+  padding: v.$space-3;
   border-radius: v.$radius-xl;
-  object-fit: cover;
-  object-position: 50% 30%;
-  background: v.$color-sand;
+  background: v.$color-white;
+  box-shadow: 0 30px 50px -24px rgba(8, 20, 40, 0.75);
+  transform: rotate(3deg);
+  transition: transform 0.6s v.$ease-out;
+  animation: asentar 0.9s v.$ease-out both;
+
+  &:hover { transform: rotate(1deg) translateY(-4px); }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 6;
+    object-fit: cover;
+    object-position: 55% 50%;
+    border-radius: v.$radius-lg;
+    background: v.$color-sand;
+  }
+
+  @include m.until(v.$bp-lg) { img { aspect-ratio: 4 / 3; } }
 }
 
-// El acuerdo: el "momento" de la portada. Se apoya girado y se endereza.
+@keyframes asentar {
+  from { transform: rotate(7deg) translateY(24px); }
+  to { transform: rotate(3deg); }
+}
+
+// El acuerdo: papel apoyado sobre la foto, girado al otro lado.
 .acuerdo_escena {
   position: absolute;
   left: calc(-1 * #{v.$space-7});
-  bottom: v.$space-6;
+  bottom: v.$space-7;
   display: grid;
   gap: v.$space-2;
-  width: min(300px, 80%);
+  width: min(290px, 80%);
   padding: v.$space-4 v.$space-5;
-  border: 1px solid v.$color-ink;
+  border: v.$border-width solid v.$color-ink;
   border-radius: v.$radius-lg;
   background: v.$color-surface;
   color: v.$color-ink;
   text-decoration: none;
-  box-shadow: v.$shadow-lg;
-  transform: rotate(-2deg);
+  box-shadow: 0 18px 30px -16px rgba(8, 20, 40, 0.6);
+  transform: rotate(-3deg);
   transition: transform 0.4s v.$ease-out;
-  animation: apoyar 0.7s v.$ease-out 0.2s both;
+  animation: apoyar 0.8s v.$ease-out 0.35s both;
 
-  &:hover { transform: none; text-decoration: none; }
+  &:hover { transform: rotate(-1deg) translateY(-3px); text-decoration: none; }
+  &:focus-visible { outline: 3px solid v.$color-accent-light; outline-offset: 3px; }
 
-  @include m.until(v.$bp-lg) { left: v.$space-4; bottom: v.$space-4; }
+  // En pantallas angostas va debajo de la foto, montado sobre su borde.
+  @include m.until(v.$bp-lg) {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: min(320px, 92%);
+    margin: -56px 0 0 v.$space-2;
+  }
 }
 
-// Entra ya visible: solo se desliza a su sitio.
 @keyframes apoyar {
-  from { transform: translateY(16px) rotate(-2deg); }
-  to { transform: rotate(-2deg); }
+  from { transform: translateY(18px) rotate(-6deg); }
+  to { transform: rotate(-3deg); }
 }
 
-.oficio_acuerdo {
-  font-size: v.$font-size-sm;
-  font-weight: v.$font-weight-semibold;
-  color: v.$color-text-muted;
-}
+.oficio_acuerdo { font-size: v.$font-size-sm; font-weight: v.$font-weight-semibold; color: v.$color-text-muted; }
 
 .tarifa_acuerdo {
   font-size: v.$font-size-sm;
   color: v.$color-text-muted;
 
-  strong {
-    margin-right: v.$space-1;
-    color: v.$color-ink;
-    @include m.display(1.9rem);
-  }
+  strong { margin-right: v.$space-1; color: v.$color-ink; @include m.display(1.8rem); }
 }
 
 .nota_acuerdo {
@@ -124,17 +154,150 @@
   align-items: center;
   gap: v.$space-2;
   padding-top: v.$space-2;
-  border-top: 1px solid v.$color-border;
+  border-top: 2px dashed v.$color-border-strong;
   font-size: v.$font-size-xs;
   font-weight: v.$font-weight-semibold;
   color: v.$color-success;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .acuerdo_escena { animation: none; }
+.horizonte { height: 12px; background: v.$color-accent-light; }
+
+// ============================================================
+//  Secciones
+// ============================================================
+.seccion_portada { padding-top: v.$space-9; }
+
+.titulo_seccion_portada {
+  margin: 0;
+  max-width: 22ch;
+  @include m.display($titulo-seccion);
 }
 
-// ---- Arma tu semana: la calculadora, ahora como segunda sección ----
+.encabezado_portada {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: v.$space-4;
+  margin-bottom: v.$space-6;
+}
+
+.enlace_portada {
+  padding-block: v.$space-3;
+  font-weight: v.$font-weight-bold;
+  text-underline-offset: 4px;
+}
+
+// ---- Cómo funciona ----
+.como {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: v.$space-7;
+  align-items: start;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-5; }
+}
+
+.texto_como { margin: v.$space-3 0 0; color: v.$color-text-muted; }
+
+.pasos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: v.$space-5;
+}
+
+.paso {
+  display: grid;
+  flex: 1 1 180px;
+  gap: v.$space-2;
+
+  strong { font-size: 1.15rem; }
+  span:last-child { color: v.$color-text-muted; }
+}
+
+.icono_paso {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: v.$color-ink;
+  color: v.$color-accent-light;
+  font-size: 1.3rem;
+}
+
+.icono_paso_verde { background: v.$color-select; color: v.$color-white; }
+
+.flecha_paso {
+  padding-top: v.$space-3;
+  color: v.$color-border-strong;
+  font-size: 1.5rem;
+
+  @include m.until(v.$bp-md) { display: none; }
+}
+
+// ---- Personas ----
+.personas {
+  margin-top: v.$space-9;
+  padding-block: v.$space-9;
+  background: v.$color-ink;
+  color: v.$color-bg;
+
+  .titulo_seccion_portada { color: v.$color-bg; }
+  .enlace_portada { color: v.$color-accent-light; }
+}
+
+.rejilla_personas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: v.$space-5;
+}
+
+// ---- Oficios: fotos con etiqueta de vidrio ----
+.oficios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+  gap: v.$space-4;
+}
+
+.oficio {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: v.$radius-lg;
+  background: v.$color-sand;
+  color: v.$color-white;
+  text-decoration: none;
+
+  img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s v.$ease-out; }
+
+  &:hover img { transform: scale(1.06); }
+  &:hover jobsy-icon { transform: translateX(4px); }
+  &:hover { text-decoration: none; }
+  &:focus-visible { outline: 3px solid v.$color-primary; outline-offset: 3px; }
+}
+
+.nombre_oficio {
+  position: absolute;
+  inset: auto v.$space-3 v.$space-3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space-2;
+  padding: v.$space-2 v.$space-3;
+  border-radius: v.$radius-md;
+  background: rgba(19, 35, 58, 0.42);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  font-weight: v.$font-weight-bold;
+
+  jobsy-icon { flex-shrink: 0; transition: transform 0.35s v.$ease-out; }
+}
+
+// ---- Arma tu semana ----
 .semana_portada {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -144,81 +307,9 @@
   @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); gap: v.$space-5; }
 }
 
-.texto_semana_portada {
-  h2 { margin: 0 0 v.$space-3; @include m.display(clamp(1.8rem, 3.2vw, 2.6rem)); }
-  p { max-width: 40ch; margin: 0; color: v.$color-text-muted; }
-}
+.texto_semana_portada p { max-width: 40ch; margin: v.$space-3 0 0; color: v.$color-text-muted; }
 
-// ============================================================
-//  Personas protagonistas: fila que se desliza
-// ============================================================
-.personas {
-  margin-top: v.$space-7;
-  padding-block: v.$space-9;
-  background: v.$color-ink;
-  color: v.$color-bg;
-
-  h2 { color: v.$color-bg; }
-  .enlace_portada { color: v.$color-bg; }
-}
-
-.encabezado_personas {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: v.$space-4;
-  margin-bottom: v.$space-6;
-
-  h2 { margin: 0; max-width: 24ch; @include m.display(clamp(1.8rem, 3.2vw, 2.6rem)); }
-}
-
-.enlace_portada {
-  font-weight: v.$font-weight-bold;
-  text-underline-offset: 4px;
-  padding-block: v.$space-3;
-}
-
-.fila_personas {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(280px, 1fr);
-  gap: v.$space-5;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  // Arranca alineada con el contenedor y se sale por la derecha.
-  padding: v.$space-2 max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6})) v.$space-5;
-  scroll-padding-inline: max(v.$space-6, calc((100vw - 1240px) / 2 + #{v.$space-6}));
-
-  @include m.until(v.$bp-md) { padding-inline: v.$space-4; scroll-padding-inline: v.$space-4; }
-  scrollbar-color: v.$color-on-dark-accent transparent;
-}
-
-.celda_persona {
-  scroll-snap-align: start;
-
-  @supports (animation-timeline: view()) {
-    animation: entrar linear both;
-    animation-timeline: view(inline);
-    animation-range: entry 0% entry 60%;
-  }
-}
-
-@keyframes entrar {
-  from { opacity: 0.35; transform: scale(0.94); }
-  to { opacity: 1; transform: none; }
-}
-
-// ============================================================
-//  Secciones
-// ============================================================
-.seccion_portada { padding-top: v.$space-9; }
-
-.seccion_portada > h2 {
-  margin: 0 0 v.$space-5;
-  @include m.display(clamp(1.8rem, 3.2vw, 2.6rem));
-}
-
+// ---- Ofertas abiertas ----
 .tareas_portada {
   display: flex;
   flex-wrap: wrap;
@@ -246,53 +337,48 @@
   color: v.$color-ink;
   font-weight: v.$font-weight-semibold;
   cursor: pointer;
+  transition: border-color v.$transition-fast, background v.$transition-fast, transform 0.3s v.$ease-out;
 
-  &:hover { border-color: v.$color-ink; }
-  &.is-activa { border-color: v.$color-ink; background: v.$color-ink; color: v.$color-bg; }
+  &:hover { border-color: v.$color-ink; transform: translateY(-2px); }
+  &.is-activa { border-color: v.$color-select; background: v.$color-select; color: v.$color-select-ink; }
+  @include m.focus-ring;
 }
 
 .rejilla_portada { @include m.grid-cards(300px); }
 
-// ---- El acuerdo en la app: tres lienzos de color ----
-.titulo_acuerdo {
-  margin: 0 0 v.$space-6;
-  @include m.display(clamp(1.8rem, 3.2vw, 2.6rem));
-}
-
-// ---- Cierre ----
-.sol {
+// ---- Cierre: tinta con filo lima ----
+.cierre {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  align-items: end;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: center;
   gap: v.$space-6;
   margin-bottom: v.$space-9;
-  padding: clamp(2rem, 5vw, 4rem);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-bottom: 10px solid v.$color-accent-light;
   border-radius: v.$radius-xl;
-  background: v.$color-cta;
-  color: v.$color-white;
+  background: v.$color-ink;
+  color: v.$color-bg;
 
   @include m.until(v.$bp-md) { grid-template-columns: minmax(0, 1fr); }
-
-  .titulo_sol { color: v.$color-white; }
-  .boton_borde { background: v.$color-white; border-color: v.$color-white; color: v.$color-ink; }
 }
 
-.titulo_sol { max-width: 20ch; margin: 0 0 v.$space-4; @include m.display(clamp(1.9rem, 3.6vw, 2.9rem)); }
-.texto_sol { max-width: 46ch; margin: 0; font-size: v.$font-size-lg; line-height: 1.5; }
+.titulo_cierre { max-width: 20ch; margin: 0 0 v.$space-3; color: v.$color-bg; @include m.display(clamp(1.9rem, 3.4vw, 2.7rem)); }
+.texto_cierre { max-width: 46ch; margin: 0; color: v.$color-on-dark; font-size: v.$font-size-lg; line-height: 1.5; }
 
-.acciones_sol {
+.acciones_cierre {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: v.$space-4;
+  gap: v.$space-5;
 
-  .boton_borde { min-height: 52px; padding-inline: v.$space-6; }
+  .boton_lima { min-height: 52px; padding-left: v.$space-6; font-size: v.$font-size-base; }
   @include m.until(v.$bp-md) { justify-content: flex-start; }
 }
 
-.enlace_sol { color: v.$color-white; font-weight: v.$font-weight-bold; }
+.enlace_cierre { color: v.$color-bg; font-weight: v.$font-weight-bold; }
 
 @media (prefers-reduced-motion: reduce) {
-  .flotantes li, .celda_persona { animation: none; }
+  .marco_escena, .acuerdo_escena { animation: none; transition: none; }
+  .oficio img, .oficio jobsy-icon { transition: none; }
 }

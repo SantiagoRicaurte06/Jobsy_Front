@@ -71,3 +71,16 @@
 
   &:focus { outline: none; }
 }
+
+// Sobre el campo azul de la portada: el botón pasa a tinta para no fundirse con el fondo.
+:host(.en_campo) .barra_busqueda {
+  border-color: transparent;
+  box-shadow: 0 18px 40px -20px rgba(8, 20, 40, 0.7);
+
+  .boton_principal {
+    background: v.$color-ink;
+    box-shadow: none;
+
+    &:hover { background: #0B1626; }
+  }
+}

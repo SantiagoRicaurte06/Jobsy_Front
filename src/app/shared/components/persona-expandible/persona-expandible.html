@@ -1,0 +1,85 @@
+@let e = employee();
+<button type="button" class="carta" aria-haspopup="dialog" (click)="abrir()">
+  <span class="foto_carta" #fotoCarta>
+    @if (e.fotoUrl) {
+      <img [src]="e.fotoUrl" alt="" loading="lazy" />
+    } @else {
+      <span class="iniciales" aria-hidden="true">{{ iniciales() }}</span>
+    }
+  </span>
+  <span class="pie_carta">
+    <strong class="nombre_carta">{{ e.nombre }}</strong>
+    @if (e.especialidades.length) {
+      <span class="oficios_carta">{{ e.especialidades.slice(0, 2).join(' · ') }}</span>
+    }
+    <span class="datos_carta">
+      @if (e.verificado) { Verificada · }
+      @if (e.totalServicios > 0) {
+        {{ e.calificacion.toFixed(1) }} · {{ e.totalServicios }} {{ e.totalServicios === 1 ? 'servicio' : 'servicios' }}
+      } @else {
+        Nueva en Jobsy
+      }
+    </span>
+  </span>
+</button>
+
+<dialog #dialogo class="vista" [class.crece]="creceSolo()" [attr.aria-labelledby]="idTitulo()"
+  (cancel)="alCancelar($event)" (click)="alClic($event)">
+  <div class="interior_vista">
+    <div class="foto_vista" #fotoVista>
+      @if (e.fotoUrl) {
+        <img [src]="e.fotoUrl" [alt]="'Foto de ' + e.nombre" />
+      } @else {
+        <span class="iniciales" aria-hidden="true">{{ iniciales() }}</span>
+      }
+    </div>
+
+    <div class="datos_vista">
+      <button type="button" class="cerrar_vista" aria-label="Cerrar" (click)="cerrar()"><jobsy-icon name="x" /></button>
+
+      <div>
+        @if (e.especialidades.length) {
+          <p class="oficio_vista">{{ e.especialidades.join(' · ') }}</p>
+        }
+        <h2 class="nombre_vista" [id]="idTitulo()">{{ e.nombre }}</h2>
+        <p class="sellos_vista">
+          @if (e.verificado) {
+            <span class="verificada_vista"><jobsy-icon name="badge-check" /> Documentos verificados</span>
+          }
+          @if (e.totalServicios > 0) {
+            <span class="nota_vista"><jobsy-icon name="star" /> {{ e.calificacion.toFixed(1) }}</span>
+            <span>{{ e.totalServicios }} {{ e.totalServicios === 1 ? 'servicio' : 'servicios' }} en Jobsy</span>
+          } @else {
+            <span>Nueva en Jobsy</span>
+          }
+          @if (e.ciudad) { <span><jobsy-icon name="map-pin" /> {{ e.ciudad }}</span> }
+        </p>
+      </div>
+
+      <p class="tarifa_vista">
+        @if (e.tarifaHora) {
+          <strong class="cifra">{{ e.tarifaHora | cop }}</strong> <span>por hora</span>
+        } @else {
+          <span>Tarifa por acordar</span>
+        }
+      </p>
+
+      @if (e.experiencia) {
+        <p class="experiencia_vista"><strong>Experiencia:</strong> {{ e.experiencia }}</p>
+      }
+      @if (e.descripcion) {
+        <p class="descripcion_vista">{{ e.descripcion }}</p>
+      }
+
+      <div class="acciones_vista">
+        @if (puedeContratar()) {
+          <button type="button" class="boton_principal boton_flecha" (click)="contratar()">
+            <span class="rueda"><span>Contratar</span></span>
+            <span class="circulo_boton"><jobsy-icon name="arrow-right" /></span>
+          </button>
+        }
+        <a class="boton_borde" [routerLink]="['/empleados', e.id]">Ver perfil completo</a>
+      </div>
+    </div>
+  </div>
+</dialog>

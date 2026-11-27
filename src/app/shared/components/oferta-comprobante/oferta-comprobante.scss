@@ -1,0 +1,99 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+
+:host { display: block; }
+
+.comprobante {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  overflow: hidden;
+  border: v.$border-width solid v.$color-ink;
+  border-radius: v.$radius-xl;
+  background: v.$color-surface;
+
+  @include m.until(v.$bp-lg) { grid-template-columns: minmax(0, 1fr); }
+}
+
+.condiciones_comprobante {
+  display: grid;
+  gap: v.$space-3;
+  align-content: start;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+
+.etiqueta_comprobante {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  margin: 0;
+  color: v.$color-text-muted;
+  font-weight: v.$font-weight-semibold;
+}
+
+.tarifa_comprobante {
+  display: flex;
+  align-items: baseline;
+  gap: v.$space-2;
+  margin: 0;
+  color: v.$color-text-muted;
+  font-size: v.$font-size-lg;
+
+  .cifra { color: v.$color-ink; @include m.display(clamp(2.6rem, 5vw, 4rem)); }
+}
+
+.titulo_comprobante { margin: 0 0 v.$space-2; font-size: 1.35rem; }
+
+.lugar_comprobante {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-1;
+  margin: 0;
+  color: v.$color-ink;
+  font-weight: v.$font-weight-semibold;
+}
+
+// El troquel: línea punteada con dos muescas que muerden el borde.
+.accion_comprobante {
+  position: relative;
+  display: grid;
+  gap: v.$space-5;
+  align-content: center;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  border-left: 2px dashed v.$color-border-strong;
+  background: v.$color-bg;
+
+  p { max-width: 36ch; margin: 0; font-size: v.$font-size-lg; line-height: 1.5; }
+  .boton_principal { justify-self: start; }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: -14px;
+    width: 26px;
+    height: 26px;
+    border: v.$border-width solid v.$color-ink;
+    border-radius: 50%;
+    background: v.$color-bg;
+  }
+
+  &::before { top: -14px; }
+  &::after { bottom: -14px; }
+
+  @include m.until(v.$bp-lg) {
+    border-left: 0;
+    border-top: 2px dashed v.$color-border-strong;
+
+    &::before { top: -14px; left: -14px; }
+    &::after { top: -14px; bottom: auto; left: auto; right: -14px; }
+  }
+}
+
+.estampa_comprobante {
+  right: 38%;
+  bottom: v.$space-5;
+
+  @include m.until(v.$bp-lg) { right: v.$space-5; top: v.$space-5; bottom: auto; }
+}
+

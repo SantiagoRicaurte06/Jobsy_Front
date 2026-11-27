@@ -1,0 +1,19 @@
+@let o = job();
+<article class="comprobante" [attr.aria-labelledby]="'comprobante-' + o.id">
+  <span class="estampa estampa_comprobante" aria-hidden="true">Por escrito<br />en Jobsy</span>
+  <div class="condiciones_comprobante">
+    <p class="etiqueta_comprobante"><jobsy-icon name="calendar-days" /> {{ etiqueta() }}</p>
+    <p class="tarifa_comprobante"><strong class="cifra">{{ o.precioHora | cop }}</strong> <span>por hora</span></p>
+    <h2 class="titulo_comprobante" [id]="'comprobante-' + o.id">{{ o.titulo }}</h2>
+    <jobsy-franja-semana [horario]="o.horario" tamano="grande" />
+    <p class="lugar_comprobante"><jobsy-icon name="map-pin" /> {{ o.direccion }}, {{ o.ciudad }}</p>
+  </div>
+  <div class="accion_comprobante">
+    @if (o.descripcion) { <p>{{ o.descripcion }}</p> }
+    @else { <p>Un hogar de {{ o.ciudad }} busca apoyo. La tarifa y el horario ya están escritos.</p> }
+    <a class="boton_principal boton_flecha" [routerLink]="['/empleos', o.id]">
+      <span class="rueda"><span>Ver la oferta</span></span>
+      <span class="circulo_boton"><jobsy-icon name="arrow-right" /></span>
+    </a>
+  </div>
+</article>

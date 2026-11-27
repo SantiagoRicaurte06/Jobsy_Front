@@ -1,5 +1,5 @@
 <article class="tarjeta_empleo">
-  <div class="imagen_tarjeta_empleo">
+  <div class="imagen_tarjeta_empleo" [style.view-transition-name]="'oferta-foto-' + job().id">
     @if (job().imagenUrl) {
       <img [src]="job().imagenUrl" alt="" loading="lazy" />
     } @else {
@@ -14,13 +14,16 @@
 
   <div class="cuerpo_tarjeta_empleo">
     <div class="cabeza_tarjeta_empleo">
-      <h3 class="titulo_tarjeta_empleo">
+      <h3 class="titulo_tarjeta_empleo" [style.view-transition-name]="'oferta-titulo-' + job().id">
         <a [routerLink]="['/empleos', job().id]">{{ job().titulo }}</a>
       </h3>
       <p class="lugar_tarjeta_empleo">
         <jobsy-icon name="map-pin" /> <span>{{ job().direccion }}, {{ job().ciudad }}</span>
       </p>
     </div>
+
+    <!-- El borde troquelado: la oferta es un comprobante de lo acordado. -->
+    <div class="troquel_tarjeta_empleo" aria-hidden="true"></div>
 
     <div class="condiciones_tarjeta_empleo">
       <p class="tarifa_tarjeta_empleo">

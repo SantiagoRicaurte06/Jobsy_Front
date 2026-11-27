@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, DOCUMENT, DestroyRef, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { iniciarGestosBotones } from './shared/directives/gestos';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,10 @@ import { RouterOutlet } from '@angular/router';
   template: '<router-outlet />',
   styleUrl: './app.scss',
 })
-export class App {}
+export class App {
+  constructor() {
+    const doc = inject(DOCUMENT);
+    const destroy = inject(DestroyRef);
+    afterNextRender(() => destroy.onDestroy(iniciarGestosBotones(doc)));
+  }
+}

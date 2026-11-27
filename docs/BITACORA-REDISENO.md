@@ -195,3 +195,13 @@ Dirección: **Editorial Workflows × Warm SaaS**. Se conserva la identidad exist
 - **Franja también en mis postulaciones:** mostrar los días y el horario de la oferta en cada postulación, para leer las condiciones sin abrirla.
 - **Estado vacío con siguiente paso:** cada lista vacía (contrataciones, pedidos, postulaciones) debería llevar a la acción que la llena (buscar empleos, ir a la tienda).
 - **Auditoría automática en CI:** correr axe y una prueba de desborde a 390 px sobre las rutas principales, con la línea base de esta bitácora.
+
+### 2.8 Portada con identidad: botones, comprobantes y personas (2026-11-27)
+
+- **Portada** con la estructura del lienzo de diseño: campo azul con trazo lima bajo "por escrito", fichas de oficio de vidrio, foto en marco girado con el acuerdo apoyado (en móvil va debajo de la foto), "¿Cómo funciona?", una oferta como comprobante, personas, oficios con foto, planificador, ofertas abiertas y cierre en tinta con botón lima. Sale de la portada la sección "Todo el acuerdo queda en Jobsy" (`portada/acuerdo` queda sin uso).
+- **Botones globales** (`styles.scss`, `_mixins.scss`): `.rueda` (el texto sube y lo reemplaza su copia), `.boton_flecha` + `.circulo_boton` (la flecha cruza el círculo), `.boton_vidrio` (solo sobre azul o foto; un brillo sigue al puntero), `.boton_lima` (solo sobre tinta) y `.boton_borde`, que ahora se llena de tinta desde donde entra el puntero. El principal perdió la sombra naranja que le quedaba y sube 2 px; todos se hunden al presionar. `gestos.ts` pone --x/--y con un solo oyente y trae la directiva `jobsyIman`.
+- **Ofertas como comprobante**: `job-card` con troquel; `jobsy-oferta-comprobante` nuevo; sello "Por escrito en Jobsy" (`.estampa`) en el detalle de la oferta; transición de vista del router: la foto y el título de la tarjeta crecen hasta el detalle.
+- **`jobsy-persona-expandible`**: `<dialog>` nativo; la foto viaja de la tarjeta a la vista con `startViewTransition` y los datos entran en cascada. Escape, X o clic fuera la cierran.
+- **Fotos**: Pixabay, dirección "manos que trabajan" (`public/fotos/CREDITOS.md`); enlace "Créditos de las fotos" en el pie.
+- Cuidado: `.campo` es la clase global de los campos de formulario; el banner usa `.campo_azul`.
+- Pendiente: cambiar `DESIGN.md` para admitir el vidrio (solo sobre azul o foto) y documentar los gestos; llevar el botón "Confirmar" con sello a contratación y pago.
