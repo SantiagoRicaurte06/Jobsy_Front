@@ -1,7 +1,7 @@
 <section class="contrataciones">
-  <header class="cabecera_contrataciones">
+  <div class="encabezado_seccion">
     <h1>Contrataciones</h1>
-  </header>
+  </div>
 
   @if (aviso()) {
     <p class="aviso_contrataciones" role="status">
@@ -11,9 +11,9 @@
   }
 
   <nav class="filtros_contrataciones">
-    <button type="button" [class.is-active]="filtro() === 'todas'" [attr.aria-pressed]="filtro() === 'todas'" (click)="filtro.set('todas')">Todas</button>
-    <button type="button" [class.is-active]="filtro() === 'activa'" [attr.aria-pressed]="filtro() === 'activa'" (click)="filtro.set('activa')">En curso</button>
-    <button type="button" [class.is-active]="filtro() === 'completada'" [attr.aria-pressed]="filtro() === 'completada'" (click)="filtro.set('completada')">Finalizadas</button>
+    <button type="button" [class.is-active]="filtro() === 'todas'" (click)="filtro.set('todas')">Todas</button>
+    <button type="button" [class.is-active]="filtro() === 'activa'" (click)="filtro.set('activa')">En curso</button>
+    <button type="button" [class.is-active]="filtro() === 'completada'" (click)="filtro.set('completada')">Finalizadas</button>
   </nav>
 
   @if (cargando()) {
@@ -26,52 +26,64 @@
   } @else {
     <ul class="lista_contrataciones">
       @for (h of visibles(); track h.id) {
-        <li class="contratacion tarjeta" [attr.data-estado]="h.estado">
-          <div class="acuerdo_contratacion">
-            <div class="cuerpo_contratacion">
-              <div class="cabeza_contratacion">
-                <div>
-                  <h2>{{ h.titulo || 'Servicio contratado' }}</h2>
-                  <p class="texto_mini texto_gris">
-                    {{ h.soyEmpleador ? 'Contrataste a' : 'Te contrató' }}
-                    <strong>{{ h.contraparte || ('usuario #' + h.contraparteId) }}</strong>
-                  </p>
-                </div>
-                <span [class]="estadoClase(h.estado)">{{ h.estado === 'activa' ? 'En curso' : h.estado }}</span>
-              </div>
-
-              <dl class="detalles_contratacion">
-                <div><dt>Fecha</dt><dd>{{ h.fechaInicio.slice(0, 10) | date: 'longDate' }}</dd></div>
-                <div><dt>Hora</dt><dd>{{ h.horaInicio }} · {{ h.duracionHoras }} h</dd></div>
-                <div><dt>Dirección</dt><dd>{{ h.direccion }}</dd></div>
-              </dl>
-
-              <div class="acciones_contratacion">
-                @if (h.soyEmpleador && h.contraparteId) {
-                  <a [routerLink]="['/empleados', h.contraparteId]" class="boton_simple boton_chico">Ver perfil</a>
-                }
-                @if (h.soyEmpleador && h.estado === 'activa') {
-                  <button type="button" class="boton_principal boton_chico" [disabled]="ocupado() === h.id" (click)="finalizar(h)">
-                    {{ ocupado() === h.id ? 'Finalizando...' : 'Finalizar servicio' }}
-                  </button>
-                }
-                @if (h.soyEmpleador && h.estado === 'completada' && !resenadas().includes(h.id) && resena()?.id !== h.id) {
-                  <button type="button" class="boton_principal boton_chico" (click)="abrirResena(h)">Dejar reseña</button>
-                }
-              </div>
+        <li class="contratacion" [class.is-completada]="h.estado === 'completada'">
+          <header class="cabeza_contratacion">
+            <div>
+              <h2>{{ h.titulo || 'Servicio contratado' }}</h2>
+              <p class="parte_contratacion">
+                {{ h.soyEmpleador ? 'Contrataste a' : 'Te contrató' }}
+                <strong>{{ h.contraparte || ('usuario #' + h.contraparteId) }}</strong>
+              </p>
             </div>
+            <span [class]="h.estado === 'completada' ? 'pildora_exito' : 'pildora_info'">{{ estadoTexto(h.estado) }}</span>
+          </header>
 
-            <aside class="panel_contratacion">
-              <div class="tarifa_contratacion">
-                <span class="tarifa_etiqueta">Tarifa acordada</span>
-                <span class="tarifa_monto">{{ h.tarifa | cop }}</span>
-                <span class="tarifa_unidad">por hora</span>
-              </div>
-              <div class="total_contratacion">
-                <span class="total_etiqueta">Total estimado</span>
-                <span class="total_monto">{{ h.totalEstimado | cop }}</span>
-              </div>
-            </aside>
+          <div class="cuerpo_contratacion">
+            <p class="tarifa_contratacion">
+              <span class="cifra">{{ h.tarifa | cop }}</span>
+              <span>por hora</span>
+            </p>
+
+            @if (franjas().get(h.id); as f) {
+              <jobsy-franja-semana [dias]="f.dias" [inicio]="f.inicio" [fin]="f.fin" />
+            }
+          </div>
+
+          <dl class="datos_contratacion">
+            <div>
+              <dt><jobsy-icon name="calendar" /> Fecha</dt>
+              <dd>{{ h.fechaInicio.slice(0, 10) | date: 'fullDate' }}</dd>
+            </div>
+            <div>
+              <dt><jobsy-icon name="clock" /> Hora y duración</dt>
+              <dd class="cifra">{{ horaLegible(h.horaInicio) }} · {{ h.duracionHoras }} h</dd>
+            </div>
+            <div class="dato_direccion">
+              <dt><jobsy-icon name="map-pin" /> Dirección</dt>
+              <dd>{{ h.direccion }}</dd>
+            </div>
+          </dl>
+
+          <div class="total_contratacion">
+            <div>
+              <p class="etiqueta_total">Total estimado</p>
+              <p class="nota_total">{{ h.tarifa | cop }} × {{ h.duracionHoras }} h. Es una referencia, no un cobro.</p>
+            </div>
+            <p class="precio">{{ h.totalEstimado | cop }}</p>
+          </div>
+
+          <div class="acciones_contratacion">
+            @if (h.soyEmpleador && h.contraparteId) {
+              <a [routerLink]="['/empleados', h.contraparteId]" class="boton_simple boton_chico">Ver perfil</a>
+            }
+            @if (h.soyEmpleador && h.estado === 'activa') {
+              <button type="button" class="boton_principal boton_chico" [disabled]="ocupado() === h.id" (click)="finalizar(h)">
+                {{ ocupado() === h.id ? 'Finalizando...' : 'Finalizar servicio' }}
+              </button>
+            }
+            @if (h.soyEmpleador && h.estado === 'completada' && !resenadas().includes(h.id) && resena()?.id !== h.id) {
+              <button type="button" class="boton_principal boton_chico" (click)="abrirResena(h)">Dejar reseña</button>
+            }
           </div>
 
           @if (resena()?.id === h.id) {

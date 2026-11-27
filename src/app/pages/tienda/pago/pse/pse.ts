@@ -3,10 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CheckoutBase } from '../checkout-base';
 import * as R from '../../../../core/validation/reglas';
 
+import { CopPipe } from '../../../../shared/pipes';
+
 @Component({
   selector: 'jobsy-pse',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CopPipe],
   templateUrl: './pse.html',
   styleUrl: './pse.scss',
 })

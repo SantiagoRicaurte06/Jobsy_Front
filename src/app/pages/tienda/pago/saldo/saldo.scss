@@ -1,11 +1,11 @@
 @use 'variables' as v;
-@use 'mixins' as m;
 
 .saldo {
   &__title {
     margin: 0 0 v.$space-1;
-    @include m.display(v.$font-size-lg, v.$font-weight-bold);
+    font-size: v.$font-size-lg;
   }
+
 
   &__subtitle {
     margin: 0 0 v.$space-4;
@@ -20,21 +20,25 @@
     gap: v.$space-1;
     padding: v.$space-5;
     margin-bottom: v.$space-4;
+    // Campo azul con su horizonte naranja: el saldo es un dato de marca.
     background: v.$color-primary;
-    border-bottom: 6px solid v.$color-cta;
+    border-bottom: 10px solid v.$color-cta;
     border-radius: v.$radius-lg;
     color: v.$color-white;
   }
 
   &__label {
-    @include m.etiqueta;
-    margin: 0;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
     color: v.$color-primary-bg;
   }
 
   &__amount {
-    @include m.display(v.$font-size-3xl);
-    font-variant-numeric: tabular-nums;
+    font-family: v.$font-family-display;
+    font-size: v.$font-size-3xl;
+    font-weight: v.$font-weight-black;
+    letter-spacing: -0.04em;
+    line-height: 1;
   }
 
   // ---- Calculo ----

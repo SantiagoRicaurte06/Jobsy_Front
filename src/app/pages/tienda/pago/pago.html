@@ -13,8 +13,17 @@
     </div>
   } @else {
   <ol class="pago__pasos" aria-label="Pasos de la compra">
-    <li [class.is-actual]="!entrega.confirmados()" [class.is-hecho]="entrega.confirmados()">1. Datos de entrega</li>
-    <li [class.is-actual]="entrega.confirmados()">2. Pago</li>
+    <li [class.is-actual]="!entrega.confirmados()" [class.is-hecho]="entrega.confirmados()"
+      [attr.aria-current]="!entrega.confirmados() ? 'step' : null">
+      <span class="pago__paso-num" aria-hidden="true">
+        @if (entrega.confirmados()) { <jobsy-icon name="check" /> } @else { 1 }
+      </span>
+      Datos de entrega
+    </li>
+    <li [class.is-actual]="entrega.confirmados()" [attr.aria-current]="entrega.confirmados() ? 'step' : null">
+      <span class="pago__paso-num" aria-hidden="true">2</span>
+      Pago
+    </li>
   </ol>
 
   <div class="pago__grid">
@@ -22,7 +31,7 @@
       @if (!entrega.confirmados()) {
         <!-- ===== Paso 1: datos de entrega ===== -->
         <form class="pago__panel tarjeta entrega" (ngSubmit)="continuar()" novalidate>
-          <h2 class="entrega__titulo"><jobsy-icon name="truck" /> ¿Adónde llevamos tu pedido?</h2>
+          <h2 class="entrega__titulo"><jobsy-icon name="truck" /> ¿A dónde llevamos tu pedido?</h2>
 
           <div class="entrega__fila">
             <div class="grupo_campo">
@@ -104,7 +113,7 @@
           </div>
         }
 
-        <nav class="pago__methods">
+        <nav class="pago__methods" aria-label="Método de pago">
           @for (method of methods; track method.path) {
             <a [routerLink]="method.path" routerLinkActive="is-active" class="pago__method">
               <span aria-hidden="true"><jobsy-icon [name]="method.icon" /></span>
@@ -137,7 +146,7 @@
         <div><dt>Subtotal</dt><dd>{{ cart.subtotal() | cop }}</dd></div>
         <div><dt>Envío</dt><dd>{{ cart.envio() | cop }}</dd></div>
         <div class="pago__lines-total">
-          <dt>Total</dt>
+          <dt>Total a pagar</dt>
           <dd class="precio">{{ cart.total() | cop }}</dd>
         </div>
       </dl>

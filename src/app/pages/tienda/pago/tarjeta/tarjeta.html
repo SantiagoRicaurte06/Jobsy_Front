@@ -4,8 +4,8 @@
 
   <!-- Formulario simulado: no hay pasarela conectada ni se almacena nada. -->
   <p class="pago-tarjeta__demo">
-    <jobsy-icon name="triangle-alert" /> Modo demostracion: no ingreses datos reales de tu tarjeta.
-    Este formulario no esta conectado a ninguna pasarela.
+    <jobsy-icon name="triangle-alert" /> Modo demostración: no ingreses datos reales de tu tarjeta.
+    Este formulario no está conectado a ninguna pasarela.
   </p>
 
   <form (ngSubmit)="pagar()">
@@ -57,7 +57,7 @@
     }
 
     <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
-      {{ procesando() ? 'Procesando pago...' : 'Pagar con tarjeta' }}
+      {{ procesando() ? 'Procesando pago...' : 'Pagar ' + (cart.total() | cop) + ' con tarjeta' }}
     </button>
   </form>
 </section>

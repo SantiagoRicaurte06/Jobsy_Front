@@ -51,7 +51,7 @@
     cursor: pointer;
     transition: all v.$transition-fast;
 
-    &:hover { border-color: v.$color-primary-light; }
+    &:hover { border-color: v.$color-ink; }
 
     &.is-selected {
       border-color: v.$color-ink;

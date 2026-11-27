@@ -4,11 +4,12 @@
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
-      <label class="etiqueta" for="telefono">Elige tu billetera</label>
-      <div class="billetera__options">
+      <p class="etiqueta" id="eligeBilletera">Elige tu billetera</p>
+      <div class="billetera__options" role="group" aria-labelledby="eligeBilletera">
         @for (b of billeteras(); track b.value) {
           <button type="button" class="billetera__option"
             [class.is-selected]="billetera() === b.value"
+            [attr.aria-pressed]="billetera() === b.value"
             (click)="billetera.set(b.value)">
             <span class="billetera__dot" [style.background]="b.color" aria-hidden="true"></span>
             {{ b.label }}
@@ -30,7 +31,7 @@
     }
 
     <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
-      {{ procesando() ? 'Esperando aprobacion...' : 'Enviar solicitud de pago' }}
+      {{ procesando() ? 'Esperando aprobación...' : 'Solicitar pago de ' + (cart.total() | cop) }}
     </button>
   </form>
 </section>

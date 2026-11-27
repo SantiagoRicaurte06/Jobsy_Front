@@ -1,6 +1,6 @@
 <section class="pse">
   <h2 class="pse__title">Pago con PSE</h2>
-  <p class="pse__subtitle">Seras redirigido al portal de tu banco para autorizar el pago.</p>
+  <p class="pse__subtitle">Serás redirigido al portal de tu banco para autorizar el pago.</p>
 
   <form (ngSubmit)="pagar()">
     <div class="grupo_campo">
@@ -13,8 +13,8 @@
     </div>
 
     <div class="grupo_campo">
-      <label class="etiqueta" for="tipoDoc">Tipo de persona</label>
-      <div class="pse__radios">
+      <p class="etiqueta" id="tipoPersona">Tipo de persona</p>
+      <div class="pse__radios" role="radiogroup" aria-labelledby="tipoPersona">
         <label class="casilla">
           <input type="radio" name="tipoPersona" value="natural"
             [ngModel]="tipoPersona()" (ngModelChange)="tipoPersona.set($event)" />
@@ -23,7 +23,7 @@
         <label class="casilla">
           <input type="radio" name="tipoPersona" value="juridica"
             [ngModel]="tipoPersona()" (ngModelChange)="tipoPersona.set($event)" />
-          Persona juridica
+          Persona jurídica
         </label>
       </div>
     </div>
@@ -33,8 +33,8 @@
         <label class="etiqueta" for="tipoDoc">Tipo de documento</label>
         <select id="tipoDoc" class="lista"
           [ngModel]="tipoDocumento()" (ngModelChange)="tipoDocumento.set($event)" name="tipoDoc">
-          <option value="CC">Cédula de ciudadania</option>
-          <option value="CE">Cédula de extranjeria</option>
+          <option value="CC">Cédula de ciudadanía</option>
+          <option value="CE">Cédula de extranjería</option>
           <option value="NIT">NIT</option>
         </select>
       </div>
@@ -58,7 +58,7 @@
     }
 
     <button type="submit" class="boton_principal boton_ancho" [disabled]="procesando()">
-      {{ procesando() ? 'Redirigiendo al banco...' : 'Pagar con PSE' }}
+      {{ procesando() ? 'Redirigiendo al banco...' : 'Pagar ' + (cart.total() | cop) + ' con PSE' }}
     </button>
   </form>
 </section>
