@@ -57,11 +57,9 @@
 
 // ---- Entradas repetibles ----
 .entrada_hoja_vida {
-  padding: v.$space-4;
-  margin-bottom: v.$space-3;
-  background: v.$color-bg;
-  border: v.$border-width solid v.$color-border;
-  border-radius: v.$radius-md;
+  padding-block: v.$space-5;
+
+  & + & { border-top: 1px solid v.$color-border; }
 }
 
 .encabezado_entrada_hoja_vida {
@@ -71,11 +69,9 @@
   margin-bottom: v.$space-3;
 }
 
-// Número protagonista, como las tarifas.
 .numero_entrada_hoja_vida {
-  @include m.display(v.$font-size-xl);
-  color: v.$color-accent;
-  font-variant-numeric: tabular-nums;
+  @include m.etiqueta;
+  margin: 0;
 }
 
 .quitar_hoja_vida {

@@ -41,7 +41,7 @@
       @for (exp of experiencias(); track $index; let i = $index) {
         <div class="entrada_hoja_vida">
           <div class="encabezado_entrada_hoja_vida">
-            <span class="numero_entrada_hoja_vida">{{ i + 1 }}</span>
+            <span class="numero_entrada_hoja_vida">Experiencia {{ i + 1 }}</span>
             <button type="button" class="quitar_hoja_vida" (click)="quitarExperiencia(i)">Eliminar</button>
           </div>
 
@@ -94,7 +94,7 @@
       @for (est of educacion(); track $index; let i = $index) {
         <div class="entrada_hoja_vida">
           <div class="encabezado_entrada_hoja_vida">
-            <span class="numero_entrada_hoja_vida">{{ i + 1 }}</span>
+            <span class="numero_entrada_hoja_vida">Estudio {{ i + 1 }}</span>
             <button type="button" class="quitar_hoja_vida" (click)="quitarEstudio(i)">Eliminar</button>
           </div>
 

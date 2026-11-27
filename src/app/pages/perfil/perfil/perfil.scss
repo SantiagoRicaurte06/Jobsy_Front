@@ -78,14 +78,27 @@
     flex-shrink: 0;
   }
 
-  &__btn-foto {
-    color: v.$color-primary-bg !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
+  // Sobre el campo azul: botón blanco y la acción secundaria como texto.
+  &__btn-editar {
+    @include m.btn-base;
+    background: v.$color-white;
+    color: v.$color-ink;
 
-    &:hover {
-      border-color: v.$color-bg !important;
-      color: v.$color-white !important;
-    }
+    &:hover { background: v.$color-primary-bg; text-decoration: none; }
+  }
+
+  &__btn-foto {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-white;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover { color: v.$color-primary-bg; }
   }
 
   // ---- Bloques ----

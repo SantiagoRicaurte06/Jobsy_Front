@@ -20,30 +20,13 @@
 }
 
 
-// ---- Resumen con acento lateral ----
+// ---- Resumen: una línea bajo el título, no tres tarjetas ----
 .resumen_mis_ofertas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: v.$space-3;
-  margin-bottom: v.$space-4;
+  margin: v.$space-2 0 0;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
 
-  @include m.until(v.$bp-md) { grid-template-columns: 1fr; }
-
-  > div {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: v.$space-4 v.$space-4 v.$space-4 v.$space-5;
-
-  }
-
-  strong {
-    @include m.display(v.$font-size-xl);
-    font-variant-numeric: tabular-nums;
-    color: v.$color-primary;
-  }
-  span { font-size: v.$font-size-xs; color: v.$color-text-muted; }
+  strong { color: v.$color-select; }
 }
 
 .aviso_mis_ofertas {
@@ -180,27 +163,46 @@
   }
 }
 
-.subir_foto_oferta {
-  display: inline-flex;
-  align-items: center;
-  gap: v.$space-2;
-  padding: v.$space-2 v.$space-3;
-  border: 1px dashed v.$color-border;
-  border-radius: v.$radius-md;
-  font-size: v.$font-size-xs;
-  color: v.$color-text-muted;
-  cursor: pointer;
-
-  &:hover { border-color: v.$color-primary-light; color: v.$color-primary; }
-  &.is-ocupado { opacity: 0.6; cursor: progress; }
-
-  input { display: none; }
-}
+.subir_foto_oferta.is-ocupado { opacity: 0.6; cursor: progress; }
 
 .acciones_oferta {
   display: flex;
   flex-wrap: wrap;
-  gap: v.$space-2;
+  align-items: center;
+  gap: v.$space-3 v.$space-5;
+  padding-top: v.$space-4;
+  border-top: 1px solid v.$color-border;
+}
+
+.secundarias_oferta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: v.$space-2 v.$space-5;
+  margin-left: auto;
+}
+
+// Acciones secundarias como texto: no compiten con la principal.
+.enlace_oferta {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-1;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+  color: v.$color-ink;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: v.$color-border-strong;
+  cursor: pointer;
+
+  &:hover { text-decoration-color: currentColor; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  input { display: none; }
 }
 
 .cerrar_oferta { color: v.$color-danger !important; }
