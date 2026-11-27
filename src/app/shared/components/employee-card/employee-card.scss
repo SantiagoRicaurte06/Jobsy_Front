@@ -7,14 +7,14 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: v.$radius-xl;
+  border: v.$border-width solid v.$color-border;
+  border-radius: v.$radius-lg;
   overflow: hidden;
   background: v.$color-surface;
   color: v.$color-ink;
-  box-shadow: 0 0 0 1px v.$color-border, 0 18px 40px -30px rgba(19, 35, 58, 0.5);
   transition: transform v.$transition-base, box-shadow v.$transition-base;
 
-  &:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px v.$color-border, 0 26px 46px -26px rgba(19, 35, 58, 0.55); }
+  &:hover { transform: translateY(-3px); box-shadow: v.$shadow-md; }
 }
 
 .retrato_persona {
@@ -84,7 +84,7 @@
   display: grid;
   gap: v.$space-1;
 
-  strong { @include m.display(v.$font-size-xl, v.$font-weight-bold); color: v.$color-white; }
+  strong { @include m.display(v.$font-size-lg, v.$font-weight-bold); color: v.$color-white; }
 }
 
 .sello_persona {

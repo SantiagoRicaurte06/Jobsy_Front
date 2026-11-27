@@ -45,6 +45,12 @@ export class StorePage implements OnInit {
   );
   readonly added = signal<string | null>(null);
 
+  /** La cuadrícula sin el producto que ya está en la cabecera. */
+  readonly productosRejilla = computed(() => {
+    const d = this.destacado();
+    return d ? this.products().filter((p) => p.id !== d.id) : this.products();
+  });
+
   /** Producto de la cabecera: el destacado, si no el mejor calificado con existencias. */
   readonly destacado = signal<Product | null>(null);
   readonly cantidadDestacado = computed(() => {

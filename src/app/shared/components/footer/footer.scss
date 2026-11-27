@@ -25,7 +25,7 @@
 .lema_pie {
   max-width: 18ch;
   margin: v.$space-5 0 v.$space-4;
-  @include m.display(clamp(1.75rem, 3.4vw, 2.5rem));
+  @include m.display(clamp(1.4rem, 2.4vw, 1.9rem));
   color: v.$color-bg;
 }
 

@@ -35,8 +35,9 @@ Reglas:
 
 ## Tipografía
 
-- **Display:** Bricolage Grotesque (variable, con tamaño óptico), peso 700–800, tracking `-0.035em`. Para titulares, tarifas y cifras. Mixin `m.display($tamaño)`.
-- **Interfaz:** Figtree (variable), 17 px de base, interlineado 1.55.
+- **Una sola familia: Archivo** (variable, de Omnibus-Type, Buenos Aires; paquete `@fontsource-variable/archivo`, eje de ancho incluido).
+- **Titulares:** Archivo en su versión ancha (`font-stretch: 115%`, `$font-stretch-display`), peso 700, tracking `-0.015em`. Mixin `m.display($tamaño)`. Reemplazó a Bricolage Grotesque el 2026-11-27: sus formas irregulares y el peso 800 apretado se leían informales.
+- **Interfaz:** Archivo en ancho normal, 17 px de base, interlineado 1.55. Cifras sueltas sin `tabular-nums`; solo en columnas.
 - Las dos se sirven desde el propio sitio (`@fontsource-variable`).
 - Cifras con `tabular-nums` (`.cifra`, `.precio`, tablas).
 - **Sin etiquetas decorativas sobre los titulares.** El titular va solo; nada de rótulos en mayúsculas encima ("kicker"). Se probó y se leía como plantilla.
@@ -46,7 +47,10 @@ Reglas:
 ## Forma y profundidad
 
 - Radios: 8 / 12 / 18 / 26 px y píldora. Las tarjetas usan 18 px y los campos de color 26 px.
-- Bordes de 2 px en arena. Al pasar el puntero, el borde pasa a tinta y la tarjeta sube 3 px.
+- **Una receta de tarjeta:** borde de 1 px (`$color-border`), radio 18 px, sin sombra en reposo; al pasar el puntero, sombra media y sube 3 px.
+- Títulos de tarjeta con alto fijo de dos renglones, para que precio y botón queden alineados en toda la fila.
+- Campos de formulario con borde de 1 px más oscuro (`$color-border-input`, 3:1 sobre blanco).
+- Nada se repite en la misma pantalla (el destacado no vuelve a salir en la cuadrícula) y las cuadrículas no dejan huérfanos.
 - Sombras cálidas con desplazamiento (`$shadow-sm/md/lg`), nunca halos sin desplazamiento.
 
 ## Movimiento

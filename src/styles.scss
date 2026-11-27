@@ -43,13 +43,14 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 v.$space-3;
   font-family: v.$font-family-display;
   font-weight: v.$font-weight-bold;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
   text-wrap: balance;
   color: v.$color-ink;
 }
 
-h1 { font-weight: v.$font-weight-black; letter-spacing: v.$tracking-display; }
+h1, h2 { font-stretch: v.$font-stretch-display; }
+h1 { letter-spacing: v.$tracking-display; }
 
 p { margin: 0 0 v.$space-3; text-wrap: pretty; }
 

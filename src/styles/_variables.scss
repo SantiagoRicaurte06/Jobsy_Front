@@ -55,6 +55,7 @@ $color-surface-muted-border:  #DDD8CC;
 $color-surface-muted-subtle:  #E7E3DA;
 $color-border:                #DDD8CC;
 $color-border-strong:         #C6BEAE;
+$color-border-input:          #8C8579; // borde de campos: 3:1 sobre blanco
 
 $color-text:           #13233A; // tinta azul noche
 $color-text-muted:     #5B6676;
@@ -91,14 +92,17 @@ $glass-blur:        0px;
 $glass-blur-strong: 0px;
 
 /// Sombras cálidas con desplazamiento: la tarjeta se apoya, no flota.
-$glass-shadow-sm: 0 2px 6px rgba(19, 35, 58, 0.06);
-$glass-shadow-md: 0 10px 24px -8px rgba(19, 35, 58, 0.18);
+$glass-shadow-sm: none;
+$glass-shadow-md: 0 14px 30px -14px rgba(19, 35, 58, 0.22);
 $glass-shadow-lg: 0 22px 44px -14px rgba(19, 35, 58, 0.26);
 $glass-inset:     0 0 0 0 transparent;
 
 // ---- Tipografía ----
-$font-family-base:    'Figtree Variable', 'Segoe UI', system-ui, sans-serif;
-$font-family-display: 'Bricolage Grotesque Variable', 'Figtree Variable', 'Segoe UI', sans-serif;
+// Archivo (Omnibus-Type, Buenos Aires): una sola familia. Los titulares usan
+// su versión ancha ($font-stretch-display); el texto, el ancho normal.
+$font-family-base:    'Archivo Variable', 'Segoe UI', system-ui, sans-serif;
+$font-family-display: 'Archivo Variable', 'Segoe UI', system-ui, sans-serif;
+$font-stretch-display: 115%;
 
 $font-size-xs:   0.875rem;
 $font-size-sm:   1rem;
@@ -113,9 +117,9 @@ $font-weight-regular:  400;
 $font-weight-medium:   500;
 $font-weight-semibold: 600;
 $font-weight-bold:     700;
-$font-weight-black:    800;
+$font-weight-black:    700; // Archivo pesa más que Bricolage: 700 basta para cifras y titulares
 
-$tracking-display: -0.035em;
+$tracking-display: -0.015em;
 
 // ---- Espaciado (escala de 4 px) ----
 $space-1: 0.25rem;
@@ -126,6 +130,7 @@ $space-5: 1.5rem;
 $space-6: 2rem;
 $space-7: 3rem;
 $space-8: 4.5rem;
+$space-9: 6.5rem; // entre secciones grandes de la portada
 
 // ---- Bordes y sombras ----
 $radius-sm:   8px;
@@ -134,7 +139,7 @@ $radius-lg:   18px;
 $radius-xl:   26px;
 $radius-pill: 999px;
 
-$border-width: 2px;
+$border-width: 1px;
 
 $shadow-sm: $glass-shadow-sm;
 $shadow-md: $glass-shadow-md;

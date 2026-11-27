@@ -71,7 +71,7 @@
   } @else {
     <h2 class="oculto">Productos</h2>
     <div class="rejilla_tienda">
-      @for (product of products(); track product.id; let i = $index) {
+      @for (product of productosRejilla(); track product.id; let i = $index) {
         <jobsy-product-card [product]="product" [style.--i]="i" (agregar)="agregar($event)" />
       }
     </div>

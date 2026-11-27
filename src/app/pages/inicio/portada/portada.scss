@@ -98,7 +98,7 @@
 
 .titulo_inicio {
   margin: 0 0 v.$space-3;
-  @include m.display(clamp(2.2rem, 4vw, 3.25rem));
+  @include m.display(clamp(2rem, 3.3vw, 2.8rem));
 }
 
 .texto_inicio {
@@ -120,7 +120,8 @@
 //  Personas protagonistas: fila que se desliza
 // ============================================================
 .personas {
-  padding-block: v.$space-8;
+  margin-top: v.$space-7;
+  padding-block: v.$space-9;
   background: v.$color-ink;
   color: v.$color-bg;
 
@@ -136,7 +137,7 @@
   gap: v.$space-4;
   margin-bottom: v.$space-6;
 
-  h2 { margin: 0; max-width: 20ch; @include m.display(clamp(2rem, 4.2vw, 3.25rem)); }
+  h2 { margin: 0; max-width: 24ch; @include m.display(clamp(1.8rem, 3.2vw, 2.6rem)); }
 }
 
 .enlace_portada {
@@ -148,7 +149,7 @@
 .fila_personas {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(280px, 320px);
+  grid-auto-columns: minmax(280px, 1fr);
   gap: v.$space-5;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -178,7 +179,12 @@
 // ============================================================
 //  Secciones
 // ============================================================
-.seccion_portada { padding-top: v.$space-8; }
+.seccion_portada { padding-top: v.$space-9; }
+
+.seccion_portada > h2 {
+  margin: 0 0 v.$space-5;
+  @include m.display(clamp(1.8rem, 3.2vw, 2.6rem));
+}
 
 .tareas_portada {
   display: flex;
@@ -217,7 +223,7 @@
 // ---- El acuerdo en la app: tres lienzos de color ----
 .titulo_acuerdo {
   margin: 0 0 v.$space-6;
-  @include m.display(clamp(2rem, 4.2vw, 3.25rem));
+  @include m.display(clamp(1.8rem, 3.2vw, 2.6rem));
 }
 
 // ---- Cierre ----
@@ -226,7 +232,7 @@
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   align-items: end;
   gap: v.$space-6;
-  margin-bottom: v.$space-8;
+  margin-bottom: v.$space-9;
   padding: clamp(2rem, 5vw, 4rem);
   border-radius: v.$radius-xl;
   background: v.$color-cta;
@@ -238,7 +244,7 @@
   .boton_borde { background: v.$color-white; border-color: v.$color-white; color: v.$color-ink; }
 }
 
-.titulo_sol { max-width: 16ch; margin: 0 0 v.$space-4; @include m.display(clamp(2rem, 4.6vw, 3.5rem)); }
+.titulo_sol { max-width: 20ch; margin: 0 0 v.$space-4; @include m.display(clamp(1.9rem, 3.6vw, 2.9rem)); }
 .texto_sol { max-width: 46ch; margin: 0; font-size: v.$font-size-lg; line-height: 1.5; }
 
 .acciones_sol {
